@@ -34,11 +34,16 @@ public class DriveTrainSparks extends SubsystemBase {
     }
 
     public void initHardware(){
-        leftSpark1 = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftSpark2 = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftSpark1 = new CANSparkMax(Constants.LEFT_SPARK_1_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftSpark2 = new CANSparkMax(Constants.LEFT_SPARK_2_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-        rightSpark1 = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightSpark2 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightSpark1 = new CANSparkMax(Constants.RIGHT_SPARK_1_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightSpark2 = new CANSparkMax(Constants.RIGHT_SPARK_2_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        leftSpark1.restoreFactoryDefaults();
+        leftSpark2.restoreFactoryDefaults();
+        rightSpark1.restoreFactoryDefaults();
+        rightSpark2.restoreFactoryDefaults();
     }
 
     public void tankDrive(double left, double right) {
