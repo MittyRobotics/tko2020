@@ -15,19 +15,24 @@ public class Subsystem {
 
 
 
-package com.github.mittyrobotics.example;
+package com.github.mittyrobotics;
 
         import com.ctre.phoenix.motorcontrol.ControlMode;
         import com.ctre.phoenix.motorcontrol.FeedbackDevice;
         import com.ctre.phoenix.motorcontrol.NeutralMode;
         import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+        import com.github.mittyrobotics.datatypes.motion.MotionState;
+        import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
         import com.github.mittyrobotics.motionprofile.TrapezoidalMotionProfile;
         import edu.wpi.first.wpilibj.DigitalInput;
         import edu.wpi.first.wpilibj.Encoder;
         import edu.wpi.first.wpilibj.Joystick;
         import edu.wpi.first.wpilibj2.command.Command;
+        import edu.wpi.first.wpilibj2.command.PIDCommand;
         import edu.wpi.first.wpilibj2.command.PIDSubsystem;
         import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+        import java.util.Set;
 
 public class Subsystem extends SubsystemBase {
     private WPI_TalonSRX exampletalon;
@@ -44,7 +49,12 @@ public class Subsystem extends SubsystemBase {
     private Subsystem(){
         super();
         setName("Subsystem");
-        setDefaultCommand(new Command());
+        setDefaultCommand(new Command() {
+            @Override
+            public Set<edu.wpi.first.wpilibj2.command.Subsystem> getRequirements() {
+                return null;
+            }
+        });
     }
 
     //Function that runs continuously regardless of any commands being run
@@ -57,7 +67,7 @@ public class Subsystem extends SubsystemBase {
     private WPI_TalonSRX talon1;
     private Encoder encoder1;
     private double speed = 0;
-    private PIDSubsystem pidthing;
+    private TrapezoidalMotionProfile pidthing;
 
 
     //Function to initialize the hardware
@@ -67,11 +77,18 @@ public class Subsystem extends SubsystemBase {
         switch1 = new DigitalInput(0);
         switch2 = new DigitalInput(1);
         talon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        pidthing = new TrapezoidalMotionProfile(0, 0, 10);
     }
-    @Override
-    public void teleopPeriodic() {
 
+    public TrapezoidalMotionProfile getPidthing(double t) {
+        if(pidthing == null){
+            pidthing = new TrapezoidalMotionProfile(new MotionState(0, 0), new MotionState(5, 5), new VelocityConstraints(0, 0, 0));
+        }
+        return pidthing;
+    }
+
+
+
+        /*
         if (joystick1.getRawButtonPressed(2)) {
             speed = speed + 0.25;
             if(speed == 1){
@@ -115,6 +132,9 @@ public class Subsystem extends SubsystemBase {
             talon1.set(ControlMode.Position, 0.5 * 4939);
         }
 
+         */
+
+
 
 
       /*
@@ -130,7 +150,7 @@ public class Subsystem extends SubsystemBase {
        */
 
 
-    }
+
 /*
     //Example Function used in ExampleInstantCommand
     public void exampleInstantFunction(){
