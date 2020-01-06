@@ -7,7 +7,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainTalon extends SubsystemBase {
-    private WPI_TalonSRX exampleTalon;
+    private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[2];
+	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[2];
+	private static DriveTrainTalon ourInstance = new DriveTrainTalon();
     private double count = 0;
 
     //Making it a Singleton
@@ -32,36 +34,59 @@ public class DriveTrainTalon extends SubsystemBase {
 
 
     public void initHardware(){
-        exampleTalon = new WPI_TalonSRX(0);
-        exampleTalon.configFactoryDefault();
-        exampleTalon.setInverted(true);
-        exampleTalon.setNeutralMode(NeutralMode.Coast);
-        exampleTalon.setSensorPhase(true);
-        exampleTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        exampleTalon.config_kP(0, 0.2);
-        exampleTalon.config_kI(0, 0);
-        exampleTalon.config_kD(0, 1);
+	    leftDrive[0] = new WPI_TalonSRX(20);
+	    leftDrive[1] = new WPI_TalonSRX(21);
+	    rightDrive[0] = new WPI_TalonSRX(23);
+	    rightDrive[1] = new WPI_TalonSRX(22);
+
+	    leftDrive[1].setInverted(false);
+	    rightDrive[0].setInverted(true);
+	    rightDrive[1].setInverted(true);
+
+	    leftDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+	    rightDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+	    leftDrive[0].setSensorPhase(false);
+	    rightDrive[0].setSensorPhase(true);
+
+	    leftDrive[1].set(ControlMode.Follower, leftDrive[0].getDeviceID());
+	    rightDrive[1].set(ControlMode.Follower, rightDrive[0].getDeviceID());
+
+	    leftDrive[0].config_kP(0, PID.DRIVE_VELOCITY[0]);
+	    leftDrive[0].config_kI(0, PID.DRIVE_VELOCITY[1]);
+	    leftDrive[0].config_kD(0, PID.DRIVE_VELOCITY[2]);
+	    rightDrive[0].config_kP(0, PID.DRIVE_VELOCITY[0]);
+	    rightDrive[0].config_kI(0, PID.DRIVE_VELOCITY[1]);
+	    rightDrive[0].config_kD(0, PID.DRIVE_VELOCITY[2]);
+
+	    leftDrive[0].setNeutralMode(NeutralMode.Brake);
+	    leftDrive[1].setNeutralMode(NeutralMode.Brake);
+	    rightDrive[0].setNeutralMode(NeutralMode.Brake);
+	    rightDrive[1].setNeutralMode(NeutralMode.Brake);
+
+//	    exampleTalon = new WPI_TalonSRX(0);
+//        exampleTalon.configFactoryDefault();
+//        exampleTalon.setInverted(true);
+//        exampleTalon.setNeutralMode(NeutralMode.Coast);
+//        exampleTalon.setSensorPhase(true);
+//        exampleTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+//        exampleTalon.config_kP(0, 0.2);
+//        exampleTalon.config_kI(0, 0);
+//        exampleTalon.config_kD(0, 1);
     }
 
     //Example Function used in ExampleInstantCommand
     public void exampleInstantFunction(){
-        exampleTalon.set(ControlMode.PercentOutput, 0);
+        leftDrive[0].set(ControlMode.PercentOutput, 0);
+	    leftDrive[1].set(ControlMode.PercentOutput, 0);
+	    rightDrive[0].set(ControlMode.PercentOutput, 0);
+	    rightDrive[1].set(ControlMode.PercentOutput, 0);
     }
 
-    //Example function used in ExampleRunCommand
-    public void exampleRepeatFunction(double value){
-        exampleTalon.set(ControlMode.PercentOutput, value);
-    }
-
-    //Example functions used in ExampleCommand
-    public void exampleFunction1(){
-        exampleTalon.config_kP(0, 2);
-    }
-    public void exampleFunction2(){
-        count++;
-        exampleTalon.set(ControlMode.Position, count);
-    }
-    public void exampleFunction3(){
-        exampleTalon.set(ControlMode.PercentOutput, Math.max(0, exampleTalon.getMotorOutputPercent() - 0.05));
-    }
+	public void tankVelocity(double left, double right) {
+		left *= 79.68;
+		right *= 79.68;
+		leftDrive[0].set(ControlMode.Velocity, left / 10);
+		rightDrive[0].set(ControlMode.Velocity, right/ 10);
+	}
 }
