@@ -58,7 +58,6 @@ public class DriveTrainTalon extends SubsystemBase {
 	    rightDrive[0].config_kP(0, PID.DRIVE_VELOCITY[0]);
 	    rightDrive[0].config_kI(0, PID.DRIVE_VELOCITY[1]);
 	    rightDrive[0].config_kD(0, PID.DRIVE_VELOCITY[2]);
-
 	    leftDrive[0].setNeutralMode(NeutralMode.Brake);
 	    leftDrive[1].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[0].setNeutralMode(NeutralMode.Brake);
