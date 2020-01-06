@@ -38,6 +38,10 @@ deploy {
     }
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 // Set this to true to enable desktop support.
 def includeDesktopSupport = false
 
@@ -48,10 +52,11 @@ dependencies {
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
 
-
     implementation wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
+
+    compile 'com.github.MittyRobotics:tko-libraries:78c52df6fb'
 
     testImplementation 'junit:junit:4.12'
 
