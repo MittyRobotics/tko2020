@@ -20,17 +20,29 @@ public class CurvatureSteering extends CommandBase {
 
 		double turn = OI.getInstance().getXboxWheel().getX() * 450;
 		double wheelWidth = 30;
-		double radius = 360/turn;
+		double radius = 0;
+
+		if ((turn > -5) & (turn < 5))  {
+			radius = 0;
+		}
+		else {
+			radius = 360/turn;
+		}
 		double leftSpeed = 0;
 		double rightSpeed = 0;
+
 		if (radius > 0) {
-			leftSpeed = 2 * Math.PI * (radius + (1/2 * wheelWidth));
-			rightSpeed = 2 * Math.PI * (radius - (1/2 * wheelWidth));
+			leftSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
+			rightSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
 
 		}
 		else if (radius < 0) {
-			leftSpeed = 2 * Math.PI * (radius - (1/2 * wheelWidth));
-			rightSpeed = 2 * Math.PI * (radius + (1/2 * wheelWidth));
+			leftSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
+			rightSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
+		}
+		else {
+			leftSpeed = 0;
+			rightSpeed = 0;
 		}
 		turn = rightSpeed - leftSpeed;
 		//negative for right turns, positive for left turns
@@ -39,6 +51,11 @@ public class CurvatureSteering extends CommandBase {
 
 		double speed = -OI.getInstance().getJoystick1().getY();
 		boolean brake = OI.getInstance().getJoystick1().getTrigger();
+
+		if(brake){
+			speed = 0;
+			turn = 0;
+		}
 
 
 		double newSpeed = speed;
