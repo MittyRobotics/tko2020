@@ -72,7 +72,7 @@ public class Subsystem extends SubsystemBase {
 
     //Function to initialize the hardware
     public void initHardware(){
-        talon1 = new WPI_TalonSRX(3);
+        talon1 = new WPI_TalonSRX(5);
         joystick1 = new Joystick(0);
         switch1 = new DigitalInput(0);
         switch2 = new DigitalInput(1);
@@ -85,10 +85,11 @@ public class Subsystem extends SubsystemBase {
         }
         return pidthing;
     }
+    public int getTicks(){
+        return talon1.getSelectedSensorPosition();
+    }
+    public void Manual() {
 
-
-
-        /*
         if (joystick1.getRawButtonPressed(2)) {
             speed = speed + 0.25;
             if(speed == 1){
@@ -96,6 +97,7 @@ public class Subsystem extends SubsystemBase {
             }
         }
         System.out.println(speed);
+        System.out.println("Position" + talon1.getSelectedSensorPosition());
 
 
 
@@ -115,12 +117,11 @@ public class Subsystem extends SubsystemBase {
         System.out.println("Switch2" + switch2.get());
         if (switch1.get()) {
             talon1.setSelectedSensorPosition(0);
-            talon1.set(ControlMode.Position, 0.5 * 4393);
 
         }
         else if (switch2.get()) {
             System.out.println("Ticks" + talon1.getSelectedSensorPosition());
-            talon1.set(ControlMode.Position, -0.5 * 4393);
+
 
         }
 
@@ -131,48 +132,6 @@ public class Subsystem extends SubsystemBase {
         else {
             talon1.set(ControlMode.Position, 0.5 * 4939);
         }
-
-         */
-
-
-
-
-      /*
-
-      try{
-        Thread.sleep(150);
-
-      }
-      catch(InterruptedException e){
-
-      }
-
-       */
-
-
-
-/*
-    //Example Function used in ExampleInstantCommand
-    public void exampleInstantFunction(){
-        talon1.set(ControlMode.PercentOutput, 0);
     }
 
-    //Example function used in ExampleRunCommand
-    public void exampleRepeatFunction(double value){
-        talon1.set(ControlMode.PercentOutput, value);
-    }
-
-    //Example functions used in ExampleCommand
-    public void exampleFunction1(){
-        talon1.config_kP(0, 2);
-    }
-    public void exampleFunction2(){
-        count++;
-        talon1.set(ControlMode.Position, count);
-    }
-    public void exampleFunction3(){
-        talon1.set(ControlMode.PercentOutput, Math.max(0, talon1.getMotorOutputPercent() - 0.05));
-    }
-
- */
 }
