@@ -36,14 +36,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic(){
-    Subsystem.getInstance().Command;
+
   }
 
 
   @Override
   public void testInit(){
-    
-
+    CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
