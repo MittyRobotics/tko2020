@@ -117,16 +117,19 @@ public class Subsystem extends SubsystemBase {
         System.out.println("Switch2" + switch2.get());
         if (switch1.get()) {
             talon1.setSelectedSensorPosition(0);
+            talon1.set(ControlMode.Position, 5 * 117.91)
 
         }
         else if (switch2.get()) {
             System.out.println("Ticks" + talon1.getSelectedSensorPosition());
+            talon1.set(ControlMode.Position, -5 * 117.91)
 
 
         }
 
         if (!switch1.get() && !switch2.get()) {
             talon1.set(ControlMode.PercentOutput, direction * speed);
+
         }
 
         else {
