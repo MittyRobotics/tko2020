@@ -36,19 +36,19 @@ public class Translate2dTrajectory extends CommandBase {
     private PathFollower pathFollower;
     private double previousTime;
 
-    public Translate2dTrajectory(PathFollower pathFollower){
+    public Translate2dTrajectory(PathFollower pathFollower) {
         this.pathFollower = pathFollower;
     }
 
     public Translate2dTrajectory(Transform goal, PathFollowerProperties properties,
-                                 PathFollowerProperties.PurePursuitProperties purePursuitProperties){
-        PathFollower pathFollower = new PathFollower(properties,purePursuitProperties);
+                                 PathFollowerProperties.PurePursuitProperties purePursuitProperties) {
+        PathFollower pathFollower = new PathFollower(properties, purePursuitProperties);
         pathFollower.setDrivingGoal(goal);
     }
 
     public Translate2dTrajectory(Transform goal, PathFollowerProperties properties,
-                                 PathFollowerProperties.RamseteProperties ramseteProperties){
-        PathFollower pathFollower = new PathFollower(properties,ramseteProperties);
+                                 PathFollowerProperties.RamseteProperties ramseteProperties) {
+        PathFollower pathFollower = new PathFollower(properties, ramseteProperties);
         pathFollower.setDrivingGoal(goal);
     }
 
@@ -60,11 +60,11 @@ public class Translate2dTrajectory extends CommandBase {
     @Override
     public void execute() {
         double currentTime = Timer.getFPGATimestamp();
-        double deltaTime = currentTime-previousTime;
+        double deltaTime = currentTime - previousTime;
         //TODO: Set current velocities to drivetrain velocities
         DrivetrainVelocities currentVelocities = DrivetrainVelocities.empty();
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getRobotTransform()
-                ,currentVelocities,deltaTime);
+                , currentVelocities, deltaTime);
         //TODO: Set drivetrain velocities to output
     }
 
@@ -75,7 +75,7 @@ public class Translate2dTrajectory extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return pathFollower.isFinished(Odometry.getInstance().getRobotTransform(),2);
+        return pathFollower.isFinished(Odometry.getInstance().getRobotTransform(), 2);
     }
 
     public PathFollower getPathFollower() {
