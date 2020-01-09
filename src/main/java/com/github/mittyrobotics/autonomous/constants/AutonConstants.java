@@ -25,5 +25,5 @@
 package com.github.mittyrobotics.autonomous.constants;
 
 public class AutonConstants {
-
+    public static double DRIVETRAIN_TRACK_WIDTH = 26;
 }

@@ -41,5 +41,4 @@ public class AutonCoordinates {
     public static final Transform SHOOTING_RED = new Transform(0, -66, 0);
 
 
-
 }
