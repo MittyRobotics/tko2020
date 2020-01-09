@@ -47,8 +47,8 @@ public class AutonCoordinates {
     public static final Transform SCORING_ZONE_TIP = new Transform(90, -67.25);
 
     // OPPONENT VALUES
-    public static final Transform B_TRENCH_FRONT_CENTER = new Transform(-86.63, 134.155);
-    public static final Transform B_TRENCH_BACK_CENTER = new Transform(-302.63, 134.155);
+    public static final Transform B_TRENCH_BACK_CENTER = new Transform(-86.63, 134.155);
+    public static final Transform B_TRENCH_FRONT_CENTER = new Transform(-302.63, 134.155);
 
 
 }
