@@ -24,6 +24,22 @@
 
 package com.github.mittyrobotics.autonomous.constants;
 
+import com.github.mittyrobotics.datatypes.positioning.Transform;
+
 public class AutonCoordinates {
+
+    // Universal Constants
+    public static final Transform ZERO = new Transform();
+    public static final Transform EDGE_TO_SCORE_ZONE = new Transform(0, -94.95, 0);
+
+
+/*    // X/Y Values Inches
+    public static final double Y_EDGE_TO_TARGET = 94.66;*/
+
+
+    // Starting Values (Alliance)
+    public static final Transform SHOOTING_RED = new Transform(0, -66, 0);
+
+
 
 }
