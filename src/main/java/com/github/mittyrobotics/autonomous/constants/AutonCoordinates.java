@@ -52,7 +52,7 @@ public class AutonCoordinates {
     public static final Transform BALL_3 = new Transform(107.83, -15.3, 0);
     public static final Transform BALL_4 = new Transform(114.17, 0, 0);
     public static final Transform BALL_5 = new Transform(120.51, 15.3, 0);
-    
+
 
     // OPPONENT VALUES
     public static final Transform B_TRENCH_BACK_CENTER = new Transform(-86.63, 134.155);
