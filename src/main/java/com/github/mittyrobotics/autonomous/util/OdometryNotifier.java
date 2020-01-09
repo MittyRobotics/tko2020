@@ -22,22 +22,35 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.vision;
+package com.github.mittyrobotics.autonomous.util;
 
-public class VisionManager {
-    private static VisionManager instance;
+import com.github.mittyrobotics.path.following.util.Odometry;
+import edu.wpi.first.wpilibj.Notifier;
 
-    public static VisionManager getInstance() {
-        return instance;
-    }
+public class OdometryNotifier implements Runnable {
+    private final double updateFrequency;
 
     /**
-     * Returns if the vision system is safe to use.
+     * Constructs a new {@link OdometryNotifier} that updates this {@link Runnable} at a frequency of
+     * <code>updateFrequence</code>.
      *
-     * @return if the vision system is safe to use.
+     * @param updateFrequency the time in seconds between each {@link Odometry} update call.
      */
-    public boolean isSafeToUseVision() {
-        //The answer is always no
-        return false;
+    public OdometryNotifier(double updateFrequency){
+        this.updateFrequency = updateFrequency;
+        Notifier notifier = new Notifier(this);
+        notifier.startPeriodic(updateFrequency);
+    }
+    @Override
+    public void run() {
+        //TODO: Get left and right encoder position and heading value from drivetrain and gyro
+        double leftEncoderPosition = 0;
+        double rightEncoderPosition = 0;
+        double heading = 0;
+        Odometry.getInstance().update(leftEncoderPosition,rightEncoderPosition,heading);
+    }
+
+    public double getUpdateFrequency() {
+        return updateFrequency;
     }
 }
