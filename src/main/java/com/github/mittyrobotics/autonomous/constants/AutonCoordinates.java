@@ -55,8 +55,8 @@ public class AutonCoordinates {
 
 
     // OPPONENT VALUES
-    public static final Transform B_TRENCH_BACK_CENTER = new Transform(-86.63, 134.155);
-    public static final Transform B_TRENCH_FRONT_CENTER = new Transform(-302.63, 134.155);
+    public static final Transform O_TRENCH_BACK_CENTER = new Transform(-86.63, 134.155);
+    public static final Transform O_TRENCH_FRONT_CENTER = new Transform(-302.63, 134.155);
 
 
 }
