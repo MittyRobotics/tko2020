@@ -6,10 +6,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-//Example Subsystem Code
+
+import static com.github.mittyrobotics.colorwheel.Constants.talonDeviceNumber;
+import static com.github.mittyrobotics.colorwheel.Constants.distance;
+
+
 public class Spinner extends SubsystemBase {
     private WPI_TalonSRX talon1;
-    private double count = 0;
     //Making it a Singleton
     private static Spinner instance;
 
@@ -36,5 +39,9 @@ public class Spinner extends SubsystemBase {
         talon1 = new WPI_TalonSRX(talonDeviceNumber);
 
 
+    }
+
+    public void spin() {
+        talon1.set(ControlMode.Position, (float)distance);
     }
 }

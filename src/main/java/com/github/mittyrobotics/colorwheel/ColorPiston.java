@@ -12,6 +12,7 @@ public class ColorPiston extends SubsystemBase {
 
     private ColorPiston() {
         super();
+        setName("Color Piston");
     }
 
     public static ColorPiston getInstance() {
