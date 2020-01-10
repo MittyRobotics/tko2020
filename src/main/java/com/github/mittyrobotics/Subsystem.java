@@ -32,12 +32,6 @@ public class Subsystem extends SubsystemBase {
     private Subsystem(){
         super();
         setName("Subsystem");
-        setDefaultCommand(new Command() {
-            @Override
-            public Set<edu.wpi.first.wpilibj2.command.Subsystem> getRequirements() {
-                return null;
-            }
-        });
     }
 
     private Joystick joystick1;
@@ -56,7 +50,9 @@ public class Subsystem extends SubsystemBase {
         switch2 = new DigitalInput(1);
         talon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     }
-
+    public void manualSlide(double x){
+        talon1.set(ControlMode.PercentOutput, x);
+    }
     public TrapezoidalMotionProfile getPidthing(double t) {
         if(pidthing == null){
             pidthing = new TrapezoidalMotionProfile(new MotionState(0, 0), new MotionState(5, 5), new VelocityConstraints(0, 0, 0));

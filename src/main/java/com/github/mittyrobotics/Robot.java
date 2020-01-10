@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    OI.getInstance().getJoystick1();
+
   }
 
 
@@ -36,9 +36,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic(){
-    CommandScheduler.getInstance().run();
-    
-
+    //CommandScheduler.getInstance().run();
+    double speed = OI.getInstance().getJoystick1().getX();
+    if(speed > 0.05 || speed < -0.05){
+      Subsystem.getInstance().manualSlide(speed);
+    }
+    else{
+      Subsystem.getInstance().manualSlide(0);
+    }
   }
 
 
