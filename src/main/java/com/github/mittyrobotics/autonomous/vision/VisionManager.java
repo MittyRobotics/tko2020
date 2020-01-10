@@ -37,7 +37,7 @@ public class VisionManager {
      * @return if the vision system is safe to use.
      */
     public boolean isSafeToUseVision() {
-        //The answer is always no
-        return false;
+        //The answer is always yes
+        return true;
     }
 }
