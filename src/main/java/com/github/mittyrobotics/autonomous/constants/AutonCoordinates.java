@@ -28,17 +28,44 @@ import com.github.mittyrobotics.datatypes.positioning.Transform;
 
 public class AutonCoordinates {
 
+    // FIELD ORIENTATION: LANDSCAPE
+
     // Universal Constants
     public static final Transform ZERO = new Transform();
-    public static final Transform EDGE_TO_SCORE_ZONE = new Transform(0, -94.95, 0);
+    public static final double HEIGHT = 323.81;
+    public static final double HALF_HEIGHT = HEIGHT / 2;
+    public static final double BOTTOM_EDGE_TO_SCORING_ZONE_TIP = 94.66;
+    public static final double BALL_DROP_TRIANGLE_TO_HORIZONTAL = 67.25;
+
+    // ALLIANCE VALUES
+    public static final Transform LOADING_STARTING_POINT = new Transform(0, 60.75, 0);
+    public static final Transform SCORING_STARTING_POINT = new Transform(0, -67.25, 0);
+    public static final Transform TRENCH_STARTING_POINT = new Transform(0, -134.155, 0);
+
+    public static final Transform A_TRENCH_FRONT_CENTER = new Transform(-86.63, -134.155);
+    public static final Transform A_TRENCH_BACK_CENTER = new Transform(-302.63, -134.155);
+    public static final Transform SCORING_ZONE_TIP = new Transform(90, -67.25); // unstable
+
+    // Balls (party zone)
+    public static final Transform BALL_1 = new Transform(-130.25, -46.05, 0);
+    public static final Transform BALL_2 = new Transform(-114.94, -39.71, 0);
+    public static final Transform BALL_3 = new Transform(-107.83, -15.3, 0);
+    public static final Transform BALL_4 = new Transform(-114.17, 0, 0);
+    public static final Transform BALL_5 = new Transform(-120.51, 15.3, 0);
 
 
-/*    // X/Y Values Inches
-    public static final double Y_EDGE_TO_TARGET = 94.66;*/
+    // OPPONENT VALUES
+    public static final Transform O_TRENCH_BACK_CENTER = new Transform(-86.63, 134.155);
+    public static final Transform O_TRENCH_FRONT_CENTER = new Transform(-302.63, 134.155);
 
-
-    // Starting Values (Alliance)
-    public static final Transform SHOOTING_RED = new Transform(0, -66, 0);
-
-
+    public static final Transform[] FIELD_WAYPOINTS =
+            new Transform[]{ZERO, LOADING_STARTING_POINT, LOADING_STARTING_POINT,
+                    SCORING_STARTING_POINT, TRENCH_STARTING_POINT, A_TRENCH_BACK_CENTER, A_TRENCH_FRONT_CENTER,
+                    SCORING_ZONE_TIP,
+                    BALL_1, BALL_2, BALL_3, BALL_4, BALL_5, O_TRENCH_BACK_CENTER, O_TRENCH_FRONT_CENTER};
+    public static final String[] FIELD_WAYPOINTS_NAMES =
+            new String[]{"ZERO", "LOADING_STARTING_POINT", "LOADING_STARTING_POINT",
+                    "SCORING_STARTING_POINT", "TRENCH_STARTING_POINT", "A_TRENCH_BACK_CENTER", "A_TRENCH_FRONT_CENTER",
+                    "SCORING_ZONE_TIP",
+                    "BALL_1", "BALL_2", "BALL_3", "BALL_4", "BALL_5", "O_TRENCH_BACK_CENTER", "O_TRENCH_FRONT_CENTER"};
 }
