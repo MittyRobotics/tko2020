@@ -1,36 +1,19 @@
-/*
 package com.github.mittyrobotics;
-
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.datatypes.motion.MotionState;
+import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
+import com.github.mittyrobotics.motionprofile.TrapezoidalMotionProfile;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-public class Subsystem {
-}
-*/
-
-
-
-
-package com.github.mittyrobotics;
-
-        import com.ctre.phoenix.motorcontrol.ControlMode;
-        import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-        import com.ctre.phoenix.motorcontrol.NeutralMode;
-        import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-        import com.github.mittyrobotics.datatypes.motion.MotionState;
-        import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
-        import com.github.mittyrobotics.motionprofile.TrapezoidalMotionProfile;
-        import edu.wpi.first.wpilibj.DigitalInput;
-        import edu.wpi.first.wpilibj.Encoder;
-        import edu.wpi.first.wpilibj.Joystick;
-        import edu.wpi.first.wpilibj2.command.Command;
-        import edu.wpi.first.wpilibj2.command.PIDCommand;
-        import edu.wpi.first.wpilibj2.command.PIDSubsystem;
-        import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
         import java.util.Set;
 
@@ -57,11 +40,6 @@ public class Subsystem extends SubsystemBase {
         });
     }
 
-    //Function that runs continuously regardless of any commands being run
-    @Override
-    public void periodic(){
-
-    }
     private Joystick joystick1;
     private DigitalInput switch1, switch2;
     private WPI_TalonSRX talon1;
