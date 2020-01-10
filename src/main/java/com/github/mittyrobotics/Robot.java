@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    OI.getInstance().digitalInputControls();
+    OI.getInstance().getJoystick1();
   }
 
 
