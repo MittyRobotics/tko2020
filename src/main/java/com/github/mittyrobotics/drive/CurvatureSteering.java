@@ -64,7 +64,6 @@ public class CurvatureSteering extends CommandBase {
 			DriveTrainTalon.getInstance().tankDrive(newTurn, - newTurn);
 		}
 		DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn/2, newSpeed - newTurn/2);
-
 	}
 	@Override
 	public void end(boolean interrupted){
