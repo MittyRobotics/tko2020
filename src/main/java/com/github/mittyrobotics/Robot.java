@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    CommandScheduler.getInstance().run();
+    OI.getInstance().getJoystick1();
   }
 
 
@@ -36,6 +36,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic(){
+    CommandScheduler.getInstance().run();
+    
 
   }
 
