@@ -7,8 +7,7 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.ControlType;
 
 
-public class MoveWinch extends CommandBase {    
-
+public class MoveWinch extends CommandBase {
     private CANPIDController controller;
     private double pos;
     private RobotSide side;
@@ -21,11 +20,15 @@ public class MoveWinch extends CommandBase {
 
     @Override
     public void initialize(){
+        // Initialize the SPARKS for the given side (specified in constructor)
         if (side == RobotSide.LEFT) {
             controller = new CANPIDController(Winch.getInstance().getLeftSpark());
-        } else {
+        }
+        else {
             controller = new CANPIDController(Winch.getInstance().getRightSpark());
         }
+
+        // setup PID
         controller.setP(0.5);
         controller.setI(0);
         controller.setD(0);

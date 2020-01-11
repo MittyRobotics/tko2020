@@ -5,12 +5,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hooks extends SubsystemBase {
     private static Hooks ourInstance = new Hooks();
-    public Hooks(){super();}
+    private DoubleSolenoid leftPiston, rightPiston;
+
+    public Hooks(){
+        super();
+    }
     public static Hooks getInstance() {
         return ourInstance;
     }
 
-    private DoubleSolenoid leftPiston, rightPiston;
     public void initHardware(){
         leftPiston = new DoubleSolenoid(Constants.LEFT_PISTON_FORWARD_ID, Constants.LEFT_PISTON_REVERSE_ID);
         rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);

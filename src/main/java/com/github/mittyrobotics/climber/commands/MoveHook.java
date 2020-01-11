@@ -19,28 +19,29 @@ public class MoveHook extends CommandBase {
         addRequirements(Hooks.getInstance());
     }
 
-
     @Override
     public void initialize() {
+        // if the specified side for the object is LEFT
+        // push the piston up / down as specified in constructor
         if(side == RobotSide.LEFT) {
-
             if(direction == ElevateDirection.UP) {
                 Hooks.getInstance().pushLeftUp();
-            } else if (direction == ElevateDirection.DOWN) {
+            }
+            else if (direction == ElevateDirection.DOWN) {
                 Hooks.getInstance().pushLeftDown();
             }
 
-        } else if (side == RobotSide.RIGHT) {
-
+        }
+        // same as above but for right side of robot
+        else if (side == RobotSide.RIGHT) {
             if(direction == ElevateDirection.UP) {
                 Hooks.getInstance().pushRightUp();
-            } else if (direction == ElevateDirection.DOWN) {
+            }
+            else if (direction == ElevateDirection.DOWN) {
                 Hooks.getInstance().pushRightDown();
             }
-
         }
     }
-
 
     @Override
     public boolean isFinished() {
