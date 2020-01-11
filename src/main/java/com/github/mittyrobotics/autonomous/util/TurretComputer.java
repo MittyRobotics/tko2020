@@ -41,6 +41,13 @@ public class TurretComputer {
      *
      * Uses this trajectory calculator: https://www.desmos.com/calculator/xy3t8xsgg2.
      *
+     * This assumes the shooter is directly facing the target such that the 3D trajectory of the ball will intersect
+     * the top-down center of the target. This calculates the height that the trajectory will hit the target plane
+     * given the initial velocity, angle, and distance of the ball.
+     *
+     * This can then be used to experimentally optimize the trajectory to find the velocity and angle where the vertex
+     * of the trajectory is closest to the y intercept.
+     *
      * @param velocity the initial velocity of the ball
      * @param angle the initial angle of the ball
      * @param distance the distance away from the target
