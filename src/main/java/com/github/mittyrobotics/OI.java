@@ -1,6 +1,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.colorwheel.SpinRevs;
+import com.github.mittyrobotics.colorwheel.SpinToColor;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,6 +13,7 @@ public class OI {
 	private Joystick joystick1;
 	private Joystick joystick2;
 	private static OI instance;
+	private static boolean stage3 = false;
 
 	public static OI getInstance(){
 		if(instance == null){
@@ -44,14 +46,25 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
-		Button spinButton = new Button() {
+		Button spinRevButton = new Button() {
 			@Override
 			public boolean get() {
-				return getJoystick1().getRawButtonPressed(4);
+				return getJoystick1().getRawButtonPressed(3) && !stage3;
+			}
+		};
+		Button spinColorButton = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButtonPressed(3) && stage3;
 			}
 		};
 
-		spinButton.whenPressed(new SpinRevs());
+		spinRevButton.whenPressed(new SpinRevs());
+		spinColorButton.whenPressed(new SpinToColor());
 
 	}
+	public void passedStage2(){
+		stage3 = true;
+	}
+
 }

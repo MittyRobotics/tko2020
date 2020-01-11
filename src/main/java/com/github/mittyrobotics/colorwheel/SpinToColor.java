@@ -1,9 +1,10 @@
 package com.github.mittyrobotics.colorwheel;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SpinToColor extends CommandBase {
-    protected SpinToColor() {
+    public SpinToColor() {
         super();
     }
     @Override
@@ -20,6 +21,6 @@ public class SpinToColor extends CommandBase {
     }
     @Override
     public boolean isFinished(){
-        return ;
+        return Spinner.getInstance().matching();
     }
 }

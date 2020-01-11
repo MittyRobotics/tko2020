@@ -3,6 +3,7 @@ package com.github.mittyrobotics.colorwheel;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
@@ -90,6 +91,38 @@ public class Spinner extends SubsystemBase {
     }
 
     public String getColor() {
-        
+        Color detectedColor = m_colorSensor.getColor();
+
+        /**
+         * Run the color match algorithm on our detected color
+         */
+        String colorString;
+        ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+
+            if (match.color == kBlueTarget) {
+                colorString = "Blue";
+            } else if (match.color == kRedTarget) {
+                colorString = "Red";
+            } else if (match.color == kGreenTarget) {
+                colorString = "Green";
+            } else if (match.color == kYellowTarget) {
+                colorString = "Yellow";
+            } else {
+                colorString = " ";
+            }
+        return colorString;
+    }
+
+    public char getGameMessage() {
+        String s = DriverStation.getInstance().getGameSpecificMessage();
+        if(s.length()>0){
+            return s.charAt(0);
+        } else {
+            return ' ';
+        }
+    }
+
+    public boolean matching() {
+        return getGameMessage() == getColor().charAt(0);
     }
 }
