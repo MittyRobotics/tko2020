@@ -5,12 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static com.github.mittyrobotics.colorwheel.Constants.TALON_DEVICE_NUMBER;
+import static com.github.mittyrobotics.colorwheel.Constants.*;
 
 
 public class Spinner extends SubsystemBase {
     private WPI_TalonSRX talon1;
-    //Making it a single metric tonne
     private static Spinner instance;
 
     public static Spinner getInstance() {
@@ -36,8 +35,13 @@ public class Spinner extends SubsystemBase {
         talon1 = new WPI_TalonSRX(TALON_DEVICE_NUMBER);
     }
 
-    public void setMotorOn() {
-        talon1.set(ControlMode.Velocity, 0.8);
+    public void setMotorFast() {
+        talon1.set(ControlMode.Velocity, FAST_VELOCITY);
+
+    }
+
+    public void setMotorSlow() {
+        talon1.set(ControlMode.Velocity, SLOW_VELOCITY);
 
     }
 

@@ -8,15 +8,18 @@ public class SpinToColor extends CommandBase {
     }
     @Override
     public void initialize(){
+        Spinner.getInstance().setMotorSlow();
     }
     @Override
     public void execute(){
+
     }
     @Override
     public void end(boolean interrupted){
+        Spinner.getInstance().setMotorOff();
     }
     @Override
     public boolean isFinished(){
-        return false;
+        return ;
     }
 }
