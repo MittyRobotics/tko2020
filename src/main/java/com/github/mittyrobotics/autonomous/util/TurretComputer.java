@@ -55,11 +55,11 @@ public class TurretComputer {
      * @return the intersection height of the parabola and the target location.
      */
     public double computeHitLocation(double velocity, double angle, double distance){
-        final double v = velocity;
-        final double s = Math.toRadians(angle);
-        final double d = distance;
-        final double u = AutonConstants.SHOOTER_OUTPUT_HEIGHT;
-        final double g = 32.174;
+        final double v = velocity; //ft/s
+        final double s = Math.toRadians(angle); //rad
+        final double d = distance; //ft
+        final double u = AutonConstants.SHOOTER_OUTPUT_HEIGHT/12; //ft
+        final double g = 32.174; //ft/s^2
 
         return (-g * d*d) / (2 * v*v * Math.cos(s) * Math.cos(s)) + d * Math.tan(s) + u;
     }
@@ -69,14 +69,52 @@ public class TurretComputer {
     }
 
     public ShooterSetpoint optimizeTrajectory(double velocity, double angle, double distance){
-        final double MAX_ITERATIONS = 100;
+        final double MAX_ITERATIONS = 10000;
         final double VELOCITY_INCREMENT = 0.1;
         final double ANGLE_INCREMENT = 0.1;
+        final double ERROR_THRESHOLD = 0.1;
 
         Position maximum = computeTrajectoryMaximum(velocity,angle,distance);
         Position hitLocation = new Position(0,computeHitLocation(velocity,angle,distance));
-        double error = maximum.distance(hitLocation);
+        Position desiredLocation = new Position(0,AutonConstants.HIGH_TARGET_HEIGHT);
 
-        return new ShooterSetpoint(0,0);
+        double error = maximum.distance(desiredLocation);
+        double prevError = 0;
+
+        double i = 0;
+        while(error > ERROR_THRESHOLD && i < MAX_ITERATIONS){
+            angle += ANGLE_INCREMENT;
+
+            maximum = computeTrajectoryMaximum(velocity,angle,distance);
+            error = maximum.distance(desiredLocation);
+
+            System.out.println(error + " "+ prevError );
+
+            if(error > prevError){
+                angle -= ANGLE_INCREMENT*2;
+            }
+            else{
+                angle -= ANGLE_INCREMENT;
+            }
+
+            velocity += ANGLE_INCREMENT;
+
+            maximum = computeTrajectoryMaximum(velocity,angle,distance);
+            error = maximum.distance(desiredLocation);
+
+            if(error > prevError){
+                velocity -= ANGLE_INCREMENT*2;
+            }
+            else{
+                velocity -= ANGLE_INCREMENT;
+            }
+
+            error = maximum.distance(desiredLocation);
+
+            prevError = error;
+            i++;
+        }
+
+        return new ShooterSetpoint(velocity,angle);
     }
 }

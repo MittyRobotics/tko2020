@@ -24,10 +24,12 @@
 
 package com.github.mittyrobotics.autonomous;
 
+import com.github.mittyrobotics.autonomous.util.ShooterSetpoint;
 import com.github.mittyrobotics.autonomous.util.TurretComputer;
 
 public class AutonFunctionTest {
     public static void main(String[] args) {
-        System.out.println(TurretComputer.getInstance().computeHitLocation(45.66,25.5,22.68));
+        ShooterSetpoint optimizedSetpoint = TurretComputer.getInstance().optimizeTrajectory(45.66,25.5,20);
+        System.out.println(optimizedSetpoint.getAngle() + " " + optimizedSetpoint.getVelocity());
     }
 }

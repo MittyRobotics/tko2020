@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
-import com.github.mittyrobotics.autonomous.constants.VisionConstants;
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 
 public class VisionTargetComputer {
     private static VisionTargetComputer instance = new VisionTargetComputer();
@@ -35,6 +35,6 @@ public class VisionTargetComputer {
 
     public double getTargetDistance(double pitch) {
         System.out.println(pitch + " Pitch");
-        return (VisionConstants.HIGH_TARGET_HEIGHT - VisionConstants.LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(pitch + VisionConstants.LIMELIGHT_PITCH));
+        return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
     }
 }
