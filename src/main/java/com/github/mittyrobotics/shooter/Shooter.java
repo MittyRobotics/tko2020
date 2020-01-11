@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.shooter;
 
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.Joystick;
@@ -36,5 +37,8 @@ public class Shooter extends SubsystemBase {
             spark1.stopMotor();
         }
 
+    }
+    public CANSparkMax getspark1(){
+        return spark1;
     }
 }
