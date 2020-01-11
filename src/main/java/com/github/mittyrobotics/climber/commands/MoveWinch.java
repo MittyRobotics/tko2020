@@ -7,13 +7,12 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.ControlType;
 
 
-public class MoveWinch extends CommandBase {    //TODO check
+public class MoveWinch extends CommandBase {    
 
     private CANPIDController controller;
     private double pos;
-    private double tempPos;
     private RobotSide side;
-    private double rampRate = 10;
+
     public MoveWinch(double pos, RobotSide side) {
         this.pos = pos;
         this.side = side;
@@ -35,12 +34,14 @@ public class MoveWinch extends CommandBase {    //TODO check
 
     @Override
     public void execute(){
+        double tempPos;
+        final double RAMP_RATE = 10;
         if (side == RobotSide.LEFT) {
             tempPos = Math.min(pos - Winch.getInstance().getLeftEncoder().getPosition(),
-                    Winch.getInstance().getLeftEncoder().getPosition() + rampRate);
+                    Winch.getInstance().getLeftEncoder().getPosition() + RAMP_RATE);
         } else {
             tempPos = Math.min(pos - Winch.getInstance().getRightEncoder().getPosition(),
-                    Winch.getInstance().getRightEncoder().getPosition() + rampRate);
+                    Winch.getInstance().getRightEncoder().getPosition() + RAMP_RATE);
         }
             controller.setReference(tempPos, ControlType.kPosition);
     }
