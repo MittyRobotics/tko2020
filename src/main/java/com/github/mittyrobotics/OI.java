@@ -43,10 +43,13 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
-		double speed = joystick1.getX();
-		if(speed < -0.05 || speed > 0.05){
-
-		}
+		Button motion = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getTrigger();
+			}
+		};
+		motion.whenPressed(new Command());
 
 
 

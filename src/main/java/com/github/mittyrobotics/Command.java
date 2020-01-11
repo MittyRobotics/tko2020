@@ -1,5 +1,6 @@
 package com.github.mittyrobotics;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.github.mittyrobotics.datatypes.motion.MotionState;
 import com.github.mittyrobotics.motionprofile.TrapezoidalMotionProfile;
 import edu.wpi.first.wpilibj.Timer;
@@ -13,17 +14,18 @@ public class Command extends CommandBase {
     }
     @Override
     public void initialize(){
-        trapezoidalMotionProfile = Subsystem.getInstance().getPidthing(t);
-        double t = Timer.getFPGATimestamp();
+        trapezoidalMotionProfile = Subsystem.getInstance().getPidthing();
+        t = Timer.getFPGATimestamp();
 
     }
     @Override
     public void execute(){
         MotionState now = trapezoidalMotionProfile.getMotionStateAtTime(Timer.getFPGATimestamp()-t);
-        Subsystem.getInstance().getPidthing(now.getPosition());
+        Subsystem.getInstance().manualSlide(now.getPosition()* Constants.TICKS_PER_INCH);
     }
     @Override
     public void end(boolean interrupted){
+        System.out.println("end");
 
     }
     @Override

@@ -15,9 +15,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    Subsystem.getInstance().initHardware();
+    OI.getInstance().digitalInputControls();
 
   }
 
+  @Override
+  public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
 
   @Override
   public void autonomousInit() {
@@ -31,19 +37,28 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit(){
-
   }
 
   @Override
   public void teleopPeriodic(){
-    //CommandScheduler.getInstance().run();
-    double speed = OI.getInstance().getJoystick1().getX();
+
+    if(OI.getInstance().getJoystick1().getRawButton(3)){
+      Subsystem.getInstance().resetEncoder();
+      // System.out.println("Talon position: " + SliderSubsystem.leftTalon.getSelectedSensorPosition());
+      CommandScheduler.getInstance().cancelAll();
+    } else {
+      CommandScheduler.getInstance().run();
+    }
+
+    double speed = OI.getInstance().getJoystick1().getY();
     if(speed > 0.05 || speed < -0.05){
-      Subsystem.getInstance().manualSlide(speed);
+      Subsystem.getInstance().manualSpeed(speed);
     }
     else{
-      Subsystem.getInstance().manualSlide(0);
+      Subsystem.getInstance().manualSpeed(0);
     }
+
+
   }
 
 
