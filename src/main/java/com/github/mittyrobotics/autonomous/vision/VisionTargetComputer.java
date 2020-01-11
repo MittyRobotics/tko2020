@@ -24,21 +24,17 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
-import com.github.mittyrobotics.vision.Limelight;
+import com.github.mittyrobotics.autonomous.constants.VisionConstants;
 
-public class VisionManager {
-    private static VisionManager instance = new VisionManager();
+public class VisionTargetComputer {
+    private static VisionTargetComputer instance = new VisionTargetComputer();
 
-    public static VisionManager getInstance() {
+    public static VisionTargetComputer getInstance() {
         return instance;
     }
 
-    /**
-     * Returns if the vision system is safe to use.
-     *
-     * @return if the vision system is safe to use.
-     */
-    public boolean isSafeToUseVision() {
-        return Limelight.getInstance().isHasValidTarget();
+    public double getTargetDistance(double pitch) {
+        System.out.println(pitch + " Pitch");
+        return (VisionConstants.HIGH_TARGET_HEIGHT - VisionConstants.LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(pitch + VisionConstants.LIMELIGHT_PITCH));
     }
 }

@@ -22,23 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.vision;
+package com.github.mittyrobotics.autonomous.util;
 
-import com.github.mittyrobotics.vision.Limelight;
+import com.github.mittyrobotics.datatypes.positioning.Position;
 
-public class VisionManager {
-    private static VisionManager instance = new VisionManager();
+/**
+ * Computes the values of the turret yaw, pitch, and shooter wheel velocity given a distance
+ */
+public class TurretComputer {
+    private static TurretComputer instance = new TurretComputer();
 
-    public static VisionManager getInstance() {
+    public static TurretComputer getInstance() {
         return instance;
     }
 
     /**
-     * Returns if the vision system is safe to use.
+     * Returns the intersection height of the ball trajectory and the target line (y intercept).
      *
-     * @return if the vision system is safe to use.
+     * Uses this trajectory calculator: https://www.desmos.com/calculator/xy3t8xsgg2.
+     *
+     * @param velocity the initial velocity of the ball
+     * @param angle the initial angle of the ball
+     * @param distance the distance away from the target
+     * @return the intersection height of the parabola and the target location.
      */
-    public boolean isSafeToUseVision() {
-        return Limelight.getInstance().isHasValidTarget();
+    public double computeHitLocation(double velocity, double angle, double distance){
+        final double v = velocity;
+        final double s = angle;
+        final double d = distance;
+
+        final double g = 32.174;
+
+        return 0;
     }
 }

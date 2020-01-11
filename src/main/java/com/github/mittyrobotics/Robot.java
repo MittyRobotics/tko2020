@@ -24,21 +24,27 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.commands.TurretAimbot;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryNotifier;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
+import com.github.mittyrobotics.vision.Limelight;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+
+    public Robot(){
+        super(0.1);
+    }
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
         //Setup track width for DifferentialDriveKinematics
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
         //Setup the OdometryNotifier
-        OdometryNotifier odometryNotifier = new OdometryNotifier(0.02);
+//        OdometryNotifier odometryNotifier = new OdometryNotifier(0.02);
     }
 
     @Override
@@ -73,7 +79,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-
+        CommandScheduler.getInstance().schedule(new TurretAimbot());
     }
 
     @Override

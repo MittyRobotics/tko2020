@@ -22,23 +22,10 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.vision;
+package com.github.mittyrobotics.autonomous.constants;
 
-import com.github.mittyrobotics.vision.Limelight;
-
-public class VisionManager {
-    private static VisionManager instance = new VisionManager();
-
-    public static VisionManager getInstance() {
-        return instance;
-    }
-
-    /**
-     * Returns if the vision system is safe to use.
-     *
-     * @return if the vision system is safe to use.
-     */
-    public boolean isSafeToUseVision() {
-        return Limelight.getInstance().isHasValidTarget();
-    }
+public class VisionConstants {
+    public static double HIGH_TARGET_HEIGHT = 47; //TODO: Find this value later
+    public static double LIMELIGHT_HEIGHT = 3.0/4.0; //TODO: Find this value later
+    public static double LIMELIGHT_PITCH = 1; //TODO: Find this value later
 }

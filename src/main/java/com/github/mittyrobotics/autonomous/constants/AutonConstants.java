@@ -25,5 +25,6 @@
 package com.github.mittyrobotics.autonomous.constants;
 
 public class AutonConstants {
-    public static double DRIVETRAIN_TRACK_WIDTH = 26;
+    public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
+    public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
 }
