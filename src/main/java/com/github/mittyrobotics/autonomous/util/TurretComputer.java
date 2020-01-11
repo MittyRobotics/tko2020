@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 
 /**
@@ -50,9 +51,12 @@ public class TurretComputer {
         final double v = velocity;
         final double s = angle;
         final double d = distance;
+        final double u = AutonConstants.SHOOTER_OUTPUT_HEIGHT;
 
         final double g = 32.174;
 
-        return 0;
+
+        
+        return (-g * d*d) / 2 * v*v * Math.cos(s) * Math.cos(s) + d * Math.tan(s) + u;
     }
 }
