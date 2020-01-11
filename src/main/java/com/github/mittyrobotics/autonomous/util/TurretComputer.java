@@ -56,14 +56,27 @@ public class TurretComputer {
      */
     public double computeHitLocation(double velocity, double angle, double distance){
         final double v = velocity;
-        final double s = angle;
+        final double s = Math.toRadians(angle);
         final double d = distance;
         final double u = AutonConstants.SHOOTER_OUTPUT_HEIGHT;
-
         final double g = 32.174;
 
+        return (-g * d*d) / (2 * v*v * Math.cos(s) * Math.cos(s)) + d * Math.tan(s) + u;
+    }
 
-        
-        return (-g * d*d) / 2 * v*v * Math.cos(s) * Math.cos(s) + d * Math.tan(s) + u;
+    public Position computeTrajectoryMaximum(double velocity, double angle, double distance){
+        return new Position();
+    }
+
+    public ShooterSetpoint optimizeTrajectory(double velocity, double angle, double distance){
+        final double MAX_ITERATIONS = 100;
+        final double VELOCITY_INCREMENT = 0.1;
+        final double ANGLE_INCREMENT = 0.1;
+
+        Position maximum = computeTrajectoryMaximum(velocity,angle,distance);
+        Position hitLocation = new Position(0,computeHitLocation(velocity,angle,distance));
+        double error = maximum.distance(hitLocation);
+
+        return new ShooterSetpoint(0,0);
     }
 }

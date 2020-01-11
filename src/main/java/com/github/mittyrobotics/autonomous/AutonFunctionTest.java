@@ -22,10 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.constants;
+package com.github.mittyrobotics.autonomous;
 
-public class AutonConstants {
-    public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
-    public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
-//    public static double
+import com.github.mittyrobotics.autonomous.util.TurretComputer;
+
+public class AutonFunctionTest {
+    public static void main(String[] args) {
+        System.out.println(TurretComputer.getInstance().computeHitLocation(45.66,25.5,22.68));
+    }
 }

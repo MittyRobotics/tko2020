@@ -24,26 +24,20 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
-public class TurretSetpoint {
-    private final double pitch;
-    private final double yaw;
+public class ShooterSetpoint {
     private final double velocity;
+    private final double angle;
 
-    public TurretSetpoint(double pitch, double yaw, double velocity){
-        this.pitch = pitch;
-        this.yaw = yaw;
+    public ShooterSetpoint(double velocity, double angle){
         this.velocity = velocity;
-    }
-
-    public double getPitch() {
-        return pitch;
-    }
-
-    public double getYaw() {
-        return yaw;
+        this.angle = angle;
     }
 
     public double getVelocity() {
         return velocity;
+    }
+
+    public double getAngle() {
+        return angle;
     }
 }
