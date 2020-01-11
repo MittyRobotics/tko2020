@@ -6,7 +6,7 @@ public class Constants {
     public static final int RIGHT_SPARK_1_ID = 3;
     public static final int RIGHT_SPARK_2_ID = 4;
 
-    public static final double TICKS_PER_INCH = 170.73611;//488;//79.68;
+    public static final double TICKS_PER_INCH = 170.73611;
 
     public static final int LEFT_TALON_1 = 20;
     public static final int LEFT_TALON_2 = 21;
