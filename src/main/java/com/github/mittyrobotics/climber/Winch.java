@@ -29,42 +29,7 @@ public class Winch extends SubsystemBase {
 
         leftSpark.restoreFactoryDefaults();
         rightSpark.restoreFactoryDefaults();
-
-        leftController = new CANPIDController(leftSpark);       //TODO move to a command
-        leftController.setP(0.5);
-        leftController.setI(0);
-        leftController.setD(0);
-        leftController.setOutputRange(-.5, .5);
-
-        rightController = new CANPIDController(leftSpark);      //TODO move to command
-        rightController.setP(0.5);
-        rightController.setI(0);
-        rightController.setD(0);
-        rightController.setOutputRange(-.5, .5);
-    }
-
-<<<<<<< HEAD:src/main/java/com/github/mittyrobotics/climber/Winch.java
-    public void moveLeftWinch(double position) {        //TODO move this to a command
-=======
-    public void moveLeftWinch(double position) {
-
-<<<<<<< HEAD:src/main/java/com/github/mittyrobotics/climber/Winch.java
->>>>>>> 7a3314c7a3f5cae8dbdbdac93da7e10bddaac41e:src/main/java/com/github/mittyrobotics/Subsystems/Winch.java
-=======
->>>>>>> 7a3314c7a3f5cae8dbdbdac93da7e10bddaac41e:src/main/java/com/github/mittyrobotics/Subsystems/Winch.java
-        while (Math.abs(position - leftSpark.getAlternateEncoder().getPosition()) < 1) {
-            double tempPos = Math.min(position - leftSpark.getAlternateEncoder().getPosition(),
-                    leftSpark.getAlternateEncoder().getPosition() + 10);
-            leftController.setReference(tempPos, ControlType.kPosition);
-        }
-    }
-
-    public void moveRightWinch(double position) {       //TODO move this to a command
-        while (Math.abs(position - rightSpark.getAlternateEncoder().getPosition()) < 1) {
-            double tempPos = Math.min(position - rightSpark.getAlternateEncoder().getPosition(),
-                    rightSpark.getAlternateEncoder().getPosition() + 10);
-            rightController.setReference(tempPos, ControlType.kPosition);
-        }
     }
 
 }
+
