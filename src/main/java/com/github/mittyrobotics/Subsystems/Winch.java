@@ -44,7 +44,6 @@ public class Winch extends SubsystemBase {
     }
 
     public void moveLeftWinch(double position) {
-
         while (Math.abs(position - leftSpark.getAlternateEncoder().getPosition()) < 1) {
             double tempPos = Math.min(position - leftSpark.getAlternateEncoder().getPosition(),
                     leftSpark.getAlternateEncoder().getPosition() + 10);
