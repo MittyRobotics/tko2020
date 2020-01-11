@@ -26,8 +26,11 @@ public class RampingCommand extends CommandBase {
 
         tempPosLeft = Math.min(pos - DriveTrainTalon.getInstance().getLeftEncoder(), DriveTrainTalon.getInstance().getLeftEncoder() + RAMP_RATE);
         tempPosRight = Math.min(pos - DriveTrainTalon.getInstance().getRightEncoder(), DriveTrainTalon.getInstance().getRightEncoder() + RAMP_RATE);
-        if(tempPosLeft == pos - DriveTrainTalon.getInstance().getLeftEncoder()){
+        if(tempPosLeft == (pos - DriveTrainTalon.getInstance().getLeftEncoder())){
             tempPosLeft = pos;
+        }
+        if(tempPosRight == (pos - DriveTrainTalon.getInstance().getRightEncoder())){
+            tempPosRight = pos;
         }
         DriveTrainTalon.getInstance().movePos(tempPosLeft, tempPosRight);
 

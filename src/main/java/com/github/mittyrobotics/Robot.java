@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     DriveTrainTalon.getInstance().resetEconder();
     //DriveTrainTalon.getInstance().movePos(48, 48);
-    CommandScheduler.getInstance().schedule(new RampingCommand(96));
+    CommandScheduler.getInstance().schedule(new RampingCommand(107));
 
   }
 
