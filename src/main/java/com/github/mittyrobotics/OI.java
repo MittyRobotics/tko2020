@@ -1,8 +1,13 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.climber.commands.MoveHookGroupDown;
+import com.github.mittyrobotics.climber.commands.MoveHookGroupUp;
+import com.github.mittyrobotics.climber.commands.MoveWinchGroupDown;
+import com.github.mittyrobotics.climber.commands.MoveWinchGroupUp;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
 	private XboxWheel xboxWheel;
@@ -41,6 +46,31 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
+		Button moveWinchDown = new Button() {
+			@Override
+			public boolean get() { return getJoystick1().getRawButtonPressed(1); }
+		};
+		moveWinchDown.whenPressed(new MoveWinchGroupDown());
 
+
+		Button moveWinchUp = new Button() {
+			@Override
+			public boolean get() { return getJoystick1().getRawButtonPressed(2); }
+		};
+		moveWinchUp.whenPressed(new MoveWinchGroupUp());
+
+
+		Button moveHookDown = new Button() {
+			@Override
+			public boolean get() { return getJoystick1().getRawButtonPressed(3); }
+		};
+		moveHookDown.whenPressed(new MoveHookGroupDown());
+
+
+		Button moveHookUp = new Button() {
+			@Override
+			public boolean get() { return getJoystick1().getRawButtonPressed(4); }
+		};
+		moveHookUp.whenPressed(new MoveHookGroupUp());
 	}
 }

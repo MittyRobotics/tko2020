@@ -11,4 +11,5 @@ public class Constants {
     public static final int LEFT_PISTON_REVERSE_ID = 1;
     public static final int RIGHT_PISTON_FORWARD_ID = 2;
     public static final int RIGHT_PISTON_REVERSE_ID = 3;
+    public static final double WINCH_TPI = 10;
 }

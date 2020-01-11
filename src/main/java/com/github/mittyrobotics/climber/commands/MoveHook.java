@@ -12,10 +12,8 @@ public class MoveHook extends CommandBase {
 
     public MoveHook(RobotSide side, ElevateDirection direction) {
         super();
-
         this.side = side;
         this.direction = direction;
-
         addRequirements(Hooks.getInstance());
     }
 
