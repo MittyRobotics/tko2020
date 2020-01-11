@@ -22,10 +22,13 @@ public class RampingCommand extends CommandBase {
     public void execute(){
         double tempPosLeft;
         double tempPosRight;
-        final double RAMP_RATE = 50;
+        final double RAMP_RATE = 15;
 
         tempPosLeft = Math.min(pos - DriveTrainTalon.getInstance().getLeftEncoder(), DriveTrainTalon.getInstance().getLeftEncoder() + RAMP_RATE);
         tempPosRight = Math.min(pos - DriveTrainTalon.getInstance().getRightEncoder(), DriveTrainTalon.getInstance().getRightEncoder() + RAMP_RATE);
+        if(tempPosLeft == pos - DriveTrainTalon.getInstance().getLeftEncoder()){
+            tempPosLeft = pos;
+        }
         DriveTrainTalon.getInstance().movePos(tempPosLeft, tempPosRight);
 
 
