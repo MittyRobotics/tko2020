@@ -24,5 +24,34 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-public class TurretAimbot {
+import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
+import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.path.following.PathFollower;
+import com.github.mittyrobotics.path.following.util.Odometry;
+import com.github.mittyrobotics.path.generation.Path;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class TurretAimbot extends CommandBase {
+
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void execute() {
+        
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
 }
