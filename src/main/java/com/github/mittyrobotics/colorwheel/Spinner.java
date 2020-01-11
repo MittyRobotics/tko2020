@@ -67,6 +67,12 @@ public class Spinner extends SubsystemBase {
     //Function to initialize the hardware
     public void initHardware() {
         talon1 = new WPI_TalonSRX(TALON_DEVICE_NUMBER);
+
+
+        m_colorMatcher.addColorMatch(kBlueTarget);
+        m_colorMatcher.addColorMatch(kGreenTarget);
+        m_colorMatcher.addColorMatch(kRedTarget);
+        m_colorMatcher.addColorMatch(kYellowTarget);
     }
 
     public void setMotorFast() {
@@ -81,5 +87,9 @@ public class Spinner extends SubsystemBase {
 
     public void setMotorOff() {
         talon1.set(ControlMode.PercentOutput, 0);
+    }
+
+    public String getColor() {
+        
     }
 }
