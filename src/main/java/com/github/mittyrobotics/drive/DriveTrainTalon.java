@@ -23,7 +23,7 @@ public class DriveTrainTalon extends SubsystemBase {
     private DriveTrainTalon(){
         super();
         setName("Example Subsystem");
-//        setDefaultCommand(new CurvatureSteering());
+        setDefaultCommand(new JoystickDrive_CarSteering());
     }
 
 
@@ -100,10 +100,12 @@ public class DriveTrainTalon extends SubsystemBase {
 	public double getRightEncoder(){
     	return rightDrive[0].getSelectedSensorPosition()/Constants.TICKS_PER_INCH;
 	}
-	public void resetEconder(){
+
+	public void resetEncoder(){
     	leftDrive[0].setSelectedSensorPosition(0);
     	rightDrive[0].setSelectedSensorPosition(0);
 	}
+
 	public WPI_TalonSRX getLeftTalon(){
     	return leftDrive[0];
 	}
