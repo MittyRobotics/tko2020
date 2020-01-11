@@ -12,7 +12,7 @@ public class SpinRevs extends CommandBase {
     }
     @Override
     public void initialize(){
-        Spinner.getInstance().setMotorOn();
+        Spinner.getInstance().setMotorFast();
 
     }
     @Override
