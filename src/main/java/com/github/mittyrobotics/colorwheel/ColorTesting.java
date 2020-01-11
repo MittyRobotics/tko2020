@@ -15,7 +15,10 @@ public class ColorTesting extends CommandBase {
     }
     @Override
     public void initialize(){
-        c = 1;
+        c = 0;
+        red = 0;
+        blue = 0;
+        green = 0;
     }
     @Override
     public void execute(){
@@ -27,6 +30,7 @@ public class ColorTesting extends CommandBase {
     }
     @Override
     public void end(boolean interrupted){
+        System.out.println(Spinner.getInstance().getColor());
         System.out.println("Red: "  + red/20);
         System.out.println("Blue: " + blue/20);
         System.out.println("Green: " + green/20);

@@ -9,7 +9,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     OI.getInstance().digitalInputControls();
-    ColorPiston.getInstance().initHardware();
+    //ColorPiston.getInstance().initHardware();
     Spinner.getInstance().initHardware();
   }
 
