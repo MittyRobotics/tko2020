@@ -1,19 +1,16 @@
 package com.github.mittyrobotics.colorwheel;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-import static com.github.mittyrobotics.colorwheel.Constants.talonDeviceNumber;
-import static com.github.mittyrobotics.colorwheel.Constants.distance;
+import static com.github.mittyrobotics.colorwheel.Constants.TALON_DEVICE_NUMBER;
 
 
 public class Spinner extends SubsystemBase {
     private WPI_TalonSRX talon1;
-    //Making it a Singleton
+    //Making it a single metric tonne
     private static Spinner instance;
 
     public static Spinner getInstance() {
@@ -36,12 +33,15 @@ public class Spinner extends SubsystemBase {
 
     //Function to initialize the hardware
     public void initHardware() {
-        talon1 = new WPI_TalonSRX(talonDeviceNumber);
+        talon1 = new WPI_TalonSRX(TALON_DEVICE_NUMBER);
+    }
 
+    public void setMotorOn() {
+        talon1.set(ControlMode.Velocity, 0.8);
 
     }
 
-    public void spin() {
-        talon1.set(ControlMode.Position, (float)distance);
+    public void setMotorOff() {
+        talon1.set(ControlMode.PercentOutput, 0);
     }
 }

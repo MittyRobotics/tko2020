@@ -1,8 +1,10 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.colorwheel.SpinRevs;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
 	private XboxWheel xboxWheel;
@@ -10,6 +12,7 @@ public class OI {
 	private Joystick joystick1;
 	private Joystick joystick2;
 	private static OI instance;
+
 	public static OI getInstance(){
 		if(instance == null){
 			instance = new OI();
@@ -41,6 +44,14 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
+		Button spinButton = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButtonPressed(4);
+			}
+		};
+
+		spinButton.whenPressed(new SpinRevs());
 
 	}
 }

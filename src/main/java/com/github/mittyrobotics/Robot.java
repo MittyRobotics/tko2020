@@ -1,5 +1,7 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.colorwheel.ColorPiston;
+import com.github.mittyrobotics.colorwheel.Spinner;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -7,6 +9,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     OI.getInstance().digitalInputControls();
+    ColorPiston.getInstance().initHardware();
+    Spinner.getInstance().initHardware();
   }
 
   @Override

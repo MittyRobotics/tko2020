@@ -23,7 +23,7 @@ public class ColorPiston extends SubsystemBase {
     }
 
     public void initHardware() {
-        piston = new DoubleSolenoid(solenoidFowardChannel,solenoidReverseChannel);
+        piston = new DoubleSolenoid(SOLENOID_FOWARD_CHANNEL, SOLENOID_REVERSE_CHANNEL);
 
     }
 

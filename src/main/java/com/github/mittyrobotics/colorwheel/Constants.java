@@ -1,8 +1,8 @@
 package com.github.mittyrobotics.colorwheel;
 
 public class Constants {
-    public static final int solenoidFowardChannel = 0;
-    public static final int solenoidReverseChannel = 1;
-    public static final int talonDeviceNumber = 0;
-    public static final int distance = 4000;
+    public static final int SOLENOID_FOWARD_CHANNEL = 0;
+    public static final int SOLENOID_REVERSE_CHANNEL = 1;
+    public static final int TALON_DEVICE_NUMBER = 0;
+    public static final int ONE_REV_TIME_MS = 1;
 }
