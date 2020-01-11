@@ -33,14 +33,14 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     DriveTrainTalon.getInstance().resetEconder();
     //DriveTrainTalon.getInstance().movePos(48, 48);
-    CommandScheduler.getInstance().schedule(new RampingCommand(107));
+    CommandScheduler.getInstance().schedule(new RampingCommand(110));
 
   }
 
   @Override
   public void autonomousPeriodic() {
-    System.out.println(DriveTrainTalon.getInstance().getLeftEncoder());
-    System.out.println(DriveTrainTalon.getInstance().getRightEncoder());
+    System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
+    System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
   }
 
   @Override

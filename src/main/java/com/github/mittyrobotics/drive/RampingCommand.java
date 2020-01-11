@@ -24,25 +24,29 @@ public class RampingCommand extends CommandBase {
         double tempPosRight;
         final double RAMP_RATE = 15;
 
-        tempPosLeft = Math.min(pos - DriveTrainTalon.getInstance().getLeftEncoder(), DriveTrainTalon.getInstance().getLeftEncoder() + RAMP_RATE);
-        tempPosRight = Math.min(pos - DriveTrainTalon.getInstance().getRightEncoder(), DriveTrainTalon.getInstance().getRightEncoder() + RAMP_RATE);
-        if(tempPosLeft == (pos - DriveTrainTalon.getInstance().getLeftEncoder())){
+        tempPosLeft = DriveTrainTalon.getInstance().getLeftEncoder() + RAMP_RATE;
+        tempPosRight = DriveTrainTalon.getInstance().getRightEncoder() + RAMP_RATE;
+        if(RAMP_RATE > (pos - DriveTrainTalon.getInstance().getLeftEncoder())){
             tempPosLeft = pos;
         }
-        if(tempPosRight == (pos - DriveTrainTalon.getInstance().getRightEncoder())){
+        if(RAMP_RATE > (pos - DriveTrainTalon.getInstance().getRightEncoder())){
             tempPosRight = pos;
         }
-        DriveTrainTalon.getInstance().movePos(tempPosLeft, tempPosRight);
+//        if(DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget() != pos * Constants.TICKS_PER_INCH && DriveTrainTalon.getInstance().getRightTalon().getClosedLoopTarget() != pos * Constants.TICKS_PER_INCH){
+            DriveTrainTalon.getInstance().movePos(tempPosLeft, tempPosRight);
+//        }
+        System.out.println("target: "+DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget()/Constants.TICKS_PER_INCH);
 
 
     }
     @Override
     public void end(boolean interrupted){
+        System.out.println("end");
         DriveTrainTalon.getInstance().tankDrive(0, 0);
     }
     @Override
     public boolean isFinished() {
-//        return ((Math.abs(pos - DriveTrainTalon.getInstance().getLeftEncoder()) < 1) && (Math.abs(pos - DriveTrainTalon.getInstance().getLeftEncoder()) < 1));
-        return false;
+        return ((Math.abs(pos - DriveTrainTalon.getInstance().getLeftEncoder()) < .5) && (Math.abs(pos - DriveTrainTalon.getInstance().getLeftEncoder()) < .5));
+//        return false;
     }
 }
