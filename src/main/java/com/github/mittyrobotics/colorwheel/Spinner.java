@@ -22,6 +22,7 @@ public class Spinner extends SubsystemBase {
      */
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
+
     /**
      * A Rev Color Sensor V3 object is constructed with an I2C port as a
      * parameter. The device will be automatically initialized with default
@@ -111,6 +112,15 @@ public class Spinner extends SubsystemBase {
                 colorString = " ";
             }
         return colorString;
+    }
+
+    public double[] getRGB() {
+        Color detectedColor = m_colorSensor.getColor();
+        double[] colors = new double[3];
+        colors[0] = detectedColor.red;
+        colors[1] = detectedColor.blue;
+        colors[2] = detectedColor.green;
+        return colors;
     }
 
     public char getGameMessage() {

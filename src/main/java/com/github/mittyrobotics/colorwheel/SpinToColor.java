@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class SpinToColor extends CommandBase {
     public SpinToColor() {
         super();
+        addRequirements(Spinner.getInstance());
     }
     @Override
     public void initialize(){
