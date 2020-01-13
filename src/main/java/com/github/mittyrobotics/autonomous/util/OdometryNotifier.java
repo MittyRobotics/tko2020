@@ -36,18 +36,19 @@ public class OdometryNotifier implements Runnable {
      *
      * @param updateFrequency the time in seconds between each {@link Odometry} update call.
      */
-    public OdometryNotifier(double updateFrequency){
+    public OdometryNotifier(double updateFrequency) {
         this.updateFrequency = updateFrequency;
         Notifier notifier = new Notifier(this);
         notifier.startPeriodic(updateFrequency);
     }
+
     @Override
     public void run() {
         //TODO: Get left and right encoder position and heading value from drivetrain and gyro
         double leftEncoderPosition = 0;
         double rightEncoderPosition = 0;
         double heading = 0;
-        Odometry.getInstance().update(leftEncoderPosition,rightEncoderPosition,heading);
+        Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
     }
 
     public double getUpdateFrequency() {

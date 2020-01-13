@@ -8,8 +8,8 @@ public class GraphWaypoints {
     public static void main(String[] args) {
         Graph graph = new Graph();
         graph.setVisible(true);
-        for(int i = 0; i < AutonCoordinates.FIELD_WAYPOINTS.length; i++){
-            graph.addDataset(GraphManager.getInstance().graphArrow(AutonCoordinates.FIELD_WAYPOINTS[i],0,0,
+        for (int i = 0; i < AutonCoordinates.FIELD_WAYPOINTS.length; i++) {
+            graph.addDataset(GraphManager.getInstance().graphArrow(AutonCoordinates.FIELD_WAYPOINTS[i], 0, 0,
                     AutonCoordinates.FIELD_WAYPOINTS_NAMES[i],
                     null));
         }

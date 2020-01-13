@@ -39,40 +39,40 @@ public class TurretComputer {
 
     /**
      * Returns the intersection height of the ball trajectory and the target line (y intercept).
-     *
+     * <p>
      * Uses this trajectory calculator: https://www.desmos.com/calculator/xy3t8xsgg2.
-     *
+     * <p>
      * This assumes the shooter is directly facing the target such that the 3D trajectory of the ball will intersect
      * the top-down center of the target. This calculates the height that the trajectory will hit the target plane
      * given the initial velocity, angle, and distance of the ball.
-     *
+     * <p>
      * This can then be used to experimentally optimize the trajectory to find the velocity and angle where the vertex
      * of the trajectory is closest to the y intercept.
      *
      * @param velocity the initial velocity of the ball
-     * @param angle the initial angle of the ball
+     * @param angle    the initial angle of the ball
      * @param distance the distance away from the target
      * @return the intersection height of the parabola and the target location.
      */
-    public double computeHitLocation(double velocity, double angle, double distance){
+    public double computeHitLocation(double velocity, double angle, double distance) {
         final double v = velocity; //ft/s
         final double s = Math.toRadians(angle); //rad
         final double d = distance; //ft
-        final double u = AutonConstants.SHOOTER_OUTPUT_HEIGHT/12; //ft
+        final double u = AutonConstants.SHOOTER_OUTPUT_HEIGHT / 12; //ft
         final double g = 32.174; //ft/s^2
 
-        return (-g * d*d) / (2 * v*v * Math.cos(s) * Math.cos(s)) + d * Math.tan(s) + u;
+        return (-g * d * d) / (2 * v * v * Math.cos(s) * Math.cos(s)) + d * Math.tan(s) + u;
     }
 
-    public Position computeTrajectoryMaximum(double velocity, double angle, double distance){
+    public Position computeTrajectoryMaximum(double velocity, double angle, double distance) {
         return new Position();
     }
 
-    public ShooterSetpoint optimizeTrajectory(double velocity, double angle, double distance){
-        Position maximum = computeTrajectoryMaximum(velocity,angle,distance);
-        Position hitLocation = new Position(0,computeHitLocation(velocity,angle,distance));
-        Position desiredLocation = new Position(0,AutonConstants.HIGH_TARGET_HEIGHT);
+    public ShooterSetpoint optimizeTrajectory(double velocity, double angle, double distance) {
+        Position maximum = computeTrajectoryMaximum(velocity, angle, distance);
+        Position hitLocation = new Position(0, computeHitLocation(velocity, angle, distance));
+        Position desiredLocation = new Position(0, AutonConstants.HIGH_TARGET_HEIGHT);
 
-        return new ShooterSetpoint(velocity,angle);
+        return new ShooterSetpoint(velocity, angle);
     }
 }

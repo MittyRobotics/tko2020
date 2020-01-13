@@ -28,7 +28,7 @@ public class ShooterSetpoint {
     private final double velocity;
     private final double angle;
 
-    public ShooterSetpoint(double velocity, double angle){
+    public ShooterSetpoint(double velocity, double angle) {
         this.velocity = velocity;
         this.angle = angle;
     }

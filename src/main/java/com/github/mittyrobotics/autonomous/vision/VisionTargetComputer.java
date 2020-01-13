@@ -34,6 +34,7 @@ public class VisionTargetComputer {
     }
 
     public double getTargetDistance(double pitch) {
-        return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
+        return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
+                Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
     }
 }

@@ -128,11 +128,11 @@ public class Translate2dTrajectory extends CommandBase {
 
     /**
      * Returns whether or not the command is finished.
-     *
+     * <p>
      * It will return the {@link PathFollower} <code>isFinished()</code> command, which takes in the robot's current
      * {@link Transform} from {@link Odometry} and a distance tolerance to stop the command when within that distance
      * to the end position of the {@link Path}.
-     *
+     * <p>
      * In this case, it will return true if the robot {@link Transform} is within 2 inches of the end of the path.
      *
      * @return whether or not the command is finished.

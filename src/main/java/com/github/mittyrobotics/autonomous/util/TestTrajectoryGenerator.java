@@ -32,21 +32,22 @@ public class TestTrajectoryGenerator {
     public static void main(String[] args) {
         Graph graph = new Graph();
         graph.setVisible(true);
-        graph.getContentPane().setSize(800,600);
-        graph.resizeGraph(0,600.0/60,0,800.0/60);
+        graph.getContentPane().setSize(800, 600);
+        graph.resizeGraph(0, 600.0 / 60, 0, 800.0 / 60);
         XYSeriesCollectionWithRender dataset = new XYSeriesCollectionWithRender();
-        XYSeries series = calculateSeries(10,45,0.0,-0,0.1417476,0.024829,1.225,9.8,"Perfect trajectory");
-        XYSeries series1 = calculateSeries(10,45,0.001,-0,0.1417476,0.024829,1.225,9.8, "Trajectory w/ drag");
-        XYSeries series2 = calculateSeries(10,45,0.001,-0.05,0.1417476,0.024829,1.225,9.8, "Trajectory w/ drag and " +
-                "magnus");
+        XYSeries series = calculateSeries(10, 45, 0.0, -0, 0.1417476, 0.024829, 1.225, 9.8, "Perfect trajectory");
+        XYSeries series1 = calculateSeries(10, 45, 0.001, -0, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ drag");
+        XYSeries series2 =
+                calculateSeries(10, 45, 0.001, -0.05, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ drag and " +
+                        "magnus");
         dataset.addSeries(series);
         dataset.addSeries(series1);
         dataset.addSeries(series2);
         graph.addDataset(dataset);
-
     }
+
     public static XYSeries calculateSeries(double v, double a, double b, double Cl, double m, double A, double p,
-                                           double g, String name){
+                                           double g, String name) {
         double vx = v * Math.cos(Math.toRadians(a));
         double vy = v * Math.sin(Math.toRadians(a));
         double Fx =

@@ -29,7 +29,7 @@ import com.github.mittyrobotics.autonomous.util.TurretComputer;
 
 public class AutonFunctionTest {
     public static void main(String[] args) {
-        ShooterSetpoint optimizedSetpoint = TurretComputer.getInstance().optimizeTrajectory(45.66,25.5,20);
+        ShooterSetpoint optimizedSetpoint = TurretComputer.getInstance().optimizeTrajectory(45.66, 25.5, 20);
         System.out.println(optimizedSetpoint.getAngle() + " " + optimizedSetpoint.getVelocity());
     }
 }
