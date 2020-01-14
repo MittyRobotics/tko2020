@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
+import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.visualization.graphs.Graph;
 import com.github.mittyrobotics.visualization.util.XYSeriesCollectionWithRender;
 import org.jfree.data.xy.XYSeries;
@@ -35,29 +36,39 @@ public class TestTrajectoryGenerator {
         graph.getContentPane().setSize(800, 600);
         graph.resizeGraph(0, 600.0 / 60, 0, 800.0 / 60);
 
-        double v = 47;
+        double v = 12.53;
         double a = 39.7;
 
         double b = 0.001;
-        double Cl = 0.1;
+        double Cl = 0.13;
 
         XYSeriesCollectionWithRender dataset = new XYSeriesCollectionWithRender();
-        XYSeries series = calculateSeries(v*0.3048, a, 0.0, 0.0, 0.1417476, 0.024829, 1.225, 9.8, "Perfect trajectory");
-        XYSeries series1 = calculateSeries(v*0.3048, a, b, 0.0, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ " +
+        XYSeries series = calculateSeries(v, a, 0.0, 0.0, 0.1417476, 0.024829, 1.225, 9.8, "Perfect trajectory");
+        XYSeries series1 = calculateSeries(v, a, b, 0.0, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ " +
                 "drag");
         XYSeries series2 =
-                calculateSeries(v*0.3048, a, b, Cl, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ drag and " +
+                calculateSeries(v, a, b, Cl, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ drag and " +
                         "magnus");
+
+
         XYSeries empiricalSeries1 = graphCubicFunction(
                 .0009271,
                 .01013,
                 -.8279,
                 -.08069,
                 "Empirical Series 1");
-        dataset.addSeries(series);
-        dataset.addSeries(series1);
+
+        XYSeries empiricalSeries2 = graphCubicFunction(
+                .002098,
+                .007780,
+                -.9177,
+                -.1390,
+                "Empirical Series 2");
+        //dataset.addSeries(series);
+        //dataset.addSeries(series1);
         dataset.addSeries(series2);
         dataset.addSeries(empiricalSeries1);
+        dataset.addSeries(empiricalSeries2);
         graph.addDataset(dataset);
     }
 
@@ -73,7 +84,7 @@ public class TestTrajectoryGenerator {
         double y = 2e-16;
         XYSeries series = new XYSeries(name, false);
         while (y > 0) {
-            double t = 0.001;
+            double t = 0.01;
             series.add(x, y);
             x += vx * t;
             y += vy * t;
@@ -92,7 +103,7 @@ public class TestTrajectoryGenerator {
         double x = -0.1;
         double y = 2e-16;
         while(y > 0){
-            x -= 0.001;
+            x -= 0.1;
             y = (a*(x*x*x)+b*(x*x)+c*x+d);
             series.add(-x*0.3048,y*0.3048);
         }
