@@ -7,7 +7,7 @@ import static com.github.mittyrobotics.colorwheel.Constants.ONE_REV_TIME_MS;
 
 public class SpinRevs extends CommandBase {
     //counter
-    int count;
+   private int count;
 
     public SpinRevs() {
         super();

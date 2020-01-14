@@ -1,17 +1,16 @@
 package com.github.mittyrobotics.colorwheel;
 
-import com.github.mittyrobotics.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 public class ColorTesting extends CommandBase {
     //counter
-    int count;
+    private int count;
 
     //rgb values
-    double red;
-    double green;
-    double blue;
+    private double red;
+    private double green;
+    private double blue;
     public ColorTesting() {
         super();
         addRequirements(Spinner.getInstance());

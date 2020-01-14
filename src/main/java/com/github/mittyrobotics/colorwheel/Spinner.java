@@ -55,7 +55,7 @@ public class Spinner extends SubsystemBase {
     public void initHardware() {
         //initialize talon
         talon1 = new WPI_TalonSRX(TALON_DEVICE_NUMBER);
-
+        //TODO setup encoder & PID
         //sets color match
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
