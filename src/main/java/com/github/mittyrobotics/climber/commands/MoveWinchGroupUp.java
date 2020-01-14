@@ -7,9 +7,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class MoveWinchGroupUp extends ParallelCommandGroup {
 
-    private final double upPosition = 5;
-
     public MoveWinchGroupUp(){
+        double upPosition = 5; //TODO should be in Constants class
         addCommands(new MoveWinch(upPosition, RobotSide.LEFT), new MoveWinch(upPosition, RobotSide.RIGHT));
     }
 }

@@ -7,7 +7,7 @@ public class Hooks extends SubsystemBase {
     private static Hooks ourInstance = new Hooks();
     private DoubleSolenoid leftPiston, rightPiston;
 
-    public Hooks(){
+    private Hooks(){
         super();
     }
     public static Hooks getInstance() {
@@ -19,6 +19,7 @@ public class Hooks extends SubsystemBase {
         rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);
     }
 
+    //TODO suggestion maybe you can use your enums in these functions as well
     public void pushRightUp(){
         rightPiston.set(DoubleSolenoid.Value.kForward);
     }
