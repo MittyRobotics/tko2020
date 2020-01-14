@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.util;
+package com.github.mittyrobotics.autonomous.util.turret;
 
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.visualization.graphs.Graph;

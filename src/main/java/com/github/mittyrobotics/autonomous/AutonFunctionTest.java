@@ -25,7 +25,7 @@
 package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.util.ShooterSetpoint;
-import com.github.mittyrobotics.autonomous.util.TurretComputer;
+import com.github.mittyrobotics.autonomous.util.turret.TurretComputer;
 
 public class AutonFunctionTest {
     public static void main(String[] args) {
