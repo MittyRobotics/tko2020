@@ -23,8 +23,8 @@ public class DriveTrainTalon extends SubsystemBase {
     private DriveTrainTalon(){
         super();
         setName("Example Subsystem");
-        setDefaultCommand(new JoystickDrive_CarSteering());
     }
+
 
 
     @Override
@@ -63,8 +63,10 @@ public class DriveTrainTalon extends SubsystemBase {
 	    leftDrive[1].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[0].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[1].setNeutralMode(NeutralMode.Brake);
+		setDefaultCommand(new JoystickDrive_CarSteering());
 
-    }
+
+	}
 
 	public void tankDrive(double left, double right) {
 		if (Math.abs(left) < 0.1) {
