@@ -34,15 +34,30 @@ public class TestTrajectoryGenerator {
         graph.setVisible(true);
         graph.getContentPane().setSize(800, 600);
         graph.resizeGraph(0, 600.0 / 60, 0, 800.0 / 60);
+
+        double v = 47;
+        double a = 39.7;
+
+        double b = 0.001;
+        double Cl = 0.1;
+
         XYSeriesCollectionWithRender dataset = new XYSeriesCollectionWithRender();
-        XYSeries series = calculateSeries(10, 45, 0.0, -0, 0.1417476, 0.024829, 1.225, 9.8, "Perfect trajectory");
-        XYSeries series1 = calculateSeries(10, 45, 0.001, -0, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ drag");
+        XYSeries series = calculateSeries(v*0.3048, a, 0.0, 0.0, 0.1417476, 0.024829, 1.225, 9.8, "Perfect trajectory");
+        XYSeries series1 = calculateSeries(v*0.3048, a, b, 0.0, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ " +
+                "drag");
         XYSeries series2 =
-                calculateSeries(10, 45, 0.001, -0.05, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ drag and " +
+                calculateSeries(v*0.3048, a, b, Cl, 0.1417476, 0.024829, 1.225, 9.8, "Trajectory w/ drag and " +
                         "magnus");
+        XYSeries empiricalSeries1 = graphCubicFunction(
+                .0009271,
+                .01013,
+                -.8279,
+                -.08069,
+                "Empirical Series 1");
         dataset.addSeries(series);
         dataset.addSeries(series1);
         dataset.addSeries(series2);
+        dataset.addSeries(empiricalSeries1);
         graph.addDataset(dataset);
     }
 
@@ -68,6 +83,18 @@ public class TestTrajectoryGenerator {
                     (1 / (2 * m)) * p * A * Cl * vx * Math.sqrt(vx * vx + vy * vy);
             Fy = -m * g - b * vy * Math.sqrt(vx * vx + vy * vy) -
                     (1 / 2.0) * p * A * Cl * vy * Math.sqrt(vx * vx + vy * vy);
+        }
+        return series;
+    }
+
+    public static XYSeries graphCubicFunction(double a, double b, double c, double d, String name){
+        XYSeries series = new XYSeries(name,false);
+        double x = -0.1;
+        double y = 2e-16;
+        while(y > 0){
+            x -= 0.001;
+            y = (a*(x*x*x)+b*(x*x)+c*x+d);
+            series.add(-x*0.3048,y*0.3048);
         }
         return series;
     }
