@@ -17,7 +17,7 @@ public class Shooter extends SubsystemBase {
         }
         return instance;
     }
-    private Shooter(){
+    public Shooter(){
         super();
         setName("Shooter");
     }
@@ -27,14 +27,13 @@ public class Shooter extends SubsystemBase {
         spark1.restoreFactoryDefaults();
     }
 
-    private void manualControl(double speed){
-        if(Math.abs(speed) > 0.05){
+    public void manualControl(double speed){
+        if(Math.abs(speed) >= 0.05){
             spark1.set(speed);
         }
         else{
             spark1.stopMotor();
         }
-
     }
     public CANSparkMax getSpark1(){ //TODO return a CANPIDController that uses spark1 instead
         return spark1;
