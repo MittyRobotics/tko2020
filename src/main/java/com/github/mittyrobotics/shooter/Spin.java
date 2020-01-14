@@ -16,7 +16,7 @@ public class Spin extends CommandBase {
     }
     @Override
     public void initialize(){
-        controller = new CANPIDController(Shooter.getInstance().getspark1());
+        controller = new CANPIDController(Shooter.getInstance().getSpark1());
         controller.setP(ControllerP);
         controller.setI(ControllerI);
         controller.setD(ControllerD);
@@ -26,7 +26,7 @@ public class Spin extends CommandBase {
     @Override
     public void end(boolean interrupted){
         controller.setReference(0, ControlType.kVelocity);
-        Shooter.getInstance().getspark1().set(0);
+        Shooter.getInstance().getSpark1().set(0);
     }
     @Override
     public boolean isFinished(){

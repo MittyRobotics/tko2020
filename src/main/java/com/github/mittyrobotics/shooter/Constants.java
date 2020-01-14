@@ -1,6 +1,6 @@
 package com.github.mittyrobotics.shooter;
 
-public class Constants {
+public class Constants { //TODO spin is going to be the same on advanced and not advanced shooter
     //Spin
     public static final double ControllerP = 0;
     public static final double ControllerI = 0;

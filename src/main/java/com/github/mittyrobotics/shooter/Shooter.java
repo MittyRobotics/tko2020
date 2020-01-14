@@ -1,10 +1,8 @@
 package com.github.mittyrobotics.shooter;
 
 
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
@@ -29,7 +27,7 @@ public class Shooter extends SubsystemBase {
         spark1.restoreFactoryDefaults();
     }
 
-    private void ManualControl(double speed){
+    private void manualControl(double speed){
         if(Math.abs(speed) > 0.05){
             spark1.set(speed);
         }
@@ -38,7 +36,7 @@ public class Shooter extends SubsystemBase {
         }
 
     }
-    public CANSparkMax getspark1(){
+    public CANSparkMax getSpark1(){ //TODO return a CANPIDController that uses spark1 instead
         return spark1;
     }
 }
