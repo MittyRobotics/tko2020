@@ -39,8 +39,8 @@ public class TestTrajectoryGenerator {
         double v = 12.53;
         double a = 39.7;
 
-        double b = 0.001;
-        double Cl = 0.13;
+        double b = 0.01;
+        double Cl = 0;
 
         XYSeriesCollectionWithRender dataset = new XYSeriesCollectionWithRender();
         XYSeries series = calculateSeries(v, a, 0.0, 0.0, 0.1417476, 0.024829, 1.225, 9.8, "Perfect trajectory");
@@ -86,12 +86,15 @@ public class TestTrajectoryGenerator {
         while (y > 0) {
             double t = 0.01;
             series.add(x, y);
+
             x += vx * t;
             y += vy * t;
             vx += Fx * t / m;
             vy += Fy * t / m;
+            v = Math.sqrt(vx*vx+vy*vy);
+            Cl = -((39.37008*v)/3.5)/(v*39.37008);
             Fx = -b * vx * Math.sqrt(vx * vx + vy * vy) -
-                    (1 / (2 * m)) * p * A * Cl * vx * Math.sqrt(vx * vx + vy * vy);
+                    (1 / (2.0)) * p * A * Cl * vx * Math.sqrt(vx * vx + vy * vy);
             Fy = -m * g - b * vy * Math.sqrt(vx * vx + vy * vy) -
                     (1 / 2.0) * p * A * Cl * vy * Math.sqrt(vx * vx + vy * vy);
         }
