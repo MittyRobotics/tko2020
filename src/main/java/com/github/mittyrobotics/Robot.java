@@ -4,6 +4,7 @@ import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.drive.RampingCommand;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
@@ -15,7 +16,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
+    //CommandScheduler.getInstance().run();
 
   }
 
@@ -31,16 +32,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-//    DriveTrainTalon.getInstance().resetEncoder();
-    //DriveTrainTalon.getInstance().movePos(48, 48);
+    CommandScheduler.getInstance().cancelAll();
+    DriveTrainTalon.getInstance().resetEncoder();
+    //DriveTrainTalon.getInstance().movePos(24, 24);
 //    CommandScheduler.getInstance().schedule(new RampingCommand(110));
 
   }
 
   @Override
   public void autonomousPeriodic() {
-//    System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
-//    System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
+    DriveTrainTalon.getInstance().tankVelocity(5, 5);
+//      System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
+//      System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
+      System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+      System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
   }
 
   @Override

@@ -63,7 +63,7 @@ public class DriveTrainTalon extends SubsystemBase {
 	    leftDrive[1].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[0].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[1].setNeutralMode(NeutralMode.Brake);
-		setDefaultCommand(new JoystickDrive_CarSteering());
+		//setDefaultCommand(new JoystickDrive_CarSteering());
 
 
 	}
@@ -90,6 +90,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		right *= Constants.TICKS_PER_INCH;
 		leftDrive[0].set(ControlMode.Velocity, left / 10);
 		rightDrive[0].set(ControlMode.Velocity, right/ 10);
+		System.out.println(left + " " + right);
 	}
 	public void movePos(double left, double right){
     	leftDrive[0].set(ControlMode.Position, left * Constants.TICKS_PER_INCH);
@@ -101,6 +102,13 @@ public class DriveTrainTalon extends SubsystemBase {
 	}
 	public double getRightEncoder(){
     	return rightDrive[0].getSelectedSensorPosition()/Constants.TICKS_PER_INCH;
+	}
+
+	public double getLeftEncoderVelocity() {
+    	return (leftDrive[0].getSelectedSensorVelocity()/Constants.TICKS_PER_INCH)*10;
+	}
+	public double getRightEncoderVelocity() {
+		return (rightDrive[0].getSelectedSensorVelocity()/Constants.TICKS_PER_INCH)*10;
 	}
 
 	public void resetEncoder(){
