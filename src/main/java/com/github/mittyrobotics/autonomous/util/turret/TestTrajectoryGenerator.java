@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.autonomous.util.turret;
 
-import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.visualization.graphs.Graph;
 import com.github.mittyrobotics.visualization.util.XYSeriesCollectionWithRender;
 import org.jfree.data.xy.XYSeries;
@@ -91,8 +90,8 @@ public class TestTrajectoryGenerator {
             y += vy * t;
             vx += Fx * t / m;
             vy += Fy * t / m;
-            v = Math.sqrt(vx*vx+vy*vy);
-            Cl = -((39.37008*v)/3.5)/(v*39.37008);
+            v = Math.sqrt(vx * vx + vy * vy);
+            Cl = -((39.37008 * v) / 3.5) / (v * 39.37008);
             Fx = -b * vx * Math.sqrt(vx * vx + vy * vy) -
                     (1 / (2.0)) * p * A * Cl * vx * Math.sqrt(vx * vx + vy * vy);
             Fy = -m * g - b * vy * Math.sqrt(vx * vx + vy * vy) -
@@ -101,14 +100,14 @@ public class TestTrajectoryGenerator {
         return series;
     }
 
-    public static XYSeries graphCubicFunction(double a, double b, double c, double d, String name){
-        XYSeries series = new XYSeries(name,false);
+    public static XYSeries graphCubicFunction(double a, double b, double c, double d, String name) {
+        XYSeries series = new XYSeries(name, false);
         double x = -0.1;
         double y = 2e-16;
-        while(y > 0){
+        while (y > 0) {
             x -= 0.1;
-            y = (a*(x*x*x)+b*(x*x)+c*x+d);
-            series.add(-x*0.3048,y*0.3048);
+            y = (a * (x * x * x) + b * (x * x) + c * x + d);
+            series.add(-x * 0.3048, y * 0.3048);
         }
         return series;
     }
