@@ -22,7 +22,6 @@ public class Hooks extends SubsystemBase {
     }
 
     public void push(RobotSide side, ElevateDirection direction) {
-
         if (side == RobotSide.LEFT) {
             if (direction == ElevateDirection.UP) {
                 leftPiston.set(DoubleSolenoid.Value.kForward);
@@ -30,7 +29,6 @@ public class Hooks extends SubsystemBase {
                 leftPiston.set(DoubleSolenoid.Value.kReverse);
             }
         }
-
         else if (side == RobotSide.RIGHT) {
             if (direction == ElevateDirection.UP) {
                 rightPiston.set(DoubleSolenoid.Value.kForward);
@@ -39,7 +37,4 @@ public class Hooks extends SubsystemBase {
             }
         }
     }
-
-
-
 }
