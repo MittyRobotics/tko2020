@@ -19,13 +19,13 @@ public class MoveWinch extends CommandBase {
     }
 
     @Override
-    public void initialize(){ //TODO change code to return CANPIDController instead of spark
+    public void initialize(){
         // Initialize the SPARKS for the given side (specified in constructor)
         if (side == RobotSide.LEFT) {
-            controller = new CANPIDController(Winch.getInstance().getLeftSpark());
+            controller = Winch.getInstance().getLeftController();
         }
         else {
-            controller = new CANPIDController(Winch.getInstance().getRightSpark());
+            controller = Winch.getInstance().getRightController();
         }
 
         // setup PID

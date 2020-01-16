@@ -13,7 +13,7 @@ public class Winch extends SubsystemBase {
 
     private CANSparkMax leftSpark;
     private CANSparkMax rightSpark;
-    private CANPIDController leftController, rightController; //TODO why are these here
+    private CANPIDController leftController, rightController;
 
     private Winch() {
         super();
@@ -29,20 +29,21 @@ public class Winch extends SubsystemBase {
 
         leftSpark.restoreFactoryDefaults();
         rightSpark.restoreFactoryDefaults();
+
+        leftController = new CANPIDController(leftSpark);
+        rightController = new CANPIDController(rightSpark);
     }
 
-    //TODO change this to return CANPIDController with leftSpark
-    public CANSparkMax getLeftSpark(){
-        return leftSpark;
+    public CANPIDController getLeftController(){
+        return leftController;
     }
 
     public CANEncoder getLeftEncoder(){
         return leftSpark.getEncoder();
     }
 
-    //TODO change this to return CANPIDController with rightSpark
-    public CANSparkMax getRightSpark(){
-        return rightSpark;
+    public CANPIDController getRightController(){
+        return rightController;
     }
 
     public CANEncoder getRightEncoder(){

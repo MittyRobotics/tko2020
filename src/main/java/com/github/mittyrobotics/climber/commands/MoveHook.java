@@ -10,6 +10,7 @@ public class MoveHook extends CommandBase {
     private RobotSide side;
     private ElevateDirection direction;
 
+
     public MoveHook(RobotSide side, ElevateDirection direction) {
         super();
         this.side = side;
@@ -28,7 +29,6 @@ public class MoveHook extends CommandBase {
             else if (direction == ElevateDirection.DOWN) {
                 Hooks.getInstance().pushLeftDown();
             }
-
         }
         // same as above but for right side of robot
         else if (side == RobotSide.RIGHT) {
