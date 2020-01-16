@@ -24,13 +24,22 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.vision.Limelight;
 
-public class VisionManager {
+public class VisionManager implements Runnable {
     private static VisionManager instance = new VisionManager();
 
     public static VisionManager getInstance() {
         return instance;
+    }
+
+    private double visionDistance;
+
+    @Override
+    public void run() {
+        Limelight.getInstance().updateLimelightValues();
+        this.visionDistance = computeVisionDistance(Limelight.getInstance().getPitchToTarget());
     }
 
     /**
@@ -40,5 +49,14 @@ public class VisionManager {
      */
     public boolean isSafeToUseVision() {
         return Limelight.getInstance().isHasValidTarget();
+    }
+
+    private double computeVisionDistance(double pitch){
+        return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
+                Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
+    }
+
+    public double getVisionDistance(){
+        return visionDistance;
     }
 }

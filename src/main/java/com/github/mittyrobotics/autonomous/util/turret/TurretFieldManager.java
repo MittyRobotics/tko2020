@@ -25,8 +25,13 @@
 package com.github.mittyrobotics.autonomous.util.turret;
 
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
+import com.github.mittyrobotics.autonomous.vision.VisionManager;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * TurretManager class. Manages the turret's position relative to the field and relative to vision targets.
@@ -38,43 +43,70 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * Robot-relative turret angle (<code>robotTurretAngle</code>): the angle of the turret relative to the robot. In other words,
  * the rotation of the turret offset from the turret's default location.
  */
-public class TurretManager extends CommandBase {
+public class TurretFieldManager extends TimerTask {
+    private TurretFieldManager instance;
 
-    private TurretManager instance;
+    private Transform fieldTurretTransform;
 
-    private TurretManager() {
-
-    }
-
-    public TurretManager getInstance() {
+    public TurretFieldManager getInstance() {
         if (instance == null) {
-            instance = new TurretManager();
+            instance = new TurretFieldManager();
         }
         return instance;
     }
 
+    public void start(long period){
+        Timer timer = new Timer();
+        timer.schedule(this,0, period);
+    }
+
+    @Override
+    public void run() {
+        double gyroAngle = 0; //TODO: Set this to the gyro angle
+        double robotTurretAngle = 0; //TODO: Set this to the robot-relative turret angle from Turret subsystem
+        double distanceToTarget = VisionManager.getInstance().getVisionDistance();
+        this.fieldTurretTransform = computeTurretTransform(gyroAngle,robotTurretAngle,distanceToTarget);
+    }
+
     /**
-     * Computes the {@link Transform} of the turret given parameters from the vision system.
+     * Computes the field-relative angle of the turret in the form of a {@link Rotation}.
+     *
+     * @param gyroAngle
+     * @param robotTurretAngle
+     * @return the field-relative angle of the turret in the form of a {@link Rotation}.
+     */
+    private Rotation computeFieldTurretAngle(double gyroAngle, double robotTurretAngle){
+        return new Rotation(gyroAngle-robotTurretAngle);
+    }
+
+    /**
+     * Computes the field-relative {@link Transform} of the turret given parameters from the vision system.
      *
      * @param distanceToTarget the distance from the turret to the vision target (not camera!).
-     * @param gyroAngle        the gyro angle of the robot.
-     * @param robotTurretAngle the robot-relative turret angle.
+     * @param gyroAngle
+     * @param robotTurretAngle
      * @return the {@link Transform} that makes up the turret's position relative to the field.
      */
-    public Transform computeTurretTransform(double distanceToTarget, double gyroAngle,
-                                            double robotTurretAngle) {
-        //Find field relative turret angle
-        double fieldTurretAngle = gyroAngle - robotTurretAngle;
+    private Transform computeTurretTransform(double gyroAngle, double robotTurretAngle, double distanceToTarget) {
+        if (distanceToTarget == -1000) {
+            return new Transform();
+        }
+
+        Rotation fieldTurretRotation = computeFieldTurretAngle(gyroAngle,robotTurretAngle);
 
         //Target relative position
         Transform turretPosition = new Transform(
-                -distanceToTarget * Math.cos(Math.toRadians(fieldTurretAngle)),
-                -distanceToTarget * Math.sin(Math.toRadians(fieldTurretAngle)),
-                fieldTurretAngle);
+                -distanceToTarget * fieldTurretRotation.cos(),
+                -distanceToTarget * fieldTurretRotation.sin(),
+                fieldTurretRotation);
 
         //Add scoring zone to get field-relative position
         turretPosition = turretPosition.add(AutonCoordinates.SCORING_TARGET);
 
         return turretPosition;
+    }
+
+    public Transform getFieldTurretTransform() {
+        return fieldTurretTransform;
     }
 }

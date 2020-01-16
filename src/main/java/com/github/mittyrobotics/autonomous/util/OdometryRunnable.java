@@ -22,19 +22,39 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.vision;
+package com.github.mittyrobotics.autonomous.util;
 
-import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.path.following.util.Odometry;
+import edu.wpi.first.wpilibj.Notifier;
 
-public class VisionTargetComputer {
-    private static VisionTargetComputer instance = new VisionTargetComputer();
+import java.util.Timer;
+import java.util.TimerTask;
 
-    public static VisionTargetComputer getInstance() {
-        return instance;
+public class OdometryRunnable extends TimerTask {
+    private final double updateFrequency;
+
+    /**
+     * Constructs a new {@link OdometryRunnable} that updates this {@link Runnable} at a frequency of
+     * <code>updateFrequence</code>.
+     *
+     * @param updateFrequency the time in seconds between each {@link Odometry} update call.
+     */
+    public OdometryRunnable(long updateFrequency) {
+        this.updateFrequency = updateFrequency;
+        Timer timer = new Timer();
+        timer.schedule(this,(long)0.0,updateFrequency);
     }
 
-    public double getTargetDistance(double pitch) {
-        return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
-                Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
+    @Override
+    public void run() {
+        //TODO: Get left and right encoder position and heading value from drivetrain and gyro
+        double leftEncoderPosition = 0;
+        double rightEncoderPosition = 0;
+        double heading = 0;
+        Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
+    }
+
+    public double getUpdateFrequency() {
+        return updateFrequency;
     }
 }

@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.vision.VisionManager;
-import com.github.mittyrobotics.autonomous.vision.VisionTargetComputer;
 import com.github.mittyrobotics.vision.Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -38,11 +37,10 @@ public class TurretAimbot extends CommandBase {
 
     @Override
     public void execute() {
-        Limelight.getInstance().updateLimelightValues();
         if (VisionManager.getInstance().isSafeToUseVision()) {
             double pitch = Limelight.getInstance().getPitchToTarget();
-            double distance = VisionTargetComputer.getInstance().getTargetDistance(pitch);
-            System.out.println(distance);
+            double distance = VisionManager.getInstance().getVisionDistance();
+
         }
     }
 

@@ -20,8 +20,8 @@ public class TestTrajectoryGenerator2 {
         double v = 12.53;
         double theta = 39.7;
         double angularVel = 40;
-        double Cd = 0.45;
-        double Cl = clCoefficient1*(1.0-Math.exp(-clCoefficient2*angularVel));
+        double Cd = 0.4;
+        double Cl = .6;
 
         //Constants
         double d = 7/39.3701;
