@@ -1,5 +1,6 @@
 package com.github.mittyrobotics.climber.commands;
 
+import com.github.mittyrobotics.climber.Constants;
 import com.github.mittyrobotics.climber.RobotSide;
 import com.github.mittyrobotics.climber.Winch;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -29,10 +30,10 @@ public class MoveWinch extends CommandBase {
         }
 
         // setup PID
-        controller.setP(0.5);
-        controller.setI(0);
-        controller.setD(0);
-        controller.setOutputRange(-.5, .5);
+        controller.setP(Constants.WINCH_PID_VALUES[0]);
+        controller.setI(Constants.WINCH_PID_VALUES[1]);
+        controller.setD(Constants.WINCH_PID_VALUES[2]);
+        controller.setOutputRange(-1*Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
     }
 
     @Override
