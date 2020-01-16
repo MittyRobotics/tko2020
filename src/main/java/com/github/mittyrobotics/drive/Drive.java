@@ -1,13 +1,13 @@
 package com.github.mittyrobotics.drive;
 
 import com.github.mittyrobotics.controls.TKODifferentialDrive;
-import edu.wpi.first.wpilibj.SpeedController;
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Drive extends CommandBase {
-    SpeedController left;
-    SpeedController right;
-    TKODifferentialDrive differentialDrive = new TKODifferentialDrive(left, right);
+    CANSparkMax left;
+    CANSparkMax right;
+    TKODifferentialDrive differentialDrive;
     public Drive() {
         super();
         addRequirements(DriveTrainSparks.getInstance());
@@ -17,9 +17,9 @@ public class Drive extends CommandBase {
     public void initialize() {
         left = DriveTrainSparks.getInstance().leftSpark1;
         right = DriveTrainSparks.getInstance().rightSpark1;
-
+        differentialDrive = new TKODifferentialDrive(left, right);
         differentialDrive.carDriveCarSteering(0.5, false, false, false, 0);
-    }
+}
 
     @Override
     public void execute() {
