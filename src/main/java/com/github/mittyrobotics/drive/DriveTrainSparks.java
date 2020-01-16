@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainSparks extends SubsystemBase {
 
-    private CANSparkMax leftSpark1;
-    private CANSparkMax leftSpark2;
+    public CANSparkMax leftSpark1;
+    public CANSparkMax leftSpark2;
 
-    private CANSparkMax rightSpark1;
-    private CANSparkMax rightSpark2 ;
+    public CANSparkMax rightSpark1;
+    public CANSparkMax rightSpark2 ;
 
 
     private static DriveTrainSparks instance;
@@ -36,9 +36,11 @@ public class DriveTrainSparks extends SubsystemBase {
     public void initHardware(){
         leftSpark1 = new CANSparkMax(Constants.LEFT_SPARK_1_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         leftSpark2 = new CANSparkMax(Constants.LEFT_SPARK_2_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftSpark2.follow(leftSpark1);
 
         rightSpark1 = new CANSparkMax(Constants.RIGHT_SPARK_1_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         rightSpark2 = new CANSparkMax(Constants.RIGHT_SPARK_2_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightSpark2.follow(rightSpark1);
 
         leftSpark1.restoreFactoryDefaults();
         leftSpark2.restoreFactoryDefaults();

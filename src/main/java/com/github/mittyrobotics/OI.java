@@ -1,8 +1,10 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.drive.Drive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
 	private XboxWheel xboxWheel;
@@ -41,6 +43,13 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
+		Button initializeButton = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getTriggerPressed();
+			}
+		};
 
+		initializeButton.whenPressed(new Drive());
 	}
 }
