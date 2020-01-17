@@ -18,6 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
         }
         return instance;
     }
+    //TODO Make private
     public ShooterSubsystem(){
         super();
         setName("Shooter");
@@ -41,7 +42,7 @@ public class ShooterSubsystem extends SubsystemBase {
         }
     }
 
-    public void setShooterSpeed(double speed){
+    public void setShooterSpeed(double speed){ //in rpm of the motor
         spark1.getPIDController().setReference(speed, ControlType.kVelocity);
     }
 

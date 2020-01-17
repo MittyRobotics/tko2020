@@ -18,7 +18,7 @@ public class ResetTurretEncoder extends CommandBase {
     @Override
     public void execute() {
         if (!TurretSubsystem.getInstance().getLimitSwitch().get()) {
-            TurretSubsystem.getInstance().getTalon().set(ControlMode.PercentOutput, -.2);
+            TurretSubsystem.getInstance().getTalon().set(ControlMode.PercentOutput, -.2); //TODO make a function instead of returning the talon
         } else {
             TurretSubsystem.getInstance().getTalon().set(ControlMode.PercentOutput, 0);
             TurretSubsystem.getInstance().getTalon().setSelectedSensorPosition(0);
