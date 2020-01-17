@@ -34,11 +34,23 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void setPosition(int position){
-        talon1.setSelectedSensorPosition(position);
+        if (!limitSwitch.get()==false && !limitSwitch2.get()==false) {
+            talon1.setSelectedSensorPosition(position);
+        } else {
+            if ((talon1.getClosedLoopTarget() >= -90) && (talon1.getClosedLoopTarget() <= 90)) {
+                talon1.setSelectedSensorPosition(position);
+            } else {
+                talon1.set(ControlMode.PercentOutput, 0);
+            }
+        }
     }
 
     public void setTurretSpeed(double speed) {
-        talon1.set(ControlMode.PercentOutput, speed);
+        if (!limitSwitch.get() && !limitSwitch2.get()) {
+            talon1.set(ControlMode.PercentOutput, speed);
+        } else {
+            talon1.set(ControlMode.PercentOutput, 0);
+        }
     }
     public boolean limitSwitchValue() { return limitSwitch.get();}
 
