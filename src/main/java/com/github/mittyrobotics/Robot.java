@@ -27,6 +27,7 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.autonomous.commands.TurretAimbot;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
+import com.github.mittyrobotics.autonomous.util.turret.TurretFieldManager;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -34,7 +35,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     public Robot() {
-        super(0.1);
+        super(0.02);
     }
 
     @Override
@@ -42,8 +43,10 @@ public class Robot extends TimedRobot {
         OI.getInstance().digitalInputControls();
         //Setup track width for DifferentialDriveKinematics
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
-        //Setup the OdometryNotifier
-        OdometryRunnable odometryRunnable = new OdometryRunnable((long)0.02);
+        //Start Odometry runnable at frequency of 0.02
+        OdometryRunnable.getInstance().start((long)0.02);
+        //Start turret field manager at frequency of 0.02
+        TurretFieldManager.getInstance().start((long)0.02);
     }
 
     @Override

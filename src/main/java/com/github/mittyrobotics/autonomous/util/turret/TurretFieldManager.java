@@ -44,11 +44,11 @@ import java.util.TimerTask;
  * the rotation of the turret offset from the turret's default location.
  */
 public class TurretFieldManager extends TimerTask {
-    private TurretFieldManager instance;
+    private static TurretFieldManager instance;
 
     private Transform fieldTurretTransform;
 
-    public TurretFieldManager getInstance() {
+    public static TurretFieldManager getInstance() {
         if (instance == null) {
             instance = new TurretFieldManager();
         }
