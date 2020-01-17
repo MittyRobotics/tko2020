@@ -8,5 +8,7 @@ public class Constants {
     public static final double TurretD = 0;
     public static final double TurretOutputMin = 0;
     public static final double TurretOutputMax = 0;
+    public static final int TurretSwitchID = 3;
+    public static final int TurretSwitch2ID = 4;
 
 }

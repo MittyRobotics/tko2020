@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class TurretSubsystem extends SubsystemBase {
 
     private WPI_TalonSRX talon1;
-    private DigitalInput limitSwitch; //TODO will have two limit switches, unsure if they are plugged in through roborio though
+    private DigitalInput limitSwitch, limitSwitch2; //TODO will have two limit switches, unsure if they are plugged in through roborio though
+
 
     private static TurretSubsystem instance;
     public static TurretSubsystem getInstance(){
@@ -18,8 +19,7 @@ public class TurretSubsystem extends SubsystemBase {
         }
         return instance;
     }
-    //TODO make this private
-    public TurretSubsystem(){
+    private TurretSubsystem(){
         super();
         setName("Turret");
     }
@@ -29,7 +29,8 @@ public class TurretSubsystem extends SubsystemBase {
         talon1.config_kP(0, Constants.TurretP);
         talon1.config_kI(0, Constants.TurretI);
         talon1.config_kD(0, Constants.TurretD);
-        limitSwitch = new DigitalInput(3); //TODO make this a constant
+        limitSwitch = new DigitalInput(Constants.TurretSwitchID);
+        limitSwitch2 = new DigitalInput(Constants.TurretSwitch2ID);
     }
 
     public void setPosition(int position){
