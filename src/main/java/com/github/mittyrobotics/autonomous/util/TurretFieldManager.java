@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.util.turret;
+package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.autonomous.vision.VisionManager;

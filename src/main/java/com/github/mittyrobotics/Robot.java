@@ -27,7 +27,7 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.autonomous.commands.TurretAimbot;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
-import com.github.mittyrobotics.autonomous.util.turret.TurretFieldManager;
+import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
