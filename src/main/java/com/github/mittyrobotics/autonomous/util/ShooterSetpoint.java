@@ -22,11 +22,22 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.util;
 
-public class Constants {
-    public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 2;
-    public static final int XBOX_WHEEL_ID = 0;
+public class ShooterSetpoint {
+    private final double velocity;
+    private final double angle;
+
+    public ShooterSetpoint(double velocity, double angle) {
+        this.velocity = velocity;
+        this.angle = angle;
+    }
+
+    public double getVelocity() {
+        return velocity;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
 }
