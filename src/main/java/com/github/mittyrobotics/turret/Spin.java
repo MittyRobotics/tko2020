@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
+//Spin is just a reference for Spark documentation
 public class Spin extends CommandBase {
     private CANSparkMax controller;
     private double speed;
