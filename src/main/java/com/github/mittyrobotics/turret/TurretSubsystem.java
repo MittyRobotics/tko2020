@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class TurretSubsystem extends SubsystemBase {
 
     private WPI_TalonSRX talon1;
-    private DigitalInput limitSwitch, limitSwitch2; //TODO will have two limit switches, unsure if they are plugged in through roborio though
+    private DigitalInput limitSwitch, limitSwitch2;
 
 
     private static TurretSubsystem instance;
