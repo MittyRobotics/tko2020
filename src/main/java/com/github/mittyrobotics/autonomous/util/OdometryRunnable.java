@@ -32,6 +32,7 @@ import java.util.TimerTask;
 public class OdometryRunnable extends TimerTask {
 
     private static OdometryRunnable instance = new OdometryRunnable();
+    private boolean started = false;
 
     public static OdometryRunnable getInstance() {
         return instance;
@@ -44,8 +45,11 @@ public class OdometryRunnable extends TimerTask {
      * @param updateFrequency the time in seconds between each {@link Odometry} update call.
      */
     public void start(long updateFrequency) {
-        Timer timer = new Timer();
-        timer.schedule(this, (long) 0.0, updateFrequency);
+        if(!started){
+            Timer timer = new Timer();
+            timer.schedule(this, 0, updateFrequency);
+            started = true;
+        }
     }
 
     @Override

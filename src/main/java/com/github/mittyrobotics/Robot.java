@@ -28,6 +28,7 @@ import com.github.mittyrobotics.autonomous.commands.TurretAimbot;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
 import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
+import com.github.mittyrobotics.autonomous.vision.VisionManager;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -47,6 +48,8 @@ public class Robot extends TimedRobot {
         OdometryRunnable.getInstance().start((long) 0.02);
         //Start turret field manager at frequency of 0.02
         TurretFieldManager.getInstance().start((long) 0.02);
+        //Start vision manager at frequency of 0.02
+        VisionManager.getInstance().start((long) 0.02);
     }
 
     @Override

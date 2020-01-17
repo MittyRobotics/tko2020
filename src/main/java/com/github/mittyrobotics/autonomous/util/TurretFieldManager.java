@@ -46,14 +46,18 @@ public class TurretFieldManager extends TimerTask {
     private static TurretFieldManager instance = new TurretFieldManager();
 
     private Transform fieldTurretTransform;
+    private boolean started = false;
 
     public static TurretFieldManager getInstance() {
         return instance;
     }
 
-    public void start(long period) {
-        Timer timer = new Timer();
-        timer.schedule(this, 0, period);
+    public void start(long updateFrequency) {
+        if(!started){
+            Timer timer = new Timer();
+            timer.schedule(this, 0, updateFrequency);
+            started = true;
+        }
     }
 
     @Override

@@ -27,12 +27,25 @@ package com.github.mittyrobotics.autonomous.vision;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.vision.Limelight;
 
-public class VisionManager implements Runnable {
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class VisionManager extends TimerTask {
     private static VisionManager instance = new VisionManager();
     private double visionDistance;
 
+    private boolean started = false;
+
     public static VisionManager getInstance() {
         return instance;
+    }
+
+    public void start(long updateFrequency) {
+        if(!started){
+            Timer timer = new Timer();
+            timer.schedule(this, 0, updateFrequency);
+            started = true;
+        }
     }
 
     @Override

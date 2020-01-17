@@ -38,7 +38,7 @@ public class TurretAimbot extends CommandBase {
     @Override
     public void execute() {
         if (VisionManager.getInstance().isSafeToUseVision()) {
-            double pitch = Limelight.getInstance().getPitchToTarget();
+            double yaw = Limelight.getInstance().getYawToTarget();
             double distance = VisionManager.getInstance().getVisionDistance();
 
         }
