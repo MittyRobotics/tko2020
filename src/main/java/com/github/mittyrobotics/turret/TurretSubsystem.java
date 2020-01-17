@@ -1,16 +1,17 @@
 package com.github.mittyrobotics.turret;
 
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.shooter.Constants;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.ControlType;
+import com.revrobotics.*;
+import edu.wpi.first.wpilibj.DigitalGlitchFilter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretSubsystem extends SubsystemBase {
 
-    private CANSparkMax spark1;
-
+    private WPI_TalonSRX talon1;
+    private DigitalInput limitSwitch;
 
     private static TurretSubsystem instance;
     public static TurretSubsystem getInstance(){
@@ -21,36 +22,23 @@ public class TurretSubsystem extends SubsystemBase {
     }
     public TurretSubsystem(){
         super();
-        setName("Shooter");
+        setName("Turret");
     }
 
     public void initHardware(){
-        spark1 = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        spark1.restoreFactoryDefaults();
-        spark1.getPIDController().setP(Constants.ShooterP);
-        spark1.getPIDController().setI(Constants.ShooterI);
-        spark1.getPIDController().setD(Constants.ShooterD);
-        spark1.getPIDController().setOutputRange(Constants.ShooterOutputMin, Constants.ShooterOutputMax);
+        talon1 = new WPI_TalonSRX(com.github.mittyrobotics.turret.Constants.TalonID);
+        talon1.config_kP(0, com.github.mittyrobotics.turret.Constants.TurretP);
+        talon1.config_kI(0, com.github.mittyrobotics.turret.Constants.TurretI);
+        talon1.config_kD(0, com.github.mittyrobotics.turret.Constants.TurretD);
+        limitSwitch = new DigitalInput(3);
     }
 
-    public void manualControl(double speed){
-        if(Math.abs(speed) >= 0.05){
-            spark1.set(speed);
-        }
-        else{
-            spark1.stopMotor();
-        }
+    public void setPosition(int position){
+        talon1.setSelectedSensorPosition(position);
     }
 
-    public void resetEncoder(){
-
+    public WPI_TalonSRX getTalon(){
+        return talon1;
     }
-
-    public void setShooterSpeed(double speed){
-        spark1.getPIDController().setReference(speed, ControlType.kVelocity);
-    }
-
-    public CANSparkMax getSpark1(){
-        return spark1;
-    }
+    public DigitalInput getLimitSwitch(){ return limitSwitch; }
 }
