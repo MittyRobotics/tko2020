@@ -6,19 +6,19 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Shooter extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
 
     private CANSparkMax spark1;
 
 
-    private static Shooter instance;
-    public static Shooter getInstance(){
+    private static ShooterSubsystem instance;
+    public static ShooterSubsystem getInstance(){
         if(instance == null){
-            instance = new Shooter();
+            instance = new ShooterSubsystem();
         }
         return instance;
     }
-    public Shooter(){
+    public ShooterSubsystem(){
         super();
         setName("Shooter");
     }

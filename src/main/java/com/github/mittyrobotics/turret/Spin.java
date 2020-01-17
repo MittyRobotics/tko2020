@@ -1,12 +1,11 @@
 package com.github.mittyrobotics.turret;
 
-import com.github.mittyrobotics.shooter.Shooter;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import static com.github.mittyrobotics.turret.Constants.*;
 
 public class Spin extends CommandBase {
     private CANSparkMax controller;
@@ -14,20 +13,18 @@ public class Spin extends CommandBase {
     public Spin(double speed){
         super();
         this.speed = speed;
-        addRequirements(Shooter.getInstance());
+        addRequirements(ShooterSubsystem.getInstance());
     }
     @Override
     public void initialize(){
         controller = new CANSparkMax(0, CANSparkMaxLowLevel.MotorType.kBrushless);
         controller.restoreFactoryDefaults();
-        controller.getPIDController().setP(ControllerP);
-        controller.getPIDController().setI(ControllerI);
-        controller.getPIDController().setD(ControllerD);
-        controller.getPIDController().setOutputRange(ControllerMinRange, ControllerMaxRange);
+        controller.getPIDController().setP(Constants.TurretP);
+        controller.getPIDController().setI(Constants.TurretI);
+        controller.getPIDController().setD(Constants.TurretD);
+        controller.getPIDController().setOutputRange(Constants.TurretOutputMin, Constants.TurretOutputMax);
         controller.getPIDController().setReference(speed, ControlType.kVelocity);
     }
-
-    
 
 
 
