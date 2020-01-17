@@ -28,7 +28,6 @@ import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.autonomous.vision.VisionManager;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -52,9 +51,9 @@ public class TurretFieldManager extends TimerTask {
         return instance;
     }
 
-    public void start(long period){
+    public void start(long period) {
         Timer timer = new Timer();
-        timer.schedule(this,0, period);
+        timer.schedule(this, 0, period);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class TurretFieldManager extends TimerTask {
         double gyroAngle = 0; //TODO: Set this to the gyro angle
         double robotTurretAngle = 0; //TODO: Set this to the robot-relative turret angle from Turret subsystem
         double distanceToTarget = VisionManager.getInstance().getVisionDistance();
-        this.fieldTurretTransform = computeTurretTransform(gyroAngle,robotTurretAngle,distanceToTarget);
+        this.fieldTurretTransform = computeTurretTransform(gyroAngle, robotTurretAngle, distanceToTarget);
     }
 
     /**
@@ -72,8 +71,8 @@ public class TurretFieldManager extends TimerTask {
      * @param robotTurretAngle
      * @return the field-relative angle of the turret in the form of a {@link Rotation}.
      */
-    private Rotation computeFieldTurretAngle(double gyroAngle, double robotTurretAngle){
-        return new Rotation(gyroAngle-robotTurretAngle);
+    private Rotation computeFieldTurretAngle(double gyroAngle, double robotTurretAngle) {
+        return new Rotation(gyroAngle - robotTurretAngle);
     }
 
     /**
@@ -89,7 +88,7 @@ public class TurretFieldManager extends TimerTask {
             return new Transform();
         }
 
-        Rotation fieldTurretRotation = computeFieldTurretAngle(gyroAngle,robotTurretAngle);
+        Rotation fieldTurretRotation = computeFieldTurretAngle(gyroAngle, robotTurretAngle);
 
         //Target relative position
         Transform turretPosition = new Transform(

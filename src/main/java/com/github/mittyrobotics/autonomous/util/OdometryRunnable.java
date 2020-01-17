@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.path.following.util.Odometry;
-import edu.wpi.first.wpilibj.Notifier;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,7 +33,7 @@ public class OdometryRunnable extends TimerTask {
 
     private static OdometryRunnable instance = new OdometryRunnable();
 
-    public static OdometryRunnable getInstance(){
+    public static OdometryRunnable getInstance() {
         return instance;
     }
 
@@ -46,7 +45,7 @@ public class OdometryRunnable extends TimerTask {
      */
     public void start(long updateFrequency) {
         Timer timer = new Timer();
-        timer.schedule(this,(long)0.0,updateFrequency);
+        timer.schedule(this, (long) 0.0, updateFrequency);
     }
 
     @Override

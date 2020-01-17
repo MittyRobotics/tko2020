@@ -44,9 +44,9 @@ public class Robot extends TimedRobot {
         //Setup track width for DifferentialDriveKinematics
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
         //Start Odometry runnable at frequency of 0.02
-        OdometryRunnable.getInstance().start((long)0.02);
+        OdometryRunnable.getInstance().start((long) 0.02);
         //Start turret field manager at frequency of 0.02
-        TurretFieldManager.getInstance().start((long)0.02);
+        TurretFieldManager.getInstance().start((long) 0.02);
     }
 
     @Override

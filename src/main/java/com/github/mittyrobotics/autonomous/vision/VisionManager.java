@@ -29,12 +29,11 @@ import com.github.mittyrobotics.vision.Limelight;
 
 public class VisionManager implements Runnable {
     private static VisionManager instance = new VisionManager();
+    private double visionDistance;
 
     public static VisionManager getInstance() {
         return instance;
     }
-
-    private double visionDistance;
 
     @Override
     public void run() {
@@ -51,12 +50,12 @@ public class VisionManager implements Runnable {
         return Limelight.getInstance().isHasValidTarget();
     }
 
-    private double computeVisionDistance(double pitch){
+    private double computeVisionDistance(double pitch) {
         return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
                 Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
     }
 
-    public double getVisionDistance(){
+    public double getVisionDistance() {
         return visionDistance;
     }
 }

@@ -24,13 +24,13 @@ public class TestTrajectoryGenerator2 {
         double Cl = .6;
 
         //Constants
-        double d = 7/39.3701;
+        double d = 7 / 39.3701;
         double m = 0.1417476;
-        double A =  3.14*(d*d)/4.0;
+        double A = 3.14 * (d * d) / 4.0;
         double p = 1.225;
         double g = 9.8;
 
-        XYSeries series = calculateSeries(v,theta,m,Cd,Cl,A,p,g,"Simulated Trajectory");
+        XYSeries series = calculateSeries(v, theta, m, Cd, Cl, A, p, g, "Simulated Trajectory");
 
         XYSeries empiricalSeries1 = graphCubicFunction(
                 .0009271,
@@ -55,9 +55,9 @@ public class TestTrajectoryGenerator2 {
     public static XYSeries calculateSeries(double v, double theta, double m, double Cd, double Cl, double A, double p,
                                            double g, String name) {
 
-        double vx = v*Math.cos(Math.toRadians(theta));
-        double vy = v*Math.sin(Math.toRadians(theta));
-        double Fx,Fy;
+        double vx = v * Math.cos(Math.toRadians(theta));
+        double vy = v * Math.sin(Math.toRadians(theta));
+        double Fx, Fy;
 
         double x = 0;
         double y = 2e-16;
@@ -66,8 +66,8 @@ public class TestTrajectoryGenerator2 {
         while (y > 0) {
             double t = 0.01;
 
-            Fx = (-1.0/2.0)*p*A* Math.sqrt(vx * vx + vy * vy) *(Cd*vx+Cl*vy);
-            Fy = (-1.0/2.0)*p*A* Math.sqrt(vx * vx + vy * vy) *(Cd*vy-Cl*vx)-m*g;
+            Fx = (-1.0 / 2.0) * p * A * Math.sqrt(vx * vx + vy * vy) * (Cd * vx + Cl * vy);
+            Fy = (-1.0 / 2.0) * p * A * Math.sqrt(vx * vx + vy * vy) * (Cd * vy - Cl * vx) - m * g;
             vx += Fx * t / m;
             vy += Fy * t / m;
             x += vx * t;
