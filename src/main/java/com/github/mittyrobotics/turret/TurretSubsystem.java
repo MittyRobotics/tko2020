@@ -49,7 +49,22 @@ public class TurretSubsystem extends SubsystemBase {
         if (!limitSwitch.get() && !limitSwitch2.get()) {
             talon1.set(ControlMode.PercentOutput, speed);
         } else {
-            talon1.set(ControlMode.PercentOutput, 0);
+            if(limitSwitch.get()){
+                if (speed > 0) {
+                    talon1.set(ControlMode.PercentOutput, speed);
+                }
+                else{
+                    talon1.set(ControlMode.PercentOutput, 0);
+                }
+            }
+            else{
+                if(speed < 0){
+                    talon1.set(ControlMode.PercentOutput, speed);
+                }
+                else{
+                    talon1.set(ControlMode.PercentOutput, 0);
+                }
+            }
         }
     }
     public boolean limitSwitchValue() { return limitSwitch.get();}
