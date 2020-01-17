@@ -17,8 +17,9 @@ public class Drive extends CommandBase {
     public void initialize() {
         left = DriveTrainSparks.getInstance().leftSpark1;
         right = DriveTrainSparks.getInstance().rightSpark1;
+
         differentialDrive = new TKODifferentialDrive(left, right);
-        differentialDrive.carDriveCarSteering(0.5, false, false, false, 0);
+        differentialDrive.joystickCarSteering(0, 0.8, false);
 }
 
     @Override
