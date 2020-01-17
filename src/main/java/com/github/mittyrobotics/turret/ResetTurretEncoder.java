@@ -17,13 +17,12 @@ public class ResetTurretEncoder extends CommandBase {
 
     @Override
     public void execute() {
-        if (!TurretSubsystem.getInstance().getLimitSwitch().get()) {
-            TurretSubsystem.getInstance().getTalon().set(ControlMode.PercentOutput, -.2); //TODO make a function instead of returning the talon
+        if (!TurretSubsystem.getInstance().limitSwitchValue()) {
+            TurretSubsystem.getInstance().setTurretSpeed(-.2);
         } else {
-            TurretSubsystem.getInstance().getTalon().set(ControlMode.PercentOutput, 0);
-            TurretSubsystem.getInstance().getTalon().setSelectedSensorPosition(0);
+            TurretSubsystem.getInstance().setTurretSpeed(0);
+            TurretSubsystem.getInstance().setPosition(0);
             isDone = true;
-
         }
     }
     @Override

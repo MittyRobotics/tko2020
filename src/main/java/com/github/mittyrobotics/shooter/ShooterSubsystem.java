@@ -18,8 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
         }
         return instance;
     }
-    //TODO Make private
-    public ShooterSubsystem(){
+    private ShooterSubsystem(){
         super();
         setName("Shooter");
     }

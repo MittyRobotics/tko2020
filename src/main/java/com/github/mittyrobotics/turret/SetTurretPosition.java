@@ -9,18 +9,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetTurretPosition extends CommandBase {
     private int position;
-    private boolean isDone = false; //TODO remove isDone, return true instead
     public SetTurretPosition(int position){
         super();
         this.position = position;
         addRequirements(TurretSubsystem.getInstance());
-        //TODO put this stuff in initialize()
-        TurretSubsystem.getInstance().setPosition(position);
-        isDone = true;
     }
 
     @Override
-    public void initialize(){}
+    public void initialize(){
+        TurretSubsystem.getInstance().setPosition(position);
+    }
 
     @Override
     public void end(boolean interrupted){
@@ -28,6 +26,6 @@ public class SetTurretPosition extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return isDone;
+        return true;
     }
 }

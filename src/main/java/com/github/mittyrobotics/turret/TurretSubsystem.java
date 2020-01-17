@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.turret;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,10 +36,9 @@ public class TurretSubsystem extends SubsystemBase {
         talon1.setSelectedSensorPosition(position);
     }
 
-    //TODO dont return the talon, make functions for different needs
-    public WPI_TalonSRX getTalon(){
-        return talon1;
+    public void setTurretSpeed(double speed) {
+        talon1.set(ControlMode.PercentOutput, speed);
     }
-    //TODO dont return the limit switches, make functions for different needs
-    public DigitalInput getLimitSwitch(){ return limitSwitch; }
+    public boolean limitSwitchValue() { return limitSwitch.get();}
+
 }
