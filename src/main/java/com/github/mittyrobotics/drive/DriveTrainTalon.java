@@ -23,7 +23,7 @@ public class DriveTrainTalon extends SubsystemBase {
     private DriveTrainTalon(){
         super();
         setName("Example Subsystem");
-        //setDefaultCommand(new Command());
+//        setDefaultCommand(new CurvatureSteering());
     }
 
 
@@ -34,10 +34,10 @@ public class DriveTrainTalon extends SubsystemBase {
 
 
     public void initHardware(){
-	    leftDrive[0] = new WPI_TalonSRX(20);
-	    leftDrive[1] = new WPI_TalonSRX(21);
-	    rightDrive[0] = new WPI_TalonSRX(23);
-	    rightDrive[1] = new WPI_TalonSRX(22);
+	    leftDrive[0] = new WPI_TalonSRX(Constants.LEFT_TALON_1);
+	    leftDrive[1] = new WPI_TalonSRX(Constants.LEFT_TALON_2);
+	    rightDrive[0] = new WPI_TalonSRX(Constants.RIGHT_TALON_1);
+	    rightDrive[1] = new WPI_TalonSRX(Constants.RIGHT_TALON_2);
 
 	    leftDrive[0].setInverted(Constants.LEFT_TALON_INVERSIONS[0]);
 	    leftDrive[1].setInverted(Constants.LEFT_TALON_INVERSIONS[1]);
@@ -54,8 +54,8 @@ public class DriveTrainTalon extends SubsystemBase {
 	    rightDrive[1].set(ControlMode.Follower, rightDrive[0].getDeviceID());
 
 	    leftDrive[0].config_kP(0, Constants.DRIVE_VELOCITY_PID[0]);
-	    leftDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
-	    leftDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
+		leftDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
+		leftDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
 	    rightDrive[0].config_kP(0, Constants.DRIVE_VELOCITY_PID[0]);
 	    rightDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
 	    rightDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
@@ -89,4 +89,26 @@ public class DriveTrainTalon extends SubsystemBase {
 		leftDrive[0].set(ControlMode.Velocity, left / 10);
 		rightDrive[0].set(ControlMode.Velocity, right/ 10);
 	}
+	public void movePos(double left, double right){
+    	leftDrive[0].set(ControlMode.Position, left * Constants.TICKS_PER_INCH);
+    	rightDrive[0].set(ControlMode.Position, right * Constants.TICKS_PER_INCH);
+	}
+
+	public double getLeftEncoder(){
+    	return leftDrive[0].getSelectedSensorPosition()/Constants.TICKS_PER_INCH;
+	}
+	public double getRightEncoder(){
+    	return rightDrive[0].getSelectedSensorPosition()/Constants.TICKS_PER_INCH;
+	}
+	public void resetEconder(){
+    	leftDrive[0].setSelectedSensorPosition(0);
+    	rightDrive[0].setSelectedSensorPosition(0);
+	}
+	public WPI_TalonSRX getLeftTalon(){
+    	return leftDrive[0];
+	}
+	public WPI_TalonSRX getRightTalon(){
+		return rightDrive[0];
+	}
+
 }
