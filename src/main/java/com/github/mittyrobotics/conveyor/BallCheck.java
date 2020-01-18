@@ -17,8 +17,8 @@ public class BallCheck extends CommandBase {
 
     @Override
     public void execute() {
-        if ((previousLimitSwitchValue1==false) && (!ConveyorSwitches.getInstance().getSwitch1())) {
-            
+        if (!previousLimitSwitchValue1 && ConveyorSwitches.getInstance().getSwitch1()) { //no ball before and now detect ball
+            ++ConveyorSubsystem.getInstance().totalBallCount;
         }
 
     }
