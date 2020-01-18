@@ -34,7 +34,7 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void setPosition(int position){
-        if (!limitSwitch.get()==false && !limitSwitch2.get()==false) {
+        if (limitSwitch.get()==true && limitSwitch2.get()==true) {
             talon1.setSelectedSensorPosition(position);
         } else {
             if ((talon1.getClosedLoopTarget() >= -90) && (talon1.getClosedLoopTarget() <= 90)) {
