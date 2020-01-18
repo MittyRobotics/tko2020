@@ -67,7 +67,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		rightDrive[0].setNeutralMode(NeutralMode.Brake);
 		rightDrive[1].setNeutralMode(NeutralMode.Brake);
 
-		setDefaultCommand(new JoystickDrive_CarSteering());
+		//setDefaultCommand(new JoystickDrive_CarSteering());
 
 		//Feedforward Velocit1y PID
 		controller = new PIDController(0.309 / 12.0, 0, 0);
@@ -143,12 +143,12 @@ public class DriveTrainTalon extends SubsystemBase {
 //			feedBackLeft *= -1;
 //			feedBackRight *= -1;
 //		}
-		double feedForward = (.177 * velocity) / 12.0;
+		double feedForward = (.2 * velocity) / 12.0;
 		System.out.println(feedForward);
 		System.out.println(feedBackLeft);
 //		System.out.println(leftDrive[0].getMotorOutputPercent());
-		leftDrive[0].set(ControlMode.PercentOutput, feedBackLeft + feedForward);
-		rightDrive[0].set(ControlMode.PercentOutput, feedBackRight + feedForward);
+		leftDrive[0].set(ControlMode.PercentOutput, feedForward);
+		rightDrive[0].set(ControlMode.PercentOutput, feedForward);
 
 	}
 }
