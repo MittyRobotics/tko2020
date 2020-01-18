@@ -26,6 +26,7 @@ package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.controllers.PurePursuitController;
 import com.github.mittyrobotics.path.following.controllers.RamseteController;
@@ -33,6 +34,7 @@ import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Translate2dTrajectory extends CommandBase {
@@ -52,8 +54,8 @@ public class Translate2dTrajectory extends CommandBase {
      */
     public Translate2dTrajectory(PathFollower pathFollower) {
         this.pathFollower = pathFollower;
+        addRequirements(DriveTrainTalon.getInstance());
     }
-
 
     /**
      * Constructs a new {@link Translate2dTrajectory} command to drive to the {@link Transform} <code>goal</code>
@@ -66,7 +68,8 @@ public class Translate2dTrajectory extends CommandBase {
      */
     public Translate2dTrajectory(Transform goal, PathFollowerProperties properties,
                                  PathFollowerProperties.PurePursuitProperties purePursuitProperties) {
-        PathFollower pathFollower = new PathFollower(properties, purePursuitProperties);
+        addRequirements(DriveTrainTalon.getInstance());
+        this.pathFollower = new PathFollower(properties, purePursuitProperties);
         pathFollower.setDrivingGoal(goal);
     }
 
@@ -81,8 +84,9 @@ public class Translate2dTrajectory extends CommandBase {
      */
     public Translate2dTrajectory(Transform goal, PathFollowerProperties properties,
                                  PathFollowerProperties.RamseteProperties ramseteProperties) {
-        PathFollower pathFollower = new PathFollower(properties, ramseteProperties);
+        this.pathFollower = new PathFollower(properties, ramseteProperties);
         pathFollower.setDrivingGoal(goal);
+        addRequirements(DriveTrainTalon.getInstance());
     }
 
     /**
@@ -109,11 +113,17 @@ public class Translate2dTrajectory extends CommandBase {
     public void execute() {
         double currentTime = Timer.getFPGATimestamp();
         double deltaTime = currentTime - previousTime;
-        //TODO: Set current velocities to drivetrain velocities
-        DrivetrainVelocities currentVelocities = DrivetrainVelocities.empty();
+        this.previousTime = currentTime;
+        System.out.println(deltaTime);
+        DrivetrainVelocities currentVelocities = DrivetrainVelocities
+                .calculateFromWheelVelocities(DriveTrainTalon.getInstance().getLeftEncoderVelocity(),
+                        DriveTrainTalon.getInstance().getRightEncoderVelocity());
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getRobotTransform()
                 , currentVelocities, deltaTime);
         //TODO: Set drivetrain velocities to output
+        SmartDashboard.putNumber("path_velocity_left",output.getLeftVelocity());
+        SmartDashboard.putNumber("path_velocity_right",output.getRightVelocity());
+        DriveTrainTalon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
     }
 
     /**

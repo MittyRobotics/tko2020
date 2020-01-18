@@ -24,15 +24,24 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.commands.TurretAimbot;
+import com.github.mittyrobotics.autonomous.commands.Translate2dTrajectory;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
 import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
 import com.github.mittyrobotics.autonomous.vision.VisionManager;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
+import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
+import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.Constants;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.motionprofile.PathVelocityController;
+import com.github.mittyrobotics.path.following.util.Odometry;
+import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Robot extends TimedRobot {
 
@@ -43,16 +52,30 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
+
+        DriveTrainTalon.getInstance().initHardware();
+
         //Setup track width for DifferentialDriveKinematics
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
         //Start Odometry runnable at frequency of 0.02
-        OdometryRunnable.getInstance().start((long) 0.02);
+        OdometryRunnable.getInstance().start(0.02);
         //Start turret field manager at frequency of 0.02
-        TurretFieldManager.getInstance().start((long) 0.02);
+        TurretFieldManager.getInstance().start(0.02);
         //Start vision manager at frequency of 0.02
-        VisionManager.getInstance().start((long) 0.02);
+        VisionManager.getInstance().start(0.02);
 
-        DriveTrainTalon.getInstance().initHardware();
+        Odometry.getInstance().calibrateToZero(DriveTrainTalon.getInstance().getLeftEncoder(),
+                DriveTrainTalon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
+
+
+        SmartDashboard.putNumber("robot_x",0);
+        SmartDashboard.putNumber("robot_y",0);
+        SmartDashboard.putNumber("robot_heading",0);
+
+        SmartDashboard.putNumber("path_velocity_left",0);
+        SmartDashboard.putNumber("path_velocity_right",0);
+
+        System.out.println("Robot Init");
     }
 
     @Override
@@ -62,7 +85,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-
+        Odometry.getInstance().calibrateToZero(DriveTrainTalon.getInstance().getLeftEncoder(),
+                DriveTrainTalon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
+        CommandScheduler.getInstance().schedule(new RunCommand(()->DriveTrainTalon.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand
+                .kLeft),-OI.getInstance().getXboxController().getY(
+                GenericHID.Hand.kRight)), DriveTrainTalon.getInstance()));
     }
 
     @Override
@@ -71,29 +98,35 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-//        CommandScheduler.getInstance().cancelAll();
-//        DriveTrainTalon.getInstance().resetEncoder();
-        //DriveTrainTalon.getInstance().movePos(24, 24);
-//    CommandScheduler.getInstance().schedule(new RampingCommand(110));
+        CommandScheduler.getInstance().cancelAll();
+        DriveTrainTalon.getInstance().resetEncoder();
+        Odometry.getInstance().calibrateToZero(DriveTrainTalon.getInstance().getLeftEncoder(),
+                DriveTrainTalon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
+
+        PathVelocityController velocityController =
+                new PathVelocityController(new VelocityConstraints(10, 10, 50), 0, 0);
+        CommandScheduler.getInstance().schedule(new Translate2dTrajectory(new Transform(48, 0, 0),
+                new PathFollowerProperties(velocityController, false, false),
+                new PathFollowerProperties.PurePursuitProperties(30, 1, 10)));
     }
 
     @Override
     public void autonomousPeriodic() {
-//        DriveTrainTalon.getInstance().tankVelocity(5, 5);
-////      System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
-////      System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
-//        System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-//        System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
+//       DriveTrainTalon.getInstance().customTankVelocity(10, 10);
     }
 
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
+        DriveTrainTalon.getInstance().resetEncoder();
+        CommandScheduler.getInstance().schedule(new RunCommand(()->DriveTrainTalon.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand
+                .kLeft),-OI.getInstance().getXboxController().getY(
+                GenericHID.Hand.kRight)), DriveTrainTalon.getInstance()));
     }
 
     @Override
     public void testPeriodic() {
-
+        System.out.println(DriveTrainTalon.getInstance().getLeftEncoder() + " " + DriveTrainTalon.getInstance().getRightEncoder());
     }
 
     @Override

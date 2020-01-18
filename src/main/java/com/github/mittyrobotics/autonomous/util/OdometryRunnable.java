@@ -24,7 +24,10 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
+import com.github.mittyrobotics.Gyro;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.util.Odometry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,10 +47,11 @@ public class OdometryRunnable extends TimerTask {
      *
      * @param updateFrequency the time in seconds between each {@link Odometry} update call.
      */
-    public void start(long updateFrequency) {
+    public void start(double updateFrequency) {
         if(!started){
             Timer timer = new Timer();
-            timer.schedule(this, 0, updateFrequency);
+            updateFrequency = updateFrequency * 1000;
+            timer.schedule(getInstance(), (long)0.0, (long)updateFrequency);
             started = true;
         }
     }
@@ -55,9 +59,14 @@ public class OdometryRunnable extends TimerTask {
     @Override
     public void run() {
         //TODO: Get left and right encoder position and heading value from drivetrain and gyro
-        double leftEncoderPosition = 0;
-        double rightEncoderPosition = 0;
-        double heading = 0;
+        double leftEncoderPosition = DriveTrainTalon.getInstance().getLeftEncoder();
+        double rightEncoderPosition = DriveTrainTalon.getInstance().getRightEncoder();
+        double heading = Gyro.getInstance().getAngle();
         Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
+        SmartDashboard.putNumber("robot_x",Odometry.getInstance().getRobotTransform().getPosition().getX());
+        SmartDashboard.putNumber("robot_y",Odometry.getInstance().getRobotTransform().getPosition().getY());
+        SmartDashboard.putNumber("robot_heading",Odometry.getInstance().getRobotTransform().getRotation().getHeading());
+        SmartDashboard.putNumber("robot_vel_left", DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+        SmartDashboard.putNumber("robot_vel_right", DriveTrainTalon.getInstance().getRightEncoderVelocity());
     }
 }

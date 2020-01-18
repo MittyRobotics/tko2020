@@ -52,10 +52,11 @@ public class TurretFieldManager extends TimerTask {
         return instance;
     }
 
-    public void start(long updateFrequency) {
+    public void start(double updateFrequency) {
         if(!started){
             Timer timer = new Timer();
-            timer.schedule(this, 0, updateFrequency);
+            updateFrequency = updateFrequency * 1000;
+            timer.schedule(getInstance(), 0, (long)updateFrequency);
             started = true;
         }
     }

@@ -28,7 +28,6 @@ public class JoystickDrive_CarSteering extends CommandBase {
         }
         double e = 1 - turn;
 
-
         if(brake){
             speed = 0;
             turn = 0;

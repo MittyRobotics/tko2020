@@ -42,6 +42,7 @@ public class DriveTrainTalon extends SubsystemBase {
 	    rightDrive[0] = new WPI_TalonSRX(Constants.RIGHT_TALON_1);
 	    rightDrive[1] = new WPI_TalonSRX(Constants.RIGHT_TALON_2);
 
+
 	    leftDrive[0].setInverted(Constants.LEFT_TALON_INVERSIONS[0]);
 	    leftDrive[1].setInverted(Constants.LEFT_TALON_INVERSIONS[1]);
 	    rightDrive[0].setInverted(Constants.RIGHT_TALON_INVERSIONS[0]);
@@ -51,7 +52,7 @@ public class DriveTrainTalon extends SubsystemBase {
 	    rightDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
 	    leftDrive[0].setSensorPhase(false);
-	    rightDrive[0].setSensorPhase(true);
+	    rightDrive[0].setSensorPhase(false);
 
 	    leftDrive[1].set(ControlMode.Follower, leftDrive[0].getDeviceID());
 	    rightDrive[1].set(ControlMode.Follower, rightDrive[0].getDeviceID());
@@ -66,8 +67,6 @@ public class DriveTrainTalon extends SubsystemBase {
 	    leftDrive[1].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[0].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[1].setNeutralMode(NeutralMode.Brake);
-		setDefaultCommand(new RunCommand(()->tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),OI.getInstance().getXboxController().getY(
-				GenericHID.Hand.kRight)), this));
 	}
 
 	public void tankDrive(double left, double right) {
@@ -94,6 +93,47 @@ public class DriveTrainTalon extends SubsystemBase {
 		rightDrive[0].set(ControlMode.Velocity, right/ 10);
 		System.out.println(left + " " + right);
 	}
+
+	double leftLastMeasured = 0;
+	double rightLastMeasured = 0;
+
+	final double kV = .2; //0.12
+	final double kA = 0.0; //0.0
+	final double kP = 0.001; //0.01
+	final double kT = 0.0;
+
+	public void customTankVelocity(double leftVel, double rightVel){
+		double left;
+		double right;
+
+		double measuredLeft = getLeftEncoderVelocity();
+		double FFLeft = kV * leftVel + kA * ((measuredLeft - leftLastMeasured)/.02);
+		leftLastMeasured = measuredLeft;
+		double errorLeft = leftVel - measuredLeft;
+		double FBLeft = kP * errorLeft;
+		left = (FFLeft + FBLeft);
+		left = Math.max(-12, Math.min(12,left));
+
+		double measuredRight = getRightEncoderVelocity();
+
+		double FFRight = kV * rightVel + kA * ((measuredRight - rightLastMeasured)/.02);
+
+		rightLastMeasured = measuredRight;
+
+		double errorRight = rightVel - measuredRight;
+
+		double FBRight = kP * errorRight;
+
+		right = (FFRight + FBRight);
+
+		right = Math.max(-12, Math.min(12,right));
+
+		left = left/12;
+		right = right/12;
+
+		tankDrive(left,right);
+	}
+
 	public void movePos(double left, double right){
     	leftDrive[0].set(ControlMode.Position, left * Constants.TICKS_PER_INCH);
     	rightDrive[0].set(ControlMode.Position, right * Constants.TICKS_PER_INCH);
