@@ -1,5 +1,6 @@
 package com.github.mittyrobotics.drive;
 
+import com.github.mittyrobotics.Gyro;
 import com.github.mittyrobotics.OI;
 import com.github.mittyrobotics.controls.TKODifferentialDrive;
 import com.revrobotics.CANSparkMax;
@@ -21,7 +22,7 @@ public class Drive extends CommandBase {
 
     @Override
     public void execute() {
-        differentialDrive.joystickCarSteering(OI.getInstance().getXboxWheel().getX()/3, OI.getInstance().getJoystick1().getY()/3, OI.getInstance().getJoystick1().getTrigger());
+        differentialDrive.carDriveCompassSteering(OI.getInstance().getXboxWheel().getX()/3, Gyro.getInstance().getAngle(),OI.getInstance().getXboxWheel().getBumper(GenericHID.Hand.kLeft), OI.getInstance().getXboxWheel().getBumper(GenericHID.Hand.kRight), OI.getInstance().getXboxWheel().getBButton());
     }
 
     @Override
