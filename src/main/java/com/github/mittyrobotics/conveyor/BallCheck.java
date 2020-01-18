@@ -17,9 +17,14 @@ public class BallCheck extends CommandBase {
 
     @Override
     public void execute() {
-        if (!previousLimitSwitchValue1 && ConveyorSwitches.getInstance().getSwitch1()) { //no ball before and now detect ball
+        if (!previousLimitSwitchValue1 && ConveyorSwitches.getInstance().getSwitch1()) { //no ball before and now detect ball before conveyor
             ++ConveyorSubsystem.getInstance().totalBallCount;
         }
+        if(previousLimitSwitchValue2 && !ConveyorSwitches.getInstance().getSwitch2()){ //detect ball before and now no ball in buffer zone
+            --ConveyorSubsystem.getInstance().totalBallCount;
+        }
+        previousLimitSwitchValue1 = ConveyorSwitches.getInstance().getSwitch1();
+        previousLimitSwitchValue2 = ConveyorSwitches.getInstance().getSwitch2();
 
     }
 
