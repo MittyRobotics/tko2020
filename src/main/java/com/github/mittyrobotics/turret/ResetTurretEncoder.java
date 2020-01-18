@@ -1,13 +1,9 @@
 package com.github.mittyrobotics.turret;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ResetTurretEncoder extends CommandBase {
-    private double position;
+    private double position; //TODO what is the purpose of position?
     private boolean isDone = false;
     public ResetTurretEncoder(double position){
         super();

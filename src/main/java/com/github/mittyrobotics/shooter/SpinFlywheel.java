@@ -2,8 +2,8 @@ package com.github.mittyrobotics.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class MoveFlyWheel extends CommandBase {
-    public MoveFlyWheel(){
+public class SpinFlywheel extends CommandBase {
+    public SpinFlywheel(){
         super();
         addRequirements(ShooterSubsystem.getInstance());
     }

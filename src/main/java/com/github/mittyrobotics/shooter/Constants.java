@@ -8,5 +8,5 @@ public class Constants {
     public static final double ShooterOutputMin = 0;
     public static final double ShooterOutputMax = 0;
     public static final double ShooterSpeed = .5;
-    public static final double SpeedMultiplier = 0;
+    public static final double SpeedMultiplier = 0; //TODO what is this for?
 }
