@@ -1,6 +1,5 @@
 package com.github.mittyrobotics.drive;
 
-import com.github.mittyrobotics.controls.TKODifferentialDrive;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -16,9 +15,6 @@ public class DriveTrainSparks extends SubsystemBase {
 
 
     private static DriveTrainSparks instance;
-
-    TKODifferentialDrive differentialDrive;
-
     public static DriveTrainSparks getInstance(){
         if(instance == null){
             instance = new DriveTrainSparks();
@@ -75,9 +71,11 @@ public class DriveTrainSparks extends SubsystemBase {
         }
     }
 
-    public void drive(double steeringWheelX, boolean isLeftPressed, boolean isRightPressed, boolean brake) {
-        differentialDrive = new TKODifferentialDrive(leftSpark1, rightSpark1);
-        differentialDrive.carDriveCarSteering(steeringWheelX, isLeftPressed, isRightPressed, brake, 0);
+    public CANSparkMax getLeftSpark(){
+        return leftSpark1;
+    }
 
+    public CANEncoder getLeftEncoder(){
+        return leftSpark1.getEncoder();
     }
 }
