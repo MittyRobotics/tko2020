@@ -4,6 +4,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainTalon extends SubsystemBase {
@@ -63,9 +66,8 @@ public class DriveTrainTalon extends SubsystemBase {
 	    leftDrive[1].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[0].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[1].setNeutralMode(NeutralMode.Brake);
-		//setDefaultCommand(new JoystickDrive_CarSteering());
-
-
+		setDefaultCommand(new RunCommand(()->tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),OI.getInstance().getXboxController().getY(
+				GenericHID.Hand.kRight)), this));
 	}
 
 	public void tankDrive(double left, double right) {

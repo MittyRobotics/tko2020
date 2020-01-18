@@ -24,35 +24,17 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.drive.RampingCommand;
-import edu.wpi.first.wpilibj.Talon;
-
 import com.github.mittyrobotics.autonomous.commands.TurretAimbot;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
 import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
 import com.github.mittyrobotics.autonomous.vision.VisionManager;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
-
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-
-  @Override
-  public void robotInit() {
-//    OI.getInstance().digitalInputControls();
-    DriveTrainTalon.getInstance().initHardware();
-  }
-
-  @Override
-  public void robotPeriodic() {
-    //CommandScheduler.getInstance().run();
-
-  }
-=======
 
     public Robot() {
         super(0.02);
@@ -69,6 +51,8 @@ public class Robot extends TimedRobot {
         TurretFieldManager.getInstance().start((long) 0.02);
         //Start vision manager at frequency of 0.02
         VisionManager.getInstance().start((long) 0.02);
+
+        DriveTrainTalon.getInstance().initHardware();
     }
 
     @Override
@@ -77,61 +61,29 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void disabledInit() {
-
-    }
-
-    @Override
-    public void disabledPeriodic() {
-
-  @Override
-  public void autonomousInit() {
-    CommandScheduler.getInstance().cancelAll();
-    DriveTrainTalon.getInstance().resetEncoder();
-    //DriveTrainTalon.getInstance().movePos(24, 24);
-//    CommandScheduler.getInstance().schedule(new RampingCommand(110));
-    }
-
-
-    @Override
-    public void autonomousInit() {
-
-
-  @Override
-  public void autonomousPeriodic() {
-    DriveTrainTalon.getInstance().tankVelocity(5, 5);
-//      System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
-//      System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
-      System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-      System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
-  }
-
-  @Override
-  public void teleopInit() {
-//    DriveTrainTalon.getInstance().resetEncoder();
-//    DriveTrainTalon.getInstance().movePos(70, 70);
-  }
-
-  @Override
-  public void teleopPeriodic() {
-//    System.out.print(DriveTrainTalon.getInstance().getLeftEncoder());
-//    System.out.print(DriveTrainTalon.getInstance().getRightEncoder());
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-
-    }
-
-    @Override
     public void teleopInit() {
 
     }
 
-
     @Override
     public void teleopPeriodic() {
-        CommandScheduler.getInstance().schedule(new TurretAimbot());
+    }
+
+    @Override
+    public void autonomousInit() {
+//        CommandScheduler.getInstance().cancelAll();
+//        DriveTrainTalon.getInstance().resetEncoder();
+        //DriveTrainTalon.getInstance().movePos(24, 24);
+//    CommandScheduler.getInstance().schedule(new RampingCommand(110));
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+//        DriveTrainTalon.getInstance().tankVelocity(5, 5);
+////      System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
+////      System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
+//        System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+//        System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
     }
 
     @Override
@@ -143,4 +95,15 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
 
     }
+
+    @Override
+    public void disabledInit() {
+
+    }
+
+    @Override
+    public void disabledPeriodic() {
+
+    }
+
 }
