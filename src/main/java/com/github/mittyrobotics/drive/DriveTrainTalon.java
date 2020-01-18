@@ -90,7 +90,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		right *= Constants.TICKS_PER_INCH;
 		leftDrive[0].set(ControlMode.Velocity, left / 10);
 		rightDrive[0].set(ControlMode.Velocity, right/ 10);
-		System.out.println(left + " " + right);
+//		System.out.println(left + " " + right);
 	}
 	public void movePos(double left, double right){
     	leftDrive[0].set(ControlMode.Position, left * Constants.TICKS_PER_INCH);
@@ -122,5 +122,4 @@ public class DriveTrainTalon extends SubsystemBase {
 	public WPI_TalonSRX getRightTalon(){
 		return rightDrive[0];
 	}
-
 }
