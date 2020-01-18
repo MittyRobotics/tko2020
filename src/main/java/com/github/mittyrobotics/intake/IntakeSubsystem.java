@@ -34,7 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     }
     public boolean hasBall(){
-        return ballSensor.get();
+        return !ballSensor.get();
     }
 
 }
