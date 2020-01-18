@@ -23,8 +23,8 @@ public class BufferSubsystem extends SubsystemBase {
     }
 
     public void initHardware(){
-        talon1 = new WPI_TalonSRX(com.github.mittyrobotics.buffer.Constants.TalonID1);
-        talon2 = new WPI_TalonSRX(com.github.mittyrobotics.buffer.Constants.TalonID2);
+        talon1 = new WPI_TalonSRX(Constants.TalonID1);
+        talon2 = new WPI_TalonSRX(Constants.TalonID2);
     }
 
     public void bufferLock(double speed) {

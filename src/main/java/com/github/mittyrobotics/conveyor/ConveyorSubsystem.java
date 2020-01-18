@@ -26,11 +26,13 @@ public class ConveyorSubsystem extends SubsystemBase {
         talon1 = new WPI_TalonSRX(Constants.TalonID);
     }
 
-    public int getTotalBallCount() { return totalBallCount;}
+    public int getTotalBallCount() {
+        return totalBallCount;
+    }
     public void updateBallCount(int count){
         totalBallCount += count;
     }
-    public void setConveyorSpeed (double speed) {
+    public void setConveyorSpeed (double speed) { //TODO maybe put encoder to control distance traveled? (Unsure)
         talon1.set(ControlMode.PercentOutput, speed);
     }
 

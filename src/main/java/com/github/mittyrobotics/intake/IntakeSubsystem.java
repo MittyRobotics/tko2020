@@ -35,6 +35,6 @@ public class IntakeSubsystem extends SubsystemBase {
     }
     public boolean hasBall(){
         return !ballSensor.get();
-    }
+    } //TODO is the switch reversed?
 
 }

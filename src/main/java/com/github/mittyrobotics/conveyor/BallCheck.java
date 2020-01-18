@@ -3,9 +3,9 @@ package com.github.mittyrobotics.conveyor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class BallCheck extends CommandBase {
-
-    private boolean previousLimitSwitchValue1 = false;
-    private boolean previousLimitSwitchValue2 = false;
+    //TODO is switch1 the entrance or exit?
+    private boolean previousLimitSwitchValue1 = false; //TODO set it to false in initialize
+    private boolean previousLimitSwitchValue2 = false; //TODO set it to false in initialize
 
     public BallCheck(){
         super();

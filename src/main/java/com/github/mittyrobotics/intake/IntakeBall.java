@@ -14,7 +14,7 @@ public class IntakeBall extends CommandBase {
     public void initialize() {}
 
     @Override
-    public void execute() {
+    public void execute() { //TODO Need to have else to make it stop
         if(IntakeSubsystem.getInstance().hasBall()){
             IntakeSubsystem.getInstance().intakeBall();
         }
