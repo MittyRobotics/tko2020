@@ -43,13 +43,6 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
-//		Button initializeButton = new Button() {
-//			@Override
-//			public boolean get() {
-//				return getJoystick1().getTrigger();
-//			}
-//		};
-//
-//		initializeButton.whenPressed(new Drive());
+
 	}
 }
