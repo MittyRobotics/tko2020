@@ -34,7 +34,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     CommandScheduler.getInstance().cancelAll();
     DriveTrainTalon.getInstance().resetEncoder();
-    DriveTrainTalon.getInstance().tankVelocity(-10, -10);
+    //DriveTrainTalon.getInstance().tankVelocity(-10, -10);
+    DriveTrainTalon.getInstance().velocityPIDFeedForward();
     //DriveTrainTalon.getInstance().movePos(24, 24);
 //    CommandScheduler.getInstance().schedule(new RampingCommand(110));
 
