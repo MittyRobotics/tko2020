@@ -1,4 +1,5 @@
 package com.github.mittyrobotics.colorwheel;
 
-public enum Color {
+public enum WheelColor {
+    Blue, Red, Green, Yellow, None
 }

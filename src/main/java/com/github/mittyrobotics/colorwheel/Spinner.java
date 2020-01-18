@@ -10,6 +10,10 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.awt.event.MouseWheelListener;
+import java.util.HashMap;
+import java.util.WeakHashMap;
+
 import static com.github.mittyrobotics.colorwheel.Constants.*;
 
 
@@ -33,6 +37,7 @@ public class Spinner extends SubsystemBase {
     private final Color kRedTarget = ColorMatch.makeColor(RED_R, RED_G, RED_B);
     private final Color kYellowTarget = ColorMatch.makeColor(YELLOW_R, YELLOW_G, YELLOW_B);
 
+    private HashMap<WheelColor, WheelColor> map = new HashMap<>();
 
     public static Spinner getInstance() {
         if (instance == null) {
@@ -55,12 +60,17 @@ public class Spinner extends SubsystemBase {
     public void initHardware() {
         //initialize talon
         talon1 = new WPI_TalonSRX(TALON_DEVICE_NUMBER);
+
         //TODO setup encoder & PID
         //sets color match
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
         m_colorMatcher.addColorMatch(kYellowTarget);
+        map.put(WheelColor.Blue, WheelColor.Red);
+        map.put(WheelColor.Red, WheelColor.Blue);
+        map.put(WheelColor.Green, WheelColor.Yellow);
+        map.put(WheelColor.Yellow, WheelColor.Green);
     }
 
     public void setMotorFast() {
@@ -80,27 +90,24 @@ public class Spinner extends SubsystemBase {
         talon1.set(ControlMode.PercentOutput, 0);
     }
 
-    public String getColor() {
+    public WheelColor getColor() {
         //gets current rgb
         Color detectedColor = m_colorSensor.getColor();
 
         //matches rgb to color targets
-        String colorString;
         ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
             if (match.color == kBlueTarget) {
-                colorString = "Blue";
+                return WheelColor.Blue;
             } else if (match.color == kRedTarget) {
-                colorString = "Red";
+                return WheelColor.Red;
             } else if (match.color == kGreenTarget) {
-                colorString = "Green";
+                return WheelColor.Green;
             } else if (match.color == kYellowTarget) {
-                colorString = "Yellow";
+                return WheelColor.Yellow;
             } else {
-                colorString = " ";
+                return WheelColor.None;
             }
-        //returns string for color
-        return colorString;
     }
 
     public double[] getRGB() {
@@ -113,18 +120,34 @@ public class Spinner extends SubsystemBase {
         return colors;
     }
 
-    public char getGameMessage() {
+    public WheelColor getGameMessage() {
         //return target color
         String s = DriverStation.getInstance().getGameSpecificMessage();
         if(s.length()>0){
-            return s.charAt(0);
-        } else {
-            return ' ';
+            switch(s.toLowerCase().charAt(0)){
+                case('b'):
+                    return WheelColor.Blue;
+                case('r'):
+                    return WheelColor.Red;
+                case('g'):
+                    return WheelColor.Green;
+                case('y'):
+                    return WheelColor.Yellow;
+            }
         }
+        return WheelColor.None;
+    }
+
+    public int getPosition() {
+        return talon1.getSelectedSensorPosition();
+    }
+
+    public void zeroEncoder() {
+        talon1.setSelectedSensorPosition(0);
     }
 
     public boolean matching() {
         //return target color equals current color
-        return getGameMessage() == getColor().charAt(0);
+        return getGameMessage() == map.get(getColor());
     }
 }

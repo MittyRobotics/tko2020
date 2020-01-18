@@ -3,13 +3,9 @@ package com.github.mittyrobotics.colorwheel;
 import com.github.mittyrobotics.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import static com.github.mittyrobotics.colorwheel.Constants.ONE_REV_TIME_MS;
+import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
 
 public class SpinRevs extends CommandBase {
-    //counter
-   private int count;
-   //TODO use encoder count (position) and color values instead of a timer
-
     public SpinRevs() {
         super();
         addRequirements(Spinner.getInstance());
@@ -17,13 +13,14 @@ public class SpinRevs extends CommandBase {
     @Override
     public void initialize(){
         //sets motor to fast velocity
+        Spinner.getInstance().zeroEncoder();
         Spinner.getInstance().setMotorFast();
+
 
     }
     @Override
     public void execute(){
-        //each cycle is 20 ms
-        count++;
+
     }
     @Override
     public void end(boolean interrupted){
@@ -33,7 +30,7 @@ public class SpinRevs extends CommandBase {
     }
     @Override
     public boolean isFinished(){
-        //returns 3 revs completed (one rev time times 3 revs, divided by 20 ms for each cycle)
-        return count > (ONE_REV_TIME_MS*3)/20;
+        //returns 3 revs completed (one inch times 100 inches for each revolution times 3 revolutions)
+        return Spinner.getInstance().getPosition() > TICKS_PER_INCH * 100 * 3.5;
     }
 }

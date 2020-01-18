@@ -8,8 +8,8 @@ public class Constants {
     public static final int TALON_DEVICE_NUMBER = 0;
 
 
-    //ms for one revolution of the color wheel
-    public static final int ONE_REV_TIME_MS = 1000;
+    //ticks for one inch of the color wheel
+    public static final int TICKS_PER_INCH = 300;
     //slow and fast velocity for motor
     public static final int FAST_VELOCITY = 5000;
     public static final int SLOW_VELOCITY = 2000;
