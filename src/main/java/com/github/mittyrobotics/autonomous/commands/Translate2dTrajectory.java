@@ -149,7 +149,7 @@ public class Translate2dTrajectory extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return pathFollower.isFinished(Odometry.getInstance().getRobotTransform(), 2);
+        return pathFollower.isFinished(Odometry.getInstance().getRobotTransform(), 5);
     }
 
     /**

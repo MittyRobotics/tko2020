@@ -42,26 +42,15 @@ import java.util.TimerTask;
  * Robot-relative turret angle (<code>robotTurretAngle</code>): the angle of the turret relative to the robot. In other words,
  * the rotation of the turret offset from the turret's default location.
  */
-public class TurretFieldManager extends TimerTask {
+public class TurretFieldManager {
     private static TurretFieldManager instance = new TurretFieldManager();
 
     private Transform fieldTurretTransform;
-    private boolean started = false;
 
     public static TurretFieldManager getInstance() {
         return instance;
     }
 
-    public void start(double updateFrequency) {
-        if(!started){
-            Timer timer = new Timer();
-            updateFrequency = updateFrequency * 1000;
-            timer.schedule(getInstance(), 0, (long)updateFrequency);
-            started = true;
-        }
-    }
-
-    @Override
     public void run() {
         double gyroAngle = 0; //TODO: Set this to the gyro angle
         double robotTurretAngle = 0; //TODO: Set this to the robot-relative turret angle from Turret subsystem

@@ -97,9 +97,9 @@ public class DriveTrainTalon extends SubsystemBase {
 	double leftLastMeasured = 0;
 	double rightLastMeasured = 0;
 
-	final double kV = .2; //0.12
+	final double kV = .13; //0.13
 	final double kA = 0.0; //0.0
-	final double kP = 0.001; //0.01
+	final double kP = 0.01; //0.01
 	final double kT = 0.0;
 
 	public void customTankVelocity(double leftVel, double rightVel){

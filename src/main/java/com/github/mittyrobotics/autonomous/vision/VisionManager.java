@@ -34,19 +34,8 @@ public class VisionManager extends TimerTask {
     private static VisionManager instance = new VisionManager();
     private double visionDistance;
 
-    private boolean started = false;
-
     public static VisionManager getInstance() {
         return instance;
-    }
-
-    public void start(double updateFrequency) {
-        if(!started){
-            Timer timer = new Timer();
-            updateFrequency = updateFrequency * 1000;
-            timer.schedule(getInstance(), 0, (long)updateFrequency);
-            started = true;
-        }
     }
 
     @Override

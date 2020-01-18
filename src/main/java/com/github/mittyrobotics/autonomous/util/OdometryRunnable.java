@@ -32,40 +32,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OdometryRunnable extends TimerTask {
+public class OdometryRunnable {
 
     private static OdometryRunnable instance = new OdometryRunnable();
-    private boolean started = false;
 
     public static OdometryRunnable getInstance() {
         return instance;
     }
 
-    /**
-     * Starts the {@link OdometryRunnable} that updates the {@link Odometry} at a frequency of
-     * <code>updateFrequence</code>.
-     *
-     * @param updateFrequency the time in seconds between each {@link Odometry} update call.
-     */
-    public void start(double updateFrequency) {
-        if(!started){
-            Timer timer = new Timer();
-            updateFrequency = updateFrequency * 1000;
-            timer.schedule(getInstance(), (long)0.0, (long)updateFrequency);
-            started = true;
-        }
-    }
-
-    @Override
     public void run() {
         //TODO: Get left and right encoder position and heading value from drivetrain and gyro
         double leftEncoderPosition = DriveTrainTalon.getInstance().getLeftEncoder();
         double rightEncoderPosition = DriveTrainTalon.getInstance().getRightEncoder();
         double heading = Gyro.getInstance().getAngle();
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
-        SmartDashboard.putNumber("robot_x",Odometry.getInstance().getRobotTransform().getPosition().getX());
-        SmartDashboard.putNumber("robot_y",Odometry.getInstance().getRobotTransform().getPosition().getY());
-        SmartDashboard.putNumber("robot_heading",Odometry.getInstance().getRobotTransform().getRotation().getHeading());
+        SmartDashboard.putNumber("robot_x", Odometry.getInstance().getRobotTransform().getPosition().getX());
+        SmartDashboard.putNumber("robot_y", Odometry.getInstance().getRobotTransform().getPosition().getY());
+        SmartDashboard
+                .putNumber("robot_heading", Odometry.getInstance().getRobotTransform().getRotation().getHeading());
         SmartDashboard.putNumber("robot_vel_left", DriveTrainTalon.getInstance().getLeftEncoderVelocity());
         SmartDashboard.putNumber("robot_vel_right", DriveTrainTalon.getInstance().getRightEncoderVelocity());
     }
