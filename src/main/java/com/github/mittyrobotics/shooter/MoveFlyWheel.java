@@ -1,12 +1,11 @@
 package com.github.mittyrobotics.shooter;
 
-import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveFlyWheel extends CommandBase {
     public MoveFlyWheel(){
         super();
-        addRequirements(TurretSubsystem.getInstance());
+        addRequirements(ShooterSubsystem.getInstance());
     }
 
     @Override
