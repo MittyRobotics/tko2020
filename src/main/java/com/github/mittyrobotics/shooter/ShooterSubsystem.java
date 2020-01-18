@@ -41,6 +41,7 @@ public class ShooterSubsystem extends SubsystemBase {
         }
     }
 
+    //TODO build another function that used bang-bang control (we will test both to see which works better)
     public void setShooterSpeed(double speed){ //in rpm of the motor
         spark1.getPIDController().setReference(speed, ControlType.kVelocity);
     }
