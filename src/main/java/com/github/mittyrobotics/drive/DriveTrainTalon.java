@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainTalon extends SubsystemBase {
@@ -11,6 +12,7 @@ public class DriveTrainTalon extends SubsystemBase {
 	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[2];
 	private static DriveTrainTalon ourInstance = new DriveTrainTalon();
     private double count = 0;
+	private PIDController controller;
 
     //Making it a Singleton
     private static DriveTrainTalon instance;
@@ -63,7 +65,11 @@ public class DriveTrainTalon extends SubsystemBase {
 	    leftDrive[1].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[0].setNeutralMode(NeutralMode.Brake);
 	    rightDrive[1].setNeutralMode(NeutralMode.Brake);
+
 		//setDefaultCommand(new JoystickDrive_CarSteering());
+
+		//Feedforward Velocity PID
+		controller = new PIDController(0,0,0);
 
 
 	}
@@ -121,5 +127,18 @@ public class DriveTrainTalon extends SubsystemBase {
 	}
 	public WPI_TalonSRX getRightTalon(){
 		return rightDrive[0];
+	}
+
+	public void velocityPIDFeedForward() {
+
+		controller.setSetpoint(10*Constants.TICKS_PER_INCH);
+
+		double feedBackLeft = controller.calculate(leftDrive[0].getSelectedSensorVelocity());
+		double feedBackRight = controller.calculate(rightDrive[0].getSelectedSensorVelocity());
+		double feedForward = 0.0377;
+
+		leftDrive[0].set(ControlMode.PercentOutput, feedBackLeft + feedForward);
+		rightDrive[0].set(ControlMode.PercentOutput, feedBackRight + feedForward);
+
 	}
 }
