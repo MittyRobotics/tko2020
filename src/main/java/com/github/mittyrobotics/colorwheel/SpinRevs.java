@@ -8,6 +8,7 @@ import static com.github.mittyrobotics.colorwheel.Constants.ONE_REV_TIME_MS;
 public class SpinRevs extends CommandBase {
     //counter
    private int count;
+   //TODO use encoder count (position) and color values instead of a timer
 
     public SpinRevs() {
         super();

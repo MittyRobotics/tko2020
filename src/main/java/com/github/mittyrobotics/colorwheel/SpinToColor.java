@@ -3,6 +3,8 @@ package com.github.mittyrobotics.colorwheel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SpinToColor extends CommandBase {
+    //TODO need to set target to 2+ colors from what the sensor detects
+    //TODO use encoder count (position) to discover transition + x time (still need to find out), then start tracking color
     public SpinToColor() {
         super();
         addRequirements(Spinner.getInstance());
