@@ -7,13 +7,14 @@ public class MoveFlyWheel extends CommandBase {
         super();
         addRequirements(ShooterSubsystem.getInstance());
     }
-    @Override
 
+    @Override
+    public void initialize(){ }
+
+    @Override
     public void execute(){
         ShooterSubsystem.getInstance().setShooterSpeed(Constants.ShooterSpeed);
     }
-    @Override
-    public void initialize(){ }
 
     @Override
     public void end(boolean interrupted){
@@ -21,6 +22,6 @@ public class MoveFlyWheel extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return true;
+        return false;
     }
 }
