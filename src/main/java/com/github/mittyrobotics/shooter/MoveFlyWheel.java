@@ -7,7 +7,11 @@ public class MoveFlyWheel extends CommandBase {
         super();
         addRequirements(ShooterSubsystem.getInstance());
     }
+    @Override
 
+    public void execute(){
+        ShooterSubsystem.getInstance().setShooterSpeed(Constants.ShooterSpeed);
+    }
     @Override
     public void initialize(){ }
 
