@@ -30,6 +30,7 @@ public class MoveWinch extends CommandBase {
         }
 
         // setup PID
+        //TODO setup PID (and Output range) in initHardware() in winch.java
         controller.setP(Constants.WINCH_PID_VALUES[0]);
         controller.setI(Constants.WINCH_PID_VALUES[1]);
         controller.setD(Constants.WINCH_PID_VALUES[2]);
@@ -61,6 +62,7 @@ public class MoveWinch extends CommandBase {
             if (RAMP_RATE > (pos - Winch.getInstance().getRightEncoder().getPosition())) {
                 tempPos = pos;
             }
+            //TODO create a function that does setReference for you (take tempPos as a parameter)
             controller.setReference(tempPos, ControlType.kPosition);
         }
     }

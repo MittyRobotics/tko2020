@@ -30,10 +30,12 @@ public class Winch extends SubsystemBase {
         leftSpark.restoreFactoryDefaults();
         rightSpark.restoreFactoryDefaults();
 
+        //TODO setup PID Here, not in the command
         leftController = new CANPIDController(leftSpark);
         rightController = new CANPIDController(rightSpark);
     }
 
+    //TODO change to use the getPIDController() function instead of making a new one
     public CANPIDController getLeftController(){
         return leftController;
     }
@@ -42,6 +44,7 @@ public class Winch extends SubsystemBase {
         return leftSpark.getEncoder();
     }
 
+    //TODO change to use the getPIDController() function instead of making a new one
     public CANPIDController getRightController(){
         return rightController;
     }
