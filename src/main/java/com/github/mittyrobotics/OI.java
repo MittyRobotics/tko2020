@@ -3,8 +3,10 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
+	private Button button1;
 	private XboxWheel xboxWheel;
 	private XboxController xboxController;
 	private Joystick joystick1;
@@ -16,6 +18,7 @@ public class OI {
 		}
 		return instance;
 	}
+
 	public XboxWheel getXboxWheel(){
 		if(xboxWheel == null){
 			xboxWheel = new XboxWheel(Constants.XBOX_WHEEL_ID);

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ConveyorSubsystem extends SubsystemBase {
     private WPI_TalonSRX talon1;
+
     public static int totalBallCount = 0;
 
     private static ConveyorSubsystem instance;

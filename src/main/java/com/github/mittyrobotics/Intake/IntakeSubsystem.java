@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
     private WPI_TalonSRX talon2;
+    private DigitalInput intakesensor;
 
     private static IntakeSubsystem instance;
     public static IntakeSubsystem getInstance(){
@@ -24,12 +25,18 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void initHardware(){
+
         talon2 = new WPI_TalonSRX(Constants2.Talon2ID);
+        intakesensor = new DigitalInput (Constants2.DigitalInputID);
     }
     public void IntakeBall(){
         if(ConveyorSubsystem.getInstance().totalBallCount < 5){
             talon2.set(ControlMode.Velocity, Constants2.Intakespeed);
         }
+
+    }
+    public DigitalInput getintakesensor(){
+        return intakesensor;
     }
 
 }
