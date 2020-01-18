@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ConveyorSwitches {
     private static ConveyorSwitches instance;
-    DigitalInput opticalSwitch1 = new DigitalInput(com.github.mittyrobotics.Constants.OPTICAL_SWITCH_1);
-    DigitalInput opticalSwitch2 = new DigitalInput(Constants.OPTICAL_SWITCH_2);
+    private DigitalInput opticalSwitch1 = new DigitalInput(com.github.mittyrobotics.Constants.OPTICAL_SWITCH_1);
+    private DigitalInput opticalSwitch2 = new DigitalInput(Constants.OPTICAL_SWITCH_2);
 
     public static ConveyorSwitches getInstance(){
         if(instance == null){
