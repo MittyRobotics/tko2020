@@ -7,4 +7,5 @@ public class Constants {
     public static final double ShooterD = 0;
     public static final double ShooterOutputMin = 0;
     public static final double ShooterOutputMax = 0;
+    public static final double ShooterSpeed = .5;
 }

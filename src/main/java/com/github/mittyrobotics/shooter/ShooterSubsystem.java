@@ -45,7 +45,4 @@ public class ShooterSubsystem extends SubsystemBase {
         spark1.getPIDController().setReference(speed, ControlType.kVelocity);
     }
 
-//    public CANSparkMax getSpark1(){ //TODO return a CANPIDController that uses spark1 instead
-//        return spark1;
-//    }
 }
