@@ -7,8 +7,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Drive extends CommandBase {
-    CANSparkMax left;
-    CANSparkMax right;
     TKODifferentialDrive differentialDrive;
     public Drive() {
         super();
@@ -17,10 +15,7 @@ public class Drive extends CommandBase {
 
     @Override
     public void initialize() {
-        left = DriveTrainSparks.getInstance().leftSpark1;
-        right = DriveTrainSparks.getInstance().rightSpark1;
-
-        differentialDrive = new TKODifferentialDrive(left, right);
+        differentialDrive = new TKODifferentialDrive(DriveTrainSparks.getInstance().leftSpark1, DriveTrainSparks.getInstance().rightSpark1);
 }
 
 
