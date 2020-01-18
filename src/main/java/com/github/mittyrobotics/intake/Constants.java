@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.Intake;
+package com.github.mittyrobotics.intake;
 
 public class Constants {
     public static final int Talon2ID = 1;

@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.Intake;
+package com.github.mittyrobotics.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

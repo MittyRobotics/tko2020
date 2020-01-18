@@ -1,10 +1,14 @@
 package com.github.mittyrobotics;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+
+  private DigitalInput ballSensor;
+
   @Override
   public void robotInit() {
 //    OI.getInstance().digitalInputControls();
@@ -37,11 +41,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    ballSensor = new DigitalInput(4);
 
   }
 
   @Override
   public void teleopPeriodic() {
+    System.out.println("Ball Sensor Value:" + ballSensor.get());
+
 
   }
 

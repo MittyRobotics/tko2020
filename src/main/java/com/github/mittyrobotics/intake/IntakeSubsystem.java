@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.Intake;
+package com.github.mittyrobotics.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
