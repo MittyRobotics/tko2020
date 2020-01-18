@@ -35,7 +35,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
     DriveTrainTalon.getInstance().resetEncoder();
     //DriveTrainTalon.getInstance().tankVelocity(-10, -10);
-    DriveTrainTalon.getInstance().velocityPIDFeedForward();
     //DriveTrainTalon.getInstance().movePos(24, 24);
 //    CommandScheduler.getInstance().schedule(new RampingCommand(110));
 
@@ -45,8 +44,9 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
 //      System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
 //      System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
-      System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-      System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
+    DriveTrainTalon.getInstance().velocityPIDFeedForward(20);
+    System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+    System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
 //      System.out.println("Desired Vel" + DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget());
   }
 
