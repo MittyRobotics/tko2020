@@ -1,6 +1,10 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.buffer.LockBall;
+import com.github.mittyrobotics.buffer.ReleaseBall;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.conveyor.MoveConveyor;
+import com.github.mittyrobotics.intake.IntakeBall;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -44,6 +48,37 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
+		Button intakeButton = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getTrigger();
+			}
+		};
+		intakeButton.whenPressed(new IntakeBall());
+
+		Button conveyorButton = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(3);
+			}
+		};
+		conveyorButton.whenPressed(new MoveConveyor());
+
+		Button lockBall = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(4);
+			}
+		};
+		lockBall.whenPressed(new LockBall());
+
+		Button releaseBall = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(5);
+			}
+		};
+		releaseBall.whenPressed(new ReleaseBall());
 
 	}
 }
