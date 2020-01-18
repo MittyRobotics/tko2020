@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    ballSensor = new DigitalInput(4);
+    ballSensor = new DigitalInput(0);
 
   }
 
