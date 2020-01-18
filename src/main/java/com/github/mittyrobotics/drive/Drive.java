@@ -1,7 +1,9 @@
 package com.github.mittyrobotics.drive;
 
+import com.github.mittyrobotics.OI;
 import com.github.mittyrobotics.controls.TKODifferentialDrive;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Drive extends CommandBase {
@@ -19,12 +21,12 @@ public class Drive extends CommandBase {
         right = DriveTrainSparks.getInstance().rightSpark1;
 
         differentialDrive = new TKODifferentialDrive(left, right);
-        differentialDrive.joystickCarSteering(0, 0.8, false);
 }
+
 
     @Override
     public void execute() {
-
+        differentialDrive.joystickCarSteering(OI.getInstance().getXboxWheel().getX()/3, OI.getInstance().getJoystick1().getY()/3, OI.getInstance().getJoystick1().getTrigger());
     }
 
     @Override

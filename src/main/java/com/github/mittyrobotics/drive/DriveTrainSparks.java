@@ -47,9 +47,9 @@ public class DriveTrainSparks extends SubsystemBase {
         leftSpark2.restoreFactoryDefaults();
         rightSpark1.restoreFactoryDefaults();
         rightSpark2.restoreFactoryDefaults();
-
         rightSpark1.setInverted(true);
         rightSpark2.setInverted(true);
+        setDefaultCommand(new Drive());
     }
 
     public void tankDrive(double left, double right) {
