@@ -1,6 +1,8 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.drive.DriveTrainSparks;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.drive.JoystickDrive_CarSteering;
 import com.github.mittyrobotics.drive.RampingCommand;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -12,11 +14,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 //    OI.getInstance().digitalInputControls();
     DriveTrainTalon.getInstance().initHardware();
+    //DriveTrainSparks.getInstance().initHardware();
   }
 
   @Override
   public void robotPeriodic() {
-    //CommandScheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
 
   }
 
@@ -27,16 +30,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-
   }
 
   @Override
   public void autonomousInit() {
-    CommandScheduler.getInstance().cancelAll();
-    DriveTrainTalon.getInstance().resetEncoder();
+    //CommandScheduler.getInstance().cancelAll();
+    //DriveTrainTalon.getInstance().resetEncoder();
     //DriveTrainTalon.getInstance().tankVelocity(-10, -10);
     //DriveTrainTalon.getInstance().movePos(24, 24);
-//    CommandScheduler.getInstance().schedule(new RampingCommand(110));
+    //CommandScheduler.getInstance().schedule(new RampingCommand());
 
   }
 
@@ -44,9 +46,9 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
 //      System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
 //      System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
-    DriveTrainTalon.getInstance().velocityPIDFeedForward(20);
-    System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-    System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
+    //DriveTrainTalon.getInstance().velocityPIDFeedForward(0);
+    //System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+    //System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
 //      System.out.println("Desired Vel" + DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget());
   }
 

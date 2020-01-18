@@ -25,7 +25,7 @@ public class DriveTrainSparks extends SubsystemBase {
     private DriveTrainSparks(){
         super();
         setName("DriveTrainSparks");
-        //setDefaultCommand(new sampleCommand());
+
     }
 
     @Override
@@ -44,24 +44,25 @@ public class DriveTrainSparks extends SubsystemBase {
         leftSpark2.restoreFactoryDefaults();
         rightSpark1.restoreFactoryDefaults();
         rightSpark2.restoreFactoryDefaults();
+
+        setDefaultCommand(new JoystickDrive_CarSteering());
     }
 
     public void tankDrive(double left, double right) {
-        if (Math.abs(left) > 0.1){
-            leftSpark1.set(left);
-            leftSpark2.set(left);
-        } else {
+        if (Math.abs(left) < 0.1){
             leftSpark1.stopMotor();
             leftSpark2.stopMotor();
-
+        } else {
+            leftSpark1.set(left);
+            leftSpark2.set(left);
         }
 
-        if (Math.abs(right) > 0.1){
-            rightSpark1.set(right);
-            rightSpark2.set(right);
-        } else {
+        if (Math.abs(right) < 0.1){
             rightSpark1.stopMotor();
             rightSpark2.stopMotor();
+        } else {
+            rightSpark1.set(right);
+            rightSpark2.set(right);
         }
     }
 
