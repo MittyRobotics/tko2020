@@ -45,7 +45,7 @@ public class DriveTrainSparks extends SubsystemBase {
         rightSpark1.restoreFactoryDefaults();
         rightSpark2.restoreFactoryDefaults();
 
-        setDefaultCommand(new JoystickDrive_CarSteering());
+        //setDefaultCommand(new JoystickDrive_CarSteering());
     }
 
     public void tankDrive(double left, double right) {

@@ -46,9 +46,9 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
 //      System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
 //      System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
-    DriveTrainTalon.getInstance().velocityPIDFeedForward(0);
-    //System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-    //System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
+    DriveTrainTalon.getInstance().velocityPIDFeedForward(30);
+    System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+    System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
 //      System.out.println("Desired Vel" + DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget());
   }
 
