@@ -135,7 +135,7 @@ public class DriveTrainTalon extends SubsystemBase {
 	}
 
 	public void velocityPIDFeedForward(double velocity) {
-		velocity /= 2;
+		//velocity /= 2;
 		controller.setSetpoint(velocity);
 		double feedBackLeft = -controller.calculate(leftDrive[0].getSelectedSensorVelocity() / Constants.TICKS_PER_INCH, velocity) / 10;
 		double feedBackRight = -controller.calculate(rightDrive[0].getSelectedSensorVelocity() / Constants.TICKS_PER_INCH, velocity) / 10;
