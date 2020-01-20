@@ -32,7 +32,6 @@ import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
@@ -54,9 +53,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
-
-        DriveTrainTalon.getInstance().initHardware();
-
         //Setup track width for DifferentialDriveKinematics
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
 
@@ -67,15 +63,10 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         OdometryRunnable.getInstance().run();
         TurretFieldManager.getInstance().run();
-        Vision.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
-        CommandScheduler.getInstance().schedule(new RunCommand(
-                () -> DriveTrainTalon.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand
-                        .kLeft), -OI.getInstance().getXboxController().getY(
-                        GenericHID.Hand.kRight)), DriveTrainTalon.getInstance()));
     }
 
     @Override
