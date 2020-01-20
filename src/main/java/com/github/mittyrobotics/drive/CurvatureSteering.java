@@ -22,7 +22,7 @@ public class CurvatureSteering extends CommandBase {
 		double wheelWidth = 12.5;
 		double radius = 0;
 
-		if ((turn > -5) & (turn < 5))  {
+		if ((turn > -10) & (turn < 10))  {
 			radius = 0;
 		}
 		else {
@@ -33,18 +33,18 @@ public class CurvatureSteering extends CommandBase {
 		double rightSpeed = 0;
 
 		if (radius > 0) {
-			leftSpeed = 2 * Math.PI * (radius + (wheelWidth)); //leftSpeed bigger 33pi
-			rightSpeed = 2 * Math.PI * (radius - (wheelWidth)); //-17pi
-			leftSpeed = leftSpeed/leftSpeed;
-			rightSpeed = (rightSpeed/leftSpeed);
+			leftSpeed = (radius + wheelWidth); //leftSpeed bigger 33pi
+			rightSpeed = (radius - wheelWidth); //-17pi
+			leftSpeed = (leftSpeed/leftSpeed)/2;
+			rightSpeed = (rightSpeed/leftSpeed)/2;
 
 
 		}
 		else if (radius < 0) {
 			leftSpeed = 2 * Math.PI * (radius - (wheelWidth)); //rightSpeed bigger
 			rightSpeed = 2 * Math.PI * (radius + (wheelWidth));
-			rightSpeed = rightSpeed/rightSpeed;
-			leftSpeed = (leftSpeed/rightSpeed);
+			rightSpeed = (rightSpeed/leftSpeed)/2;
+			leftSpeed = (leftSpeed/leftSpeed)/2;
 		}
 		else {
 			leftSpeed = 0;
@@ -63,12 +63,11 @@ public class CurvatureSteering extends CommandBase {
 
 
 		if(Math.abs(speed) < 0.05){
-			DriveTrainTalon.getInstance().tankDrive(-(OI.getInstance().getXboxWheel().getX()), OI.getInstance().getXboxWheel().getX());
+			DriveTrainTalon.getInstance().tankDrive((OI.getInstance().getXboxWheel().getX()), -(OI.getInstance().getXboxWheel().getX()));
 		}
 		else {
-			DriveTrainTalon.getInstance().tankDrive(leftSpeed, rightSpeed);
+			DriveTrainTalon.getInstance().tankDrive(((2*speed)/3) + (rightSpeed/3), ((2*speed)/3) + (leftSpeed/3));
 		}
-		System.out.println("Turn: " + turn);
 	}
 	@Override
 	public void end(boolean interrupted){
