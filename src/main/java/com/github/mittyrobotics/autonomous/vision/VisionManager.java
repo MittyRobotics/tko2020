@@ -27,7 +27,6 @@ package com.github.mittyrobotics.autonomous.vision;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.vision.Limelight;
 
-import java.util.Timer;
 import java.util.TimerTask;
 
 public class VisionManager extends TimerTask {

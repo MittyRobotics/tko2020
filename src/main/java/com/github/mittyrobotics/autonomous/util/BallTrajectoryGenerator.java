@@ -10,7 +10,7 @@ public class BallTrajectoryGenerator {
         graph.getContentPane().setSize(800, 600);
         graph.resizeGraph(0, 600.0 / 60, 0, 800.0 / 60);
         XYSeriesCollectionWithRender dataset = new XYSeriesCollectionWithRender();
-        dataset.addSeries(calculateTrajectory(12.8,41,0.0889,0.141748,9.8,1.225 ,"Trajectory"));
+        dataset.addSeries(calculateTrajectory(12.8, 41, 0.0889, 0.141748, 9.8, 1.225, "Trajectory"));
         XYSeries empiricalSeries1 = graphCubicFunction(
                 .0009271,
                 .01013,
@@ -31,13 +31,13 @@ public class BallTrajectoryGenerator {
     /**
      * implementation of http://www.physics.usyd.edu.au/~cross/TRAJECTORIES/42.%20Ball%20Trajectories.pdf
      *
-     * @param v initial ball velocity m/s
-     * @param angle initial ball angle degrees
-     * @param radius ball radius m
-     * @param mass ball mass kg
-     * @param gravity gravity m/s (positive)
+     * @param v          initial ball velocity m/s
+     * @param angle      initial ball angle degrees
+     * @param radius     ball radius m
+     * @param mass       ball mass kg
+     * @param gravity    gravity m/s (positive)
      * @param airDensity air density kg/m^3
-     * @param name name of {@link XYSeries}
+     * @param name       name of {@link XYSeries}
      * @return
      */
 
@@ -45,10 +45,10 @@ public class BallTrajectoryGenerator {
                                                double gravity, double airDensity, String name) {
         XYSeries series = new XYSeries(name, false);
 
-        double vSpin = radius * v/radius;
+        double vSpin = radius * v / radius;
 
         double Cd = 0.45;
-        double             Cl = 1 / (2 + (v / vSpin));
+        double Cl = 1 / (2 + (v / vSpin));
 
         double k = (airDensity * 3.14 * (radius * radius)) / 2;
 
@@ -61,13 +61,13 @@ public class BallTrajectoryGenerator {
         double Fx;
         double Fy;
 
-        while(y > 0){
+        while (y > 0) {
             double t = 0.001;
 
-            v = Math.sqrt(vx*vx+vy*vy);
-            
-            Fx = -k*v*(Cd*vx+Cl*vy);
-            Fy = k*v*(Cl*vx-Cd*vy)-gravity*mass;
+            v = Math.sqrt(vx * vx + vy * vy);
+
+            Fx = -k * v * (Cd * vx + Cl * vy);
+            Fy = k * v * (Cl * vx - Cd * vy) - gravity * mass;
             vx += Fx * t / mass;
             vy += Fy * t / mass;
             x += vx * t;

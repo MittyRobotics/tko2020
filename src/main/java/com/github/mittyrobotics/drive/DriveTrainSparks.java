@@ -7,33 +7,31 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainSparks extends SubsystemBase {
 
+    private static DriveTrainSparks instance;
     private CANSparkMax leftSpark1;
     private CANSparkMax leftSpark2;
-
     private CANSparkMax rightSpark1;
-    private CANSparkMax rightSpark2 ;
+    private CANSparkMax rightSpark2;
 
-
-    private static DriveTrainSparks instance;
-    public static DriveTrainSparks getInstance(){
-        if(instance == null){
-            instance = new DriveTrainSparks();
-        }
-        return instance;
-    }
-
-    private DriveTrainSparks(){
+    private DriveTrainSparks() {
         super();
         setName("DriveTrainSparks");
         //setDefaultCommand(new sampleCommand());
     }
 
+    public static DriveTrainSparks getInstance() {
+        if (instance == null) {
+            instance = new DriveTrainSparks();
+        }
+        return instance;
+    }
+
     @Override
-    public void periodic(){
+    public void periodic() {
 
     }
 
-    public void initHardware(){
+    public void initHardware() {
         leftSpark1 = new CANSparkMax(Constants.LEFT_SPARK_1_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         leftSpark2 = new CANSparkMax(Constants.LEFT_SPARK_2_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
@@ -47,7 +45,7 @@ public class DriveTrainSparks extends SubsystemBase {
     }
 
     public void tankDrive(double left, double right) {
-        if (Math.abs(left) > 0.1){
+        if (Math.abs(left) > 0.1) {
             leftSpark1.set(left);
             leftSpark2.set(left);
         } else {
@@ -56,7 +54,7 @@ public class DriveTrainSparks extends SubsystemBase {
 
         }
 
-        if (Math.abs(right) > 0.1){
+        if (Math.abs(right) > 0.1) {
             rightSpark1.set(right);
             rightSpark2.set(right);
         } else {
@@ -65,11 +63,11 @@ public class DriveTrainSparks extends SubsystemBase {
         }
     }
 
-    public CANSparkMax getLeftSpark(){
+    public CANSparkMax getLeftSpark() {
         return leftSpark1;
     }
 
-    public CANEncoder getLeftEncoder(){
+    public CANEncoder getLeftEncoder() {
         return leftSpark1.getEncoder();
     }
 }

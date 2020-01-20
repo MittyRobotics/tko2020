@@ -29,9 +29,6 @@ import com.github.mittyrobotics.autonomous.vision.VisionManager;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * TurretManager class. Manages the turret's position relative to the field and relative to vision targets.
  * <p>

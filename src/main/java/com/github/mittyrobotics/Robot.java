@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
         PathFollower follower = new PathFollower(new PathFollowerProperties(velocityController, false, false),
                 new PathFollowerProperties.RamseteProperties(2.0,
                         0.7));
-        follower.setDrivingGoal(new Transform(100,-24));
+        follower.setDrivingGoal(new Transform(100, -24));
         CommandScheduler.getInstance().schedule(new Translate2dTrajectory(follower));
     }
 

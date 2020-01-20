@@ -29,9 +29,6 @@ import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class OdometryRunnable {
 
     private static OdometryRunnable instance = new OdometryRunnable();
