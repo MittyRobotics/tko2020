@@ -1,6 +1,5 @@
 package com.github.mittyrobotics.turret;
 
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -55,6 +54,7 @@ public class TurretSubsystem extends SubsystemBase {
     public void changeRelativeAngle(double angle){ //TODO fill in
 
     }
+
     public void setTurretSpeed(double speed) {
         if (!limitSwitch.get() && !limitSwitch2.get()) {
             talon1.set(ControlMode.PercentOutput, speed);

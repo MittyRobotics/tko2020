@@ -37,10 +37,11 @@ public class DriveTrainSparks extends SubsystemBase {
     public CANSparkMax rightSpark1;
     public CANSparkMax rightSpark2 ;
 
+    private static DriveTrainSparks instance;
+
     private DriveTrainSparks() {
         super();
         setName("DriveTrainSparks");
-        //setDefaultCommand(new sampleCommand());
     }
 
     public static DriveTrainSparks getInstance() {
