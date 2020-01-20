@@ -55,8 +55,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         OI.getInstance().digitalInputControls();
 
-        Gyro.getInstance().calibrate();
-
         DriveTrainTalon.getInstance().initHardware();
 
         //Setup track width for DifferentialDriveKinematics

@@ -31,8 +31,8 @@ public class AutonConstants {
     public static double HIGH_TARGET_MAX_HEIGHT = 9.438 - (7.0 / 12.0 / 2.0); //ft
 
     //Vision
-    public static double LIMELIGHT_HEIGHT = 3.0 / 4.0; //TODO: Find this value later
-    public static double LIMELIGHT_PITCH = 1; //TODO: Find this value later
+    public static double LIMELIGHT_HEIGHT = 22; //TODO: Find this value later
+    public static double LIMELIGHT_PITCH = 60; //TODO: Find this value later
 
     //Robot
     public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches

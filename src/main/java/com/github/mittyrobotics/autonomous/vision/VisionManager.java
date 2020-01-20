@@ -27,9 +27,7 @@ package com.github.mittyrobotics.autonomous.vision;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.vision.Limelight;
 
-import java.util.TimerTask;
-
-public class VisionManager extends TimerTask {
+public class VisionManager {
     private static VisionManager instance = new VisionManager();
     private double visionDistance;
 
@@ -37,7 +35,6 @@ public class VisionManager extends TimerTask {
         return instance;
     }
 
-    @Override
     public void run() {
         Limelight.getInstance().updateLimelightValues();
         this.visionDistance = computeVisionDistance(Limelight.getInstance().getPitchToTarget());
