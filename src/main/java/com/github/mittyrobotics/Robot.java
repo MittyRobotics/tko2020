@@ -1,14 +1,19 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+
+    private double speed;
+
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
         ShooterSubsystem.getInstance().initHardware();
+        TurretSubsystem.getInstance().initHardware();
     }
 
     @Override
@@ -43,12 +48,14 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        if (OI.getInstance().getJoystick1().getTrigger()) {
-            ShooterSubsystem.getInstance().manualControl(.5);
-        } else {
-            ShooterSubsystem.getInstance().manualControl(0);
-//      CommandScheduler.getInstance().run();
-        }
+        speed = OI.getInstance().getJoystick1().getY();
+        TurretSubsystem.getInstance().manualSetTurret(speed);
+//        if (OI.getInstance().getJoystick1().getTrigger()) {
+//            ShooterSubsystem.getInstance().manualControl(.5);
+//        } else {
+//            ShooterSubsystem.getInstance().manualControl(0);
+//        }
+
     }
 
     @Override

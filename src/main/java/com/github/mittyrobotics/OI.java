@@ -1,8 +1,8 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.shooter.MoveFlyWheel;
-import com.github.mittyrobotics.turret.SetTurretPosition;
+import com.github.mittyrobotics.shooter.SpinFlywheel;
+import com.github.mittyrobotics.turret.SetTurretAngle;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -50,19 +50,20 @@ public class OI {
     }
 
     public void digitalInputControls() {
-        Button moveFlyWheel = new Button() {
+        Button spinFlyWheel = new Button() {
             @Override
             public boolean get() {
                 return getJoystick1().getRawButton(5);
             }
         };
-        moveFlyWheel.whenPressed(new MoveFlyWheel());
-        Button turretPosition = new Button() {
+        spinFlyWheel.whenPressed(new SpinFlywheel(Constants.ShooterSpeed, Constants.ShooterBangThreshold));
+
+        Button turretAngle = new Button() {
             @Override
             public boolean get() {
                 return getJoystick1().getRawButton(4);
             }
         };
-        turretPosition.whenPressed(new SetTurretPosition());
+        turretAngle.whenPressed(new SetTurretAngle(Constants.turretAngle));
     }
 }

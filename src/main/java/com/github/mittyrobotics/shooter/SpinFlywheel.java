@@ -3,8 +3,11 @@ package com.github.mittyrobotics.shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SpinFlywheel extends CommandBase {
-    public SpinFlywheel() {
+    private double speed, threshold;
+    public SpinFlywheel(double speed, double threshold) {
         super();
+        this.speed = speed;
+        this.threshold = threshold;
         addRequirements(ShooterSubsystem.getInstance());
     }
 
@@ -14,7 +17,8 @@ public class SpinFlywheel extends CommandBase {
 
     @Override
     public void execute() {
-        ShooterSubsystem.getInstance().setShooterSpeed(Constants.ShooterSpeed);
+        ShooterSubsystem.getInstance().setShooterSpeed(speed);
+        ShooterSubsystem.getInstance().bangControl(speed, threshold);
     }
 
     @Override

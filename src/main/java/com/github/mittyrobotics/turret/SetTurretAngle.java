@@ -3,18 +3,18 @@ package com.github.mittyrobotics.turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-public class SetTurretPosition extends CommandBase {
-    private int position;
+public class SetTurretAngle extends CommandBase {
+    private double angle;
 
-    public SetTurretPosition(int position) {
+    public SetTurretAngle(double angle) {
         super();
-        this.position = position;
+        this.angle = angle;
         addRequirements(TurretSubsystem.getInstance());
     }
 
     @Override
     public void initialize() {
-        TurretSubsystem.getInstance().setPosition(position);
+        TurretSubsystem.getInstance().setAngle(angle);
     }
 
     @Override

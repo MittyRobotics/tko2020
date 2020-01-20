@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.shooter;
 
 
+import com.github.mittyrobotics.motionprofile.util.datatypes.MechanismBounds;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
@@ -10,6 +11,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private static ShooterSubsystem instance;
     private CANSparkMax spark1;
+    private double bangSpeed = 0;
+    private boolean inThreshold;
 
     private ShooterSubsystem() {
         super();
@@ -40,9 +43,19 @@ public class ShooterSubsystem extends SubsystemBase {
         }
     }
 
-    //TODO build another function that used bang-bang control (we will test both to see which works better)
     public void setShooterSpeed(double speed) { //in rpm of the motor
         spark1.getPIDController().setReference(speed, ControlType.kVelocity);
     }
 
+    public void bangControl(double speed, double threshold) {
+        if(!(Math.abs(speed - spark1.getEncoder().getVelocity()) < threshold)){
+            if ((spark1.getEncoder().getVelocity())>speed) {
+                bangSpeed -= .01;
+            } else if ((spark1.getEncoder().getVelocity())<speed) {
+                bangSpeed += .01;
+            }
+        }
+        bangSpeed = Math.max(-1, Math.min(1, bangSpeed));
+        spark1.set(bangSpeed);
+    }
 }
