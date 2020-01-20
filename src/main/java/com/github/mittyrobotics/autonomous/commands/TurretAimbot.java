@@ -24,11 +24,19 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
+import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
+import com.github.mittyrobotics.autonomous.util.VisionTarget;
 import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.turret.TurretSubsystem;
 import com.github.mittyrobotics.vision.Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurretAimbot extends CommandBase {
+
+    public TurretAimbot(){
+        super();
+        addRequirements(TurretSubsystem.getInstance());
+    }
 
     @Override
     public void initialize() {
@@ -37,10 +45,8 @@ public class TurretAimbot extends CommandBase {
 
     @Override
     public void execute() {
-        if (Vision.getInstance().isSafeToUseVision()) {
-            double yaw = Limelight.getInstance().getYawToTarget();
-            double distance = 0;
-        }
+        VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
+        TurretSubsystem.getInstance().changeAngle(target.getYaw().getHeading());
     }
 
     @Override

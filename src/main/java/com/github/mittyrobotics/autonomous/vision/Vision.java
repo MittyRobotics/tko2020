@@ -31,13 +31,17 @@ import com.github.mittyrobotics.vision.Limelight;
 
 public class Vision {
     private static Vision instance = new Vision();
-    private double previousVisionYaw;
+    private VisionTarget currentVisionTarget;
 
     public static Vision getInstance() {
         return instance;
     }
 
-    public VisionTarget getCurrentTarget() {
+    public void run(){
+        this.currentVisionTarget = computeVisionTarget();
+    }
+
+    private VisionTarget computeVisionTarget() {
         Limelight.getInstance().updateLimelightValues();
 
         if (isSafeToUseVision()) {
@@ -46,14 +50,12 @@ public class Vision {
 
             double visionDistance = computeVisionDistance(pitch);
             double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(visionDistance, visionYaw);
-            Rotation turretRelativeVisionYaw =
-                    computeTurretRelativeVisionYaw(visionDistance, turretRelativeVisionDistance
-                            , visionYaw);
 
-            return new VisionTarget(turretRelativeVisionYaw, turretRelativeVisionDistance);
+            return new VisionTarget(computeTurretRelativeVisionYaw(visionDistance, turretRelativeVisionDistance
+                    , visionYaw),turretRelativeVisionDistance);
         }
 
-        return new VisionTarget(new Rotation(), 0);
+        return new VisionTarget(new Rotation(),0);
     }
 
     /**
@@ -102,5 +104,9 @@ public class Vision {
     private Rotation computeLatencyAndVelocityCompensationAngle() {
         //TODO: Implement this
         return new Rotation();
+    }
+
+    public VisionTarget getCurrentVisionTarget() {
+        return currentVisionTarget;
     }
 }
