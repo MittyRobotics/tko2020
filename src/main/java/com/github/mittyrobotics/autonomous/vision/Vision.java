@@ -68,7 +68,7 @@ public class Vision {
     }
 
     private double computeShooterVelocityFromDistance(double distance){
-        //TODO: Implement this
+        //TODO: Implement this. This will most likely be done via a lookup table in AutonConstants
         return 0;
     }
 
