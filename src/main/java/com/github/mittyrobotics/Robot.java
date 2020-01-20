@@ -25,7 +25,12 @@
 package com.github.mittyrobotics;
 
 
+import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
+import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
+import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.turret.TurretSubsystem;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -49,26 +54,6 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
   
   }
-
-    @Override
-    public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
-        OdometryRunnable.getInstance().run();
-        TurretFieldManager.getInstance().run();
-        Vision.getInstance().run();
-    }
-
-    @Override
-    public void teleopInit() {
-        CommandScheduler.getInstance().schedule(new RunCommand(
-                () -> DriveTrainTalon.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand
-                        .kLeft), -OI.getInstance().getXboxController().getY(
-                        GenericHID.Hand.kRight)), DriveTrainTalon.getInstance()));
-    }
-
-    @Override
-    public void teleopPeriodic() {
-    }
 
   @Override
   public void autonomousInit() {
