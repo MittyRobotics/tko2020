@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
     private WPI_TalonSRX talon2;
+    //ballSensor may not exist... Intake could be running forever
     private DigitalInput ballSensor;
 
     private static IntakeSubsystem instance;
