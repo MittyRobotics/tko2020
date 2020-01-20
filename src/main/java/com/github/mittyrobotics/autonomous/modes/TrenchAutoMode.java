@@ -33,8 +33,8 @@ import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
-public class Shoot3TrenchAutoMode extends SequentialCommandGroup {
-    public Shoot3TrenchAutoMode(Transform robotStartTransform) {
+public class TrenchAutoMode extends SequentialCommandGroup {
+    public TrenchAutoMode(Transform robotStartTransform) {
         //TODO: Calibrate Odometry to robotStartTransform
         addCommands(
                 //TODO: Set shooter setpoint command to general speed around 20 feet
