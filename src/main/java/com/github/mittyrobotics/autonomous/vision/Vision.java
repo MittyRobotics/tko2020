@@ -25,12 +25,14 @@
 package com.github.mittyrobotics.autonomous.vision;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.util.ShooterSetpoint;
 import com.github.mittyrobotics.vision.Limelight;
 
 public class Vision {
     private static Vision instance = new Vision();
     private double turretRelativeVisionDistance;
     private double turretRelativeVisionYaw;
+    private ShooterSetpoint shooterSetpoint;
 
     public static Vision getInstance() {
         return instance;
@@ -65,8 +67,15 @@ public class Vision {
         return 0;
     }
 
+    private double computeShooterVelocityFromDistance(double distance){
+        //TODO: Implement this
+        return 0;
+    }
 
-
+    private double computeLatencyAndVelocityCompensationAngle(){
+        //TODO: Implement this
+        return 0;
+    }
 
     public double getTurretRelativeVisionDistance() {
         return turretRelativeVisionDistance;
@@ -74,5 +83,9 @@ public class Vision {
 
     public double getTurretRelativeVisionYaw() {
         return turretRelativeVisionYaw;
+    }
+
+    public ShooterSetpoint getShooterSetpoint() {
+        return shooterSetpoint;
     }
 }
