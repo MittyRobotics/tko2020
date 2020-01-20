@@ -35,7 +35,7 @@ public class CurvatureSteering extends CommandBase {
 		if (radius > 0) {
 			leftSpeed = 2 * Math.PI * (radius + (wheelWidth)); //leftSpeed bigger 33pi
 			rightSpeed = 2 * Math.PI * (radius - (wheelWidth)); //-17pi
-			leftSpeed = 1;
+			leftSpeed = leftSpeed/leftSpeed;
 			rightSpeed = (rightSpeed/leftSpeed);
 
 
@@ -43,7 +43,7 @@ public class CurvatureSteering extends CommandBase {
 		else if (radius < 0) {
 			leftSpeed = 2 * Math.PI * (radius - (wheelWidth)); //rightSpeed bigger
 			rightSpeed = 2 * Math.PI * (radius + (wheelWidth));
-			rightSpeed = 1;
+			rightSpeed = rightSpeed/rightSpeed;
 			leftSpeed = (leftSpeed/rightSpeed);
 		}
 		else {
@@ -63,7 +63,7 @@ public class CurvatureSteering extends CommandBase {
 
 
 		if(Math.abs(speed) < 0.05){
-			DriveTrainTalon.getInstance().tankDrive(-turn, turn);
+			DriveTrainTalon.getInstance().tankDrive(-(OI.getInstance().getXboxWheel().getX()), OI.getInstance().getXboxWheel().getX());
 		}
 		else {
 			DriveTrainTalon.getInstance().tankDrive(leftSpeed, rightSpeed);
