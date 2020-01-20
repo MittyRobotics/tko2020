@@ -29,10 +29,10 @@ public class TurretSubsystem extends SubsystemBase {
         talon1.config_kP(0, Constants.TurretP);
         talon1.config_kI(0, Constants.TurretI);
         talon1.config_kD(0, Constants.TurretD);
-        //TODO: Make sure to configure the talon's encoder. We use a digital absolute encoder for the turret, so to
-        // set that use talon1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute)
         limitSwitch = new DigitalInput(Constants.TurretSwitchID);
         limitSwitch2 = new DigitalInput(Constants.TurretSwitch2ID);
+        //TODO: Make sure to configure the talon's encoder. We use a digital absolute encoder for the turret, so to
+        // set that use talon1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute)
     }
 
     //TODO: I am assuming you want setPosition to set the ANGLE of the turret instead of the encoder position, to do
