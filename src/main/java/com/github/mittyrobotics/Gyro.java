@@ -26,30 +26,23 @@ package com.github.mittyrobotics;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
-/**
- * Class to access the Gyro on the robot
- */
 public class Gyro extends ADXRS450_Gyro {
-    private static Gyro ourInstance = new Gyro();
-
-    /**
-     * Runs the constructor of the ADXRS450_Gyro Class
-     */
-    private Gyro() {
-        super();
-    }
-
-    /**
-     * Gets the only instance of the gyro being used as a singleton
-     *
-     * @return a static instance of the gyro
-     */
-    public static Gyro getInstance() {
-        return ourInstance;
-    }
-
-    @Override
-    public double getAngle() {
-        return -super.getAngle();
-    }
+	private Gyro instance = new Gyro();
+	private Gyro getInstance(){
+		if(instance == null){
+			instance = new Gyro();
+		}
+		return instance;
+	}
+	private Gyro(){
+		super();
+	}
+	private double getAngle360(){
+		double angle = getAngle();
+		angle %= 360;
+		if(angle < 0){
+			angle += 360;
+		}
+		return angle;
+	}
 }

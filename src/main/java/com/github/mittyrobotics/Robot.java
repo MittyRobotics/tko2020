@@ -24,22 +24,8 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.commands.Translate2dTrajectory;
-import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
-import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
-import com.github.mittyrobotics.autonomous.vision.Vision;
-import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
-import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
-import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.motionprofile.PathVelocityController;
-import com.github.mittyrobotics.path.following.PathFollower;
-import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
-import com.github.mittyrobotics.path.generation.Path;
-import com.github.mittyrobotics.path.generation.PathGenerator;
-import edu.wpi.first.wpilibj.GenericHID;
+
+import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -47,20 +33,22 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Robot extends TimedRobot {
 
-    public Robot() {
-        super(0.02);
-    }
 
-    @Override
-    public void robotInit() {
-        OI.getInstance().digitalInputControls();
+  @Override
+  public void robotInit() {
+    OI.getInstance().digitalInputControls();
+//        ShooterSubsystem.getInstance().initHardware();
+    TurretSubsystem.getInstance().initHardware();
 
-        DriveTrainTalon.getInstance().initHardware();
-
-        //Setup track width for DifferentialDriveKinematics
-        DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
-
-    }
+  }
+  @Override
+  public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
+  @Override
+  public void disabledInit() {
+  
+  }
 
     @Override
     public void robotPeriodic() {
@@ -82,30 +70,28 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
     }
 
-    @Override
-    public void autonomousInit() {
-    }
+  @Override
+  public void autonomousInit() {
 
-    @Override
-    public void autonomousPeriodic() {
-    }
+  }
+  @Override
+  public void teleopInit() {
+//    DriveTrainTalon.getInstance().resetEconder();
+//    DriveTrainTalon.getInstance().movePos(70, 70)
+  }
 
-    @Override
-    public void testInit() {
-    }
+  @Override
+  public void teleopPeriodic() {
+//    System.out.print(DriveTrainTalon.getInstance().getLeftEncoder());
+//    System.out.print(DriveTrainTalon.getInstance().getRightEncoder());
+  }
+  @Override
+  public void testInit(){
 
-    @Override
-    public void testPeriodic() {
-    }
-
-    @Override
-    public void disabledInit() {
-
-    }
-
-    @Override
-    public void disabledPeriodic() {
-
-    }
+  }
+  @Override
+  public void testPeriodic(){
+  
+  }
 
 }
