@@ -25,12 +25,9 @@
 package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
-import com.github.mittyrobotics.autonomous.vision.VisionManager;
+import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * TurretManager class. Manages the turret's position relative to the field and relative to vision targets.
@@ -54,7 +51,7 @@ public class TurretFieldManager {
     public void run() {
         double gyroAngle = 0; //TODO: Set this to the gyro angle
         double robotTurretAngle = 0; //TODO: Set this to the robot-relative turret angle from Turret subsystem
-        double distanceToTarget = VisionManager.getInstance().getVisionDistance();
+        double distanceToTarget = Vision.getInstance().getTurretRelativeVisionDistance();
         this.fieldTurretTransform = computeTurretTransform(gyroAngle, robotTurretAngle, distanceToTarget);
     }
 

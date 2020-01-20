@@ -121,8 +121,8 @@ public class Translate2dTrajectory extends CommandBase {
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getRobotTransform()
                 , currentVelocities, deltaTime);
         //TODO: Set drivetrain velocities to output
-        SmartDashboard.putNumber("path_velocity_left",output.getLeftVelocity());
-        SmartDashboard.putNumber("path_velocity_right",output.getRightVelocity());
+        SmartDashboard.putNumber("path_velocity_left", output.getLeftVelocity());
+        SmartDashboard.putNumber("path_velocity_right", output.getRightVelocity());
         DriveTrainTalon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
     }
 

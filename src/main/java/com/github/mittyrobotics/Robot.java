@@ -28,7 +28,7 @@ import com.github.mittyrobotics.autonomous.commands.Translate2dTrajectory;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
 import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
-import com.github.mittyrobotics.autonomous.vision.VisionManager;
+import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
@@ -55,8 +55,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         OI.getInstance().digitalInputControls();
 
-        Gyro.getInstance().calibrate();
-
         DriveTrainTalon.getInstance().initHardware();
 
         //Setup track width for DifferentialDriveKinematics
@@ -80,7 +78,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         OdometryRunnable.getInstance().run();
         TurretFieldManager.getInstance().run();
-        VisionManager.getInstance().run();
+        Vision.getInstance().run();
     }
 
     @Override
@@ -115,7 +113,7 @@ public class Robot extends TimedRobot {
         PathFollower follower = new PathFollower(new PathFollowerProperties(velocityController, false, false),
                 new PathFollowerProperties.RamseteProperties(2.0,
                         0.7));
-        follower.setDrivingGoal(new Transform(100,-24));
+        follower.setDrivingGoal(new Transform(100, -24));
         CommandScheduler.getInstance().schedule(new Translate2dTrajectory(follower));
     }
 

@@ -24,6 +24,68 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
-public class Vision {
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.util.ShooterSetpoint;
+import com.github.mittyrobotics.vision.Limelight;
 
+public class Vision {
+    private static Vision instance = new Vision();
+    private double turretRelativeVisionDistance;
+    private double turretRelativeVisionYaw;
+    private ShooterSetpoint shooterSetpoint;
+
+    public static Vision getInstance() {
+        return instance;
+    }
+
+    public void run() {
+        Limelight.getInstance().updateLimelightValues();
+        this.turretRelativeVisionDistance = computeVisionDistance(Limelight.getInstance().getPitchToTarget());
+    }
+
+    /**
+     * Returns if the vision system is safe to use.
+     *
+     * @return if the vision system is safe to use.
+     */
+    public boolean isSafeToUseVision() {
+        return Limelight.getInstance().isHasValidTarget();
+    }
+
+    private double computeVisionDistance(double pitch) {
+        return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
+                Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
+    }
+
+    private double computeTurretRelativeVisionDistance(){
+        //TODO: Implement this
+        return 0;
+    }
+
+    private double computeTurretRelativeVisionYaw(){
+        //TODO: Implement this
+        return 0;
+    }
+
+    private double computeShooterVelocityFromDistance(double distance){
+        //TODO: Implement this. This will most likely be done via a lookup table in AutonConstants
+        return 0;
+    }
+
+    private double computeLatencyAndVelocityCompensationAngle(){
+        //TODO: Implement this
+        return 0;
+    }
+
+    public double getTurretRelativeVisionDistance() {
+        return turretRelativeVisionDistance;
+    }
+
+    public double getTurretRelativeVisionYaw() {
+        return turretRelativeVisionYaw;
+    }
+
+    public ShooterSetpoint getShooterSetpoint() {
+        return shooterSetpoint;
+    }
 }
