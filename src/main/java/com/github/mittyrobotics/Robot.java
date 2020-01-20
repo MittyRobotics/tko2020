@@ -24,9 +24,6 @@
 
 package com.github.mittyrobotics;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.autonomous.commands.Translate2dTrajectory;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
@@ -42,8 +39,6 @@ import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
-import com.github.mittyrobotics.vision.Limelight;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,7 +46,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Robot extends TimedRobot {
-    WPI_TalonSRX talon = new WPI_TalonSRX(23);
+
     public Robot() {
         super(0.02);
     }
@@ -70,12 +65,6 @@ public class Robot extends TimedRobot {
         Odometry.getInstance().calibrateToZero(DriveTrainTalon.getInstance().getLeftEncoder(),
                 DriveTrainTalon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
 
-        talon.setInverted(false);
-        talon.configFactoryDefault();
-        talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        talon.setSelectedSensorPosition(0);
-        SmartDashboard.putNumber("turret_encoder",0);
-
         SmartDashboard.putNumber("robot_x", 0);
         SmartDashboard.putNumber("robot_y", 0);
         SmartDashboard.putNumber("robot_heading", 0);
@@ -89,10 +78,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-//        OdometryRunnable.getInstance().run();
-//        TurretFieldManager.getInstance().run();
-//        VisionManager.getInstance().run();
-        SmartDashboard.putNumber("turret_encoder",talon.getSelectedSensorPosition());
+        OdometryRunnable.getInstance().run();
+        TurretFieldManager.getInstance().run();
+        VisionManager.getInstance().run();
     }
 
     @Override
@@ -111,13 +99,29 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        CommandScheduler.getInstance().cancelAll();
+        DriveTrainTalon.getInstance().resetEncoder();
+        Odometry.getInstance().calibrateToZero(DriveTrainTalon.getInstance().getLeftEncoder(),
+                DriveTrainTalon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
 
+        Path path =
+                new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(new Transform[]
+                        {
+                                new Transform(), new Transform(48, -24), new Transform(100, -24)
+                        }));
+
+        PathVelocityController velocityController =
+                new PathVelocityController(new VelocityConstraints(100, 40, 150), 0, 0, true);
+        PathFollower follower = new PathFollower(new PathFollowerProperties(velocityController, false, false),
+                new PathFollowerProperties.RamseteProperties(2.0,
+                        0.7));
+        follower.setDrivingGoal(new Transform(100,-24));
+        CommandScheduler.getInstance().schedule(new Translate2dTrajectory(follower));
     }
 
     @Override
     public void autonomousPeriodic() {
-        double yaw = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-        setMotor(.05*yaw);
+//       DriveTrainTalon.getInstance().customTankVelocity(10, 10);
     }
 
     @Override
@@ -132,8 +136,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
-        double yaw = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-        setMotor(.06*yaw);
+        System.out.println(
+                DriveTrainTalon.getInstance().getLeftEncoder() + " " + DriveTrainTalon.getInstance().getRightEncoder());
     }
 
     @Override
@@ -146,12 +150,4 @@ public class Robot extends TimedRobot {
 
     }
 
-
-    private void setMotor(double speed){
-        speed = Math.min(.7,Math.max(-.7,speed));
-        talon.set(ControlMode.PercentOutput,speed);
-    }
-
 }
-
-
