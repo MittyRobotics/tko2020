@@ -61,14 +61,15 @@ public class CurvatureSteering extends CommandBase {
 			turn = 0;
 		}
 
-
+		System.out.println("leftSpeed: " + leftSpeed);
+		System.out.println("rightSeed: " + rightSpeed);
 		if(Math.abs(speed) < 0.05){
 			DriveTrainTalon.getInstance().tankDrive(-turn, turn);
 		}
 		else {
 			DriveTrainTalon.getInstance().tankDrive(leftSpeed, rightSpeed);
 		}
-		System.out.println("Turn: " + turn);
+
 	}
 	@Override
 	public void end(boolean interrupted){
