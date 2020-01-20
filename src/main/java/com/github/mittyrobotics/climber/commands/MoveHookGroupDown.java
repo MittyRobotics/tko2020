@@ -6,6 +6,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class MoveHookGroupDown extends ParallelCommandGroup {
     public MoveHookGroupDown(){
-        addCommands(new MoveHook(RobotSide.RIGHT, ElevateDirection.DOWN), new MoveHook(RobotSide.LEFT,ElevateDirection.DOWN));
+        addCommands(new MoveHook(RobotSide.RIGHT, ElevateDirection.DOWN), new MoveHook(RobotSide.LEFT, ElevateDirection.DOWN));
     }
 }

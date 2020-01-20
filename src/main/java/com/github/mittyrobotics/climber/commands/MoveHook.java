@@ -20,9 +20,7 @@ public class MoveHook extends CommandBase {
 
     @Override
     public void initialize() {
-
         Hooks.getInstance().push(side, direction);
-
     }
 
     @Override

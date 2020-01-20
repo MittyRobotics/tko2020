@@ -7,11 +7,10 @@ public class Hooks extends SubsystemBase {
     private static Hooks ourInstance = new Hooks();
     private DoubleSolenoid leftPiston, rightPiston;
 
-
-
     private Hooks(){
         super();
     }
+
     public static Hooks getInstance() {
         return ourInstance;
     }

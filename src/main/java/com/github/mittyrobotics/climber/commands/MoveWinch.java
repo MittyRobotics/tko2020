@@ -21,20 +21,7 @@ public class MoveWinch extends CommandBase {
 
     @Override
     public void initialize(){
-        // Initialize the SPARKS for the given side (specified in constructor)
-        if (side == RobotSide.LEFT) {
-            controller = Winch.getInstance().getLeftController();
-        }
-        else {
-            controller = Winch.getInstance().getRightController();
-        }
-
-        // setup PID
-        //TODO setup PID (and Output range) in initHardware() in winch.java
-        controller.setP(Constants.WINCH_PID_VALUES[0]);
-        controller.setI(Constants.WINCH_PID_VALUES[1]);
-        controller.setD(Constants.WINCH_PID_VALUES[2]);
-        controller.setOutputRange(-1*Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
+        Winch.getInstance().initHardware(side);
     }
 
     @Override
@@ -51,24 +38,29 @@ public class MoveWinch extends CommandBase {
 //            controller.setReference(tempPos, ControlType.kPosition);
         double tempPos;
         final double RAMP_RATE = 10;
-        if (side == RobotSide.LEFT) {
-            tempPos = Winch.getInstance().getLeftEncoder().getPosition() + RAMP_RATE;
-            if (RAMP_RATE > (pos - Winch.getInstance().getLeftEncoder().getPosition())) {
-                tempPos = pos;
-            }
-            controller.setReference(tempPos, ControlType.kPosition);
-        } else {
-            tempPos = Winch.getInstance().getRightEncoder().getPosition() + RAMP_RATE;
-            if (RAMP_RATE > (pos - Winch.getInstance().getRightEncoder().getPosition())) {
-                tempPos = pos;
-            }
-            //TODO create a function that does setReference for you (take tempPos as a parameter)
-            controller.setReference(tempPos, ControlType.kPosition);
+        tempPos = Winch.getInstance().getEncoder().getPosition() + RAMP_RATE;
+        if (RAMP_RATE > (pos - Winch.getInstance().getEncoder().getPosition())) {
+            tempPos = pos;
         }
+        Winch.getInstance().setReference(tempPos);
+//        if (side == RobotSide.LEFT) {
+//            tempPos = Winch.getInstance().getLeftEncoder().getPosition() + RAMP_RATE;
+//            if (RAMP_RATE > (pos - Winch.getInstance().getLeftEncoder().getPosition())) {
+//                tempPos = pos;
+//            }
+//            controller.setReference(tempPos, ControlType.kPosition);
+//        }
+//        else {
+//            tempPos = Winch.getInstance().getRightEncoder().getPosition() + RAMP_RATE;
+//            if (RAMP_RATE > (pos - Winch.getInstance().getRightEncoder().getPosition())) {
+//                tempPos = pos;
+//            }
+//            Winch.getInstance().setReference(tempPos);
+//        }
     }
 
     @Override
     public boolean isFinished(){
-        return Math.abs(pos - Winch.getInstance().getLeftEncoder().getPosition()) < 1;
+        return Math.abs(pos - Winch.getInstance().getEncoder().getPosition()) < 1;
     }
 }
