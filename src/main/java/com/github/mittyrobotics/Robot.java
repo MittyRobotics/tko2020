@@ -12,7 +12,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
-        ShooterSubsystem.getInstance().initHardware();
+//        ShooterSubsystem.getInstance().initHardware();
         TurretSubsystem.getInstance().initHardware();
     }
 
@@ -43,13 +43,14 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        CommandScheduler.getInstance().cancelAll();
+        CommandScheduler.getInstance().run();
+        TurretSubsystem.getInstance().zeroEncoder();
+
     }
 
     @Override
     public void teleopPeriodic() {
-        speed = OI.getInstance().getJoystick1().getY();
-        TurretSubsystem.getInstance().manualSetTurret(speed);
+        System.out.println(TurretSubsystem.getInstance().getAngle());
 //        if (OI.getInstance().getJoystick1().getTrigger()) {
 //            ShooterSubsystem.getInstance().manualControl(.5);
 //        } else {
@@ -65,6 +66,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
+        speed = OI.getInstance().getJoystick1().getY();
+        TurretSubsystem.getInstance().manualSetTurret(speed);
+        System.out.println(TurretSubsystem.getInstance().getAngle());
 
     }
 }

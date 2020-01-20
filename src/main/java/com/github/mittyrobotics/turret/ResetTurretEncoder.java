@@ -12,13 +12,16 @@ public class ResetTurretEncoder extends CommandBase {
 
     @Override
     public void execute() {
-        if (!TurretSubsystem.getInstance().limitSwitchValue()) {
-            TurretSubsystem.getInstance().setTurretSpeed(-.2);
-        } else {
-            TurretSubsystem.getInstance().setTurretSpeed(0);
-            TurretSubsystem.getInstance().setAngle(0);
-            isDone = true;
-        }
+
+        TurretSubsystem.getInstance().zeroEncoder();
+        isDone = true;
+//        if (!TurretSubsystem.getInstance().limitSwitchValue()) {
+//            TurretSubsystem.getInstance().setTurretSpeed(-.2);
+//        } else {
+//            TurretSubsystem.getInstance().setTurretSpeed(0);
+//            TurretSubsystem.getInstance().setAngle(0);
+//            isDone = true;
+//        }
     }
 
     @Override

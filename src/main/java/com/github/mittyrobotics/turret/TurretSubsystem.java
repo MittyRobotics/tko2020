@@ -30,21 +30,26 @@ public class TurretSubsystem extends SubsystemBase {
         talon1.config_kP(0, Constants.TurretP);
         talon1.config_kI(0, Constants.TurretI);
         talon1.config_kD(0, Constants.TurretD);
-        limitSwitch = new DigitalInput(Constants.TurretSwitchID);
-        limitSwitch2 = new DigitalInput(Constants.TurretSwitch2ID);
+//        limitSwitch = new DigitalInput(Constants.TurretSwitchID);
+//        limitSwitch2 = new DigitalInput(Constants.TurretSwitch2ID);
         talon1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     }
 
     public void setAngle(double angle) {
-        if (!limitSwitch.get() && !limitSwitch2.get()) {
-            talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
-        } else {
-            if ((angle >= -90) && (angle <= 90)) {
-                talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
-            } else {
-                talon1.set(ControlMode.PercentOutput, 0);
-            }
-        }
+        talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
+//
+//        if (!limitSwitch.get() && !limitSwitch2.get()) {
+//            talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
+//        } else {
+//            if ((angle >= -90) && (angle <= 90)) {
+//                talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
+//            } else {
+//                talon1.set(ControlMode.PercentOutput, 0);
+//            }
+//        }
+    }
+    public void changeAngle(double angle){
+        setAngle(angle + getAngle());
     }
 
     public void setTurretSpeed(double speed) {
@@ -66,17 +71,31 @@ public class TurretSubsystem extends SubsystemBase {
             }
         }
     }
+    public double getAngle(){
+        return talon1.getSelectedSensorPosition() / Constants.TICKS_PER_ANGLE;
+    }
 
     public void manualSetTurret(double speed) {
         if (Math.abs(speed)>0.05) {
             talon1.set(ControlMode.PercentOutput, speed);
+            //System.out.println(talon1.getSelectedSensorVelocity());
+//            System.out.println("pos: "+ talon1.getSelectedSensorPosition());
         } else {
             talon1.set(ControlMode.PercentOutput, 0);
         }
     }
 
+    public void zeroEncoder() {
+        talon1.setSelectedSensorPosition(0);
+    }
+
+
+
     public boolean limitSwitchValue() {
         return limitSwitch.get();
+    }
+    public double getError(){
+        return (talon1.getClosedLoopTarget() - talon1.getSelectedSensorPosition())/Constants.TICKS_PER_ANGLE;
     }
 
 }
