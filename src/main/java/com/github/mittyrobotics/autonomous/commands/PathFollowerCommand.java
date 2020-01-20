@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Translate2dTrajectory extends CommandBase {
+public class PathFollowerCommand extends CommandBase {
     /**
      * The {@link PathFollower} to follow
      */
@@ -48,17 +48,17 @@ public class Translate2dTrajectory extends CommandBase {
     private double previousTime;
 
     /**
-     * Constructs a new {@link Translate2dTrajectory} command to follow the {@link PathFollower}.
+     * Constructs a new {@link PathFollowerCommand} command to follow the {@link PathFollower}.
      *
      * @param pathFollower the {@link PathFollower} to follow
      */
-    public Translate2dTrajectory(PathFollower pathFollower) {
-        this.pathFollower = pathFollower;
+    public PathFollowerCommand(PathFollower pathFollower) {
         addRequirements(DriveTrainTalon.getInstance());
+        this.pathFollower = pathFollower;
     }
 
     /**
-     * Constructs a new {@link Translate2dTrajectory} command to drive to the {@link Transform} <code>goal</code>
+     * Constructs a new {@link PathFollowerCommand} command to drive to the {@link Transform} <code>goal</code>
      * using the {@link PurePursuitController}.
      *
      * @param goal                  the {@link PathFollower} to follow
@@ -66,15 +66,15 @@ public class Translate2dTrajectory extends CommandBase {
      * @param purePursuitProperties the {@link PathFollowerProperties.PurePursuitProperties} to use in the
      *                              {@link PathFollower}
      */
-    public Translate2dTrajectory(Transform goal, PathFollowerProperties properties,
-                                 PathFollowerProperties.PurePursuitProperties purePursuitProperties) {
+    public PathFollowerCommand(Transform goal, PathFollowerProperties properties,
+                               PathFollowerProperties.PurePursuitProperties purePursuitProperties) {
         addRequirements(DriveTrainTalon.getInstance());
         this.pathFollower = new PathFollower(properties, purePursuitProperties);
         pathFollower.setDrivingGoal(goal);
     }
 
     /**
-     * Constructs a new {@link Translate2dTrajectory} command to drive to the {@link Transform} <code>goal</code>
+     * Constructs a new {@link PathFollowerCommand} command to drive to the {@link Transform} <code>goal</code>
      * using the {@link RamseteController}.
      *
      * @param goal              the {@link PathFollower} to follow
@@ -82,15 +82,15 @@ public class Translate2dTrajectory extends CommandBase {
      * @param ramseteProperties the {@link PathFollowerProperties.PurePursuitProperties} to use in the
      *                          {@link PathFollower}
      */
-    public Translate2dTrajectory(Transform goal, PathFollowerProperties properties,
-                                 PathFollowerProperties.RamseteProperties ramseteProperties) {
+    public PathFollowerCommand(Transform goal, PathFollowerProperties properties,
+                               PathFollowerProperties.RamseteProperties ramseteProperties) {
+        addRequirements(DriveTrainTalon.getInstance());
         this.pathFollower = new PathFollower(properties, ramseteProperties);
         pathFollower.setDrivingGoal(goal);
-        addRequirements(DriveTrainTalon.getInstance());
     }
 
     /**
-     * Initializes the {@link Translate2dTrajectory} command.
+     * Initializes the {@link PathFollowerCommand} command.
      * <p>
      * Sets the <code>previousTime</code> timestamp to the <code>getFPGATimestamp</code> from the {@link Timer} class.
      */
@@ -100,7 +100,7 @@ public class Translate2dTrajectory extends CommandBase {
     }
 
     /**
-     * Execute function of the {@link Translate2dTrajectory} command. This is called periodically (every 20 ms by
+     * Execute function of the {@link PathFollowerCommand} command. This is called periodically (every 20 ms by
      * default) while the command is running.
      * <p>
      * Gets the current <code>getFPGATimestamp</code> and finds the delta time from the previous timestamp
@@ -114,13 +114,15 @@ public class Translate2dTrajectory extends CommandBase {
         double currentTime = Timer.getFPGATimestamp();
         double deltaTime = currentTime - previousTime;
         this.previousTime = currentTime;
-        System.out.println(deltaTime);
-        DrivetrainVelocities currentVelocities = DrivetrainVelocities
-                .calculateFromWheelVelocities(DriveTrainTalon.getInstance().getLeftEncoderVelocity(),
-                        DriveTrainTalon.getInstance().getRightEncoderVelocity());
+
+        DrivetrainVelocities currentVelocities = DrivetrainVelocities.calculateFromWheelVelocities(
+                DriveTrainTalon.getInstance().getLeftEncoderVelocity(),
+                DriveTrainTalon.getInstance().getRightEncoderVelocity()
+        );
+
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getRobotTransform()
                 , currentVelocities, deltaTime);
-        //TODO: Set drivetrain velocities to output
+
         SmartDashboard.putNumber("path_velocity_left", output.getLeftVelocity());
         SmartDashboard.putNumber("path_velocity_right", output.getRightVelocity());
         DriveTrainTalon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
@@ -133,7 +135,7 @@ public class Translate2dTrajectory extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        //TODO: Set drivetrain velocities to the end velocities
+        DriveTrainTalon.getInstance().tankDrive(0,0);
     }
 
     /**
@@ -153,9 +155,9 @@ public class Translate2dTrajectory extends CommandBase {
     }
 
     /**
-     * Returns the {@link PathFollower} that the {@link Translate2dTrajectory} command is following.
+     * Returns the {@link PathFollower} that the {@link PathFollowerCommand} command is following.
      *
-     * @return the {@link PathFollower} that the {@link Translate2dTrajectory} command is following.
+     * @return the {@link PathFollower} that the {@link PathFollowerCommand} command is following.
      */
     public PathFollower getPathFollower() {
         return pathFollower;

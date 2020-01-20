@@ -25,6 +25,8 @@
 package com.github.mittyrobotics;
 
 
+import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
+import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -46,6 +48,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        Vision.getInstance().run();
+        TurretFieldManager.getInstance().run();
     }
 
     @Override
