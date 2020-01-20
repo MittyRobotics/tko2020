@@ -60,17 +60,6 @@ public class Robot extends TimedRobot {
         //Setup track width for DifferentialDriveKinematics
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
 
-        Odometry.getInstance().calibrateToZero(DriveTrainTalon.getInstance().getLeftEncoder(),
-                DriveTrainTalon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
-
-        SmartDashboard.putNumber("robot_x", 0);
-        SmartDashboard.putNumber("robot_y", 0);
-        SmartDashboard.putNumber("robot_heading", 0);
-
-        SmartDashboard.putNumber("path_velocity_left", 0);
-        SmartDashboard.putNumber("path_velocity_right", 0);
-
-        System.out.println("Robot Init");
     }
 
     @Override
@@ -83,8 +72,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        Odometry.getInstance().calibrateToZero(DriveTrainTalon.getInstance().getLeftEncoder(),
-                DriveTrainTalon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
         CommandScheduler.getInstance().schedule(new RunCommand(
                 () -> DriveTrainTalon.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand
                         .kLeft), -OI.getInstance().getXboxController().getY(
@@ -97,45 +84,18 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        CommandScheduler.getInstance().cancelAll();
-        DriveTrainTalon.getInstance().resetEncoder();
-        Odometry.getInstance().calibrateToZero(DriveTrainTalon.getInstance().getLeftEncoder(),
-                DriveTrainTalon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
-
-        Path path =
-                new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(new Transform[]
-                        {
-                                new Transform(), new Transform(48, -24), new Transform(100, -24)
-                        }));
-
-        PathVelocityController velocityController =
-                new PathVelocityController(new VelocityConstraints(100, 40, 150), 0, 0, true);
-        PathFollower follower = new PathFollower(new PathFollowerProperties(velocityController, false, false),
-                new PathFollowerProperties.RamseteProperties(2.0,
-                        0.7));
-        follower.setDrivingGoal(new Transform(100, -24));
-        CommandScheduler.getInstance().schedule(new Translate2dTrajectory(follower));
     }
 
     @Override
     public void autonomousPeriodic() {
-//       DriveTrainTalon.getInstance().customTankVelocity(10, 10);
     }
 
     @Override
     public void testInit() {
-        CommandScheduler.getInstance().cancelAll();
-        DriveTrainTalon.getInstance().resetEncoder();
-        CommandScheduler.getInstance().schedule(new RunCommand(
-                () -> DriveTrainTalon.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand
-                        .kLeft), -OI.getInstance().getXboxController().getY(
-                        GenericHID.Hand.kRight)), DriveTrainTalon.getInstance()));
     }
 
     @Override
     public void testPeriodic() {
-        System.out.println(
-                DriveTrainTalon.getInstance().getLeftEncoder() + " " + DriveTrainTalon.getInstance().getRightEncoder());
     }
 
     @Override

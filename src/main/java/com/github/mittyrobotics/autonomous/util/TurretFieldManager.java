@@ -24,8 +24,8 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
-import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 
@@ -51,19 +51,32 @@ public class TurretFieldManager {
     public void run() {
         double gyroAngle = 0; //TODO: Set this to the gyro angle
         double robotTurretAngle = 0; //TODO: Set this to the robot-relative turret angle from Turret subsystem
-        double distanceToTarget = Vision.getInstance().getTurretRelativeVisionDistance();
+        double distanceToTarget = 0;
         this.fieldTurretTransform = computeTurretTransform(gyroAngle, robotTurretAngle, distanceToTarget);
     }
 
     /**
      * Computes the field-relative angle of the turret in the form of a {@link Rotation}.
      *
-     * @param gyroAngle
-     * @param robotTurretAngle
+     * @param gyroAngle        the gyro angle
+     * @param robotTurretAngle the robot-relative turret angle
      * @return the field-relative angle of the turret in the form of a {@link Rotation}.
      */
     private Rotation computeFieldTurretAngle(double gyroAngle, double robotTurretAngle) {
         return new Rotation(gyroAngle - robotTurretAngle);
+    }
+
+    /**
+     * Computes the robot-relative angle of the turret in the form of a {@link Rotation}.
+     * <p>
+     * The robot-relative angle is computed from the gyro angle and a field-relative turret angle.
+     *
+     * @param gyroAngle        the gyro angle
+     * @param fieldTurretAngle the field-relative turret angle
+     * @return the robot-relative angle of the turret in the form of a {@link Rotation}.
+     */
+    public Rotation computeRobotAngleFromAngle(double gyroAngle, double fieldTurretAngle) {
+        return new Rotation(gyroAngle - fieldTurretAngle);
     }
 
     /**
@@ -91,6 +104,18 @@ public class TurretFieldManager {
         turretPosition = turretPosition.add(AutonCoordinates.SCORING_TARGET);
 
         return turretPosition;
+    }
+
+    private double computeShooterRPMFromDistance(double distance) {
+        double closest = Double.POSITIVE_INFINITY;
+        double rpm = 0;
+        for (int i = 0; i < AutonConstants.SHOOTER_RPM_TABLE.length; i++) {
+            if (AutonConstants.SHOOTER_RPM_TABLE[i][0] < closest) {
+                closest = AutonConstants.SHOOTER_RPM_TABLE[i][0];
+                rpm = AutonConstants.SHOOTER_RPM_TABLE[i][1];
+            }
+        }
+        return rpm;
     }
 
     public Transform getFieldTurretTransform() {

@@ -25,22 +25,35 @@
 package com.github.mittyrobotics.autonomous.vision;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.util.ShooterSetpoint;
+import com.github.mittyrobotics.autonomous.util.VisionTarget;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.vision.Limelight;
 
 public class Vision {
     private static Vision instance = new Vision();
-    private double turretRelativeVisionDistance;
-    private double turretRelativeVisionYaw;
-    private ShooterSetpoint shooterSetpoint;
 
     public static Vision getInstance() {
         return instance;
     }
 
-    public void run() {
+    private double previousVisionYaw;
+
+    public VisionTarget getCurrentTarget() {
         Limelight.getInstance().updateLimelightValues();
-        this.turretRelativeVisionDistance = computeVisionDistance(Limelight.getInstance().getPitchToTarget());
+
+        if(isSafeToUseVision()){
+            Rotation pitch = new Rotation(Limelight.getInstance().getPitchToTarget());
+            Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
+
+            double visionDistance = computeVisionDistance(pitch);
+            double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(visionDistance, visionYaw);
+            Rotation turretRelativeVisionYaw = computeTurretRelativeVisionYaw(visionDistance, turretRelativeVisionDistance
+                    , visionYaw);
+
+            return new VisionTarget(turretRelativeVisionYaw, turretRelativeVisionDistance);
+        }
+
+        return new VisionTarget(new Rotation(),0);
     }
 
     /**
@@ -52,40 +65,42 @@ public class Vision {
         return Limelight.getInstance().isHasValidTarget();
     }
 
-    private double computeVisionDistance(double pitch) {
+    private double computeVisionDistance(Rotation pitch) {
         return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
-                Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
+                Math.tan(Math.toRadians(pitch.getHeading() + AutonConstants.LIMELIGHT_PITCH));
     }
 
-    private double computeTurretRelativeVisionDistance(){
+    /**
+     * Calculates the turret-relative vision distance. This is the distance from the center of the turret to the
+     * vision target.
+     *
+     * @param visionDistance the distance from the vision camera to the vision target
+     * @param visionYaw      the yaw from the vision camera to the vision target
+     * @return the turret-relative vision distance
+     */
+    private double computeTurretRelativeVisionDistance(double visionDistance, Rotation visionYaw) {
+        double x = AutonConstants.CAMERA_TURRET_OFFSET;
+        return Math.sqrt(x * x + visionDistance * visionDistance +
+                2 * x * visionDistance * visionYaw.cos());
+    }
+
+    /**
+     * Calculates the turret-relative vision yaw {@link Rotation}. This is the yaw from the turret's current rotation
+     * to the vision target.
+     *
+     * @param visionDistance               the distance from the vision camera to the vision target
+     * @param turretRelativeVisionDistance the distance from the center of the turret to the vision target
+     * @param visionYaw                    the yaw from the vision camera to the vision target
+     * @return the turret-relative vision yaw {@link Rotation}
+     */
+    private Rotation computeTurretRelativeVisionYaw(double visionDistance, double turretRelativeVisionDistance,
+                                                    Rotation visionYaw) {
+        return new Rotation(
+                Math.toRadians(Math.asin((visionDistance / turretRelativeVisionDistance) * visionYaw.sin())));
+    }
+
+    private Rotation computeLatencyAndVelocityCompensationAngle() {
         //TODO: Implement this
-        return 0;
-    }
-
-    private double computeTurretRelativeVisionYaw(){
-        //TODO: Implement this
-        return 0;
-    }
-
-    private double computeShooterVelocityFromDistance(double distance){
-        //TODO: Implement this. This will most likely be done via a lookup table in AutonConstants
-        return 0;
-    }
-
-    private double computeLatencyAndVelocityCompensationAngle(){
-        //TODO: Implement this
-        return 0;
-    }
-
-    public double getTurretRelativeVisionDistance() {
-        return turretRelativeVisionDistance;
-    }
-
-    public double getTurretRelativeVisionYaw() {
-        return turretRelativeVisionYaw;
-    }
-
-    public ShooterSetpoint getShooterSetpoint() {
-        return shooterSetpoint;
+        return new Rotation();
     }
 }

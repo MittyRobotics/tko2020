@@ -24,23 +24,25 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
+
 /**
  * Represents a shooter setpoint.
  */
 public class ShooterSetpoint {
-    private double turretAzimuth;
+    private Rotation turretAzimuth;
     private double flywheelVelocity;
 
-    public ShooterSetpoint(double turretAzimuth, double flywheelVelocity) {
+    public ShooterSetpoint(Rotation turretAzimuth, double flywheelVelocity) {
         this.turretAzimuth = turretAzimuth;
         this.flywheelVelocity = flywheelVelocity;
     }
 
-    public double getTurretAzimuth() {
+    public Rotation getTurretAzimuth() {
         return turretAzimuth;
     }
 
-    public void setTurretAzimuth(double turretAzimuth) {
+    public void setTurretAzimuth(Rotation turretAzimuth) {
         this.turretAzimuth = turretAzimuth;
     }
 

@@ -22,30 +22,32 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.constants;
+package com.github.mittyrobotics.autonomous.util;
 
-public class AutonConstants {
-    //Field
-    public static double HIGH_TARGET_HEIGHT = (6.836 + 9.438) / 2.0; //ft
-    public static double HIGH_TARGET_MIN_HEIGHT = 6.938 + (7.0 / 12.0 / 2.0); //ft
-    public static double HIGH_TARGET_MAX_HEIGHT = 9.438 - (7.0 / 12.0 / 2.0); //ft
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 
-    //Vision
-    public static double LIMELIGHT_HEIGHT = 22; //TODO: Find this value
-    public static double LIMELIGHT_PITCH = 60; //TODO: Find this value
+public class VisionTarget {
+    private Rotation yaw;
+    private double distance;
 
-    //Robot
-    public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
-    public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
-    public static double CAMERA_TURRET_OFFSET = 10; //Inches //TODO: Find this value
+    public VisionTarget(Rotation yaw, double distance) {
+        this.yaw = yaw;
+        this.distance = distance;
+    }
 
-    //Shooter //TODO: Tune these
-    /**
-     * Shooter RPM lookup table. Used to find the correct RPM of the shooter flywheel given a distance.
-     *
-     * Elements are in the format {distance, RPM}
-     */
-    public static double[][] SHOOTER_RPM_TABLE = {
-        {0,0}
-    };
+    public Rotation getYaw() {
+        return yaw;
+    }
+
+    public void setYaw(Rotation yaw) {
+        this.yaw = yaw;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
 }
