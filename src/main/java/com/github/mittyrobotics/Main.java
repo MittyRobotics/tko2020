@@ -1,13 +1,14 @@
 package com.github.mittyrobotics;
 
 import edu.wpi.first.wpilibj.RobotBase;
+
 //DO NOT TOUCH
 public final class Main {
-  private Main() {
+    private Main() {
 
-  }
+    }
 
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
-  }
+    public static void main(String... args) {
+        RobotBase.startRobot(Robot::new);
+    }
 }
