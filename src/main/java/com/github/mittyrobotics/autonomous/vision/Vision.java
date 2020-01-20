@@ -37,7 +37,7 @@ public class Vision {
         return instance;
     }
 
-    public void run(){
+    public void run() {
         this.currentVisionTarget = computeVisionTarget();
     }
 
@@ -52,10 +52,10 @@ public class Vision {
             double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(visionDistance, visionYaw);
 
             return new VisionTarget(computeTurretRelativeVisionYaw(visionDistance, turretRelativeVisionDistance
-                    , visionYaw),turretRelativeVisionDistance);
+                    , visionYaw), turretRelativeVisionDistance);
         }
 
-        return new VisionTarget(new Rotation(),0);
+        return new VisionTarget(new Rotation(), 0);
     }
 
     /**

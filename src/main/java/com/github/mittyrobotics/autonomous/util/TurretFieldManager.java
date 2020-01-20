@@ -33,7 +33,7 @@ import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 
 /**
- * TurretManager class. Manages the turret's position relative to the field and relative to vision targets.
+ * {@link TurretFieldManager} class. Manages the turret's position relative to the field and relative to vision targets.
  * <p>
  * Definitions:
  * Field-relative turret angle (<code>fieldTurretAngle</code>): the angle of the turret relative to the field. Does not care

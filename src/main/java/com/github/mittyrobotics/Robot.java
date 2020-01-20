@@ -25,13 +25,22 @@
 package com.github.mittyrobotics;
 
 
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.modes.TrenchAutoMode;
+import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
 import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
 import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
+import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+    private CommandGroupBase autonCommand;
 
     public Robot() {
         super(0.02);
@@ -39,10 +48,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        OI.getInstance().digitalInputControls();
-//      ShooterSubsystem.getInstance().initHardware();
+        //Hardware initialization
         TurretSubsystem.getInstance().initHardware();
+        ShooterSubsystem.getInstance().initHardware();
+        DriveTrainTalon.getInstance().initHardware();
 
+        //Setup DifferentialDriveKinematics
+        DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
     }
 
     @Override
@@ -59,12 +71,19 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        autonCommand = new TrenchAutoMode(new Transform());
+        CommandScheduler.getInstance().schedule(autonCommand);
+    }
 
+    @Override
+    public void autonomousPeriodic() {
+        OdometryRunnable.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
-
+        CommandScheduler.getInstance().cancel(autonCommand);
+        OI.getInstance().digitalInputControls();
     }
 
     @Override
@@ -81,5 +100,4 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
 
     }
-
 }

@@ -26,6 +26,9 @@ package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 
+/**
+ * Represents a detected vision target
+ */
 public class VisionTarget {
     private Rotation yaw;
     private double distance;

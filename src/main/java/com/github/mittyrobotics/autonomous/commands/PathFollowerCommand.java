@@ -135,7 +135,7 @@ public class PathFollowerCommand extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        DriveTrainTalon.getInstance().tankDrive(0,0);
+        DriveTrainTalon.getInstance().tankDrive(0, 0);
     }
 
     /**
