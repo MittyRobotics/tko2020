@@ -29,7 +29,8 @@ import com.github.mittyrobotics.vision.Limelight;
 
 public class Vision {
     private static Vision instance = new Vision();
-    private double visionDistance;
+    private double turretRelativeVisionDistance;
+    private double turretRelativeVisionYaw;
 
     public static Vision getInstance() {
         return instance;
@@ -37,7 +38,7 @@ public class Vision {
 
     public void run() {
         Limelight.getInstance().updateLimelightValues();
-        this.visionDistance = computeVisionDistance(Limelight.getInstance().getPitchToTarget());
+        this.turretRelativeVisionDistance = computeVisionDistance(Limelight.getInstance().getPitchToTarget());
     }
 
     /**
@@ -54,7 +55,24 @@ public class Vision {
                 Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
     }
 
-    public double getVisionDistance() {
-        return visionDistance;
+    private double computeTurretRelativeVisionDistance(){
+        //TODO: Implement this
+        return 0;
+    }
+
+    private double computeTurretRelativeVisionYaw(){
+        //TODO: Implement this
+        return 0;
+    }
+
+
+
+
+    public double getTurretRelativeVisionDistance() {
+        return turretRelativeVisionDistance;
+    }
+
+    public double getTurretRelativeVisionYaw() {
+        return turretRelativeVisionYaw;
     }
 }

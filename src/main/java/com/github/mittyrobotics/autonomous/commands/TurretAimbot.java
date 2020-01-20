@@ -39,7 +39,7 @@ public class TurretAimbot extends CommandBase {
     public void execute() {
         if (Vision.getInstance().isSafeToUseVision()) {
             double yaw = Limelight.getInstance().getYawToTarget();
-            double distance = Vision.getInstance().getVisionDistance();
+            double distance = Vision.getInstance().getTurretRelativeVisionDistance();
 
         }
     }

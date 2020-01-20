@@ -51,7 +51,7 @@ public class TurretFieldManager {
     public void run() {
         double gyroAngle = 0; //TODO: Set this to the gyro angle
         double robotTurretAngle = 0; //TODO: Set this to the robot-relative turret angle from Turret subsystem
-        double distanceToTarget = Vision.getInstance().getVisionDistance();
+        double distanceToTarget = Vision.getInstance().getTurretRelativeVisionDistance();
         this.fieldTurretTransform = computeTurretTransform(gyroAngle, robotTurretAngle, distanceToTarget);
     }
 
