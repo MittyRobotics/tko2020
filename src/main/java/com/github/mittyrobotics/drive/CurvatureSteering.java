@@ -35,18 +35,22 @@ public class CurvatureSteering extends CommandBase {
 		if (radius > 0) {
 			leftSpeed = 2 * Math.PI * (radius + (wheelWidth)); //leftSpeed bigger 33pi
 			rightSpeed = 2 * Math.PI * (radius - (wheelWidth)); //-17pi
+			leftSpeed = 0.25;
+			rightSpeed = (rightSpeed/leftSpeed)/4;
+
 
 		}
 		else if (radius < 0) {
 			leftSpeed = 2 * Math.PI * (radius - (wheelWidth)); //rightSpeed bigger
 			rightSpeed = 2 * Math.PI * (radius + (wheelWidth));
+			rightSpeed = 0.25;
+			leftSpeed = (leftSpeed/rightSpeed)/4;
 		}
 		else {
 			leftSpeed = 0;
 			rightSpeed = 0;
 		}
 
-		turn = (rightSpeed - leftSpeed);
 		//negative for right turns, positive for left turns
 
 		double speed = -OI.getInstance().getJoystick1().getY();
@@ -62,7 +66,7 @@ public class CurvatureSteering extends CommandBase {
 			DriveTrainTalon.getInstance().tankDrive(-turn, turn);
 		}
 		else {
-			DriveTrainTalon.getInstance().tankDrive(speed - turn/2, speed + turn/2);
+			DriveTrainTalon.getInstance().tankDrive(leftSpeed, rightSpeed);
 		}
 		System.out.println("Turn: " + turn);
 	}
