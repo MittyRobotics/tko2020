@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,20 +24,31 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
+/**
+ * Represents a shooter setpoint.
+ */
 public class ShooterSetpoint {
-    private final double velocity;
-    private final double angle;
+    private double turretAzimuth;
+    private double flywheelVelocity;
 
-    public ShooterSetpoint(double velocity, double angle) {
-        this.velocity = velocity;
-        this.angle = angle;
+    public ShooterSetpoint(double turretAzimuth, double flywheelVelocity) {
+        this.turretAzimuth = turretAzimuth;
+        this.flywheelVelocity = flywheelVelocity;
     }
 
-    public double getVelocity() {
-        return velocity;
+    public double getTurretAzimuth() {
+        return turretAzimuth;
     }
 
-    public double getAngle() {
-        return angle;
+    public void setTurretAzimuth(double turretAzimuth) {
+        this.turretAzimuth = turretAzimuth;
+    }
+
+    public double getFlywheelVelocity() {
+        return flywheelVelocity;
+    }
+
+    public void setFlywheelVelocity(double flywheelVelocity) {
+        this.flywheelVelocity = flywheelVelocity;
     }
 }
