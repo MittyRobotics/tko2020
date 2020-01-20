@@ -28,7 +28,7 @@ import com.github.mittyrobotics.autonomous.commands.Translate2dTrajectory;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
 import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
-import com.github.mittyrobotics.autonomous.vision.VisionManager;
+import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         OdometryRunnable.getInstance().run();
         TurretFieldManager.getInstance().run();
-        VisionManager.getInstance().run();
+        Vision.getInstance().run();
     }
 
     @Override
