@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
-import com.github.mittyrobotics.Gyro;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
