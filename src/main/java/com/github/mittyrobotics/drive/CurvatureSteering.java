@@ -44,7 +44,7 @@ public class CurvatureSteering extends CommandBase {
 			leftSpeed = 0;
 			rightSpeed = 0;
 		}
-		turn = (rightSpeed - leftSpeed);
+		turn = (rightSpeed - leftSpeed)/5;
 		//negative for right turns, positive for left turns
 
 		double speed = -OI.getInstance().getJoystick1().getY();
