@@ -52,6 +52,9 @@ public class TurretSubsystem extends SubsystemBase {
         setAngle(angle + getAngle());
     }
 
+    public void changeRelativeAngle(double angle){ //TODO fill in
+
+    }
     public void setTurretSpeed(double speed) {
         if (!limitSwitch.get() && !limitSwitch2.get()) {
             talon1.set(ControlMode.PercentOutput, speed);
@@ -75,7 +78,7 @@ public class TurretSubsystem extends SubsystemBase {
         return talon1.getSelectedSensorPosition() / Constants.TICKS_PER_ANGLE;
     }
 
-    public void manualSetTurret(double speed) {
+    public void manualSetTurret(double speed) { //TODO for testing purposes
         if (Math.abs(speed)>0.05) {
             talon1.set(ControlMode.PercentOutput, speed);
             //System.out.println(talon1.getSelectedSensorVelocity());

@@ -1,7 +1,6 @@
 package com.github.mittyrobotics.shooter;
 
 
-import com.github.mittyrobotics.motionprofile.util.datatypes.MechanismBounds;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
@@ -12,7 +11,6 @@ public class ShooterSubsystem extends SubsystemBase {
     private static ShooterSubsystem instance;
     private CANSparkMax spark1;
     private double bangSpeed = 0;
-    private boolean inThreshold;
 
     private ShooterSubsystem() {
         super();
