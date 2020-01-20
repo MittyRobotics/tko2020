@@ -2,8 +2,6 @@ package com.github.mittyrobotics.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import javax.crypto.Mac;
-
 
 public class SetTurretAngle extends CommandBase {
     private double angle;

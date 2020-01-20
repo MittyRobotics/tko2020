@@ -31,29 +31,29 @@ import com.github.mittyrobotics.vision.Limelight;
 
 public class Vision {
     private static Vision instance = new Vision();
+    private double previousVisionYaw;
 
     public static Vision getInstance() {
         return instance;
     }
 
-    private double previousVisionYaw;
-
     public VisionTarget getCurrentTarget() {
         Limelight.getInstance().updateLimelightValues();
 
-        if(isSafeToUseVision()){
+        if (isSafeToUseVision()) {
             Rotation pitch = new Rotation(Limelight.getInstance().getPitchToTarget());
             Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
 
             double visionDistance = computeVisionDistance(pitch);
             double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(visionDistance, visionYaw);
-            Rotation turretRelativeVisionYaw = computeTurretRelativeVisionYaw(visionDistance, turretRelativeVisionDistance
-                    , visionYaw);
+            Rotation turretRelativeVisionYaw =
+                    computeTurretRelativeVisionYaw(visionDistance, turretRelativeVisionDistance
+                            , visionYaw);
 
             return new VisionTarget(turretRelativeVisionYaw, turretRelativeVisionDistance);
         }
 
-        return new VisionTarget(new Rotation(),0);
+        return new VisionTarget(new Rotation(), 0);
     }
 
     /**

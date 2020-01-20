@@ -31,12 +31,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainSparks extends SubsystemBase {
 
+    private static DriveTrainSparks instance;
     public CANSparkMax leftSpark1;
     public CANSparkMax leftSpark2;
-
     public CANSparkMax rightSpark1;
-    public CANSparkMax rightSpark2 ;
-    private static DriveTrainSparks instance;
+    public CANSparkMax rightSpark2;
+
     private DriveTrainSparks() {
         super();
         setName("DriveTrainSparks");

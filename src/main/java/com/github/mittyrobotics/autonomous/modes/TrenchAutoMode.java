@@ -24,12 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.autonomous.commands.Translate2dTrajectory;
-import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
-import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.motionprofile.PathVelocityController;
-import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 

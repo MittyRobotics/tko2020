@@ -42,10 +42,10 @@ public class AutonConstants {
     //Shooter //TODO: Tune these
     /**
      * Shooter RPM lookup table. Used to find the correct RPM of the shooter flywheel given a distance.
-     *
+     * <p>
      * Elements are in the format {distance, RPM}
      */
     public static double[][] SHOOTER_RPM_TABLE = {
-        {0,0}
+            {0, 0}
     };
 }

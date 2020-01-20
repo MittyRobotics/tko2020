@@ -25,58 +25,59 @@
 package com.github.mittyrobotics;
 
 
-import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
-import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
-import com.github.mittyrobotics.autonomous.vision.Vision;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.turret.TurretSubsystem;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Robot extends TimedRobot {
 
+    public Robot() {
+        super(0.02);
+    }
 
-  @Override
-  public void robotInit() {
-    OI.getInstance().digitalInputControls();
-//        ShooterSubsystem.getInstance().initHardware();
-    TurretSubsystem.getInstance().initHardware();
+    @Override
+    public void robotInit() {
+        OI.getInstance().digitalInputControls();
+//      ShooterSubsystem.getInstance().initHardware();
+        TurretSubsystem.getInstance().initHardware();
 
-  }
-  @Override
-  public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-  }
-  @Override
-  public void disabledInit() {
-  
-  }
+    }
 
-  @Override
-  public void autonomousInit() {
+    @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
+    }
 
-  }
-  @Override
-  public void teleopInit() {
+    @Override
+    public void disabledInit() {
+
+    }
+
+    @Override
+    public void autonomousInit() {
+
+    }
+
+    @Override
+    public void teleopInit() {
 //    DriveTrainTalon.getInstance().resetEconder();
 //    DriveTrainTalon.getInstance().movePos(70, 70)
-  }
+    }
 
-  @Override
-  public void teleopPeriodic() {
+    @Override
+    public void teleopPeriodic() {
 //    System.out.print(DriveTrainTalon.getInstance().getLeftEncoder());
 //    System.out.print(DriveTrainTalon.getInstance().getRightEncoder());
-  }
-  @Override
-  public void testInit(){
+    }
 
-  }
-  @Override
-  public void testPeriodic(){
-  
-  }
+    @Override
+    public void testInit() {
+
+    }
+
+    @Override
+    public void testPeriodic() {
+
+    }
 
 }

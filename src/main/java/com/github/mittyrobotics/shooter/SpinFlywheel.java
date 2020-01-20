@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SpinFlywheel extends CommandBase {
     private double speed, threshold;
+
     public SpinFlywheel(double speed, double threshold) {
         super();
         this.speed = speed;

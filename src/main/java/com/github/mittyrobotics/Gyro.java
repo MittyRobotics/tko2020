@@ -27,22 +27,25 @@ package com.github.mittyrobotics;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Gyro extends ADXRS450_Gyro {
-	private static Gyro instance = new Gyro();
-	public static Gyro getInstance(){
-		if(instance == null){
-			instance = new Gyro();
-		}
-		return instance;
-	}
-	private Gyro(){
-		super();
-	}
-	public double getAngle360(){
-		double angle = getAngle();
-		angle %= 360;
-		if(angle < 0){
-			angle += 360;
-		}
-		return angle;
-	}
+    private static Gyro instance = new Gyro();
+
+    private Gyro() {
+        super();
+    }
+
+    public static Gyro getInstance() {
+        if (instance == null) {
+            instance = new Gyro();
+        }
+        return instance;
+    }
+
+    public double getAngle360() {
+        double angle = getAngle();
+        angle %= 360;
+        if (angle < 0) {
+            angle += 360;
+        }
+        return angle;
+    }
 }
