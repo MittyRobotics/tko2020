@@ -32,13 +32,13 @@ public class CurvatureSteering extends CommandBase {
 		double rightSpeed = 0;
 
 		if (radius > 0) {
-			leftSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
-			rightSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
+			leftSpeed = 2 * Math.PI * (radius + (wheelWidth)); //leftSpeed bigger
+			rightSpeed = 2 * Math.PI * (radius - (wheelWidth));
 
 		}
 		else if (radius < 0) {
-			leftSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
-			rightSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
+			leftSpeed = 2 * Math.PI * (radius - (wheelWidth)); //rightSpeed bigger
+			rightSpeed = 2 * Math.PI * (radius + (wheelWidth));
 		}
 		else {
 			leftSpeed = 0;
