@@ -26,6 +26,7 @@ package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.controllers.PurePursuitController;
 import com.github.mittyrobotics.path.following.controllers.RamseteController;
@@ -53,6 +54,7 @@ public class Translate2dTrajectory extends CommandBase {
      */
     public Translate2dTrajectory(PathFollower pathFollower) {
         this.pathFollower = pathFollower;
+        addRequirements(DriveTrainTalon.getInstance());
     }
 
     /**
@@ -66,6 +68,7 @@ public class Translate2dTrajectory extends CommandBase {
      */
     public Translate2dTrajectory(Transform goal, PathFollowerProperties properties,
                                  PathFollowerProperties.PurePursuitProperties purePursuitProperties) {
+        addRequirements(DriveTrainTalon.getInstance());
         this.pathFollower = new PathFollower(properties, purePursuitProperties);
         pathFollower.setDrivingGoal(goal);
     }
@@ -83,6 +86,7 @@ public class Translate2dTrajectory extends CommandBase {
                                  PathFollowerProperties.RamseteProperties ramseteProperties) {
         this.pathFollower = new PathFollower(properties, ramseteProperties);
         pathFollower.setDrivingGoal(goal);
+        addRequirements(DriveTrainTalon.getInstance());
     }
 
     /**
@@ -112,12 +116,14 @@ public class Translate2dTrajectory extends CommandBase {
         this.previousTime = currentTime;
         System.out.println(deltaTime);
         DrivetrainVelocities currentVelocities = DrivetrainVelocities
-                .calculateFromWheelVelocities(0,0);
+                .calculateFromWheelVelocities(DriveTrainTalon.getInstance().getLeftEncoderVelocity(),
+                        DriveTrainTalon.getInstance().getRightEncoderVelocity());
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getRobotTransform()
                 , currentVelocities, deltaTime);
         //TODO: Set drivetrain velocities to output
         SmartDashboard.putNumber("path_velocity_left", output.getLeftVelocity());
         SmartDashboard.putNumber("path_velocity_right", output.getRightVelocity());
+        DriveTrainTalon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
     }
 
     /**
