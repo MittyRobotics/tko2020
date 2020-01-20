@@ -22,7 +22,7 @@ public class Drive extends CommandBase {
 
     @Override
     public void execute() {
-        differentialDrive.carDriveCompassSteering(OI.getInstance().getXboxWheel().getX()/3, Gyro.getInstance().getAngle(),OI.getInstance().getXboxWheel().getBumper(GenericHID.Hand.kLeft), OI.getInstance().getXboxWheel().getBumper(GenericHID.Hand.kRight), OI.getInstance().getXboxWheel().getBButton());
+        differentialDrive.joystickCompassSteering(0.03, 0, 0, OI.getInstance().getJoystick1().getY(), OI.getInstance().getXboxWheel().getX()/3, 15, Gyro.getInstance().getAngle());
     }
 
     @Override
