@@ -7,7 +7,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
 
-    private double speed;
+  @Override
+  public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+
+  }
 
     @Override
     public void robotInit() {
@@ -36,15 +40,16 @@ public class Robot extends TimedRobot {
 
     }
 
-    @Override
-    public void autonomousPeriodic() {
+  @Override
+  public void teleopInit() {
+//    DriveTrainTalon.getInstance().resetEconder();
+//    DriveTrainTalon.getInstance().movePos(70, 70);
+  }
 
-    }
-
-    @Override
-    public void teleopInit() {
-        CommandScheduler.getInstance().run();
-        TurretSubsystem.getInstance().zeroEncoder();
+  @Override
+  public void teleopPeriodic() {
+//    System.out.print(DriveTrainTalon.getInstance().getLeftEncoder());
+//    System.out.print(DriveTrainTalon.getInstance().getRightEncoder());
 
     }
 
@@ -59,16 +64,5 @@ public class Robot extends TimedRobot {
 
     }
 
-    @Override
-    public void testInit() {
-        CommandScheduler.getInstance().cancelAll();
-    }
-
-    @Override
-    public void testPeriodic() {
-        speed = OI.getInstance().getJoystick1().getY();
-        TurretSubsystem.getInstance().manualSetTurret(speed);
-        System.out.println(TurretSubsystem.getInstance().getAngle());
-
-    }
+  }
 }
