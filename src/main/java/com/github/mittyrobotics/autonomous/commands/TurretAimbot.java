@@ -22,14 +22,35 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.commands;
 
-public class Constants {
-    public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 2;
-    public static final int XBOX_WHEEL_ID = 0;
-    public static final double turretAngle = 3;
-    public static final double ShooterSpeed = .5;
-    public static final double ShooterBangThreshold = 10;
+import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.vision.Limelight;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class TurretAimbot extends CommandBase {
+
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void execute() {
+        if (Vision.getInstance().isSafeToUseVision()) {
+            double yaw = Limelight.getInstance().getYawToTarget();
+            double distance = 0;
+        }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
 }

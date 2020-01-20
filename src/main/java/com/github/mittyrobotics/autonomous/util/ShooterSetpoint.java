@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,35 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.util;
 
-public class Constants {
-    public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 2;
-    public static final int XBOX_WHEEL_ID = 0;
-    public static final double turretAngle = 3;
-    public static final double ShooterSpeed = .5;
-    public static final double ShooterBangThreshold = 10;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
+
+/**
+ * Represents a shooter setpoint.
+ */
+public class ShooterSetpoint {
+    private Rotation turretAzimuth;
+    private double flywheelVelocity;
+
+    public ShooterSetpoint(Rotation turretAzimuth, double flywheelVelocity) {
+        this.turretAzimuth = turretAzimuth;
+        this.flywheelVelocity = flywheelVelocity;
+    }
+
+    public Rotation getTurretAzimuth() {
+        return turretAzimuth;
+    }
+
+    public void setTurretAzimuth(Rotation turretAzimuth) {
+        this.turretAzimuth = turretAzimuth;
+    }
+
+    public double getFlywheelVelocity() {
+        return flywheelVelocity;
+    }
+
+    public void setFlywheelVelocity(double flywheelVelocity) {
+        this.flywheelVelocity = flywheelVelocity;
+    }
 }

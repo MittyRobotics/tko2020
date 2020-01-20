@@ -27,9 +27,9 @@ package com.github.mittyrobotics.drive;
 import com.github.mittyrobotics.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CurvatureSteering extends CommandBase {
+public class JoystickDrive_CarSteering extends CommandBase {
 
-    CurvatureSteering() {
+    JoystickDrive_CarSteering() {
         addRequirements(DriveTrainTalon.getInstance());
     }
 
@@ -41,48 +41,32 @@ public class CurvatureSteering extends CommandBase {
     @Override
     public void execute() {
 
-        double turn = OI.getInstance().getXboxWheel().getX() * 450;
-        double wheelWidth = 30;
-        double radius = 0;
-
-        if ((turn > -5) & (turn < 5)) {
-            radius = 0;
-        } else {
-            radius = 360 / turn;
-        }
-        double leftSpeed = 0;
-        double rightSpeed = 0;
-
-        if (radius > 0) {
-            leftSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
-            rightSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
-
-        } else if (radius < 0) {
-            leftSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
-            rightSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
-        } else {
-            leftSpeed = 0;
-            rightSpeed = 0;
-        }
-        turn = rightSpeed - leftSpeed;
-        //negative for right turns, positive for left turns
-
+        double turn = OI.getInstance().getXboxWheel().getX() * 450 / 120;
 
         double speed = -OI.getInstance().getJoystick1().getY();
         boolean brake = OI.getInstance().getJoystick1().getTrigger();
+
+        if (Math.abs(turn) > 1) {
+            turn = Math.signum(turn);
+        }
+        double e = 1 - turn;
 
         if (brake) {
             speed = 0;
             turn = 0;
         }
 
-
-        double newSpeed = speed;
+        double newSpeed = speed * e;
         double newTurn = turn;
+
         if (Math.abs(speed) < 0.05) {
             DriveTrainTalon.getInstance().tankDrive(newTurn, -newTurn);
+        } else if (speed >= 0) {
+            DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
+        } else {
+            DriveTrainTalon.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
         }
-        DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn / 2, newSpeed - newTurn / 2);
+
     }
 
     @Override
