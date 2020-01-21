@@ -19,4 +19,6 @@ public class Constants {
     public static final boolean LEFT_TALON_INVERSIONS[] = {false, false};
     public static final boolean RIGHT_TALON_INVERSIONS[] = {true, true};
 
+    public static final int COLORWHEELDRIVE_CURRENT = 5;
+
 }
