@@ -27,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void initHardware(){
 
         intakeWheel = new WPI_TalonSRX(Constants.Talon2ID);
-        extendIntake = new DoubleSolenoid(0, 1);
+        extendIntake = new DoubleSolenoid(Constants.solenoidForwqrdChannel, Constants.solenoidReverseChallenge);
 
     }
     public void intakeBall(double speed){
