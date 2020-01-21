@@ -1,17 +1,11 @@
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
 
-  @Override
-  public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-
-  }
 
     @Override
     public void robotInit() {
@@ -46,12 +40,6 @@ public class Robot extends TimedRobot {
 //    DriveTrainTalon.getInstance().movePos(70, 70);
   }
 
-  @Override
-  public void teleopPeriodic() {
-//    System.out.print(DriveTrainTalon.getInstance().getLeftEncoder());
-//    System.out.print(DriveTrainTalon.getInstance().getRightEncoder());
-
-    }
 
     @Override
     public void teleopPeriodic() {
@@ -64,5 +52,4 @@ public class Robot extends TimedRobot {
 
     }
 
-  }
 }
