@@ -24,7 +24,8 @@
 
 package com.github.mittyrobotics;
 
-
+import com.github.mittyrobotics.colorwheel.ColorPiston;
+import com.github.mittyrobotics.colorwheel.Spinner;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.modes.TrenchAutoMode;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
