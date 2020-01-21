@@ -1,11 +1,13 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
 
+    private double speed;
 
     @Override
     public void robotInit() {
@@ -34,16 +36,22 @@ public class Robot extends TimedRobot {
 
     }
 
-  @Override
-  public void teleopInit() {
-//    DriveTrainTalon.getInstance().resetEconder();
-//    DriveTrainTalon.getInstance().movePos(70, 70);
-  }
+    @Override
+    public void autonomousPeriodic() {
 
+    }
+
+    @Override
+    public void teleopInit() {
+        CommandScheduler.getInstance().run();
+        TurretSubsystem.getInstance().zeroEncoder();
+
+    }
 
     @Override
     public void teleopPeriodic() {
-        System.out.println(TurretSubsystem.getInstance().getAngle());
+        System.out.println("encoder value: " + TurretSubsystem.getInstance().getEncoderValue());
+//        System.out.println(TurretSubsystem.getInstance().getAngle());
 //        if (OI.getInstance().getJoystick1().getTrigger()) {
 //            ShooterSubsystem.getInstance().manualControl(.5);
 //        } else {
@@ -52,4 +60,17 @@ public class Robot extends TimedRobot {
 
     }
 
+    @Override
+    public void testInit() {
+        CommandScheduler.getInstance().cancelAll();
+    }
+
+    @Override
+    public void testPeriodic() {
+        speed = OI.getInstance().getJoystick1().getY();
+        TurretSubsystem.getInstance().manualSetTurret(speed);
+        System.out.println("encoder value: " + TurretSubsystem.getInstance().getEncoderValue());
+//        System.out.println(TurretSubsystem.getInstance().getAngle());
+
+    }
 }

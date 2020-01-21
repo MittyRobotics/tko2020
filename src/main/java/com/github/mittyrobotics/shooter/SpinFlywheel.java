@@ -17,7 +17,7 @@ public class SpinFlywheel extends CommandBase {
 
     @Override
     public void execute() {
-        ShooterSubsystem.getInstance().setShooterSpeed(speed); //TODO test both (only use 1)
+        ShooterSubsystem.getInstance().setShooterSpeed(speed);
         ShooterSubsystem.getInstance().bangControl(speed, threshold);
     }
 
@@ -28,5 +28,5 @@ public class SpinFlywheel extends CommandBase {
     @Override
     public boolean isFinished() {
         return false;
-    } //TODO make a condition
+    }
 }
