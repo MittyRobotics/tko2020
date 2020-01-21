@@ -138,8 +138,8 @@ public class Spinner extends SubsystemBase {
         return WheelColor.None;
     }
 
-    public int getPosition() {
-        return talon1.getSelectedSensorPosition();
+    public double getRevolutions() {
+        return talon1.getSelectedSensorPosition()/ (100*TICKS_PER_INCH);
     }
 
     public void zeroEncoder() {
