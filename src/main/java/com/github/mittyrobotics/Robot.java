@@ -34,6 +34,7 @@ import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;

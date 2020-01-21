@@ -24,13 +24,18 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
+import com.github.mittyrobotics.Gyro;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.path.following.util.Odometry;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
 public class TrenchAutoMode extends SequentialCommandGroup {
     public TrenchAutoMode(Transform robotStartTransform) {
-        //TODO: Calibrate Odometry to robotStartTransform
+        Odometry.getInstance().calibrateRobotTransform(robotStartTransform,
+                DriveTrainTalon.getInstance().getLeftEncoder(), DriveTrainTalon.getInstance().getRightEncoder(),
+                Gyro.getInstance().getAngle());
         addCommands(
                 //TODO: Set shooter setpoint command to general speed around 20 feet
                 //TODO: Drive to trench starting position
