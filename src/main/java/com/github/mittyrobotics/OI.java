@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.colorwheel.ColorTesting;
 import com.github.mittyrobotics.colorwheel.SpinRevs;
 import com.github.mittyrobotics.colorwheel.SpinToColor;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
@@ -84,8 +85,16 @@ public class OI {
 		};
 
 
-		//UNCOMMENT FOR COLOR CALIBRATION
-		/*Button colorTestingButton = new Button() {
+
+
+
+
+		spinRevButton.whenPressed(new SpinRevs());
+		spinColorButton.whenPressed(new SpinToColor());
+
+	}
+	public void testButtons(){
+		Button colorTestingButton = new Button() {
 			@Override
 			public boolean get() {
 				return getJoystick1().getRawButtonPressed(3);
@@ -93,12 +102,6 @@ public class OI {
 		};
 
 		colorTestingButton.whenPressed(new ColorTesting());
-		*/
-
-
-		spinRevButton.whenPressed(new SpinRevs());
-		spinColorButton.whenPressed(new SpinToColor());
-
 	}
 	public void passedStage2(){
 		stage3 = true;

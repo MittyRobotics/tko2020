@@ -53,7 +53,8 @@ public class Robot extends TimedRobot {
         TurretSubsystem.getInstance().initHardware();
         ShooterSubsystem.getInstance().initHardware();
         DriveTrainTalon.getInstance().initHardware();
-
+        ColorPiston.getInstance().initHardware();
+        Spinner.getInstance().initHardware();
         //Setup DifferentialDriveKinematics
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
     }
@@ -83,7 +84,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        CommandScheduler.getInstance().cancel(autonCommand);
+        CommandScheduler.getInstance().cancelAll();
         OI.getInstance().digitalInputControls();
     }
 
@@ -94,7 +95,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
-
+        CommandScheduler.getInstance().cancelAll();
+        OI.getInstance().testButtons();
     }
 
     @Override
