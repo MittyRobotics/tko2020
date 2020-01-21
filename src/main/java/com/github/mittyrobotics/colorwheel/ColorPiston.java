@@ -3,7 +3,8 @@ package com.github.mittyrobotics.colorwheel;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static com.github.mittyrobotics.colorwheel.Constants.*;
+import static com.github.mittyrobotics.colorwheel.Constants.SOLENOID_FOWARD_CHANNEL;
+import static com.github.mittyrobotics.colorwheel.Constants.SOLENOID_REVERSE_CHANNEL;
 
 public class ColorPiston extends SubsystemBase {
 
@@ -16,7 +17,7 @@ public class ColorPiston extends SubsystemBase {
     }
 
     public static ColorPiston getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ColorPiston();
         }
         return instance;
@@ -27,11 +28,11 @@ public class ColorPiston extends SubsystemBase {
 
     }
 
-    public void up(){
+    public void up() {
         piston.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void down(){
+    public void down() {
         piston.set(DoubleSolenoid.Value.kReverse);
     }
 }

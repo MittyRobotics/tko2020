@@ -3,15 +3,14 @@ package com.github.mittyrobotics.colorwheel;
 import com.github.mittyrobotics.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
-
 public class SpinRevs extends CommandBase {
     public SpinRevs() {
         super();
         addRequirements(Spinner.getInstance(), ColorPiston.getInstance());
     }
+
     @Override
-    public void initialize(){
+    public void initialize() {
         //sets motor to fast velocity
         ColorPiston.getInstance().up();
         Spinner.getInstance().zeroEncoder();
@@ -19,19 +18,22 @@ public class SpinRevs extends CommandBase {
 
 
     }
+
     @Override
-    public void execute(){
+    public void execute() {
 
     }
+
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         //turns off motor, updates status
         Spinner.getInstance().setMotorOff();
         ColorPiston.getInstance().down();
         OI.getInstance().passedStage2();
     }
+
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         //returns 3 revs completed (one inch times 100 inches for each revolution times 3 revolutions)
         return Spinner.getInstance().getRevolutions() > 3.5;
     }
