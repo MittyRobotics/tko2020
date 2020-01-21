@@ -34,6 +34,12 @@ public class IntakeSubsystem extends SubsystemBase {
         }
 
     }
+    public void extendIntake(){
+
+    }
+    public void retractIntake(){
+
+    }
     public boolean hasBall(){
         return !ballSensor.get();
     } //TODO is the switch reversed?

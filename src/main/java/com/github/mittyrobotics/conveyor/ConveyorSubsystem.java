@@ -32,6 +32,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     public void updateBallCount(int count){
         totalBallCount += count;
     }
+    public void resetBallCount() { totalBallCount = 0; }
     public void setConveyorSpeed (double speed) { //TODO maybe put encoder to control distance traveled? (Unsure)
         talon1.set(ControlMode.PercentOutput, speed);
     }
