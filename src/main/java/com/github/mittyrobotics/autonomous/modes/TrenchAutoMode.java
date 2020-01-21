@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,24 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.modes;
 
-public class Constants {
-    public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 2;
-    public static final int XBOX_WHEEL_ID = 0;
-    public static final double turretAngle = 3;
-    public static final double ShooterSpeed = .5;
-    public static final double ShooterBangThreshold = 10;
+import com.github.mittyrobotics.datatypes.positioning.Transform;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+
+public class TrenchAutoMode extends SequentialCommandGroup {
+    public TrenchAutoMode(Transform robotStartTransform) {
+        //TODO: Calibrate Odometry to robotStartTransform
+        addCommands(
+                //TODO: Set shooter setpoint command to general speed around 20 feet
+                //TODO: Drive to trench starting position
+                //TODO: Vision AimBot (wait until turret positioned and sped up)
+                //TODO: Shoot 3 balls into high goal (shoot, wait until sped up, repeat)
+                //TODO: Set intake to intake
+                //TODO: Drive to position in trench zone while intaking balls
+                //TODO: Vision AimBot (wait until turret positioned and sped up)
+                //TODO: Shoot 3 balls into high goal (shoot, wait until sped up, repeat)
+        );
+    }
 }

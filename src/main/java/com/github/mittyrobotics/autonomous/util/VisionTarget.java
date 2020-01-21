@@ -22,14 +22,35 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.util;
 
-public class Constants {
-    public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 2;
-    public static final int XBOX_WHEEL_ID = 0;
-    public static final double turretAngle = 3;
-    public static final double ShooterSpeed = .5;
-    public static final double ShooterBangThreshold = 10;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
+
+/**
+ * Represents a detected vision target
+ */
+public class VisionTarget {
+    private Rotation yaw;
+    private double distance;
+
+    public VisionTarget(Rotation yaw, double distance) {
+        this.yaw = yaw;
+        this.distance = distance;
+    }
+
+    public Rotation getYaw() {
+        return yaw;
+    }
+
+    public void setYaw(Rotation yaw) {
+        this.yaw = yaw;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
 }

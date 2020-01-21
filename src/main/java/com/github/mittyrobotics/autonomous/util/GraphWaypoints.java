@@ -22,14 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.util;
 
-public class Constants {
-    public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 2;
-    public static final int XBOX_WHEEL_ID = 0;
-    public static final double turretAngle = 3;
-    public static final double ShooterSpeed = .5;
-    public static final double ShooterBangThreshold = 10;
+import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
+import com.github.mittyrobotics.visualization.graphs.Graph;
+import com.github.mittyrobotics.visualization.util.GraphManager;
+
+public class GraphWaypoints {
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+        graph.setVisible(true);
+        for (int i = 0; i < AutonCoordinates.FIELD_WAYPOINTS.length; i++) {
+            graph.addDataset(GraphManager.getInstance().graphArrow(AutonCoordinates.FIELD_WAYPOINTS[i], 0, 0,
+                    AutonCoordinates.FIELD_WAYPOINTS_NAMES[i],
+                    null));
+        }
+    }
 }

@@ -22,14 +22,30 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.constants;
 
-public class Constants {
-    public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 2;
-    public static final int XBOX_WHEEL_ID = 0;
-    public static final double turretAngle = 3;
-    public static final double ShooterSpeed = .5;
-    public static final double ShooterBangThreshold = 10;
+public class AutonConstants {
+    //Field
+    public static double HIGH_TARGET_HEIGHT = (6.836 + 9.438) / 2.0; //ft
+    public static double HIGH_TARGET_MIN_HEIGHT = 6.938 + (7.0 / 12.0 / 2.0); //ft
+    public static double HIGH_TARGET_MAX_HEIGHT = 9.438 - (7.0 / 12.0 / 2.0); //ft
+
+    //Vision
+    public static double LIMELIGHT_HEIGHT = 22; //TODO: Find this value
+    public static double LIMELIGHT_PITCH = 60; //TODO: Find this value
+
+    //Robot
+    public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
+    public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
+    public static double CAMERA_TURRET_OFFSET = 10; //Inches //TODO: Find this value
+
+    //Shooter //TODO: Tune these
+    /**
+     * Shooter RPM lookup table. Used to find the correct RPM of the shooter flywheel given a distance.
+     * <p>
+     * Elements are in the format {distance, RPM}
+     */
+    public static double[][] SHOOTER_RPM_TABLE = {
+            {0, 0}
+    };
 }
