@@ -2,11 +2,11 @@ package com.github.mittyrobotics.conveyor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ConveyorSubsystem extends SubsystemBase {
-    private WPI_TalonSRX talon1;
+    private WPI_TalonSRX conveyorWheel1;
+    private WPI_TalonSRX conveyorWheel2;
 
     private static int totalBallCount = 0;
 
@@ -23,7 +23,9 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     public void initHardware(){
-        talon1 = new WPI_TalonSRX(Constants.TalonID);
+
+        conveyorWheel1 = new WPI_TalonSRX(Constants.conveyorWheel1ID);
+        conveyorWheel2 = new WPI_TalonSRX(Constants.conveyorWheel2ID);
     }
 
     public int getTotalBallCount() {
@@ -34,7 +36,10 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
     public void resetBallCount() { totalBallCount = 0; }
     public void setConveyorSpeed (double speed) { //TODO maybe put encoder to control distance traveled? (Unsure)
-        talon1.set(ControlMode.PercentOutput, speed);
+
+        conveyorWheel1.set(ControlMode.PercentOutput, speed);
+        conveyorWheel2.set(ControlMode.PercentOutput, speed);
+
     }
 
 }

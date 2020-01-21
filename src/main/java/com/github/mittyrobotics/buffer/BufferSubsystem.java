@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BufferSubsystem extends SubsystemBase {
-    private WPI_TalonSRX talon1, talon2;
+    private WPI_TalonSRX bufferWheel;
 
     private boolean isOptimalSpeed = true; //TODO: Assign value properly when merging
     private boolean isOptimalAngle = true; //TODO: Assign value properly when merging
@@ -23,18 +23,17 @@ public class BufferSubsystem extends SubsystemBase {
     }
 
     public void initHardware(){
-        talon1 = new WPI_TalonSRX(Constants.TalonID1);
-        talon2 = new WPI_TalonSRX(Constants.TalonID2);
+        bufferWheel = new WPI_TalonSRX(Constants.TalonID1);
+
     }
 
     public void bufferLock(double speed) {
-        talon1.set(ControlMode.PercentOutput, speed);
-        talon2.set(ControlMode.PercentOutput, speed);
+        bufferWheel.set(ControlMode.PercentOutput, speed);
+
     }
 
     public void bufferRelease(double speed) {
-        talon1.set(ControlMode.PercentOutput, speed);
-        talon2.set(ControlMode.PercentOutput, -speed);
+        bufferWheel.set(ControlMode.PercentOutput, speed);
     }
 
     public boolean isOptimalAngle() { return isOptimalAngle; }

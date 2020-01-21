@@ -3,15 +3,16 @@ package com.github.mittyrobotics.intake;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private WPI_TalonSRX talon2;
+    private WPI_TalonSRX intakeWheel;
     //ballSensor may not exist... Intake could be running forever
-    private DigitalInput ballSensor;
-
+    //private DigitalInput ballSensor;
+    private DoubleSolenoid extendIntake;
     private static IntakeSubsystem instance;
+    private boolean isExtended;
     public static IntakeSubsystem getInstance(){
         if(instance == null){
             instance = new IntakeSubsystem();
@@ -25,23 +26,27 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void initHardware(){
 
-        talon2 = new WPI_TalonSRX(Constants.Talon2ID);
-        ballSensor = new DigitalInput (Constants.DigitalInputID);
+        intakeWheel = new WPI_TalonSRX(Constants.Talon2ID);
+        extendIntake = new DoubleSolenoid(0, 1);
+
     }
-    public void intakeBall(){
+    public void intakeBall(double speed){
         if(ConveyorSubsystem.getInstance().getTotalBallCount() < 5){
-            talon2.set(ControlMode.Velocity, Constants.Intakespeed);
+            intakeWheel.set(ControlMode.Velocity, speed);
         }
 
     }
     public void extendIntake(){
+        extendIntake.set(DoubleSolenoid.Value.kForward);
+        isExtended = true;
 
     }
     public void retractIntake(){
-
+        extendIntake.set(DoubleSolenoid.Value.kReverse);
+        isExtended = false;
     }
-    public boolean hasBall(){
-        return !ballSensor.get();
-    } //TODO is the switch reversed?
 
+    public boolean isExtended() {
+        return isExtended;
+    }
 }
