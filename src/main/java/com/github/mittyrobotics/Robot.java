@@ -50,7 +50,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        System.out.println(TurretSubsystem.getInstance().getAngle());
+        System.out.println("encoder value: " + TurretSubsystem.getInstance().getEncoderValue());
+//        System.out.println(TurretSubsystem.getInstance().getAngle());
 //        if (OI.getInstance().getJoystick1().getTrigger()) {
 //            ShooterSubsystem.getInstance().manualControl(.5);
 //        } else {
@@ -68,7 +69,8 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
         speed = OI.getInstance().getJoystick1().getY();
         TurretSubsystem.getInstance().manualSetTurret(speed);
-        System.out.println(TurretSubsystem.getInstance().getAngle());
+        System.out.println("encoder value: " + TurretSubsystem.getInstance().getEncoderValue());
+//        System.out.println(TurretSubsystem.getInstance().getAngle());
 
     }
 }
