@@ -38,8 +38,23 @@ public class Vision {
         return instance;
     }
 
+    /**
+     * The current detected {@link VisionTarget} containing turret-relative yaw to target, field-relative yaw from
+     * turret to target, and distance from turret to target
+     */
     private VisionTarget currentVisionTarget;
 
+    /**
+     * Updates the {@link Vision} class.
+     * <p>
+     * First, it updates the {@link Limelight}'s values from the network. Then, it grabs the pitch and yaw from the
+     * {@link Limelight}. It then grabs the robot-relative turret angle from the {@link TurretSubsystem}. Lastly, it
+     * grabs the robot's angle from the {@link Gyro} class.
+     * <p>
+     * After it grabs all of the values, it computes the current {@link VisionTarget}. If no target is present, it
+     * will set the <code>currentVisionTarget</code> to an empty {@link VisionTarget}, indicating to not use this
+     * iteration's target.
+     */
     public void run() {
         Limelight.getInstance().updateLimelightValues();
 
@@ -51,6 +66,17 @@ public class Vision {
         this.currentVisionTarget = computeVisionTarget(visionPitch, visionYaw, robotRelativeTurretAngle, gyro);
     }
 
+    /**
+     * Computes the {@link VisionTarget}, containing the turret-relative yaw from the turret's angle to the target,
+     * field-relative yaw from the turret position to the target position, and distance from the turret to the target.
+     *
+     * @param visionPitch              the vision pitch {@link Rotation} from the camera to the target.
+     * @param visionYaw                the vision yaw {@link Rotation} from the camera to the target.
+     * @param robotRelativeTurretAngle the robot-relative turret angle {@link Rotation}.
+     * @param gyro                     the robot's gyro {@link Rotation}
+     * @return the {@link VisionTarget} containing turret-relative yaw to target, field-relative yaw from turret to
+     * target, and distance from turret to target
+     */
     public VisionTarget computeVisionTarget(Rotation visionPitch, Rotation visionYaw,
                                             Rotation robotRelativeTurretAngle, Rotation gyro) {
         //Compute distance from camera to target
@@ -127,7 +153,25 @@ public class Vision {
         return gyro.add(robotRelativeTurretAngle).add(turretRelativeVisionYaw);
     }
 
-    private Rotation computeLatencyAndVelocityCompensationAngle() {
+    /**
+     * Compensates the vision angle based on the vision system's latency.
+     *
+     * @return the latency-compensated, turret-relative vision yaw {@link Rotation}.
+     */
+    private Rotation computeLatencyCompensationAngle() {
+        //TODO: Implement this
+        return new Rotation();
+    }
+
+    /**
+     * Compensates the vision angle based on the robot's movement.
+     *
+     * This will make the turret aim a little to the left or right of the target depending on the robot's movement in
+     * order to correctly aim for the ball to be shot into the target.
+     *
+     * @return the motion-compensated, turret-relative vision yaw {@link Rotation}.
+     */
+    private Rotation computeMotionCompensationAngle(){
         //TODO: Implement this
         return new Rotation();
     }
