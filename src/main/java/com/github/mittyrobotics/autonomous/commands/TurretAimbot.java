@@ -44,7 +44,6 @@ public class TurretAimbot extends CommandBase {
     @Override
     public void execute() {
         VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
-        TurretSubsystem.getInstance().changeAngle(target.getYaw().getHeading());
     }
 
     @Override

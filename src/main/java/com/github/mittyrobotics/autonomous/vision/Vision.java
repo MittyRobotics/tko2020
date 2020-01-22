@@ -24,7 +24,9 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
+import com.github.mittyrobotics.Gyro;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
 import com.github.mittyrobotics.autonomous.util.VisionTarget;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.vision.Limelight;
@@ -38,24 +40,26 @@ public class Vision {
     }
 
     public void run() {
-        this.currentVisionTarget = computeVisionTarget();
+        Limelight.getInstance().updateLimelightValues();
+        Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
+        Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
+        Rotation gyro = new Rotation(Gyro.getInstance().getAngle());
+        this.currentVisionTarget = computeVisionTarget(visionPitch, visionYaw,gyro);
     }
 
-    private VisionTarget computeVisionTarget() {
-        Limelight.getInstance().updateLimelightValues();
+    public VisionTarget computeVisionTarget(Rotation visionPitch, Rotation visionYaw, Rotation gyro) {
+        double visionDistance = computeVisionDistance(visionPitch);
+        double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(visionDistance, visionYaw);
 
-        if (isSafeToUseVision()) {
-            Rotation pitch = new Rotation(Limelight.getInstance().getPitchToTarget());
-            Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
+        Rotation turretRelativeVisionYaw = computeTurretRelativeVisionYaw(visionDistance,
+                turretRelativeVisionDistance
+                , visionYaw);
 
-            double visionDistance = computeVisionDistance(pitch);
-            double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(visionDistance, visionYaw);
+        Rotation fieldRelativeVisionYaw =
+                TurretFieldManager.getInstance().computeRobotToFieldAngle(gyro,
+                        turretRelativeVisionYaw);
 
-            return new VisionTarget(computeTurretRelativeVisionYaw(visionDistance, turretRelativeVisionDistance
-                    , visionYaw), turretRelativeVisionDistance);
-        }
-
-        return new VisionTarget(new Rotation(), 0);
+        return new VisionTarget(turretRelativeVisionYaw, fieldRelativeVisionYaw, turretRelativeVisionDistance);
     }
 
     /**
@@ -97,8 +101,7 @@ public class Vision {
      */
     private Rotation computeTurretRelativeVisionYaw(double visionDistance, double turretRelativeVisionDistance,
                                                     Rotation visionYaw) {
-        return new Rotation(
-                Math.toRadians(Math.asin((visionDistance / turretRelativeVisionDistance) * visionYaw.sin())));
+        return new Rotation(Math.toDegrees(Math.asin((visionDistance / turretRelativeVisionDistance) * visionYaw.sin())));
     }
 
     private Rotation computeLatencyAndVelocityCompensationAngle() {

@@ -30,20 +30,30 @@ import com.github.mittyrobotics.datatypes.positioning.Rotation;
  * Represents a detected vision target
  */
 public class VisionTarget {
-    private Rotation yaw;
+    private Rotation turretRelativeYaw;
+    private Rotation fieldRelativeYaw;
     private double distance;
 
-    public VisionTarget(Rotation yaw, double distance) {
-        this.yaw = yaw;
+    public VisionTarget(Rotation turretRelativeYaw, Rotation fieldRelativeYaw, double distance) {
+        this.turretRelativeYaw = turretRelativeYaw;
+        this.fieldRelativeYaw = fieldRelativeYaw;
         this.distance = distance;
     }
 
-    public Rotation getYaw() {
-        return yaw;
+    public Rotation getTurretRelativeYaw() {
+        return turretRelativeYaw;
     }
 
-    public void setYaw(Rotation yaw) {
-        this.yaw = yaw;
+    public void setTurretRelativeYaw(Rotation turretRelativeYaw) {
+        this.turretRelativeYaw = turretRelativeYaw;
+    }
+
+    public Rotation getFieldRelativeYaw() {
+        return fieldRelativeYaw;
+    }
+
+    public void setFieldRelativeYaw(Rotation fieldRelativeYaw) {
+        this.fieldRelativeYaw = fieldRelativeYaw;
     }
 
     public double getDistance() {
@@ -52,5 +62,14 @@ public class VisionTarget {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    @Override
+    public String toString() {
+        return "VisionTarget{" +
+                "turretRelativeYaw=" + turretRelativeYaw +
+                ", fieldRelativeYaw=" + fieldRelativeYaw +
+                ", distance=" + distance +
+                '}';
     }
 }

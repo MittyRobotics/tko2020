@@ -32,7 +32,7 @@ public class AutonConstants {
 
     //Vision
     public static double LIMELIGHT_HEIGHT = 22; //TODO: Find this value
-    public static double LIMELIGHT_PITCH = 60; //TODO: Find this value
+    public static double LIMELIGHT_PITCH = 0; //TODO: Find this value
 
     //Robot
     public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches

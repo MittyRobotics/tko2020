@@ -40,6 +40,16 @@ import com.github.mittyrobotics.turret.TurretSubsystem;
  * about the angle of the robot.
  * Robot-relative turret angle (<code>robotTurretAngle</code>): the angle of the turret relative to the robot. In other words,
  * the rotation of the turret offset from the turret's default location.
+ *
+ * TODO: List of actions for vision turret placement:
+ * -get vision angle
+ * -get turret-relative vision angle
+ * -compensate turret-relative vision angle from latency
+ * -compensate turret-rleative vision angle from robot movement
+ * -get robot-relative turret angle from current turret angle and turret-relative vision angle
+ * -get field-relative turret angle from robot-relative turret angle
+ * -set turret's field-relative turret angle
+ * -maintain field-relative turret angle
  */
 public class TurretFieldManager {
     private static TurretFieldManager instance = new TurretFieldManager();
@@ -54,8 +64,8 @@ public class TurretFieldManager {
      * Updates the {@link TurretFieldManager}
      */
     public void run() {
-        double gyroAngle = Gyro.getInstance().getAngle360();
-        double robotTurretAngle = TurretSubsystem.getInstance().getAngle();
+        Rotation gyroAngle = new Rotation(Gyro.getInstance().getAngle360());
+        Rotation robotTurretAngle = new Rotation(TurretSubsystem.getInstance().getAngle());
         double distanceToTarget = Vision.getInstance().getCurrentVisionTarget().getDistance();
         this.fieldTurretTransform = computeTurretTransform(gyroAngle, robotTurretAngle, distanceToTarget);
     }
@@ -67,8 +77,8 @@ public class TurretFieldManager {
      * @param robotTurretAngle the robot-relative turret angle
      * @return the field-relative angle of the turret in the form of a {@link Rotation}.
      */
-    private Rotation computeFieldTurretAngle(double gyroAngle, double robotTurretAngle) {
-        return new Rotation(gyroAngle - robotTurretAngle);
+    public Rotation computeRobotToFieldAngle(Rotation gyroAngle, Rotation robotTurretAngle) {
+        return gyroAngle.subtract(robotTurretAngle);
     }
 
     /**
@@ -80,8 +90,8 @@ public class TurretFieldManager {
      * @param fieldTurretAngle the field-relative turret angle
      * @return the robot-relative angle of the turret in the form of a {@link Rotation}.
      */
-    public Rotation computeRobotAngleFromFieldAngle(double gyroAngle, double fieldTurretAngle) {
-        return new Rotation(gyroAngle - fieldTurretAngle);
+    public Rotation computeFieldToRobotAngle(Rotation gyroAngle, Rotation fieldTurretAngle) {
+        return gyroAngle.subtract(fieldTurretAngle);
     }
 
     /**
@@ -92,12 +102,12 @@ public class TurretFieldManager {
      * @param robotTurretAngle
      * @return the {@link Transform} that makes up the turret's position relative to the field.
      */
-    private Transform computeTurretTransform(double gyroAngle, double robotTurretAngle, double distanceToTarget) {
+    private Transform computeTurretTransform(Rotation gyroAngle, Rotation robotTurretAngle, double distanceToTarget) {
         if (distanceToTarget == -1000) {
             return new Transform();
         }
 
-        Rotation fieldTurretRotation = computeFieldTurretAngle(gyroAngle, robotTurretAngle);
+        Rotation fieldTurretRotation = computeRobotToFieldAngle(gyroAngle, robotTurretAngle);
 
         //Target relative position
         Transform turretPosition = new Transform(
@@ -117,7 +127,7 @@ public class TurretFieldManager {
      * @param distance the distance from the target to shoot from.
      * @return the RPM needed for the shooter to shoot from <code>distance</code>.
      */
-    private double computeShooterRPMFromDistance(double distance) {
+    public double computeShooterRPMFromDistance(double distance) {
         double closest = Double.POSITIVE_INFINITY;
         double rpm = 0;
         for (int i = 0; i < AutonConstants.SHOOTER_RPM_TABLE.length; i++) {
