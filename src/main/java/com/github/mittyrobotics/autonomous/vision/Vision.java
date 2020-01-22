@@ -42,6 +42,7 @@ public class Vision {
 
     public void run() {
         Limelight.getInstance().updateLimelightValues();
+
         Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
         Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
         Rotation robotRelativeTurretAngle = new Rotation(TurretSubsystem.getInstance().getAngle());
@@ -58,6 +59,7 @@ public class Vision {
         Rotation turretRelativeVisionYaw = computeTurretRelativeVisionYaw(visionDistance,
                 turretRelativeVisionDistance
                 , visionYaw);
+
         Rotation robotRelativeVisionYaw = computeRobotRelativeVisionYaw(robotRelativeTurretAngle,turretRelativeVisionYaw);
         Rotation fieldRelativeVisionYaw =
                 TurretFieldManager.getInstance().computeRobotToFieldAngle(gyro,

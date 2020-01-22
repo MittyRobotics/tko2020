@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.util.VisionTarget;
+import com.github.mittyrobotics.autonomous.vision.TurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -44,6 +45,7 @@ public class TurretAimbot extends CommandBase {
     @Override
     public void execute() {
         VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
+        TurretSuperstructure.getInstance().visionAim(target);
     }
 
     @Override

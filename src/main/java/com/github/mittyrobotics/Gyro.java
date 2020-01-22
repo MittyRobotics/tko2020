@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Gyro extends ADXRS450_Gyro {
@@ -38,6 +39,10 @@ public class Gyro extends ADXRS450_Gyro {
             instance = new Gyro();
         }
         return instance;
+    }
+
+    public Rotation getRotation(){
+        return new Rotation(getAngle360());
     }
 
     public double getAngle360() {
