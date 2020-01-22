@@ -33,11 +33,12 @@ import com.github.mittyrobotics.vision.Limelight;
 
 public class Vision {
     private static Vision instance = new Vision();
-    private VisionTarget currentVisionTarget;
 
     public static Vision getInstance() {
         return instance;
     }
+
+    private VisionTarget currentVisionTarget;
 
     public void run() {
         Limelight.getInstance().updateLimelightValues();
@@ -45,25 +46,27 @@ public class Vision {
         Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
         Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
         Rotation robotRelativeTurretAngle = new Rotation(TurretSubsystem.getInstance().getAngle());
-        Rotation gyro = new Rotation(Gyro.getInstance().getAngle());
+        Rotation gyro = Gyro.getInstance().getRotation();
 
-        this.currentVisionTarget = computeVisionTarget(visionPitch, visionYaw,robotRelativeTurretAngle,gyro);
+        this.currentVisionTarget = computeVisionTarget(visionPitch, visionYaw, robotRelativeTurretAngle, gyro);
     }
 
     public VisionTarget computeVisionTarget(Rotation visionPitch, Rotation visionYaw,
                                             Rotation robotRelativeTurretAngle, Rotation gyro) {
-        double visionDistance = computeVisionDistance(visionPitch);
-        double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(visionDistance, visionYaw);
+        //Compute distance from camera to target
+        double cameraVisionDistance = computeVisionDistance(visionPitch);
+        //Compute distance from turret to target
+        double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(cameraVisionDistance, visionYaw);
 
-        Rotation turretRelativeVisionYaw = computeTurretRelativeVisionYaw(visionDistance,
-                turretRelativeVisionDistance
-                , visionYaw);
+        //Compute angle from turret's current angle to vision target
+        Rotation turretRelativeVisionYaw =
+                computeTurretRelativeVisionYaw(cameraVisionDistance, turretRelativeVisionDistance, visionYaw);
 
-        Rotation robotRelativeVisionYaw = computeRobotRelativeVisionYaw(robotRelativeTurretAngle,turretRelativeVisionYaw);
+        //Compute field-relative angle of vision target from the turret
         Rotation fieldRelativeVisionYaw =
-                TurretSuperstructure.getInstance().computeFieldRelativeRotation(gyro,
-                        robotRelativeVisionYaw);
+                computeFieldRelativeVisionYaw(gyro, robotRelativeTurretAngle, turretRelativeVisionYaw);
 
+        //Return vision target
         return new VisionTarget(turretRelativeVisionYaw, fieldRelativeVisionYaw, turretRelativeVisionDistance);
     }
 
@@ -106,11 +109,22 @@ public class Vision {
      */
     private Rotation computeTurretRelativeVisionYaw(double visionDistance, double turretRelativeVisionDistance,
                                                     Rotation visionYaw) {
-        return new Rotation(Math.toDegrees(Math.asin((visionDistance / turretRelativeVisionDistance) * visionYaw.sin())));
+        return new Rotation(
+                Math.toDegrees(Math.asin((visionDistance / turretRelativeVisionDistance) * visionYaw.sin())));
     }
 
-    private Rotation computeRobotRelativeVisionYaw(Rotation turretRelativeVisionYaw, Rotation robotRelativeTurretYaw){
-        return robotRelativeTurretYaw.subtract(turretRelativeVisionYaw);
+    /**
+     * Calculates the field-relative vision yaw {@link Rotation}. This is the angle from the turret to the vision
+     * target relative to the field.
+     *
+     * @param gyro                     the robot's gyro {@link Rotation}
+     * @param robotRelativeTurretAngle the robot-relative turret angle {@link Rotation}
+     * @param turretRelativeVisionYaw  the turret-relative vision yaw {@link Rotation}
+     * @return the field-relative vision yaw {@link Rotation}
+     */
+    private Rotation computeFieldRelativeVisionYaw(Rotation gyro, Rotation robotRelativeTurretAngle,
+                                                   Rotation turretRelativeVisionYaw) {
+        return gyro.add(robotRelativeTurretAngle).add(turretRelativeVisionYaw);
     }
 
     private Rotation computeLatencyAndVelocityCompensationAngle() {
@@ -118,6 +132,14 @@ public class Vision {
         return new Rotation();
     }
 
+    /**
+     * Returns the current {@link VisionTarget} detected by the {@link Vision} system.
+     * <p>
+     * The {@link VisionTarget} contains the turret-relative yaw {@link Rotation} to the target, the field-relative
+     * yaw {@link Rotation} from the turret to the target, and the distance from the turret to the target.
+     *
+     * @return the current {@link VisionTarget} detected by the {@link Vision} system.
+     */
     public VisionTarget getCurrentVisionTarget() {
         return currentVisionTarget;
     }

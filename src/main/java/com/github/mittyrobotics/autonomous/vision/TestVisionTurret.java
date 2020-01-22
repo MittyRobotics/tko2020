@@ -35,8 +35,8 @@ import java.awt.*;
 public class TestVisionTurret {
     public static void main(String[] args) {
         Rotation pitch = new Rotation(5);
-        Rotation yaw = new Rotation(-10);
-        Rotation robotTurretYaw = new Rotation(0);
+        Rotation yaw = new Rotation(10);
+        Rotation robotTurretYaw = new Rotation(20);
         Rotation gyro = new Rotation(45);
         VisionTarget target = Vision.getInstance().computeVisionTarget(pitch,yaw,robotTurretYaw,
                 gyro);
@@ -50,6 +50,8 @@ public class TestVisionTurret {
                 "robot gyro", Color.yellow));
         graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0,0,yaw),5,2,
                 "vision yaw", Color.green));
+        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0,0,robotTurretYaw),5,2,
+                "turret yaw", Color.cyan));
         graph.resizeGraph(-50,50,-50,50);
         graph.getChart().removeLegend();
     }
