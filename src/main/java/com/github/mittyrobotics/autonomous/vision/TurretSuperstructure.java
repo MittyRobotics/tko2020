@@ -25,10 +25,32 @@
 package com.github.mittyrobotics.autonomous.vision;
 
 import com.github.mittyrobotics.Gyro;
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.autonomous.util.VisionTarget;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
+import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 
+/**
+ * {@link TurretSuperstructure} class. Manages the turret's position relative to the field and relative to vision targets.
+ * <p>
+ * Definitions:
+ * Field-relative turret angle (<code>fieldRelativeRotation</code>): the angle of the turret relative to the field. Does not care
+ * about the angle of the robot.
+ * Robot-relative turret angle (<code>robotRelativeRotation</code>): the angle of the turret relative to the robot. In other words,
+ * the rotation of the turret offset from the turret's default location.
+ *
+ * TODO: List of actions for vision turret placement:
+ * -get vision angle
+ * -get turret-relative vision angle
+ * -compensate turret-relative vision angle from latency
+ * -compensate turret-rleative vision angle from robot movement
+ * -get robot-relative turret angle from current turret angle and turret-relative vision angle
+ * -get field-relative turret angle from robot-relative turret angle
+ * -set turret's field-relative turret angle
+ * -maintain field-relative turret angle
+ */
 public class TurretSuperstructure {
     public static TurretSuperstructure instance = new TurretSuperstructure();
     public static TurretSuperstructure getInstance(){
@@ -67,12 +89,57 @@ public class TurretSuperstructure {
         maintainFieldRelativeRotation(target.getFieldRelativeYaw());
     }
 
-    private Rotation computeFieldRelativeRotation(Rotation gyro, Rotation robotRelativeRotation){
+    public Rotation computeFieldRelativeRotation(Rotation gyro, Rotation robotRelativeRotation){
         return gyro.subtract(robotRelativeRotation);
     }
 
-    private Rotation computeRobotRelativeRotation(Rotation gyro, Rotation fieldRelativeRotation){
+    public Rotation computeRobotRelativeRotation(Rotation gyro, Rotation fieldRelativeRotation){
         return gyro.subtract(fieldRelativeRotation);
+    }
+
+    /**
+     * Computes the field-relative {@link Transform} of the turret given parameters from the vision system.
+     *
+     * @param distanceToTarget the distance from the turret to the vision target (not camera!).
+     * @param gyroAngle
+     * @param robotTurretAngle
+     * @return the {@link Transform} that makes up the turret's position relative to the field.
+     */
+    private Transform computeTurretTransform(Rotation gyroAngle, Rotation robotTurretAngle, double distanceToTarget) {
+        if (distanceToTarget == -1000) {
+            return new Transform();
+        }
+
+        Rotation fieldTurretRotation = computeFieldRelativeRotation(gyroAngle, robotTurretAngle);
+
+        //Target relative position
+        Transform turretPosition = new Transform(
+                -distanceToTarget * fieldTurretRotation.cos(),
+                -distanceToTarget * fieldTurretRotation.sin(),
+                fieldTurretRotation);
+
+        //Add scoring zone to get field-relative position
+        turretPosition = turretPosition.add(AutonCoordinates.SCORING_TARGET);
+
+        return turretPosition;
+    }
+
+    /**
+     * Computes the RPM needed for the shooter to shoot from <code>distance</code>.
+     *
+     * @param distance the distance from the target to shoot from.
+     * @return the RPM needed for the shooter to shoot from <code>distance</code>.
+     */
+    public double computeShooterRPMFromDistance(double distance) {
+        double closest = Double.POSITIVE_INFINITY;
+        double rpm = 0;
+        for (int i = 0; i < AutonConstants.SHOOTER_RPM_TABLE.length; i++) {
+            if (AutonConstants.SHOOTER_RPM_TABLE[i][0] < closest) {
+                closest = AutonConstants.SHOOTER_RPM_TABLE[i][0];
+                rpm = AutonConstants.SHOOTER_RPM_TABLE[i][1];
+            }
+        }
+        return rpm;
     }
 
     public Rotation getRobotRelativeRotation() {

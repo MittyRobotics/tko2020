@@ -26,7 +26,6 @@ package com.github.mittyrobotics.autonomous.vision;
 
 import com.github.mittyrobotics.Gyro;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.util.TurretFieldManager;
 import com.github.mittyrobotics.autonomous.util.VisionTarget;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.turret.TurretSubsystem;
@@ -62,7 +61,7 @@ public class Vision {
 
         Rotation robotRelativeVisionYaw = computeRobotRelativeVisionYaw(robotRelativeTurretAngle,turretRelativeVisionYaw);
         Rotation fieldRelativeVisionYaw =
-                TurretFieldManager.getInstance().computeRobotToFieldAngle(gyro,
+                TurretSuperstructure.getInstance().computeFieldRelativeRotation(gyro,
                         robotRelativeVisionYaw);
 
         return new VisionTarget(turretRelativeVisionYaw, fieldRelativeVisionYaw, turretRelativeVisionDistance);
