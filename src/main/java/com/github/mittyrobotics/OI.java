@@ -2,6 +2,7 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.shooter.SpinFlywheel;
+import com.github.mittyrobotics.turret.MagEncoderTesting;
 import com.github.mittyrobotics.turret.ResetTurretEncoder;
 import com.github.mittyrobotics.turret.SetTurretAngle;
 import com.github.mittyrobotics.turret.TurretSubsystem;
@@ -59,21 +60,21 @@ public class OI {
 //            }
 //        };
 //        spinFlyWheel.whenPressed(new SpinFlywheel(Constants.ShooterSpeed, Constants.ShooterBangThreshold));
-
-        Button turretAngle = new Button() {
-            @Override
-            public boolean get() {
-                return getJoystick1().getRawButton(4);
-            }
-        };
-        turretAngle.whenPressed(new SetTurretAngle(Constants.turretAngle));
-
-//        Button resetEncoder = new Button() {
+//
+//        Button turretAngle = new Button() {
 //            @Override
 //            public boolean get() {
-//                return getJoystick1().getRawButton(3);
+//                return getJoystick1().getRawButton(4);
 //            }
 //        };
-//        resetEncoder.whenPressed(new ResetTurretEncoder());
+//        turretAngle.whenPressed(new SetTurretAngle(Constants.turretAngle));
+
+        Button resetEncoder = new Button() {
+            @Override
+            public boolean get() {
+                return getJoystick1().getRawButton(3);
+            }
+        };
+        resetEncoder.whenPressed(new MagEncoderTesting(TurretSubsystem.getInstance().getAngle() + 90));
     }
 }

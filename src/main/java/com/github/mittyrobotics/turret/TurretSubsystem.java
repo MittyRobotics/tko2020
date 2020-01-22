@@ -35,6 +35,7 @@ public class TurretSubsystem extends SubsystemBase {
         talon1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         //TODO maybe this will fix it:
 //        talon1.configFeedbackNotContinuous(true, 0);
+
     }
 
     public void setAngle(double angle) {
@@ -88,7 +89,7 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void zeroEncoder() {
-        talon1.setSelectedSensorPosition(0);
+//        talon1.setSelectedSensorPosition(0);
     }
 
     public double getEncoderValue() {

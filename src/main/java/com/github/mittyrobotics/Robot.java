@@ -1,6 +1,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import com.github.mittyrobotics.turret.MagEncoderTesting;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -11,9 +12,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        OI.getInstance().digitalInputControls();
 //        ShooterSubsystem.getInstance().initHardware();
         TurretSubsystem.getInstance().initHardware();
+//        TurretSubsystem.getInstance().manualSetTurret(.2);
+        OI.getInstance().digitalInputControls();
     }
 
     @Override
