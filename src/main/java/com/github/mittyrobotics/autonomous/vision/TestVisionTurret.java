@@ -35,9 +35,10 @@ import java.awt.*;
 public class TestVisionTurret {
     public static void main(String[] args) {
         Rotation pitch = new Rotation(5);
-        Rotation yaw = new Rotation(10);
+        Rotation yaw = new Rotation(-10);
+        Rotation robotTurretYaw = new Rotation(0);
         Rotation gyro = new Rotation(45);
-        VisionTarget target = Vision.getInstance().computeVisionTarget(pitch,yaw,
+        VisionTarget target = Vision.getInstance().computeVisionTarget(pitch,yaw,robotTurretYaw,
                 gyro);
         System.out.println(target);
         Graph graph = new Graph();
