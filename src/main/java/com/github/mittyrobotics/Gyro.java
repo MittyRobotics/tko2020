@@ -41,7 +41,7 @@ public class Gyro extends ADXRS450_Gyro {
         return instance;
     }
 
-    public Rotation getRotation(){
+    public Rotation getRotation() {
         return new Rotation(getAngle360());
     }
 

@@ -33,16 +33,15 @@ import com.github.mittyrobotics.vision.Limelight;
 
 public class Vision {
     private static Vision instance = new Vision();
-
-    public static Vision getInstance() {
-        return instance;
-    }
-
     /**
      * The current detected {@link VisionTarget} containing turret-relative yaw to target, field-relative yaw from
      * turret to target, and distance from turret to target
      */
     private VisionTarget currentVisionTarget;
+
+    public static Vision getInstance() {
+        return instance;
+    }
 
     /**
      * Updates the {@link Vision} class.

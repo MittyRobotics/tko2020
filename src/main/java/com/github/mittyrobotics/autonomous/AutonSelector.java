@@ -24,24 +24,23 @@
 
 package com.github.mittyrobotics.autonomous;
 
-import com.github.mittyrobotics.autonomous.modes.TrenchAutoMode;
-import com.github.mittyrobotics.datatypes.positioning.Transform;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 
 public class AutonSelector {
     private static AutonSelector instance = new AutonSelector();
-    public static AutonSelector getInstance(){
+
+    public static AutonSelector getInstance() {
         return instance;
     }
 
     /**
      * Returns the autonomous command group to be run during the autonomous period of the match.
-     *
+     * <p>
      * This pulls the autonomous selection from SmartDashboard, set by the driver before the match starts.
      *
      * @return the autonomous command group to be run during the autonomous period of the match.
      */
-    public CommandGroupBase getSelectedAutonomousMode(){
+    public CommandGroupBase getSelectedAutonomousMode() {
         //TODO: Implement this
         return null;
     }

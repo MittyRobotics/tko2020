@@ -38,21 +38,21 @@ public class TestVisionTurret {
         Rotation yaw = new Rotation(10);
         Rotation robotTurretYaw = new Rotation(20);
         Rotation gyro = new Rotation(45);
-        VisionTarget target = Vision.getInstance().computeVisionTarget(pitch,yaw,robotTurretYaw,
+        VisionTarget target = Vision.getInstance().computeVisionTarget(pitch, yaw, robotTurretYaw,
                 gyro);
         System.out.println(target);
         Graph graph = new Graph();
-        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0,0,target.getFieldRelativeYaw()),5,2,
+        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0, 0, target.getFieldRelativeYaw()), 5, 2,
                 "field-relative vision yaw", Color.red));
-        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0,0,target.getTurretRelativeYaw()),5,2,
+        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0, 0, target.getTurretRelativeYaw()), 5, 2,
                 "turret-relative vision yaw", Color.blue));
-        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0,0,gyro),5,2,
+        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0, 0, gyro), 5, 2,
                 "robot gyro", Color.yellow));
-        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0,0,yaw),5,2,
+        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0, 0, yaw), 5, 2,
                 "vision yaw", Color.green));
-        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0,0,robotTurretYaw),5,2,
+        graph.addDataset(GraphManager.getInstance().graphArrow(new Transform(0, 0, robotTurretYaw), 5, 2,
                 "turret yaw", Color.cyan));
-        graph.resizeGraph(-50,50,-50,50);
+        graph.resizeGraph(-50, 50, -50, 50);
         graph.getChart().removeLegend();
     }
 }

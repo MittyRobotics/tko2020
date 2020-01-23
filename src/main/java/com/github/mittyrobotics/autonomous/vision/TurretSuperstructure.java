@@ -34,7 +34,6 @@ import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.turret.TurretSubsystem;
-import javafx.geometry.Pos;
 
 /**
  * {@link TurretSuperstructure} class. Manages the turret's position relative to the field and relative to vision targets.
@@ -47,33 +46,30 @@ import javafx.geometry.Pos;
  */
 public class TurretSuperstructure {
     public static TurretSuperstructure instance = new TurretSuperstructure();
-    public static TurretSuperstructure getInstance(){
+    private Rotation robotRelativeRotation;
+    private Rotation fieldRelativeRotation;
+    private Position fieldRelativePosition;
+    private TurretAimMode aimMode;
+    private Transform setpoint;
+
+    public static TurretSuperstructure getInstance() {
         return instance;
     }
 
-    private Rotation robotRelativeRotation;
-    private Rotation fieldRelativeRotation;
-
-    private Position fieldRelativePosition;
-
-    private TurretAimMode aimMode;
-
-    private Transform setpoint;
-
-    public void run(){
+    public void run() {
         //Compute turret position and rotations
         this.robotRelativeRotation = new Rotation(TurretSubsystem.getInstance().getAngle());
         this.fieldRelativeRotation = computeFieldRelativeRotation(Gyro.getInstance().getRotation(),
                 robotRelativeRotation);
         this.fieldRelativePosition = computeFieldRelativePosition(Gyro.getInstance().getRotation(),
-                robotRelativeRotation,Vision.getInstance().getCurrentVisionTarget().getDistance());
+                robotRelativeRotation, Vision.getInstance().getCurrentVisionTarget().getDistance());
 
         //Maintain the turret's setpoint
         maintainSetpoint();
     }
 
-    public void maintainSetpoint(){
-        switch(aimMode){
+    public void maintainSetpoint() {
+        switch (aimMode) {
             case FIELD_RELATIVE_AIM:
                 maintainFieldRelativeAim(setpoint.getPosition());
                 break;
@@ -86,35 +82,24 @@ public class TurretSuperstructure {
         }
     }
 
-    private void maintainFieldRelativeRotation(Rotation setpoint){
+    private void maintainFieldRelativeRotation(Rotation setpoint) {
         TurretSubsystem.getInstance().setAngle(computeRobotRelativeRotation(Gyro.getInstance().getRotation(),
                 setpoint).getHeading());
     }
 
-    private void maintainRobotRelativeRotation(Rotation setpoint){
+    private void maintainRobotRelativeRotation(Rotation setpoint) {
         TurretSubsystem.getInstance().setAngle(setpoint.getHeading());
     }
 
-    private void maintainFieldRelativeAim(Position setpoint){
-        Rotation rotationSetpoint = new Line(fieldRelativePosition,setpoint).getLineAngle();
+    private void maintainFieldRelativeAim(Position setpoint) {
+        Rotation rotationSetpoint = new Line(fieldRelativePosition, setpoint).getLineAngle();
         maintainFieldRelativeRotation(rotationSetpoint);
     }
 
-    public void setFieldRelativeRotation(Rotation setpoint){
-        this.aimMode = TurretAimMode.FIELD_RELATIVE_ANGLE;
-        this.setpoint = new Transform(0,0,setpoint);
-    }
-
-    public void setRobotRelativeRotation(Rotation setpoint){
-        this.aimMode = TurretAimMode.ROBOT_RELATIVE_ANGLE;
-        this.setpoint = new Transform(0,0,setpoint);
-    }
-
-    public void setFieldRelativeAimPosition(Position setpoint){
+    public void setFieldRelativeAimPosition(Position setpoint) {
         this.aimMode = TurretAimMode.FIELD_RELATIVE_AIM;
-        this.setpoint = new Transform(setpoint,0);
+        this.setpoint = new Transform(setpoint, 0);
     }
-
 
     /**
      * Computes the field-relative {@link Position} of the turret given parameters from the vision system.
@@ -124,7 +109,8 @@ public class TurretSuperstructure {
      * @param robotTurretAngle
      * @return the {@link Position} that makes up the turret's position relative to the field.
      */
-    private Position computeFieldRelativePosition(Rotation gyroAngle, Rotation robotTurretAngle, double distanceToTarget) {
+    private Position computeFieldRelativePosition(Rotation gyroAngle, Rotation robotTurretAngle,
+                                                  double distanceToTarget) {
         if (distanceToTarget == -1000) {
             return new Position();
         }
@@ -144,22 +130,22 @@ public class TurretSuperstructure {
 
     /**
      * Aims the turret towards a {@link VisionTarget}.
-     *
+     * <p>
      * This sets the field-relative angle of the turret to the field-relative angle from the turret to the vision
      * target. This results in the turret using the gyro to maintain field-relative positioning while also aiming at
      * the vision target.
      *
      * @param target the {@link VisionTarget} to take aim at
      */
-    public void visionAim(VisionTarget target){
+    public void visionAim(VisionTarget target) {
         setFieldRelativeRotation(target.getFieldRelativeYaw());
     }
 
-    public Rotation computeFieldRelativeRotation(Rotation gyro, Rotation robotRelativeRotation){
+    public Rotation computeFieldRelativeRotation(Rotation gyro, Rotation robotRelativeRotation) {
         return gyro.subtract(robotRelativeRotation);
     }
 
-    public Rotation computeRobotRelativeRotation(Rotation gyro, Rotation fieldRelativeRotation){
+    public Rotation computeRobotRelativeRotation(Rotation gyro, Rotation fieldRelativeRotation) {
         return gyro.subtract(fieldRelativeRotation);
     }
 
@@ -185,8 +171,18 @@ public class TurretSuperstructure {
         return robotRelativeRotation;
     }
 
+    public void setRobotRelativeRotation(Rotation setpoint) {
+        this.aimMode = TurretAimMode.ROBOT_RELATIVE_ANGLE;
+        this.setpoint = new Transform(0, 0, setpoint);
+    }
+
     public Rotation getFieldRelativeRotation() {
         return fieldRelativeRotation;
+    }
+
+    public void setFieldRelativeRotation(Rotation setpoint) {
+        this.aimMode = TurretAimMode.FIELD_RELATIVE_ANGLE;
+        this.setpoint = new Transform(0, 0, setpoint);
     }
 
     public TurretAimMode getAimMode() {
