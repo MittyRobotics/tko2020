@@ -22,27 +22,40 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous;
+package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.modes.TrenchAutoMode;
-import com.github.mittyrobotics.datatypes.positioning.Transform;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
+import com.github.mittyrobotics.autonomous.util.VisionTarget;
+import com.github.mittyrobotics.autonomous.vision.TurretSuperstructure;
+import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.turret.TurretSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutonSelector {
-    private static AutonSelector instance = new AutonSelector();
-    public static AutonSelector getInstance(){
-        return instance;
+public class ContinuousTurretAimbotCommand extends CommandBase {
+
+    public ContinuousTurretAimbotCommand() {
+        super();
+        addRequirements(TurretSubsystem.getInstance());
     }
 
-    /**
-     * Returns the autonomous command group to be run during the autonomous period of the match.
-     *
-     * This pulls the autonomous selection from SmartDashboard, set by the driver before the match starts.
-     *
-     * @return the autonomous command group to be run during the autonomous period of the match.
-     */
-    public CommandGroupBase getSelectedAutonomousMode(){
-        //TODO: Implement this
-        return null;
+    @Override
+    public void initialize() {
+
     }
+
+    @Override
+    public void execute() {
+        VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
+        TurretSuperstructure.getInstance().visionAim(target);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
 }

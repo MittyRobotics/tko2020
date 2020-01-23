@@ -34,6 +34,10 @@ public class VisionTarget {
     private Rotation fieldRelativeYaw;
     private double distance;
 
+    public VisionTarget(){
+        this(new Rotation(), new Rotation(),0);
+    }
+
     public VisionTarget(Rotation turretRelativeYaw, Rotation fieldRelativeYaw, double distance) {
         this.turretRelativeYaw = turretRelativeYaw;
         this.fieldRelativeYaw = fieldRelativeYaw;

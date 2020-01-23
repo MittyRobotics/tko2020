@@ -24,15 +24,14 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.AutonSelector;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.modes.TrenchAutoMode;
 import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
 import com.github.mittyrobotics.autonomous.vision.TurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.colorwheel.ColorPiston;
 import com.github.mittyrobotics.colorwheel.Spinner;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
-import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
@@ -73,7 +72,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        autonCommand = new TrenchAutoMode(new Transform());
+        autonCommand = AutonSelector.getInstance().getSelectedAutonomousMode();
         CommandScheduler.getInstance().schedule(autonCommand);
     }
 

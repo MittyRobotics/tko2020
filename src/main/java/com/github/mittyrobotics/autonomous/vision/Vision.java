@@ -52,18 +52,23 @@ public class Vision {
      * grabs the robot's angle from the {@link Gyro} class.
      * <p>
      * After it grabs all of the values, it computes the current {@link VisionTarget}. If no target is present, it
-     * will set the <code>currentVisionTarget</code> to an empty {@link VisionTarget}, indicating to not use this
-     * iteration's target.
+     * will return a new {@link VisionTarget} with the angle offset as zero and the field-relative {@link Rotation} as
+     * the previous detected field-relative {@link Rotation}, making the turret stay in place.
      */
     public void run() {
         Limelight.getInstance().updateLimelightValues();
 
-        Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
-        Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
-        Rotation robotRelativeTurretAngle = new Rotation(TurretSubsystem.getInstance().getAngle());
-        Rotation gyro = Gyro.getInstance().getRotation();
+        if (isSafeToUseVision()) {
+            Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
+            Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
+            Rotation robotRelativeTurretAngle = new Rotation(TurretSubsystem.getInstance().getAngle());
+            Rotation gyro = Gyro.getInstance().getRotation();
 
-        this.currentVisionTarget = computeVisionTarget(visionPitch, visionYaw, robotRelativeTurretAngle, gyro);
+            this.currentVisionTarget = computeVisionTarget(visionPitch, visionYaw, robotRelativeTurretAngle, gyro);
+        } else {
+            this.currentVisionTarget = new VisionTarget(new Rotation(), currentVisionTarget.getFieldRelativeYaw(),
+                    currentVisionTarget.getDistance());
+        }
     }
 
     /**
@@ -165,13 +170,13 @@ public class Vision {
 
     /**
      * Compensates the vision angle based on the robot's movement.
-     *
+     * <p>
      * This will make the turret aim a little to the left or right of the target depending on the robot's movement in
      * order to correctly aim for the ball to be shot into the target.
      *
      * @return the motion-compensated, turret-relative vision yaw {@link Rotation}.
      */
-    private Rotation computeMotionCompensationAngle(){
+    private Rotation computeMotionCompensationAngle() {
         //TODO: Implement this
         return new Rotation();
     }
