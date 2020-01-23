@@ -60,9 +60,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
+        OdometryRunnable.getInstance().run();
         Vision.getInstance().run();
         TurretSuperstructure.getInstance().run();
+        CommandScheduler.getInstance().run();
     }
 
     @Override
@@ -78,7 +79,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        OdometryRunnable.getInstance().run();
+
     }
 
     @Override
