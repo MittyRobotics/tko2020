@@ -44,16 +44,6 @@ import javafx.geometry.Pos;
  * about the angle of the robot.
  * Robot-relative turret angle (<code>robotRelativeRotation</code>): the angle of the turret relative to the robot. In other words,
  * the rotation of the turret offset from the turret's default location.
- *
- * TODO: List of actions for vision turret placement:
- * -get vision angle
- * -get turret-relative vision angle
- * -compensate turret-relative vision angle from latency
- * -compensate turret-rleative vision angle from robot movement
- * -get robot-relative turret angle from current turret angle and turret-relative vision angle
- * -get field-relative turret angle from robot-relative turret angle
- * -set turret's field-relative turret angle
- * -maintain field-relative turret angle
  */
 public class TurretSuperstructure {
     public static TurretSuperstructure instance = new TurretSuperstructure();
