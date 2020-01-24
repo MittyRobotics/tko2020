@@ -19,11 +19,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     //    OI.getInstance().digitalInputControls();
-    //DriveTrainTalon.getInstance().initHardware();
+    DriveTrainTalon.getInstance().initHardware();
     //DriveTrainSparks.getInstance().initHardware();
-    talon1 = new WPI_TalonFX(0);
-    talon2 = new WPI_TalonFX(1);
-    talon2.set(TalonFXControlMode.Follower, talon1.getDeviceID());
+//    talon1 = new WPI_TalonFX(0);
+//    talon2 = new WPI_TalonFX(1);
+//    talon2.set(TalonFXControlMode.Follower, talon1.getDeviceID());
   }
 
   @Override
@@ -71,12 +71,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     //    System.out.print(DriveTrainTalon.getInstance().getLeftEncoder());
 //    System.out.print(DriveTrainTalon.getInstance().getRightEncoder());
-    talon1.set(TalonFXControlMode.PercentOutput, OI.getInstance().getJoystick1().getY());
+//    talon1.set(TalonFXControlMode.PercentOutput, OI.getInstance().getJoystick1().getY());
   }
 
   @Override
   public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
+    //CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
