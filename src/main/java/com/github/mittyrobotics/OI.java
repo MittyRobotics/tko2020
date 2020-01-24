@@ -3,11 +3,10 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.shooter.SpinFlywheel;
 import com.github.mittyrobotics.turret.MagEncoderTesting;
-import com.github.mittyrobotics.turret.ResetTurretEncoder;
-import com.github.mittyrobotics.turret.SetTurretAngle;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
@@ -75,6 +74,13 @@ public class OI {
                 return getJoystick1().getRawButton(3);
             }
         };
-        resetEncoder.whenPressed(new MagEncoderTesting(TurretSubsystem.getInstance().getAngle() + 90));
+        resetEncoder.whenPressed(new MagEncoderTesting(40));
+        Button test = new Button() {
+            @Override
+            public boolean get(){
+                return getJoystick1().getRawButton(4);
+            }
+        };
+        test.whenPressed(new MagEncoderTesting(100));
     }
 }
