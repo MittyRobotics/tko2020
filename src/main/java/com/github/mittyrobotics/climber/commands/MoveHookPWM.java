@@ -73,8 +73,27 @@ execute runs every 20ms
 use a counter
 
 logic:
-10 * activePercent = active count
+(1/activePercent) = tempA
+tempA * 100 = countTotal
+
+
+if (countTotal / counter = 0.01) {
+    push
+    reset counter
+} else {
+off
+}
+
+counter ++
+activePercent *= 100
+if(counter %100 < activePercent){
+push
+}else{
+off
+}
+
 counter starts at 0
+
 
 in execute;
 if (counter % activeCount = 0) {
