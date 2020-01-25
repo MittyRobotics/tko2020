@@ -85,21 +85,13 @@ off
 }
 
 counter ++
+
+
 activePercent *= 100
 if(counter %100 < activePercent){
 push
 }else{
 off
-}
-
-counter starts at 0
-
-
-in execute;
-if (counter % activeCount = 0) {
-    pistonActive = true;
-} else {
-    pistonActive = false;
 }
 
 counter++
