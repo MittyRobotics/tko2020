@@ -20,30 +20,28 @@ public class Hooks extends SubsystemBase {
         rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);
     }
 
-    public void push(RobotSide side, ElevateDirection direction) {
+    public void push(RobotSide side, PistonValue value) {
         if (side == RobotSide.LEFT) {
-            if (direction == ElevateDirection.UP) {
+            if (value == PistonValue.UP) {
                 leftPiston.set(DoubleSolenoid.Value.kForward);
-            } else if (direction == ElevateDirection.DOWN) {
+            } else if (value == PistonValue.DOWN) {
                 leftPiston.set(DoubleSolenoid.Value.kReverse);
+            } else if (value == PistonValue.OFF) {
+                leftPiston.set(DoubleSolenoid.Value.kOff);
             }
         }
         else if (side == RobotSide.RIGHT) {
-            if (direction == ElevateDirection.UP) {
+            if (value == PistonValue.UP) {
                 rightPiston.set(DoubleSolenoid.Value.kForward);
-            } else if (direction == ElevateDirection.DOWN) {
+            } else if (value == PistonValue.DOWN) {
                 rightPiston.set(DoubleSolenoid.Value.kReverse);
+            } else if (value == PistonValue.OFF) {
+                rightPiston.set(DoubleSolenoid.Value.kOff);
             }
         }
     }
 
-    public void off(RobotSide side) {
-        if (side == RobotSide.LEFT) {
-            leftPiston.set(DoubleSolenoid.Value.kOff);
-        } else if (side == RobotSide.RIGHT) {
-            rightPiston.set(DoubleSolenoid.Value.kOff);
-        }
-    }
+
 
 
 }
