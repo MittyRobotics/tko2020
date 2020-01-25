@@ -18,11 +18,11 @@ public class CurvatureSteering extends CommandBase {
 	@Override
 	public void execute(){
 
-		double turn = 0;//(OI.getInstance().getXboxWheel().getX() * 450);
+		double turn = (OI.getInstance().getXboxWheel().getX() * 450);
 		double wheelWidth = 12.5;
 		double radius = 0;
 
-		if ((turn > -5) & (turn < 5))  { // deadzone
+		if (Math.abs(turn) < 5)  { // deadzone
 			radius = 0;
 		}
 		else {
@@ -35,16 +35,16 @@ public class CurvatureSteering extends CommandBase {
 		if (radius > 0) {
 			leftSpeed = 2 * Math.PI * (radius + wheelWidth); //leftSpeed bigger 33pi
 			rightSpeed = 2 * Math.PI * (radius - wheelWidth); //-17pi
-			turn= leftSpeed/rightSpeed;
+			turn = rightSpeed/leftSpeed;
 		}
 		else if (radius < 0) {
 			leftSpeed = 2 * Math.PI * (radius - (wheelWidth)); //rightSpeed bigger
 			rightSpeed = 2 * Math.PI * (radius + (wheelWidth));
-			turn = leftSpeed/rightSpeed;
+			turn = rightSpeed/leftSpeed;
 		}
 		else {
 			leftSpeed = 0;
-			turn = 0;
+			turn = 1;
 			rightSpeed = 0;
 		}
 
@@ -63,7 +63,7 @@ public class CurvatureSteering extends CommandBase {
 			DriveTrainTalon.getInstance().tankDrive(OI.getInstance().getXboxWheel().getX()*2, -(OI.getInstance().getXboxWheel().getX())*2);
 		}
 		else {
-			DriveTrainTalon.getInstance().tankDrive(speed * turn, speed * Math.abs(1-turn));
+			DriveTrainTalon.getInstance().tankDrive(speed * turn, speed * (2-turn));
 		}
 	}
 	@Override
