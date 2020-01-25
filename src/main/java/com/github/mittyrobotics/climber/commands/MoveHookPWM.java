@@ -14,8 +14,8 @@ public class MoveHookPWM extends CommandBase {
     private RobotSide side;
     private ElevateDirection direction;
 
-    double activePercent, inactivePercent, cycleTime;
-    boolean pistonActive = false;
+    private double activePercent, inactivePercent, cycleTime;
+    private boolean pistonActive = false;
 
     public MoveHookPWM(RobotSide side, ElevateDirection direction, double activePercent) {
         super();
@@ -28,7 +28,7 @@ public class MoveHookPWM extends CommandBase {
     @Override
     public void initialize() {
         inactivePercent = 1 - activePercent;
-        cycleTime = Timer.getFPGATimestamp(); //TODO DO NOT USE CALENDAR. Use Timer.getFPGATimestamp() (it is frc's timer)
+        cycleTime = Timer.getFPGATimestamp();
     }
 
 
@@ -37,6 +37,9 @@ public class MoveHookPWM extends CommandBase {
 
         if(Timer.getFPGATimestamp() - cycleTime > inactivePercent / 10.0) {
             pistonActive = true;
+            //TODO isn't active percent /10 + inactivePercent/10 always equal 0.1?
+            //TODO why do you divide by ten
+            //TODO logic seems overall ok (it's a bit confusing, but makes sense), but I think a solution using % would be more efficient and simpler
             if(Timer.getFPGATimestamp() - cycleTime > activePercent / 10.0 + inactivePercent / 10.0) {
                 pistonActive = false;
                 cycleTime = Timer.getFPGATimestamp();
@@ -45,7 +48,7 @@ public class MoveHookPWM extends CommandBase {
 
         if(pistonActive) {
             System.out.println("Active");
-            Hooks.getInstance().push(side, direction);
+            Hooks.getInstance().push(side, direction); //TODO maybe change the code to take in Value enum instead of direction enum to stop off (idk but just an idea)
         } else  {
             System.out.println("Inactive");
             Hooks.getInstance().off(side);
