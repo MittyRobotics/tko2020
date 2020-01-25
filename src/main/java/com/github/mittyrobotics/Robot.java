@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
 
 
-//        ShooterSubsystem.getInstance().manualControl(OI.getInstance().getJoystick1().getY());
+        ShooterSubsystem.getInstance().manualControl(OI.getInstance().getJoystick1().getY());
         System.out.println("RPM" + ShooterSubsystem.getInstance().getShooterSpeed());
 
 //        speed = OI.getInstance().getJoystick1().getY();

@@ -74,7 +74,7 @@ public class OI {
                 return getJoystick1().getRawButton(3);
             }
         };
-        resetEncoder.whenPressed(new SpinFlywheel(3800,50));
+        resetEncoder.whenPressed(new SpinFlywheel(3600,75));
 //        Button test = new Button() {
 //            @Override
 //            public boolean get(){

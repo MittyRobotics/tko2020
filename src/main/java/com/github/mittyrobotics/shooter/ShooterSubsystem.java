@@ -53,11 +53,11 @@ public class ShooterSubsystem extends SubsystemBase {
     public void bangControl(double speed, double threshold) {
         if(!(Math.abs(speed - spark1.getEncoder().getVelocity()) < threshold)) {
             if ((spark1.getEncoder().getVelocity()) > speed) {
-                bangSpeed -= MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .0000025, .001, .007);
+                bangSpeed -= MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .00000025, .0005, .001);
                 bangSpeed = MathUtil.clamp(bangSpeed, -1, 1);
                 spark1.set(bangSpeed);
             } else if ((spark1.getEncoder().getVelocity()) < speed) {
-                bangSpeed += MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .0000025, .001, .007);
+                bangSpeed += MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .00000025, .0005, .001);
                 bangSpeed = MathUtil.clamp(bangSpeed, -1, 1);
                 spark1.set(bangSpeed);
             }
