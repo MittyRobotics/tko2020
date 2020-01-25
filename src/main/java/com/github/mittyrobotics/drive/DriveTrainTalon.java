@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -68,7 +69,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		rightDrive[0].setNeutralMode(NeutralMode.Brake);
 		rightDrive[1].setNeutralMode(NeutralMode.Brake);
 
-		setDefaultCommand(new CurvatureSteering());
+		setDefaultCommand(new CurvatureSteering2());
 
 		//Feedforward Velocit1y PID
 		controller = new PIDController(0.309 / 12.0, 0, 0);
