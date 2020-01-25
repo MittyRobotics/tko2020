@@ -36,4 +36,14 @@ public class Hooks extends SubsystemBase {
             }
         }
     }
+
+    public void off(RobotSide side) {
+        if (side == RobotSide.LEFT) {
+            leftPiston.set(DoubleSolenoid.Value.kOff);
+        } else if (side == RobotSide.RIGHT) {
+            rightPiston.set(DoubleSolenoid.Value.kOff);
+        }
+    }
+
+
 }
