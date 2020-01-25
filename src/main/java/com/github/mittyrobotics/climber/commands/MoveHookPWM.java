@@ -11,30 +11,46 @@ import java.util.Calendar;
 
 public class MoveHookPWM extends CommandBase {
 
-    RobotSide side;
-    ElevateDirection direction;
-    double activePercent, inactivePercent, startTime;
-    boolean toggle;
+    private RobotSide side;
+    private ElevateDirection direction;
 
-    public MoveHookPWM(RobotSide side, ElevateDirection direction) {
+    double activePercent, inactivePercent, cycleTime;
+    boolean pistonActive = false;
+
+    public MoveHookPWM(RobotSide side, ElevateDirection direction, double activePercent) {
         super();
         this.side = side;
         this.direction = direction;
+        this.activePercent = activePercent;
         addRequirements(Hooks.getInstance());
     }
 
     @Override
     public void initialize() {
-        activePercent = Constants.PISTON_ACTIVE_PERCENT;
-        inactivePercent = 1 - Constants.PISTON_ACTIVE_PERCENT;
-        startTime = Calendar.getInstance().getTimeInMillis();
+        inactivePercent = 1 - activePercent;
+        cycleTime = Timer.getFPGATimestamp(); //TODO DO NOT USE CALENDAR. Use Timer.getFPGATimestamp() (it is frc's timer)
     }
+
 
     @Override
     public void execute() {
-        if(Calendar.getInstance().getTimeInMillis() - startTime > activePercent * 100) {
-            Hooks.getInstance().push(side, direction);
+
+        if(Timer.getFPGATimestamp() - cycleTime > inactivePercent / 10.0) {
+            pistonActive = true;
+            if(Timer.getFPGATimestamp() - cycleTime > activePercent / 10.0 + inactivePercent / 10.0) {
+                pistonActive = false;
+                cycleTime = Timer.getFPGATimestamp();
+            }
         }
+
+        if(pistonActive) {
+            System.out.println("Active");
+            Hooks.getInstance().push(side, direction);
+        } else  {
+            System.out.println("Inactive");
+            Hooks.getInstance().off(side);
+        }
+
     }
 
     @Override
