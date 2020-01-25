@@ -43,6 +43,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     public void moveConveyor(double distance) {
+        conveyorWheel1.set(ControlMode.Position, distance*Constants.TICKS_PER_INCH);
 
     }
 
