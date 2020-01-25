@@ -42,4 +42,8 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     }
 
+    public void moveConveyor(double distance) {
+
+    }
+
 }

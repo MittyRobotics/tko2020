@@ -1,12 +1,11 @@
 package com.github.mittyrobotics.conveyor;
 
-import com.github.mittyrobotics.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ConveyorSwitches {
+public class ConveyorSwitches extends SubsystemBase {
     private static ConveyorSwitches instance;
-    private DigitalInput opticalSwitch1 = new DigitalInput(com.github.mittyrobotics.Constants.OPTICAL_SWITCH_1);
-    private DigitalInput opticalSwitch2 = new DigitalInput(Constants.OPTICAL_SWITCH_2);
+    private DigitalInput entranceOpticalSwitch = new DigitalInput(com.github.mittyrobotics.Constants.ENTRANCE_OPTICAL_SWITCH);
 
     public static ConveyorSwitches getInstance(){
         if(instance == null){
@@ -15,13 +14,10 @@ public class ConveyorSwitches {
         return instance;
     }
 
-    public void initHardware(){
+    public void initHardware(){}
+
+    public boolean getEntranceSwitch(){
+        return entranceOpticalSwitch.get();
     }
 
-    public boolean getSwitch1(){
-        return opticalSwitch1.get();
-    }
-    public boolean getSwitch2(){
-        return opticalSwitch2.get();
-    }
 }
