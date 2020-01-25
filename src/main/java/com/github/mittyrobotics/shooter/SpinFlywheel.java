@@ -17,8 +17,9 @@ public class SpinFlywheel extends CommandBase {
 
     @Override
     public void execute() {
-        ShooterSubsystem.getInstance().setShooterSpeed(speed);
+//        ShooterSubsystem.getInstance().setShooterSpeed(speed);
         ShooterSubsystem.getInstance().bangControl(speed, threshold);
+        System.out.println("RPM: " + ShooterSubsystem.getInstance().getShooterSpeed());
     }
 
     @Override

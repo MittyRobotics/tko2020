@@ -74,13 +74,13 @@ public class OI {
                 return getJoystick1().getRawButton(3);
             }
         };
-        resetEncoder.whenPressed(new MagEncoderTesting(40));
-        Button test = new Button() {
-            @Override
-            public boolean get(){
-                return getJoystick1().getRawButton(4);
-            }
-        };
-        test.whenPressed(new MagEncoderTesting(100));
+        resetEncoder.whenPressed(new SpinFlywheel(3800,50));
+//        Button test = new Button() {
+//            @Override
+//            public boolean get(){
+//                return getJoystick1().getRawButton(4);
+//            }
+//        };
+//        test.whenPressed(new MagEncoderTesting(100));
     }
 }

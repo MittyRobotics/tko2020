@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -27,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void initHardware() {
-        spark1 = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        spark1 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
         spark1.restoreFactoryDefaults();
         spark1.getPIDController().setP(Constants.ShooterP);
         spark1.getPIDController().setI(Constants.ShooterI);
@@ -38,9 +39,11 @@ public class ShooterSubsystem extends SubsystemBase {
     public void manualControl(double speed) {
         if (Math.abs(speed) >= 0.05) {
             spark1.set(speed);
+            System.out.println("Spark speed: " + spark1.getEncoder().getVelocity());
         } else {
             spark1.stopMotor();
         }
+        System.out.println("Joystick speed: " + speed);
     }
 
     public void setShooterSpeed(double speed) { //in rpm of the motor
@@ -48,14 +51,20 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void bangControl(double speed, double threshold) {
-        if(!(Math.abs(speed - spark1.getEncoder().getVelocity()) < threshold)){
-            if ((spark1.getEncoder().getVelocity())>speed) {
-                bangSpeed -= .01;
-            } else if ((spark1.getEncoder().getVelocity())<speed) {
-                bangSpeed += .01;
+        if(!(Math.abs(speed - spark1.getEncoder().getVelocity()) < threshold)) {
+            if ((spark1.getEncoder().getVelocity()) > speed) {
+                bangSpeed -= MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .0000025, .001, .007);
+                bangSpeed = MathUtil.clamp(bangSpeed, -1, 1);
+                spark1.set(bangSpeed);
+            } else if ((spark1.getEncoder().getVelocity()) < speed) {
+                bangSpeed += MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .0000025, .001, .007);
+                bangSpeed = MathUtil.clamp(bangSpeed, -1, 1);
+                spark1.set(bangSpeed);
             }
         }
-        bangSpeed = Math.max(-1, Math.min(1, bangSpeed));
-        spark1.set(bangSpeed);
+    }
+
+    public double getShooterSpeed() {
+        return spark1.getEncoder().getVelocity();
     }
 }
