@@ -65,3 +65,26 @@ public class MoveHookPWM extends CommandBase {
         return false;
     }
 }
+
+
+/*revision pseudo code: WIP
+notes:
+execute runs every 20ms
+use a counter
+
+logic:
+10 * activePercent = active count
+counter starts at 0
+
+in execute;
+if (counter % activeCount = 0) {
+    pistonActive = true;
+} else {
+    pistonActive = false;
+}
+
+counter++
+
+
+
+*/
