@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         ShooterSubsystem.getInstance().initHardware();
-//        TurretSubsystem.getInstance().initHardware();
+        TurretSubsystem.getInstance().initHardware();
 //        TurretSubsystem.getInstance().manualSetTurret(.2);
         OI.getInstance().digitalInputControls();
     }
@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        SmartDashboard.putNumber("rpm",ShooterSubsystem.getInstance().getShooterSpeed());
     }
 
     @Override
@@ -62,6 +63,8 @@ public class Robot extends TimedRobot {
 //        } else {
 //            ShooterSubsystem.getInstance().manualControl(0);
 //        }
+        speed = OI.getInstance().getJoystick1().getY();
+        TurretSubsystem.getInstance().manualSetTurret(speed);
 
     }
 

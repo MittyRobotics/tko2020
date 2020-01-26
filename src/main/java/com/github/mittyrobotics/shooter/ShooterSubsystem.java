@@ -28,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void initHardware() {
-        spark1 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
+        spark1 = new CANSparkMax(0, CANSparkMaxLowLevel.MotorType.kBrushless);
         spark1.restoreFactoryDefaults();
         spark1.getPIDController().setP(Constants.ShooterP);
         spark1.getPIDController().setI(Constants.ShooterI);
