@@ -1,5 +1,7 @@
 package com.github.mittyrobotics.drive;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.github.mittyrobotics.Gyro;
 import com.github.mittyrobotics.OI;
 import com.github.mittyrobotics.controls.TKODifferentialDrive;
@@ -11,18 +13,21 @@ public class Drive extends CommandBase {
     TKODifferentialDrive differentialDrive;
     public Drive() {
         super();
-        addRequirements(DriveTrainSparks.getInstance());
+        addRequirements(DriveTrainFalcon.getInstance());
     }
 
     @Override
     public void initialize() {
-        differentialDrive = new TKODifferentialDrive(DriveTrainSparks.getInstance().leftSpark1, DriveTrainSparks.getInstance().rightSpark1);
 }
 
 
     @Override
     public void execute() {
-        differentialDrive.joystickCompassSteering(0.03, 0, 0, OI.getInstance().getJoystick1().getY(), OI.getInstance().getXboxWheel().getX()/3, 15, Gyro.getInstance().getAngle());
+        WPI_TalonFX[] left = DriveTrainFalcon.getInstance().getLeftTalons();
+        WPI_TalonFX[] right = DriveTrainFalcon.getInstance().getRightTalons();
+
+        left[0].set(TalonFXControlMode.PercentOutput, OI.getInstance().getJoystick1().getY());
+
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.github.mittyrobotics;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.github.mittyrobotics.drive.Drive;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.drive.DriveTrainSparks;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -7,7 +10,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
-    DriveTrainSparks.getInstance().initHardware();
+
+    DriveTrainFalcon.getInstance().initHardware();
     OI.getInstance().digitalInputControls();
   }
 
@@ -38,13 +42,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-
+    CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
   public void teleopPeriodic() {
-
-
+    DriveTrainFalcon.getInstance().tankDrive(OI.getInstance().getJoystick1().getY()/3, OI.getInstance().getJoystick2().getY()/3);
   }
 
   @Override
