@@ -27,6 +27,7 @@ public class CurvatureSteering2 extends CommandBase {
 
         double leftSpeed = 0;
         double rightSpeed = 0;
+        boolean inThreshold = Math.abs(turn) < 5;
 
         //testing for 10 degrees to the left
         if (turn >= 5){
@@ -39,7 +40,7 @@ public class CurvatureSteering2 extends CommandBase {
             rightSpeed = (radius + halfWidthRobot)*(2*Math.PI);
             leftSpeed = leftSpeed/rightSpeed;
             rightSpeed = 1;
-        } else if (Math.abs(turn) < 5) {
+        } else if (inThreshold) {
             turn = OI.getInstance().getXboxWheel().getX()*450/120;
         }
 
@@ -50,13 +51,13 @@ public class CurvatureSteering2 extends CommandBase {
             joystickSpeed = 0;
         }
 
-        if (turn == 0){
+        if (inThreshold){
             DriveTrainTalon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
         } else if (Math.abs(joystickSpeed) < 0.05) {
             System.out.println("Turn: " + turn);
             DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
         } else {
-            DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
+            DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
         }
 
 //        if(Math.abs(joystickSpeed) < 0.05){
