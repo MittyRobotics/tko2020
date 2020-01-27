@@ -1,12 +1,20 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.climber.Hooks;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+  Compressor compressor;
   @Override
   public void robotInit() {
+    System.out.println("robot initialize");
     OI.getInstance().digitalInputControls();
+    Hooks.getInstance().initHardware();
+    compressor = new Compressor();
+    compressor.start();
+    compressor.setClosedLoopControl(true);
   }
 
   @Override

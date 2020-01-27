@@ -17,7 +17,7 @@ public class Hooks extends SubsystemBase {
 
     public void initHardware(){
         leftPiston = new DoubleSolenoid(Constants.LEFT_PISTON_FORWARD_ID, Constants.LEFT_PISTON_REVERSE_ID);
-        rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);
+        //rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);
     }
 
     public void push(RobotSide side, PistonValue value) {
@@ -39,6 +39,9 @@ public class Hooks extends SubsystemBase {
                 rightPiston.set(DoubleSolenoid.Value.kOff);
             }
         }
+    }
+    public DoubleSolenoid.Value getSolenoidValue(){
+        return leftPiston.get();
     }
 
 

@@ -20,6 +20,7 @@ public class MoveHook extends CommandBase {
 
     @Override
     public void initialize() {
+        System.out.println("Piston MOVE");
         Hooks.getInstance().push(side, value);
     }
 
