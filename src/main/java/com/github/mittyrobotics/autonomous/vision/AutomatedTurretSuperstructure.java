@@ -37,7 +37,7 @@ import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 
 /**
- * {@link TurretSuperstructure} class. Manages the turret's position relative to the field and relative to vision targets.
+ * {@link AutomatedTurretSuperstructure} class. Manages the turret's position relative to the field and relative to vision targets.
  * <p>
  * Definitions:
  * Field-relative turret angle (<code>fieldRelativeRotation</code>): the angle of the turret relative to the field. Does not care
@@ -45,15 +45,15 @@ import com.github.mittyrobotics.turret.TurretSubsystem;
  * Robot-relative turret angle (<code>robotRelativeRotation</code>): the angle of the turret relative to the robot. In other words,
  * the rotation of the turret offset from the turret's default location.
  */
-public class TurretSuperstructure {
-    public static TurretSuperstructure instance = new TurretSuperstructure();
+public class AutomatedTurretSuperstructure {
+    public static AutomatedTurretSuperstructure instance = new AutomatedTurretSuperstructure();
     private Rotation robotRelativeRotation;
     private Rotation fieldRelativeRotation;
     private Position fieldRelativePosition;
     private TurretAimMode aimMode;
     private Transform setpoint;
 
-    public static TurretSuperstructure getInstance() {
+    public static AutomatedTurretSuperstructure getInstance() {
         return instance;
     }
 

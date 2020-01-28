@@ -24,13 +24,13 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.vision.TurretSuperstructure;
+import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class MaintainAutomatedTurret extends CommandBase {
+public class MaintainAutomatedTurretCommand extends CommandBase {
 
-    public MaintainAutomatedTurret() {
+    public MaintainAutomatedTurretCommand() {
         super();
         addRequirements(TurretSubsystem.getInstance());
     }
@@ -42,7 +42,7 @@ public class MaintainAutomatedTurret extends CommandBase {
 
     @Override
     public void execute() {
-        TurretSuperstructure.getInstance().maintainSetpoint();
+        AutomatedTurretSuperstructure.getInstance().maintainSetpoint();
     }
 
     @Override

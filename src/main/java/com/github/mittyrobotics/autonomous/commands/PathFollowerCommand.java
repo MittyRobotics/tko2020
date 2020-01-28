@@ -42,6 +42,7 @@ public class PathFollowerCommand extends CommandBase {
      * The {@link PathFollower} to follow
      */
     private PathFollower pathFollower;
+
     /**
      * The previous recorded timestamp to get the delta time each execute function call
      */
