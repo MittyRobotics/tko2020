@@ -68,7 +68,6 @@ public class OI {
 //        };
 //        turretAngle.whenPressed(new SetTurretAngle(Constants.turretAngle));
 
-            public boolean get() {
 //        Button resetEncoder = new Button() {
 //            @Override
 //            public boolean get() {
