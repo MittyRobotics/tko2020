@@ -27,7 +27,7 @@ package com.github.mittyrobotics.autonomous.util;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 
 /**
- * Represents a detected vision target
+ * Represents a detected vision target containing a turret-relative yaw, a field-relative yaw, and a distance
  */
 public class VisionTarget {
     private Rotation turretRelativeYaw;

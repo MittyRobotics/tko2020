@@ -29,25 +29,24 @@ import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class OdometryRunnable {
+public class OdometryManager {
 
-    private static OdometryRunnable instance = new OdometryRunnable();
+    private static OdometryManager instance = new OdometryManager();
 
-    public static OdometryRunnable getInstance() {
+    public static OdometryManager getInstance() {
         return instance;
     }
 
     public void run() {
-        //TODO: Get left and right encoder position and heading value from drivetrain and gyro
+        //Get left and right encoder positions and gyro heading
         double leftEncoderPosition = DriveTrainTalon.getInstance().getLeftEncoder();
         double rightEncoderPosition = DriveTrainTalon.getInstance().getRightEncoder();
         double heading = Gyro.getInstance().getAngle();
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        //Update odometry
         Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
+
+        //Update smart dashboard numbers
         SmartDashboard.putNumber("robot_x", Odometry.getInstance().getRobotTransform().getPosition().getX());
         SmartDashboard.putNumber("robot_y", Odometry.getInstance().getRobotTransform().getPosition().getY());
         SmartDashboard

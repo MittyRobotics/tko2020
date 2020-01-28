@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,17 +24,15 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.util.VisionTarget;
 import com.github.mittyrobotics.autonomous.vision.TurretSuperstructure;
-import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TurretAimbotCommand extends CommandBase {
+public class MaintainAutomatedTurret extends CommandBase {
 
-    private double error;
-
-    public TurretAimbotCommand() {
+    public MaintainAutomatedTurret() {
         super();
+        addRequirements(TurretSubsystem.getInstance());
     }
 
     @Override
@@ -44,11 +42,7 @@ public class TurretAimbotCommand extends CommandBase {
 
     @Override
     public void execute() {
-        VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
-        TurretSuperstructure.getInstance().visionAim(target);
-        this.error =
-                TurretSuperstructure.getInstance().getFieldRelativeRotation().subtract(target.getFieldRelativeYaw())
-                        .getHeading();
+        TurretSuperstructure.getInstance().maintainSetpoint();
     }
 
     @Override
@@ -61,7 +55,4 @@ public class TurretAimbotCommand extends CommandBase {
         return false;
     }
 
-    public double getError() {
-        return error;
-    }
 }

@@ -64,9 +64,6 @@ public class TurretSuperstructure {
                 robotRelativeRotation);
         this.fieldRelativePosition = computeFieldRelativePosition(Gyro.getInstance().getRotation(),
                 robotRelativeRotation, Vision.getInstance().getCurrentVisionTarget().getDistance());
-
-        //Maintain the turret's setpoint
-        maintainSetpoint();
     }
 
     public void maintainSetpoint() {
@@ -189,5 +186,9 @@ public class TurretSuperstructure {
 
     public TurretAimMode getAimMode() {
         return aimMode;
+    }
+
+    public Position getFieldRelativePosition() {
+        return fieldRelativePosition;
     }
 }

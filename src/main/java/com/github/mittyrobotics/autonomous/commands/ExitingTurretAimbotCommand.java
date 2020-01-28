@@ -24,38 +24,23 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.util.VisionTarget;
-import com.github.mittyrobotics.autonomous.vision.TurretSuperstructure;
-import com.github.mittyrobotics.autonomous.vision.Vision;
-import com.github.mittyrobotics.turret.TurretSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
-public class ContinuousTurretAimbotCommand extends CommandBase {
-
-    public ContinuousTurretAimbotCommand() {
-        super();
-        addRequirements(TurretSubsystem.getInstance());
-    }
-
-    @Override
-    public void initialize() {
-
-    }
+public class ExitingTurretAimbotCommand extends TurretAimbotCommand {
+    private double EXITING_ANGLE_THRESHOLD = 0.1; //degrees
+    private double EXITING_HOLD_COUNT = 10; //loops, how many times it loops 0.02 ms
+    private double holdCount = 0;
 
     @Override
     public void execute() {
-        VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
-        TurretSuperstructure.getInstance().visionAim(target);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-
+        super.execute();
+        if (Math.abs(getError()) < EXITING_ANGLE_THRESHOLD) {
+            holdCount++;
+        } else {
+            holdCount = 0;
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return Math.abs(getError()) < EXITING_ANGLE_THRESHOLD && holdCount > EXITING_HOLD_COUNT;
     }
-
 }

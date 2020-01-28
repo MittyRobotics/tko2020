@@ -26,7 +26,7 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.AutonSelector;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.util.OdometryRunnable;
+import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.autonomous.vision.TurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.colorwheel.ColorPiston;
@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        OdometryRunnable.getInstance().run();
+        OdometryManager.getInstance().run();
         Vision.getInstance().run();
         TurretSuperstructure.getInstance().run();
         CommandScheduler.getInstance().run();
