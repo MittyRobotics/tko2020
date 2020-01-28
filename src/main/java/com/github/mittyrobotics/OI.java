@@ -68,13 +68,16 @@ public class OI {
 //        };
 //        turretAngle.whenPressed(new SetTurretAngle(Constants.turretAngle));
 
-        Button resetEncoder = new Button() {
-            @Override
             public boolean get() {
-                return getJoystick1().getRawButton(3);
-            }
-        };
-        resetEncoder.whenPressed(new SpinFlywheel(3600,75));
+//        Button resetEncoder = new Button() {
+//            @Override
+//            public boolean get() {
+//                return getJoystick1().getRawButton(3);
+//            }
+//        };
+//        resetEncoder.whenPressed(new SpinFlywheel(4100,75));
+
+
 //        Button test = new Button() {
 //            @Override
 //            public boolean get(){

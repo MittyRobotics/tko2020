@@ -14,6 +14,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private CANSparkMax spark1;
     private double bangSpeed = 0;
     private boolean inThreshold;
+    public static double currentSetpoint;
 
     private ShooterSubsystem() {
         super();
@@ -28,12 +29,15 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void initHardware() {
-        spark1 = new CANSparkMax(0, CANSparkMaxLowLevel.MotorType.kBrushless);
+        spark1 = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
         spark1.restoreFactoryDefaults();
-        spark1.getPIDController().setP(Constants.ShooterP);
-        spark1.getPIDController().setI(Constants.ShooterI);
-        spark1.getPIDController().setD(Constants.ShooterD);
-        spark1.getPIDController().setOutputRange(Constants.ShooterOutputMin, Constants.ShooterOutputMax);
+        spark1.getPIDController().setFF(0.00017822 );
+        spark1.getPIDController().setP(0.000001);
+        spark1.getPIDController().setD(0.0000001);
+//        spark1.getPIDController().setOutputRange(Constants.ShooterOutputMin, Constants.ShooterOutputMax);
+       // pF(3500);
+        setShooterSpeed(3500);
+
     }
 
     public void manualControl(double speed) {
@@ -46,18 +50,41 @@ public class ShooterSubsystem extends SubsystemBase {
         System.out.println("Joystick speed: " + speed);
     }
 
-    public void setShooterSpeed(double speed) { //in rpm of the motor
-        spark1.getPIDController().setReference(speed, ControlType.kVelocity);
+//    public void pF(double setpoint) {
+//
+//        double error = setpoint - getShooterSpeed();
+//
+//        double ff = 0.00017822*setpoint;
+//        double fb = 0.000001*error;
+////        double fb = 0;
+//        spark1.set(ff+fb);
+//        currentSetpoint = setpoint;
+//
+//    }
+//
+
+    public void setShooterSpeed(double setpoint) { //in rpm of the motors
+
+        spark1.getPIDController().setReference(setpoint, ControlType.kVelocity);
+        currentSetpoint = setpoint;
+
+////
+////        spark1.getPIDController().setFF();
+////                .setReference(speed, ControlType.kVelocity);
     }
 
     public void bangControl(double speed, double threshold) {
         if(!(Math.abs(speed - spark1.getEncoder().getVelocity()) < threshold)) {
             if ((spark1.getEncoder().getVelocity()) > speed) {
-                bangSpeed -= MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .00000025, .0005, .001);
+                bangSpeed -= Math.pow(MathUtil.clamp(
+                        Math.abs(speed - spark1.getEncoder().getVelocity()) * .001, 0.02,
+                        .04),2);
                 bangSpeed = MathUtil.clamp(bangSpeed, -1, 1);
                 spark1.set(bangSpeed);
             } else if ((spark1.getEncoder().getVelocity()) < speed) {
-                bangSpeed += MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .00000025, .0005, .001);
+                bangSpeed += Math.pow(MathUtil.clamp(Math.abs(speed - spark1.getEncoder().getVelocity()) * .0005,
+                        0.02,
+                        .04),2);
                 bangSpeed = MathUtil.clamp(bangSpeed, -1, 1);
                 spark1.set(bangSpeed);
             }
