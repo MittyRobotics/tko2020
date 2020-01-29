@@ -40,15 +40,14 @@ public class JoystickDrive_CarSteering extends CommandBase {
 
         if(Math.abs(speed) < 0.05){
             DriveTrainTalon.getInstance().tankDrive(newTurn, - newTurn);
-            //DriveTrainSparks.getInstance().tankDrive(newTurn, - newTurn);
-
+            //DriveTrainFalcon.getInstance().tankDrive(newTurn, - newTurn);
         }
         else if(speed >= 0){
             DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
-            //DriveTrainSparks.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
+            //DriveTrainFalcon.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
         } else {
             DriveTrainTalon.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
-            //DriveTrainSparks.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
+            //DriveTrainFalcon.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
         }
 
     }
