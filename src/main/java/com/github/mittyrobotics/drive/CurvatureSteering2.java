@@ -56,7 +56,9 @@ public class CurvatureSteering2 extends CommandBase {
         } else if (Math.abs(joystickSpeed) < 0.05) {
             System.out.println("Turn: " + turn);
             DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
-        } else {
+        } else if (turn < -0.05){
+            DriveTrainTalon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
+        } else if (turn > 0.05){
             DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
         }
         //above does not work for left turn while driving
