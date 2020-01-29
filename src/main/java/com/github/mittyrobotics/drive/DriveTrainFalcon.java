@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -35,8 +36,21 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0] = new WPI_TalonFX(2);
         rightDrive[1] = new WPI_TalonFX(3);
 
+        leftDrive[0].setNeutralMode(NeutralMode.Brake);
+        rightDrive[0].setNeutralMode(NeutralMode.Brake);
+        leftDrive[1].setNeutralMode(NeutralMode.Brake);
+        rightDrive[0].setNeutralMode(NeutralMode.Brake);
+
         leftDrive[0].setInverted(true);
         leftDrive[1].setInverted(true);
+
+        leftDrive[1].set(ControlMode.Follower, leftDrive[0].getDeviceID());
+        rightDrive[1].set(ControlMode.Follower, rightDrive[0].getDeviceID());
+
+//        leftDrive[0].setInverted(Constants.LEFT_TALON_INVERSIONS[0]);
+//        leftDrive[1].setInverted(Constants.LEFT_TALON_INVERSIONS[1]);
+//        rightDrive[0].setInverted(Constants.RIGHT_TALON_INVERSIONS[0]);
+//        rightDrive[1].setInverted(Constants.RIGHT_TALON_INVERSIONS[1]);
 
 
     }
