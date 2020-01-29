@@ -57,22 +57,6 @@ public class DriveTrainSparks extends SubsystemBase {
     }
 
     public void tankDrive(double left, double right) {
-        if (Math.abs(left) > 0.1){
-            leftSpark1.set(left);
-        } else {
-            leftSpark1.stopMotor();
-
-        }
-
-        if (Math.abs(right) > 0.1){
-            rightSpark1.set(right);
-        } else {
-            rightSpark1.stopMotor();
-
-        //setDefaultCommand(new JoystickDrive_CarSteering());
-    }
-
-    public void tankDrive(double left, double right) {
         if (Math.abs(left) < 0.1){
             leftSpark1.stopMotor();
             leftSpark2.stopMotor();
