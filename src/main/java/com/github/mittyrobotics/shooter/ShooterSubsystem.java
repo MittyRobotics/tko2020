@@ -29,23 +29,27 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void initHardware() {
+        double f = 0.00017857;
+        double p = 0.0001;
+        double d = 0.00001;
+
         spark1 = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
         spark1.restoreFactoryDefaults();
-        spark1.getPIDController().setFF(0.00017822 );
-        spark1.getPIDController().setP(0.000001);
-        spark1.getPIDController().setD(0.0000001);
+        spark1.setInverted(true);
+        spark1.getPIDController().setFF(f);
+        spark1.getPIDController().setP(p);
+        spark1.getPIDController().setD(d);
 
-        spark2 = new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless); //TODO: find device id
+        spark2 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless); //TODO: find device id
         spark2.restoreFactoryDefaults();
-        spark2.setInverted(true);
-        spark2.getPIDController().setFF(0.00017822 );
-        spark2.getPIDController().setP(0.000001);
-        spark2.getPIDController().setD(0.0000001);
+        spark2.getPIDController().setFF(f);
+        spark2.getPIDController().setP(p);
+        spark2.getPIDController().setD(d);
 
         //        spark1.getPIDController().setOutputRange(Constants.ShooterOutputMin, Constants.ShooterOutputMax);
        // pF(3500);
 
-        setShooterSpeed(3500);
+//        setShooterSpeed(3500);
 
     }
 
@@ -80,6 +84,11 @@ public class ShooterSubsystem extends SubsystemBase {
         currentSetpoint = setpoint;
     }
 
+    public void setPercent(double percent) { //in rpm of the motors
+        spark1.set(percent);
+        spark2.set(percent);
+    }
+
     public void bangControl(double speed, double threshold) {
         if(!(Math.abs(speed - spark1.getEncoder().getVelocity()) < threshold)) {
             if ((spark1.getEncoder().getVelocity()) > speed) {
@@ -101,6 +110,6 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public double getShooterSpeed() {
-        return spark1.getEncoder().getVelocity();
+        return (spark1.getEncoder().getVelocity() + spark2.getEncoder().getVelocity())/2;
     }
 }
