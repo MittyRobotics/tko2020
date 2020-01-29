@@ -18,36 +18,37 @@ public class CurvatureSteering extends CommandBase {
 	@Override
 	public void execute(){
 
-		double turn = OI.getInstance().getXboxWheel().getX() * 450;
-		double wheelWidth = 30;
+		double turn = (OI.getInstance().getXboxWheel().getX() * 450) / 120;
+		double wheelWidth = 12.5;
 		double radius = 0;
 
-		if ((turn > -5) & (turn < 5))  {
+		if (Math.abs(turn) < 5)  { // deadzone
 			radius = 0;
 		}
 		else {
 			radius = 360/turn;
 		}
+
 		double leftSpeed = 0;
 		double rightSpeed = 0;
 
 		if (radius > 0) {
-			leftSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
-			rightSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
-
+			leftSpeed = 2 * Math.PI * (radius - wheelWidth); //leftSpeed bigger 33pi
+			rightSpeed = 2 * Math.PI * (radius + wheelWidth); //-17pi
+			turn = leftSpeed/rightSpeed;
 		}
 		else if (radius < 0) {
-			leftSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
-			rightSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
+			leftSpeed = 2 * Math.PI * (radius - (wheelWidth)); //rightSpeed bigger
+			rightSpeed = 2 * Math.PI * (radius + (wheelWidth));
+			turn = rightSpeed/leftSpeed;
 		}
 		else {
 			leftSpeed = 0;
+			turn = 1;
 			rightSpeed = 0;
 		}
-		turn = rightSpeed - leftSpeed;
+
 		//negative for right turns, positive for left turns
-
-
 
 		double speed = -OI.getInstance().getJoystick1().getY();
 		boolean brake = OI.getInstance().getJoystick1().getTrigger();
@@ -58,12 +59,19 @@ public class CurvatureSteering extends CommandBase {
 		}
 
 
-		double newSpeed = speed;
-		double newTurn = turn;
 		if(Math.abs(speed) < 0.05){
-			DriveTrainTalon.getInstance().tankDrive(newTurn, - newTurn);
+			DriveTrainTalon.getInstance().tankDrive(OI.getInstance().getXboxWheel().getX()*2, -(OI.getInstance().getXboxWheel().getX())*2);
 		}
-		DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn/2, newSpeed - newTurn/2);
+		else if (Math.abs(speed) > 0.05){
+
+			DriveTrainTalon.getInstance().tankDrive(speed * turn, speed * (2-turn));
+			System.out.println("turn: " + turn);
+			System.out.println("left: " + (speed*turn));
+			System.out.println("right: " + (speed*(2-turn)));
+		}
+//		else {
+//			DriveTrainTalon.getInstance().tankDrive(speed * (2-turn), speed * turn);
+//		}
 	}
 	@Override
 	public void end(boolean interrupted){
@@ -74,3 +82,5 @@ public class CurvatureSteering extends CommandBase {
 		return false;
 	}
 }
+
+
