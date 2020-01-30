@@ -62,7 +62,7 @@ public class OI {
 				return getJoystick1().getRawButton(3);
 			}
 		};
-		conveyorButton.whenPressed(new MoveConveyor());
+		conveyorButton.whenPressed(new MoveConveyor(Constants.distance));
 
 		Button lockBall = new Button() {
 			@Override
