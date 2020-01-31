@@ -53,7 +53,7 @@ public class DriveTrainSparks extends SubsystemBase {
         rightSpark2.setMotorType(CANSparkMaxLowLevel.MotorType.kBrushless);
         rightSpark1.setInverted(true);
         rightSpark2.setInverted(true);
-        setDefaultCommand(new Drive());
+        //setDefaultCommand(new Drive());
     }
 
     public void tankDrive(double left, double right) {

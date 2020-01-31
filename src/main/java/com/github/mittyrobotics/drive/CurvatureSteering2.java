@@ -52,18 +52,18 @@ public class CurvatureSteering2 extends CommandBase {
         }
 
         if (inThreshold){
-            //DriveTrainTalon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
-            DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
+            DriveTrainTalon.getInstance().tankDrive(joystickSpeed*0.67, joystickSpeed*0.67);
+            //DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
         } else if (Math.abs(joystickSpeed) < 0.05) {
             System.out.println("Turn: " + turn);
-            //DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
-            DriveTrainFalcon.getInstance().tankDrive(turn/20, -turn/20);
+            DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
+            //DriveTrainFalcon.getInstance().tankDrive(turn/20, -turn/20);
         } else if (turn < -0.05){
-            //DriveTrainTalon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
-            DriveTrainFalcon.getInstance().tankDrive(rightSpeed*joystickSpeed/3, leftSpeed*joystickSpeed/3);
+            DriveTrainTalon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
+            //DriveTrainFalcon.getInstance().tankDrive(rightSpeed*joystickSpeed/3, leftSpeed*joystickSpeed/3);
         } else if (turn > 0.05){
-            //DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
-            DriveTrainFalcon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
+            DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
+            //DriveTrainFalcon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
         }
 
 //        if(Math.abs(joystickSpeed) < 0.05){
