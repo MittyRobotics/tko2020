@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void initHardware() {
-        double f = 0.00017857;
+        double f = 0.00019;
         double p = 0.0001;
         double d = 0.00001;
 
@@ -65,17 +65,17 @@ public class ShooterSubsystem extends SubsystemBase {
         System.out.println("Joystick speed: " + speed);
     }
 
-    public void pF(double setpoint) {
-
-        double error = setpoint - getShooterSpeed();
-
-        double ff = 0.00017822*setpoint;
-        double fb = 0.000001*error;
-        spark1.set(ff+fb);
-        spark2.set(ff+fb);
-        currentSetpoint = setpoint;
-
-    }
+//    public void pF(double setpoint) {
+//
+//        double error = setpoint - getShooterSpeed();
+//
+//        double ff = 0.00018957*setpoint;
+//        double fb = 0.000001*error;
+//        spark1.set(ff+fb);
+//        spark2.set(ff+fb);
+//        currentSetpoint = setpoint;
+//
+//    }
 
 
     public void setShooterSpeed(double setpoint) { //in rpm of the motors

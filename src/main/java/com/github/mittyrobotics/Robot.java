@@ -53,8 +53,7 @@ public class Robot extends TimedRobot {
 //        CommandScheduler.getInstance().run();
       //  TurretSubsystem.getInstance().zeroEncoder();
 //        ShooterSubsystem.getInstance().initHardware();
-        ShooterSubsystem.getInstance().setShooterSpeed(5000);
-
+        ShooterSubsystem.getInstance().setShooterSpeed(3850);
     }
 
     @Override
