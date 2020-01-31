@@ -110,6 +110,10 @@ public class AutomatedTurretSuperstructure {
         this.setpoint = new Transform(0, 0, setpoint);
     }
 
+    public void setVisionAim(VisionTarget target) {
+        setFieldRelativeAimRotation(target.getFieldRelativeYaw());
+    }
+
     /**
      * Computes the field-relative {@link Position} of the turret given parameters from the vision system.
      *
@@ -135,19 +139,6 @@ public class AutomatedTurretSuperstructure {
         turretPosition = turretPosition.add(AutonCoordinates.SCORING_TARGET.getPosition());
 
         return turretPosition;
-    }
-
-    /**
-     * Aims the turret towards a {@link VisionTarget}.
-     * <p>
-     * This sets the field-relative angle of the turret to the field-relative angle from the turret to the vision
-     * target. This results in the turret using the gyro to maintain field-relative positioning while also aiming at
-     * the vision target.
-     *
-     * @param target the {@link VisionTarget} to take aim at
-     */
-    public void visionAim(VisionTarget target) {
-        setFieldRelativeAimRotation(target.getFieldRelativeYaw());
     }
 
     public Rotation computeFieldRelativeRotation(Rotation gyro, Rotation robotRelativeRotation) {

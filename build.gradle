@@ -87,6 +87,7 @@ dependencies {
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+    implementation 'org.jetbrains:annotations:15.0'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
