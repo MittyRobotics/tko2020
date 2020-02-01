@@ -16,9 +16,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    //DriveTrainFalcon.getInstance().initHardware();
+    DriveTrainFalcon.getInstance().initHardware();
     OI.getInstance().digitalInputControls();
-    DriveTrainTalon.getInstance().initHardware();
+    //DriveTrainTalon.getInstance().initHardware();
     //DriveTrainSparks.getInstance().initHardware();
 //    talon1 = new WPI_TalonFX(0);
 //    talon2 = new WPI_TalonFX(1);
