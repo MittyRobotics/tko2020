@@ -1,5 +1,6 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.LinearActuator.LinearActuatorCommand;
 import com.github.mittyrobotics.climber.Hooks;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -15,12 +16,11 @@ public class Robot extends TimedRobot {
     compressor = new Compressor();
     compressor.start();
     compressor.setClosedLoopControl(true);*/
-
   }
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
+    /*CommandScheduler.getInstance().run();*/
   }
 
   @Override
@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-
+    CommandScheduler.getInstance().schedule(new LinearActuatorCommand());
   }
 
   @Override
