@@ -22,26 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous;
+package com.github.mittyrobotics.autonomous.enums;
 
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
-
-public class AutonSelector {
-    private static AutonSelector instance = new AutonSelector();
-
-    public static AutonSelector getInstance() {
-        return instance;
-    }
-
-    /**
-     * Returns the autonomous command group to be run during the autonomous period of the match.
-     * <p>
-     * This pulls the autonomous selection from SmartDashboard, set by the driver before the match starts.
-     *
-     * @return the autonomous command group to be run during the autonomous period of the match.
-     */
-    public CommandGroupBase getSelectedAutonomousMode() {
-        //TODO: Implement this
-        return null;
-    }
+public enum TurretAutomationMode {
+    FIELD_RELATIVE_AIM,
+    FIELD_RELATIVE_ANGLE,
+    ROBOT_RELATIVE_ANGLE,
+    NO_AUTOMATION
 }

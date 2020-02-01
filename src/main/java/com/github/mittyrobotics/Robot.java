@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.AutonSelector;
+import com.github.mittyrobotics.autonomous.util.AutonSelector;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;

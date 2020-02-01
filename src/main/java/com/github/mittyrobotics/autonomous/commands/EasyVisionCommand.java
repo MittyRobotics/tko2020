@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.util.VisionTarget;
+import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
