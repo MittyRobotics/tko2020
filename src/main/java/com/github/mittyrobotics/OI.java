@@ -28,8 +28,13 @@ import com.github.mittyrobotics.colorwheel.ColorTesting;
 import com.github.mittyrobotics.colorwheel.SpinRevs;
 import com.github.mittyrobotics.colorwheel.SpinToColor;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.shooter.SpinFlywheel;
+import com.github.mittyrobotics.turret.ResetTurretEncoder;
+import com.github.mittyrobotics.turret.SetTurretAngle;
+import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
@@ -76,34 +81,29 @@ public class OI {
     }
 
     public void digitalInputControls() {
-        Button spinRevButton = new Button() {
+//        Button spinFlyWheel = new Button() {
+//            @Override
+//            public boolean get() {
+//                return getJoystick1().getRawButton(5);
+//            }
+//        };
+//        spinFlyWheel.whenPressed(new SpinFlywheel(Constants.ShooterSpeed, Constants.ShooterBangThreshold));
+
+        Button turretAngle = new Button() {
             @Override
             public boolean get() {
-                return getJoystick1().getRawButtonPressed(3) && !stage3;
+                return getJoystick1().getRawButton(4);
             }
         };
-        Button spinColorButton = new Button() {
-            @Override
-            public boolean get() {
-                return getJoystick1().getRawButtonPressed(3) && stage3;
-            }
-        };
+        turretAngle.whenPressed(new SetTurretAngle(Constants.turretAngle));
 
-
-        spinRevButton.whenPressed(new SpinRevs());
-        spinColorButton.whenPressed(new SpinToColor());
-
-    }
-
-    public void testButtons() {
-        Button colorTestingButton = new Button() {
-            @Override
-            public boolean get() {
-                return getJoystick1().getRawButtonPressed(3);
-            }
-        };
-
-        colorTestingButton.whenPressed(new ColorTesting());
+//        Button resetEncoder = new Button() {
+//            @Override
+//            public boolean get() {
+//                return getJoystick1().getRawButton(3);
+//            }
+//        };
+//        resetEncoder.whenPressed(new ResetTurretEncoder());
     }
 
     public void passedStage2() {

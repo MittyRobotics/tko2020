@@ -33,16 +33,18 @@ public class TurretSubsystem extends SubsystemBase {
 //        limitSwitch = new DigitalInput(Constants.TurretSwitchID);
 //        limitSwitch2 = new DigitalInput(Constants.TurretSwitch2ID);
         talon1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        //TODO maybe this will fix it:
+//        talon1.configFeedbackNotContinuous(true, 0);
+
     }
 
     public void changeAngle(double angle) {
         setAngle(angle + getAngle());
     }
 
-    public void changeRelativeAngle(double angle) { //TODO fill in
+    public void changeRelativeAngle(double angle){ //TODO fill in
 
     }
-
     public void setTurretSpeed(double speed) {
         if (!limitSwitch.get() && !limitSwitch2.get()) {
             talon1.set(ControlMode.PercentOutput, speed);
@@ -92,9 +94,12 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void zeroEncoder() {
-        talon1.setSelectedSensorPosition(0);
+//        talon1.setSelectedSensorPosition(0);
     }
 
+    public double getEncoderValue() {
+        return talon1.getSelectedSensorPosition();
+    }
 
     public boolean limitSwitchValue() {
         return limitSwitch.get();
