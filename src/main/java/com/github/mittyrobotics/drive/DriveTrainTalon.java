@@ -14,7 +14,6 @@ public class DriveTrainTalon extends SubsystemBase {
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[2];
 	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[2];
 	private static DriveTrainTalon ourInstance = new DriveTrainTalon();
-	private double count = 0;
 	private PIDController controller;
 
 	//Making it a Singleton
@@ -101,7 +100,6 @@ public class DriveTrainTalon extends SubsystemBase {
 		right *= Constants.TICKS_PER_INCH;
 		leftDrive[0].set(ControlMode.Velocity, left / 10);
 		rightDrive[0].set(ControlMode.Velocity, right / 10);
-//		System.out.println(left + " " + right);
 	}
 
 	public void movePos(double left, double right) {

@@ -6,6 +6,7 @@ import com.github.mittyrobotics.drive.Drive;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.drive.DriveTrainSparks;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -42,27 +43,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-//    CommandScheduler.getInstance().cancelAll();
-//    DriveTrainTalon.getInstance().resetEncoder();
-//    CommandScheduler.getInstance().cancelAll();
-//    DriveTrainTalon.getInstance().resetEncoder();
-    //DriveTrainTalon.getInstance().tankVelocity(-10, -10);
-    //DriveTrainTalon.getInstance().movePos(24, 24);
-    //CommandScheduler.getInstance().schedule(new RampingCommand());
+
 
   }
 
   @Override
   public void autonomousPeriodic() {
-    //      System.out.println("Left encoder: "+DriveTrainTalon.getInstance().getLeftEncoder());
-//      System.out.println("Right encoder: "+DriveTrainTalon.getInstance().getRightEncoder());
-//    DriveTrainTalon.getInstance().velocityPIDFeedForward(30);
-//    System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-//    System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
-//    DriveTrainTalon.getInstance().velocityPIDFeedForward(30);
-//    System.out.println("Left Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-//    System.out.println("Right Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
-//      System.out.println("Desired Vel" + DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget());
     
   }
 
@@ -70,13 +56,16 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 
     //CommandScheduler.getInstance().cancelAll();
+    //DriveTrainFalcon.getInstance().tankDrive(1, 1);
+    DriveTrainFalcon.getInstance().resetEncoder();
 
   }
 
   @Override
   public void teleopPeriodic() {
-
-    //DriveTrainFalcon.getInstance().tankDrive(OI.getInstance().getJoystick1().getY()/3, OI.getInstance().getJoystick2().getY()/3);
+    DriveTrainFalcon.getInstance().tankVelocity(OI.getInstance().getXboxWheel().getY(GenericHID.Hand.kLeft), OI.getInstance().getXboxWheel().getY(GenericHID.Hand.kRight));
+    System.out.println("Left Encoder Velocity: " + DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
+    System.out.println("Right Encoder Velocity: " + DriveTrainFalcon.getInstance().getRightEncoderVelocity());
   }
 
   @Override

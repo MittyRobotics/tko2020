@@ -23,10 +23,10 @@ public class Drive extends CommandBase {
 
     @Override
     public void execute() {
-        WPI_TalonFX[] left = DriveTrainFalcon.getInstance().getLeftTalons();
-        WPI_TalonFX[] right = DriveTrainFalcon.getInstance().getRightTalons();
+        //WPI_TalonFX[] left = DriveTrainFalcon.getInstance().getLeftTalons();
+        //WPI_TalonFX[] right = DriveTrainFalcon.getInstance().getRightTalons();
 
-        left[0].set(TalonFXControlMode.PercentOutput, OI.getInstance().getJoystick1().getY());
+        //left[0].set(TalonFXControlMode.PercentOutput, OI.getInstance().getJoystick1().getY());
 
     }
 

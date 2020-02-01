@@ -37,7 +37,7 @@ public class JoystickDrive_CarSteering extends CommandBase {
         }
 
         double newSpeed = (speed*e);
-        double newTurn = turn*0.33;
+        double newTurn = turn;
 
         if(Math.abs(speed) < 0.05){
             //DriveTrainTalon.getInstance().tankDrive(newTurn, - newTurn);
