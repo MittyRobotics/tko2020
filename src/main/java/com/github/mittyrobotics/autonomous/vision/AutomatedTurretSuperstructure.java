@@ -26,7 +26,7 @@ package com.github.mittyrobotics.autonomous.vision;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
-import com.github.mittyrobotics.autonomous.util.TurretAimMode;
+import com.github.mittyrobotics.autonomous.util.TurretAutomationMode;
 import com.github.mittyrobotics.autonomous.util.VisionTarget;
 import com.github.mittyrobotics.datatypes.geometry.Line;
 import com.github.mittyrobotics.datatypes.positioning.Position;
@@ -50,7 +50,7 @@ public class AutomatedTurretSuperstructure {
     private Rotation robotRelativeRotation;
     private Rotation fieldRelativeRotation;
     private Position fieldRelativePosition;
-    private TurretAimMode aimMode;
+    private TurretAutomationMode aimMode = TurretAutomationMode.NO_AUTOMATION;
     private Transform setpoint;
 
     public static AutomatedTurretSuperstructure getInstance() {
@@ -64,6 +64,8 @@ public class AutomatedTurretSuperstructure {
                 robotRelativeRotation);
         this.fieldRelativePosition = computeFieldRelativePosition(Gyro.getInstance().getRotation(),
                 robotRelativeRotation, Vision.getInstance().getCurrentVisionTarget().getDistance());
+
+        maintainSetpoint();
     }
 
     public void maintainSetpoint() {
@@ -76,6 +78,9 @@ public class AutomatedTurretSuperstructure {
                 break;
             case ROBOT_RELATIVE_ANGLE:
                 maintainRobotRelativeRotation(setpoint.getRotation());
+                break;
+            case NO_AUTOMATION:
+                //Don't do anything! Let someone else move the turret.
                 break;
         }
     }
@@ -96,22 +101,26 @@ public class AutomatedTurretSuperstructure {
     }
 
     public void setFieldRelativeAimPosition(Position setpoint) {
-        this.aimMode = TurretAimMode.FIELD_RELATIVE_AIM;
+        this.aimMode = TurretAutomationMode.FIELD_RELATIVE_AIM;
         this.setpoint = new Transform(setpoint, 0);
     }
 
     public void setFieldRelativeAimRotation(Rotation setpoint) {
-        this.aimMode = TurretAimMode.FIELD_RELATIVE_ANGLE;
+        this.aimMode = TurretAutomationMode.FIELD_RELATIVE_ANGLE;
         this.setpoint = new Transform(0, 0, setpoint);
     }
 
     public void setRobotRelativeAimRotation(Rotation setpoint) {
-        this.aimMode = TurretAimMode.ROBOT_RELATIVE_ANGLE;
+        this.aimMode = TurretAutomationMode.ROBOT_RELATIVE_ANGLE;
         this.setpoint = new Transform(0, 0, setpoint);
     }
 
     public void setVisionAim(VisionTarget target) {
         setFieldRelativeAimRotation(target.getFieldRelativeYaw());
+    }
+
+    public void disableAutomatedTurret(){
+        this.aimMode = TurretAutomationMode.NO_AUTOMATION;
     }
 
     /**
@@ -175,7 +184,7 @@ public class AutomatedTurretSuperstructure {
         return fieldRelativeRotation;
     }
 
-    public TurretAimMode getAimMode() {
+    public TurretAutomationMode getAimMode() {
         return aimMode;
     }
 

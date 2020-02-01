@@ -24,8 +24,9 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
-public enum TurretAimMode {
+public enum TurretAutomationMode {
     FIELD_RELATIVE_AIM,
     FIELD_RELATIVE_ANGLE,
-    ROBOT_RELATIVE_ANGLE
+    ROBOT_RELATIVE_ANGLE,
+    NO_AUTOMATION
 }

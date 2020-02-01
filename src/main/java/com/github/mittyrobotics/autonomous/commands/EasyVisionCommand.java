@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,18 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
+import com.github.mittyrobotics.autonomous.util.VisionTarget;
+import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class MaintainAutomatedTurretCommand extends CommandBase {
+public class EasyVisionCommand extends CommandBase {
 
-    public MaintainAutomatedTurretCommand() {
+    public EasyVisionCommand() {
         super();
         addRequirements(TurretSubsystem.getInstance());
+        addRequirements(ShooterSubsystem.getInstance());
     }
 
     @Override
@@ -42,7 +45,15 @@ public class MaintainAutomatedTurretCommand extends CommandBase {
 
     @Override
     public void execute() {
-        AutomatedTurretSuperstructure.getInstance().maintainSetpoint();
+        VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
+        double p = 0.10;
+        TurretSubsystem.getInstance().setAngle(p * target.getTurretRelativeYaw().getHeading());
+        double rpm = rpmEquation(target.getDistance());
+        ShooterSubsystem.getInstance().setShooterSpeed(rpm);
+    }
+
+    private double rpmEquation(double distance) {
+        return 9.766 * Math.pow(10, -3) * (distance * distance) - 2.4741 * distance + 3785.7830;
     }
 
     @Override
