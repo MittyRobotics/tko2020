@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
-import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.autonomous.util.TurretAimMode;
@@ -35,6 +34,7 @@ import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.turret.TurretSubsystem;
+import com.github.mittyrobotics.util.Gyro;
 
 /**
  * {@link AutomatedTurretSuperstructure} class. Manages the turret's position relative to the field and relative to vision targets.

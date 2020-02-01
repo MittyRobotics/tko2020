@@ -24,11 +24,11 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
-import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.VisionTarget;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.turret.TurretSubsystem;
+import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.vision.Limelight;
 
 public class Vision {

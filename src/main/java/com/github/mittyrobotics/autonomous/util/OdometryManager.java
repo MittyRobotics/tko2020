@@ -24,9 +24,9 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
-import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.util.Odometry;
+import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OdometryManager {
