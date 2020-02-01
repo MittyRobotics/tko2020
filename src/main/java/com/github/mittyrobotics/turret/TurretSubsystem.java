@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.github.mittyrobotics.turret;
 
 
@@ -38,20 +62,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     }
 
-    public void setAngle(double angle) {
-        talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
-//
-//        if (!limitSwitch.get() && !limitSwitch2.get()) {
-//            talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
-//        } else {
-//            if ((angle >= -90) && (angle <= 90)) {
-//                talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
-//            } else {
-//                talon1.set(ControlMode.PercentOutput, 0);
-//            }
-//        }
-    }
-    public void changeAngle(double angle){
+    public void changeAngle(double angle) {
         setAngle(angle + getAngle());
     }
 
@@ -74,12 +85,27 @@ public class TurretSubsystem extends SubsystemBase {
             }
         }
     }
-    public double getAngle(){
+
+    public double getAngle() {
         return talon1.getSelectedSensorPosition() / Constants.TICKS_PER_ANGLE;
     }
 
+    public void setAngle(double angle) {
+        talon1.set(ControlMode.Position, angle * Constants.TICKS_PER_ANGLE);
+//
+//        if (!limitSwitch.get() && !limitSwitch2.get()) {
+//            talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
+//        } else {
+//            if ((angle >= -90) && (angle <= 90)) {
+//                talon1.set(ControlMode.Position, angle*Constants.TICKS_PER_ANGLE);
+//            } else {
+//                talon1.set(ControlMode.PercentOutput, 0);
+//            }
+//        }
+    }
+
     public void manualSetTurret(double speed) {
-        if (Math.abs(speed)>0.05) {
+        if (Math.abs(speed) > 0.05) {
             talon1.set(ControlMode.PercentOutput, speed);
             //System.out.println(talon1.getSelectedSensorVelocity());
 //            System.out.println("pos: "+ talon1.getSelectedSensorPosition());
@@ -99,8 +125,9 @@ public class TurretSubsystem extends SubsystemBase {
     public boolean limitSwitchValue() {
         return limitSwitch.get();
     }
-    public double getError(){
-        return (talon1.getClosedLoopTarget() - talon1.getSelectedSensorPosition())/Constants.TICKS_PER_ANGLE;
+
+    public double getError() {
+        return (talon1.getClosedLoopTarget() - talon1.getSelectedSensorPosition()) / Constants.TICKS_PER_ANGLE;
     }
 
 }
