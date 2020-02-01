@@ -6,6 +6,7 @@ import com.github.mittyrobotics.turret.MagEncoderTesting;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import com.github.mittyrobotics.vision.Limelight;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -20,6 +21,8 @@ public class Robot extends TimedRobot {
         TurretSubsystem.getInstance().initHardware();
 //        TurretSubsystem.getInstance().manualSetTurret(.2);
         OI.getInstance().digitalInputControls();
+
+        DriveTrainTalon.getInstance().initHardware();
     }
 
     @Override
@@ -56,29 +59,83 @@ public class Robot extends TimedRobot {
         ShooterSubsystem.getInstance().setShooterSpeed(3850);
     }
 
+    private double[][] RPMS = {
+            {180,3675},
+            {193,3650},
+            {222,3700},
+            {231,3750},
+            {253,3800},
+            {283, 3860}
+    };
+
+
     @Override
     public void teleopPeriodic() {
-   //     System.out.println("angle value: " + (TurretSubsystem.getInstance().getEncoderValue()/Constants.TICKS_PER_ANGLE));
+//        System.out.println("angle value: " + (TurretSubsystem.getInstance().getEncoderValue()/Constants.TICKS_PER_ANGLE));
 //        System.out.println(TurretSubsystem.getInstance().getAngle());
-        if (OI.getInstance().getJoystick1().getRawButtonPressed(11)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint+25);
-        }
-        if (OI.getInstance().getJoystick1().getRawButtonPressed(10)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint-25);
-        }
+
+//        if (OI.getInstance().getJoystick1().getRawButtonPressed(6)) {
+//            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint+50);
+//        }
+//        if (OI.getInstance().getJoystick1().getRawButtonPressed(7)) {
+//            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint-50);
+//        }
+//
+//        if (OI.getInstance().getJoystick1().getRawButtonPressed(11)) {
+//            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint+10);
+//        }
+//        if (OI.getInstance().getJoystick1().getRawButtonPressed(10)) {
+//            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint-10);
+//        }
 
         turretSpeed = OI.getInstance().getJoystick1().getX();
-        TurretSubsystem.getInstance().manualSetTurret(turretSpeed/3);
+        TurretSubsystem.getInstance().manualSetTurret(vision());
 
+        double pitch = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
+        double distance = computeVisionDistance(pitch);
+        SmartDashboard.putNumber("vision_dist", distance);
 
-//
-//        shooterSpeed = OI.getInstance().getJoystick1().getY();
-//        ShooterSubsystem.getInstance().manualControl(shooterSpeed);
+        ShooterSubsystem.getInstance().setShooterSpeed(rpmEquation(distance));
+
+        drive();
+
     }
 
     public double vision(){
         double yaw = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
-        return 0.05 * yaw;
+        return 0.1 * yaw;
+    }
+
+    private double computeVisionDistance(double pitch) {
+        double LIMELIGHT_PITCH = 25;
+        double LIMELIGHT_HEIGHT = 22;
+
+        double TARGET_HEIGHT = 92;
+        return (TARGET_HEIGHT - LIMELIGHT_HEIGHT) /
+                Math.tan(Math.toRadians(pitch + LIMELIGHT_PITCH));
+    }
+
+    private double computeShooterRPMFromDistance(double distance) {
+        double closest = 99999;
+        double rpm = 0;
+        for (int i = 0; i < RPMS.length; i++) {
+            if (Math.abs(RPMS[i][0]-distance) < closest) {
+                closest = Math.abs(RPMS[i][0]-distance);
+                rpm = RPMS[i][1];
+            }
+        }
+        return rpm;
+    }
+
+    private double rpmEquation(double distance){
+        return 9.766*Math.pow(10,-3)*(distance*distance)-2.4741*distance + 3785.7830;
+//        return 0.0199*Math.pow(distance,2) - 5.5182*distance + 3960.6993;
+    }
+
+    private void drive(){
+        double left = OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
+        double right = OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
+        DriveTrainTalon.getInstance().tankDrive(-left/2,-right/2);
     }
 
 
