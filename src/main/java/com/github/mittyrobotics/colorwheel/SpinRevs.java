@@ -1,6 +1,6 @@
 package com.github.mittyrobotics.colorwheel;
 
-import com.github.mittyrobotics.OI;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SpinRevs extends CommandBase {

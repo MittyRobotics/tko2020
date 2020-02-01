@@ -22,19 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.colorwheel.ColorTesting;
-import com.github.mittyrobotics.colorwheel.SpinRevs;
-import com.github.mittyrobotics.colorwheel.SpinToColor;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.shooter.SpinFlywheel;
-import com.github.mittyrobotics.turret.ResetTurretEncoder;
 import com.github.mittyrobotics.turret.SetTurretAngle;
-import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {

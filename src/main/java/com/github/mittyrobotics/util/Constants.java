@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.util;
 
 public class Constants {
     public static final int XBOX_CONTROLLER_ID = 0;
@@ -32,6 +32,4 @@ public class Constants {
     public static final double turretAngle = 90;
     public static final double ShooterSpeed = .5;
     public static final double ShooterBangThreshold = 10;
-
-
 }

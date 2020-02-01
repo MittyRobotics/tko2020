@@ -45,7 +45,7 @@ public class TurretAimbotCommand extends CommandBase {
     @Override
     public void execute() {
         VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
-        AutomatedTurretSuperstructure.getInstance().visionAim(target);
+        AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
         this.error =
                 AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation()
                         .subtract(target.getFieldRelativeYaw())

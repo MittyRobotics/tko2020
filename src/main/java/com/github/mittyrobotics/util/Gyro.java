@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;

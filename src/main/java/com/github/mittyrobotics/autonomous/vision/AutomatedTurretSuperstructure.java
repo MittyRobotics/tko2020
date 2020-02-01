@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
-import com.github.mittyrobotics.Gyro;
+import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.autonomous.util.TurretAimMode;

@@ -45,12 +45,6 @@ public class ShooterSubsystem extends SubsystemBase {
         spark2.getPIDController().setFF(f);
         spark2.getPIDController().setP(p);
         spark2.getPIDController().setD(d);
-
-        //        spark1.getPIDController().setOutputRange(Constants.ShooterOutputMin, Constants.ShooterOutputMax);
-       // pF(3500);
-
-//        setShooterSpeed(3500);
-
     }
 
     public void manualControl(double speed) {
@@ -64,19 +58,6 @@ public class ShooterSubsystem extends SubsystemBase {
         }
         System.out.println("Joystick speed: " + speed);
     }
-
-//    public void pF(double setpoint) {
-//
-//        double error = setpoint - getShooterSpeed();
-//
-//        double ff = 0.00018957*setpoint;
-//        double fb = 0.000001*error;
-//        spark1.set(ff+fb);
-//        spark2.set(ff+fb);
-//        currentSetpoint = setpoint;
-//
-//    }
-
 
     public void setShooterSpeed(double setpoint) { //in rpm of the motors
         spark1.getPIDController().setReference(setpoint, ControlType.kVelocity);
