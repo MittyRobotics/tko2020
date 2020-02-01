@@ -25,9 +25,13 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.AutonSelector;
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -40,8 +44,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
-//        ShooterSubsystem.getInstance().initHardware();
+
+        ShooterSubsystem.getInstance().initHardware();
         TurretSubsystem.getInstance().initHardware();
+        DriveTrainTalon.getInstance().initHardware();
+
+        DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
     }
 
     @Override

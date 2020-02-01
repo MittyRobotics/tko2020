@@ -26,18 +26,18 @@ package com.github.mittyrobotics.autonomous.constants;
 
 public class AutonConstants {
     //Field
-    public static double HIGH_TARGET_HEIGHT = (6.836 + 9.438) / 2.0; //ft
+    public static double HIGH_TARGET_HEIGHT = 92; /*(6.836 + 9.438) / 2.0;*/ //ft //TODO: Calibrate to field
     public static double HIGH_TARGET_MIN_HEIGHT = 6.938 + (7.0 / 12.0 / 2.0); //ft
     public static double HIGH_TARGET_MAX_HEIGHT = 9.438 - (7.0 / 12.0 / 2.0); //ft
 
     //Vision
     public static double LIMELIGHT_HEIGHT = 22; //TODO: Find this value
-    public static double LIMELIGHT_PITCH = 0; //TODO: Find this value
+    public static double LIMELIGHT_PITCH = 25; //TODO: Find this value
 
     //Robot
     public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
     public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
-    public static double CAMERA_TURRET_OFFSET = 10; //Inches //TODO: Find this value
+    public static double CAMERA_TURRET_OFFSET = 0; //Inches //TODO: Find this value
 
     //Shooter //TODO: Tune these
     /**
