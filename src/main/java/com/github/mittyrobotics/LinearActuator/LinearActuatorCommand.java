@@ -10,15 +10,15 @@ public class LinearActuatorCommand extends CommandBase {
 
     @Override
     public void execute() {
-        for(double i = 0.2; i < 0.8; i += 0.05) {
-            LinearActuator.getInstance().set(i);
-            Thread.sleep(10);
-        }
+        //for(double i = 0.2; i < 0.8; i += 0.05) {
+            LinearActuator.getInstance().set(.5);
+            //Thread.sleep(10);
+        //}
 
-        for(double i = 0.8; i > 0.2; i -= 0.05) {
-            LinearActuator.getInstance().set(i);
-            Thread.sleep(10);
-        }
+        //for(double i = 0.8; i > 0.2; i -= 0.05) {
+            //LinearActuator.getInstance().set(i);
+            //Thread.sleep(10);
+        //}
     }
 
     @Override

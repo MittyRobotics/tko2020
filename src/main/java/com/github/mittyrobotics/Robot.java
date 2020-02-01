@@ -3,11 +3,13 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.LinearActuator.LinearActuatorCommand;
 import com.github.mittyrobotics.climber.Hooks;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
   Compressor compressor;
+  Servo servo;
   @Override
   public void robotInit() {
     /*System.out.println("robot initialize");
@@ -45,12 +47,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    CommandScheduler.getInstance().schedule(new LinearActuatorCommand());
+    //CommandScheduler.getInstance().schedule(new LinearActuatorCommand());
+    servo = new Servo(5);
+    //servo.setPosition(0.3);
   }
-
   @Override
   public void teleopPeriodic() {
-
+    System.out.println(servo.get());
+    servo.setPosition(0.3);
   }
 
   @Override
