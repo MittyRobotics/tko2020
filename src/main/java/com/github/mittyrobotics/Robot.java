@@ -9,12 +9,13 @@ public class Robot extends TimedRobot {
   Compressor compressor;
   @Override
   public void robotInit() {
-    System.out.println("robot initialize");
+    /*System.out.println("robot initialize");
     OI.getInstance().digitalInputControls();
     Hooks.getInstance().initHardware();
     compressor = new Compressor();
     compressor.start();
-    compressor.setClosedLoopControl(true);
+    compressor.setClosedLoopControl(true);*/
+
   }
 
   @Override
