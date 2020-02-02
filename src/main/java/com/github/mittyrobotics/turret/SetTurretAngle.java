@@ -38,7 +38,7 @@ public class SetTurretAngle extends CommandBase {
 
     @Override
     public void initialize() {
-        TurretSubsystem.getInstance().changeAngle(angle);
+        TurretSubsystem.getInstance().setTurretAngle(angle);
     }
 
     @Override
