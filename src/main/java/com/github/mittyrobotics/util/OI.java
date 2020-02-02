@@ -33,7 +33,6 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
     private static OI instance;
-    private static boolean stage3 = false;
     private XboxWheel xboxWheel;
     private XboxController xboxController;
     private Joystick joystick1;
@@ -75,37 +74,5 @@ public class OI {
     }
 
     public void digitalInputControls() {
-//        Button spinFlyWheel = new Button() {
-//            @Override
-//            public boolean get() {
-//                return getJoystick1().getRawButton(5);
-//            }
-//        };
-//        spinFlyWheel.whenPressed(new SpinFlywheel(Constants.ShooterSpeed, Constants.ShooterBangThreshold));
-
-//        Button turretAngle = new Button() {
-//            @Override
-//            public boolean get() {
-//                return getXboxController().getBButton();
-//            }
-//        };
-//        turretAngle.whenPressed(new MagEncoderTesting(10));
-
-        Button resetEncoder = new Button() {
-            @Override
-            public boolean get() {
-                return getXboxController().getAButton();
-            }
-        };
-
-        resetEncoder.whenPressed(new InstantCommand(() -> {
-            TurretSubsystem.getInstance().zeroEncoder();
-            System.out.println("asdf");
-        }));
     }
-
-    public void passedStage2() {
-        stage3 = true;
-    }
-
 }
