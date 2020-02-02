@@ -33,5 +33,5 @@ public class Constants {
     public static final int TurretSwitchID = 3;
     public static final int TurretSwitch2ID = 4;
     public static final double TICKS_PER_ANGLE = 10.7; // TODO: Find actual value
-
+    public static final double REVOLUTION_TICKS = 3911;
 }

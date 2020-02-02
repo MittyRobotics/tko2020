@@ -26,8 +26,8 @@ package com.github.mittyrobotics.autonomous.vision;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
-import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
 import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
+import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
 import com.github.mittyrobotics.datatypes.geometry.Line;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
@@ -64,20 +64,23 @@ public class AutomatedTurretSuperstructure {
                 robotRelativeRotation);
         this.fieldRelativePosition = computeFieldRelativePosition(Gyro.getInstance().getRotation(),
                 robotRelativeRotation, Vision.getInstance().getCurrentVisionTarget().getDistance());
-
-        maintainSetpoint();
+        //Maintains the automated turret control
+        maintainAutomation();
     }
 
-    public void maintainSetpoint() {
+    private void maintainAutomation() {
         switch (aimMode) {
             case FIELD_RELATIVE_AIM:
                 maintainFieldRelativeAim(setpoint.getPosition());
+                TurretSubsystem.getInstance().updateTurretControlLoop();
                 break;
             case FIELD_RELATIVE_ANGLE:
                 maintainFieldRelativeRotation(setpoint.getRotation());
+                TurretSubsystem.getInstance().updateTurretControlLoop();
                 break;
             case ROBOT_RELATIVE_ANGLE:
                 maintainRobotRelativeRotation(setpoint.getRotation());
+                TurretSubsystem.getInstance().updateTurretControlLoop();
                 break;
             case NO_AUTOMATION:
                 //Don't do anything! Let someone else move the turret.
@@ -86,12 +89,11 @@ public class AutomatedTurretSuperstructure {
     }
 
     private void maintainFieldRelativeRotation(Rotation setpoint) {
-        TurretSubsystem.getInstance().setRobotRelativeAngle(computeRobotRelativeRotation(Gyro.getInstance().getRotation(),
-                setpoint).getHeading());
+        maintainRobotRelativeRotation(computeRobotRelativeRotation(Gyro.getInstance().getRotation(), setpoint));
     }
 
     private void maintainRobotRelativeRotation(Rotation setpoint) {
-        TurretSubsystem.getInstance().setAngle(setpoint.getHeading());
+        TurretSubsystem.getInstance().setTurretAngle(setpoint.getHeading());
     }
 
     private void maintainFieldRelativeAim(Position setpoint) {
@@ -119,7 +121,7 @@ public class AutomatedTurretSuperstructure {
         setFieldRelativeAimRotation(target.getFieldRelativeYaw());
     }
 
-    public void disableAutomatedTurret(){
+    public void disableAutomatedTurret() {
         this.aimMode = TurretAutomationMode.NO_AUTOMATION;
     }
 

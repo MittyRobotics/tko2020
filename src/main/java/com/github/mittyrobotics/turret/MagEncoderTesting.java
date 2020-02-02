@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.turret;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -47,11 +46,11 @@ public class MagEncoderTesting extends CommandBase {
         System.out.println("Set: " + setpoint);
         this.setpoint += TurretSubsystem.getInstance().getEncoderValue();
         this.setpoint %= 3911;
-        if(this.setpoint < 0){
+        if (this.setpoint < 0) {
             this.setpoint += 3911;
         }
         controller = new PIDController(Constants.TurretP, Constants.TurretI, Constants.TurretD);
-        controller.enableContinuousInput(0, 3911-1);
+        controller.enableContinuousInput(0, 3911 - 1);
 //		TurretSubsystem.getInstance().zeroEncoder();
 //		angleValue = TurretSubsystem.getInstance().getAngle();
 //		isDone = false;
@@ -74,6 +73,6 @@ public class MagEncoderTesting extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(setpoint - TurretSubsystem.getInstance().getEncoderValue())/Constants.TICKS_PER_ANGLE < 2;
+        return Math.abs(setpoint - TurretSubsystem.getInstance().getEncoderValue()) / Constants.TICKS_PER_ANGLE < 2;
     }
 }

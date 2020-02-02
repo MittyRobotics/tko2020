@@ -25,8 +25,6 @@
 package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.turret.MagEncoderTesting;
-import com.github.mittyrobotics.turret.SetTurretAngle;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -100,7 +98,7 @@ public class OI {
             }
         };
 
-        resetEncoder.whenPressed(new InstantCommand(()-> {
+        resetEncoder.whenPressed(new InstantCommand(() -> {
             TurretSubsystem.getInstance().zeroEncoder();
             System.out.println("asdf");
         }));

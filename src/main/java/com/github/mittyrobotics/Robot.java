@@ -24,18 +24,14 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.commands.EasyVisionCommand;
-import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
-import com.github.mittyrobotics.autonomous.util.AutonSelector;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.util.OdometryManager;
+import com.github.mittyrobotics.autonomous.util.AutonSelector;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
-import com.github.mittyrobotics.turret.MagEncoderTesting;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
@@ -44,8 +40,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Robot extends TimedRobot {
     private CommandGroupBase autonCommand;
@@ -96,46 +90,34 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         //shooterControl();
         drive();
+
         SmartDashboard.putNumber("turret_encoder", TurretSubsystem.getInstance().getAngle());
-//        if(OI.getInstance().getXboxController().getBButtonPressed()){
-//            TurretSubsystem.getInstance().setRobotRelativeAngle(20);
-//        }
-//        if(OI.getInstance().getXboxController().getYButtonPressed()){
-//            TurretSubsystem.getInstance().setRobotRelativeAngle(50);
-//        }
 
-
-//        if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5) {
-//            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().add(new Rotation(1)));
-//        }
-//        if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5) {
-//            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().subtract(new Rotation(1)));
-//        }
         AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(new Rotation(0));
         SmartDashboard.putNumber("field-rot",
                 AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
         SmartDashboard.putNumber("gyro", Gyro.getInstance().getAngle360());
     }
 
-    private void drive(){
-        double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft)/2;
-        double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight)/2;
-        DriveTrainTalon.getInstance().tankDrive(left,right);
+    private void drive() {
+        double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft) / 2;
+        double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight) / 2;
+        DriveTrainTalon.getInstance().tankDrive(left, right);
     }
 
-    private void shooterControl(){
+    private void shooterControl() {
         if (OI.getInstance().getJoystick1().getRawButtonPressed(6)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint+50);
+            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint + 50);
         }
         if (OI.getInstance().getJoystick1().getRawButtonPressed(7)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint-50);
+            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint - 50);
         }
 
         if (OI.getInstance().getJoystick1().getRawButtonPressed(11)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint+10);
+            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint + 10);
         }
         if (OI.getInstance().getJoystick1().getRawButtonPressed(10)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint-10);
+            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint - 10);
         }
     }
 }
