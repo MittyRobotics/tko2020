@@ -63,7 +63,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    DriveTrainFalcon.getInstance().tankVelocity(OI.getInstance().getXboxWheel().getY(GenericHID.Hand.kLeft), OI.getInstance().getXboxWheel().getY(GenericHID.Hand.kRight));
+    DriveTrainFalcon.getInstance().tankVelocity(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+//    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+//    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+    //DriveTrainFalcon.getInstance().tankVelocity(50, 50);
     System.out.println("Left Encoder Velocity: " + DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
     System.out.println("Right Encoder Velocity: " + DriveTrainFalcon.getInstance().getRightEncoderVelocity());
   }

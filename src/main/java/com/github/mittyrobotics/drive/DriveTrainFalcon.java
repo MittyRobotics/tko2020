@@ -91,7 +91,7 @@ public class DriveTrainFalcon extends SubsystemBase {
         if(Math.abs(right) < 0.05){
             right = 0;
         }
-        velocityPIDFeedForward(left * 340, right * 340);
+        velocityPIDFeedForward(left*340, right*340);
     }
 
     public void movePos(double left, double right) {
@@ -139,7 +139,7 @@ public class DriveTrainFalcon extends SubsystemBase {
 
         leftController.setSetpoint(leftVelocity);
         rightController.setSetpoint(rightVelocity);
-        System.out.println(leftController.calculate(leftDrive[0].getSelectedSensorVelocity()));
+        //System.out.println(leftController.calculate(leftDrive[0].getSelectedSensorVelocity()));
 
         double fbLeft = leftController.calculate(leftDrive[0].getSelectedSensorVelocity());
         double fbRight = rightController.calculate(rightDrive[0].getSelectedSensorVelocity());
@@ -155,7 +155,6 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0].set(TalonFXControlMode.PercentOutput, ffRight + fbRight);
         leftDrive[1].set(TalonFXControlMode.PercentOutput, ffLeft + fbLeft);
         rightDrive[1].set(TalonFXControlMode.PercentOutput, ffRight + fbRight);
-
 
     }
 }
