@@ -86,7 +86,7 @@ public class AutomatedTurretSuperstructure {
     }
 
     private void maintainFieldRelativeRotation(Rotation setpoint) {
-        TurretSubsystem.getInstance().setAngle(computeRobotRelativeRotation(Gyro.getInstance().getRotation(),
+        TurretSubsystem.getInstance().setRobotRelativeAngle(computeRobotRelativeRotation(Gyro.getInstance().getRotation(),
                 setpoint).getHeading());
     }
 

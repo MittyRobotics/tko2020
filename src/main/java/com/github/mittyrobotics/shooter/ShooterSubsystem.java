@@ -50,6 +50,8 @@ public class ShooterSubsystem extends SubsystemBase {
         return instance;
     }
 
+
+
     public void initHardware() {
         double f = 0.00019;
         double p = 0.0001;

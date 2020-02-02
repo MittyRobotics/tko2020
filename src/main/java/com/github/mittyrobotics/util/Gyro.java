@@ -41,6 +41,11 @@ public class Gyro extends ADXRS450_Gyro {
         return instance;
     }
 
+    @Override
+    public double getAngle() {
+        return -super.getAngle();
+    }
+
     public Rotation getRotation() {
         return new Rotation(getAngle360());
     }

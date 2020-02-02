@@ -32,6 +32,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretSubsystem extends SubsystemBase {
@@ -39,6 +40,8 @@ public class TurretSubsystem extends SubsystemBase {
     private static TurretSubsystem instance;
     private WPI_TalonSRX talon1;
     private DigitalInput limitSwitch, limitSwitch2;
+
+    private PIDController controller;
 
     private TurretSubsystem() {
         super();
@@ -62,6 +65,9 @@ public class TurretSubsystem extends SubsystemBase {
         talon1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         //TODO maybe this will fix it:
 //        talon1.configFeedbackNotContinuous(true, 0);
+
+        controller = new PIDController(Constants.TurretP, Constants.TurretI, Constants.TurretD);
+        controller.enableContinuousInput(0, 3911-1);
     }
 
     public void changeAngle(double angle) {
@@ -96,6 +102,20 @@ public class TurretSubsystem extends SubsystemBase {
         return talon1.getSelectedSensorPosition() / Constants.TICKS_PER_ANGLE;
     }
 
+    @Override
+    public void periodic() {
+        manualSetTurret(controller.calculate(TurretSubsystem.getInstance().getEncoderValue()));
+    }
+
+    public void setRobotRelativeAngle(double angle){
+        angle*=Constants.TICKS_PER_ANGLE;
+        angle %= 3911;
+        if(angle < 0){
+            angle += 3911;
+        }
+        controller.setSetpoint(angle);
+    }
+
     public void setAngle(double angle) {
         talon1.set(ControlMode.Position, angle * Constants.TICKS_PER_ANGLE);
 //
@@ -121,7 +141,7 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
     public void zeroEncoder() {
-//        talon1.setSelectedSensorPosition(0);
+        talon1.setSelectedSensorPosition(0);
     }
 
     public double getEncoderValue() {

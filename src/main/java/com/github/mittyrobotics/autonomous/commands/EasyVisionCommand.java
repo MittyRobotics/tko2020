@@ -47,9 +47,9 @@ public class EasyVisionCommand extends CommandBase {
     public void execute() {
         VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
         double p = 0.10;
-        TurretSubsystem.getInstance().setAngle(p * target.getTurretRelativeYaw().getHeading());
+        TurretSubsystem.getInstance().manualSetTurret(p * target.getTurretRelativeYaw().getHeading());
         double rpm = rpmEquation(target.getDistance());
-        ShooterSubsystem.getInstance().setShooterSpeed(rpm);
+        //ShooterSubsystem.getInstance().setShooterSpeed(rpm);
     }
 
     private double rpmEquation(double distance) {

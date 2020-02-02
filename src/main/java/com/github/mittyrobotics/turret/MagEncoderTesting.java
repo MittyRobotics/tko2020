@@ -36,54 +36,44 @@ public class MagEncoderTesting extends CommandBase {
 
     public MagEncoderTesting(double setpoint) {
         super();
+        System.out.println(setpoint + " Origin Set");
         addRequirements(TurretSubsystem.getInstance());
         this.setpoint = setpoint;
-//		TurretSubsystem.getInstance().zeroEncoder();
-
     }
 
     @Override
     public void initialize() {
-        setpoint += TurretSubsystem.getInstance().getAngle();
-        this.setpoint %= 4000 / Constants.TICKS_PER_ANGLE;
-        if (setpoint < 0) {
-            this.setpoint += 4000 / Constants.TICKS_PER_ANGLE;
+        setpoint *= Constants.TICKS_PER_ANGLE;
+        System.out.println("Set: " + setpoint);
+        this.setpoint += TurretSubsystem.getInstance().getEncoderValue();
+        this.setpoint %= 3911;
+        if(this.setpoint < 0){
+            this.setpoint += 3911;
         }
         controller = new PIDController(Constants.TurretP, Constants.TurretI, Constants.TurretD);
-        controller.enableContinuousInput(0, 4000 / Constants.TICKS_PER_ANGLE);
+        controller.enableContinuousInput(0, 3911-1);
 //		TurretSubsystem.getInstance().zeroEncoder();
 //		angleValue = TurretSubsystem.getInstance().getAngle();
 //		isDone = false;
+        System.out.println("Set1: " + setpoint);
     }
 
     @Override
     public void execute() {
-        System.out.println("This setpoint" + this.setpoint);
-        System.out.println("Get setpoint: " + controller.getSetpoint());
-
-//		if ((TurretSubsystem.getInstance().getAngle()<(setpoint+0.5)) && ((setpoint-0.5)< TurretSubsystem.getInstance().getAngle())) {
-//			isDone = true;
-//		} else {
         TurretSubsystem.getInstance()
-                .manualSetTurret(controller.calculate(TurretSubsystem.getInstance().getAngle(), setpoint));
-//		}
-
-//		TurretSubsystem.getInstance().changeAngle(40);
-
-
-//		TurretSubsystem.getInstance().manualSetTurret(OI.getInstance().getJoystick1().getY());
-//		System.out.println("Angle value" + (TurretSubsystem.getInstance().getAngle()-angleValue));
+                .manualSetTurret(controller.calculate(TurretSubsystem.getInstance().getEncoderValue(),
+                        setpoint));
     }
 
     @Override
     public void end(boolean interrupted) {
-        controller.close();
+        //controller.close();
         System.out.println("DONE WITH MAG");
 
     }
 
     @Override
     public boolean isFinished() {
-        return DriverStation.getInstance().isDisabled();
+        return Math.abs(setpoint - TurretSubsystem.getInstance().getEncoderValue())/Constants.TICKS_PER_ANGLE < 2;
     }
 }

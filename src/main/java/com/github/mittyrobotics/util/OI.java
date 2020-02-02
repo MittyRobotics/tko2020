@@ -25,9 +25,12 @@
 package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.turret.MagEncoderTesting;
 import com.github.mittyrobotics.turret.SetTurretAngle;
+import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
@@ -82,21 +85,25 @@ public class OI {
 //        };
 //        spinFlyWheel.whenPressed(new SpinFlywheel(Constants.ShooterSpeed, Constants.ShooterBangThreshold));
 
-        Button turretAngle = new Button() {
-            @Override
-            public boolean get() {
-                return getJoystick1().getRawButton(4);
-            }
-        };
-        turretAngle.whenPressed(new SetTurretAngle(Constants.turretAngle));
-
-//        Button resetEncoder = new Button() {
+//        Button turretAngle = new Button() {
 //            @Override
 //            public boolean get() {
-//                return getJoystick1().getRawButton(3);
+//                return getXboxController().getBButton();
 //            }
 //        };
-//        resetEncoder.whenPressed(new ResetTurretEncoder());
+//        turretAngle.whenPressed(new MagEncoderTesting(10));
+
+        Button resetEncoder = new Button() {
+            @Override
+            public boolean get() {
+                return getXboxController().getAButton();
+            }
+        };
+
+        resetEncoder.whenPressed(new InstantCommand(()-> {
+            TurretSubsystem.getInstance().zeroEncoder();
+            System.out.println("asdf");
+        }));
     }
 
     public void passedStage2() {

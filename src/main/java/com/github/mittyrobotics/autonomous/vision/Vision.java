@@ -30,6 +30,7 @@ import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.vision.Limelight;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision {
     private static Vision instance = new Vision();
@@ -65,8 +66,8 @@ public class Vision {
 
             this.currentVisionTarget = computeVisionTarget(visionPitch, visionYaw, robotRelativeTurretAngle, gyro);
         } else {
-            this.currentVisionTarget = new VisionTarget(new Rotation(), currentVisionTarget.getFieldRelativeYaw(),
-                    currentVisionTarget.getDistance());
+            this.currentVisionTarget = new VisionTarget(new Rotation(), new Rotation(),
+                    0);
         }
     }
 
@@ -95,6 +96,8 @@ public class Vision {
         //Compute field-relative angle of vision target from the turret
         Rotation fieldRelativeVisionYaw =
                 computeFieldRelativeVisionYaw(gyro, robotRelativeTurretAngle, turretRelativeVisionYaw);
+
+        SmartDashboard.putNumber("vision_dist", turretRelativeVisionDistance);
 
         //Return vision target
         return new VisionTarget(turretRelativeVisionYaw, fieldRelativeVisionYaw, turretRelativeVisionDistance);
