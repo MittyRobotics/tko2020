@@ -60,10 +60,9 @@ public class AutomatedTurretSuperstructure {
     public void run() {
         //Compute turret position and rotations
         this.robotRelativeRotation = new Rotation(TurretSubsystem.getInstance().getAngle());
-        this.fieldRelativeRotation = computeFieldRelativeRotation(Gyro.getInstance().getRotation(),
+        this.fieldRelativeRotation = robotToFieldRelativeAngle(Gyro.getInstance().getRotation(),
                 robotRelativeRotation);
-        this.fieldRelativePosition = computeFieldRelativePosition(Gyro.getInstance().getRotation(),
-                robotRelativeRotation, Vision.getInstance().getCurrentVisionTarget().getDistance());
+        this.fieldRelativePosition = computeFieldRelativePosition(Vision.getInstance().getCurrentVisionTarget());
         //Maintains the automated turret control
         maintainAutomation();
     }
@@ -89,7 +88,7 @@ public class AutomatedTurretSuperstructure {
     }
 
     private void maintainFieldRelativeRotation(Rotation setpoint) {
-        maintainRobotRelativeRotation(computeRobotRelativeRotation(Gyro.getInstance().getRotation(), setpoint));
+        maintainRobotRelativeRotation(fieldToRobotRelativeAngle(Gyro.getInstance().getRotation(), setpoint));
     }
 
     private void maintainRobotRelativeRotation(Rotation setpoint) {
@@ -128,35 +127,46 @@ public class AutomatedTurretSuperstructure {
     /**
      * Computes the field-relative {@link Position} of the turret given parameters from the vision system.
      *
-     * @param distanceToTarget the distance from the turret to the vision target (not camera!).
-     * @param gyroAngle
-     * @param robotTurretAngle
+     * @param target the {@link VisionTarget} to get the field-relative position from
      * @return the {@link Position} that makes up the turret's position relative to the field.
      */
-    private Position computeFieldRelativePosition(Rotation gyroAngle, Rotation robotTurretAngle,
-                                                  double distanceToTarget) {
-        if (distanceToTarget == -1000) {
+    private Position computeFieldRelativePosition(VisionTarget target) {
+        if (target.getDistance() == -1000) {
             return new Position();
         }
 
-        Rotation fieldTurretRotation = computeFieldRelativeRotation(gyroAngle, robotTurretAngle);
-
         //Target relative position
         Position turretPosition = new Position(
-                -distanceToTarget * fieldTurretRotation.cos(),
-                -distanceToTarget * fieldTurretRotation.sin());
+                -target.getDistance() * target.getFieldRelativeYaw().cos(),
+                -target.getDistance() * target.getFieldRelativeYaw().sin());
 
-        //Add scoring zone to get field-relative position
+        //Add scoring target to get field-relative position
         turretPosition = turretPosition.add(AutonCoordinates.SCORING_TARGET.getPosition());
 
         return turretPosition;
     }
 
-    public Rotation computeFieldRelativeRotation(Rotation gyro, Rotation robotRelativeRotation) {
+    /**
+     * Converts a robot-relative {@link Rotation} into a field-relative {@link Rotation} using the gyro
+     * {@link Rotation}.
+     *
+     * @param gyro the robot gyro {@link Rotation}
+     * @param robotRelativeRotation the robot-relative {@link Rotation}
+     * @return a field-relative {@link Rotation}.
+     */
+    public Rotation robotToFieldRelativeAngle(Rotation gyro, Rotation robotRelativeRotation) {
         return gyro.subtract(robotRelativeRotation);
     }
 
-    public Rotation computeRobotRelativeRotation(Rotation gyro, Rotation fieldRelativeRotation) {
+    /**
+     * Converts a field-relative {@link Rotation} into a robot-relative {@link Rotation} using the gyro
+     * {@link Rotation}.
+     *
+     * @param gyro the robot gyro {@link Rotation}
+     * @param fieldRelativeRotation the field-relative {@link Rotation}
+     * @return a robot-relative {@link Rotation}.
+     */
+    public Rotation fieldToRobotRelativeAngle(Rotation gyro, Rotation fieldRelativeRotation) {
         return gyro.subtract(fieldRelativeRotation);
     }
 
@@ -170,8 +180,8 @@ public class AutomatedTurretSuperstructure {
         double closest = Double.POSITIVE_INFINITY;
         double rpm = 0;
         for (int i = 0; i < AutonConstants.SHOOTER_RPM_TABLE.length; i++) {
-            if (AutonConstants.SHOOTER_RPM_TABLE[i][0] < closest) {
-                closest = AutonConstants.SHOOTER_RPM_TABLE[i][0];
+            if (Math.abs(distance-AutonConstants.SHOOTER_RPM_TABLE[i][0]) < closest) {
+                closest = Math.abs(distance-AutonConstants.SHOOTER_RPM_TABLE[i][0]);
                 rpm = AutonConstants.SHOOTER_RPM_TABLE[i][1];
             }
         }

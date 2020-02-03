@@ -90,8 +90,11 @@ public class Vision {
         double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(cameraVisionDistance, visionYaw);
 
         //Compute angle from turret's current angle to vision target
-        Rotation turretRelativeVisionYaw =
-                computeTurretRelativeVisionYaw(cameraVisionDistance, turretRelativeVisionDistance, visionYaw);
+        Rotation turretRelativeVisionYaw = computeTurretRelativeVisionYaw(cameraVisionDistance, turretRelativeVisionDistance, visionYaw);
+        //Compensate for latency
+        turretRelativeVisionYaw = computeLatencyCompensationAngle(turretRelativeVisionYaw);
+        //Compensate for robot motion
+        turretRelativeVisionYaw = computeMotionCompensationAngle(turretRelativeVisionYaw);
 
         //Compute field-relative angle of vision target from the turret
         Rotation fieldRelativeVisionYaw =
@@ -165,9 +168,9 @@ public class Vision {
      *
      * @return the latency-compensated, turret-relative vision yaw {@link Rotation}.
      */
-    private Rotation computeLatencyCompensationAngle() {
+    private Rotation computeLatencyCompensationAngle(Rotation turretRelativeVisionYaw) {
         //TODO: Implement this
-        return new Rotation();
+        return turretRelativeVisionYaw;
     }
 
     /**
@@ -178,9 +181,9 @@ public class Vision {
      *
      * @return the motion-compensated, turret-relative vision yaw {@link Rotation}.
      */
-    private Rotation computeMotionCompensationAngle() {
+    private Rotation computeMotionCompensationAngle(Rotation turretRelativeVisionYaw) {
         //TODO: Implement this
-        return new Rotation();
+        return turretRelativeVisionYaw;
     }
 
     /**
