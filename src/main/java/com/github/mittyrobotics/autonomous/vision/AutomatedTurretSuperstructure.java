@@ -155,7 +155,7 @@ public class AutomatedTurretSuperstructure {
      * @return a field-relative {@link Rotation}.
      */
     public Rotation robotToFieldRelativeAngle(Rotation gyro, Rotation robotRelativeRotation) {
-        return gyro.subtract(robotRelativeRotation);
+        return gyro.add(robotRelativeRotation);
     }
 
     /**
@@ -167,7 +167,7 @@ public class AutomatedTurretSuperstructure {
      * @return a robot-relative {@link Rotation}.
      */
     public Rotation fieldToRobotRelativeAngle(Rotation gyro, Rotation fieldRelativeRotation) {
-        return gyro.subtract(fieldRelativeRotation);
+        return fieldRelativeRotation.subtract(gyro);
     }
 
     /**

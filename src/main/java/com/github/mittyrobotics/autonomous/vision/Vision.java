@@ -60,7 +60,9 @@ public class Vision {
 
         if (isSafeToUseVision()) {
             Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
-            Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
+            //Get vision yaw. Inverse the vision yaw because the Limelight calculates yaw opposite to our coordinate
+            //system
+            Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget()).inverse();
             Rotation robotRelativeTurretAngle = new Rotation(TurretSubsystem.getInstance().getAngle());
             Rotation gyro = Gyro.getInstance().getRotation();
 
@@ -160,7 +162,8 @@ public class Vision {
      */
     private Rotation computeFieldRelativeVisionYaw(Rotation gyro, Rotation robotRelativeTurretAngle,
                                                    Rotation turretRelativeVisionYaw) {
-        return gyro.add(robotRelativeTurretAngle).add(turretRelativeVisionYaw);
+        return AutomatedTurretSuperstructure.getInstance().robotToFieldRelativeAngle(gyro,
+                robotRelativeTurretAngle.add(turretRelativeVisionYaw));
     }
 
     /**
