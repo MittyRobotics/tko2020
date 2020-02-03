@@ -87,39 +87,82 @@ public class AutomatedTurretSuperstructure {
         }
     }
 
+    /**
+     * Maintains the {@link TurretSubsystem}'s field-relative angle by updating it's robot-relative setpoint.
+     *
+     * @param setpoint the field-relative {@link Rotation} setpoint.
+     */
     private void maintainFieldRelativeRotation(Rotation setpoint) {
         maintainRobotRelativeRotation(fieldToRobotRelativeAngle(Gyro.getInstance().getRotation(), setpoint));
     }
 
+    /**
+     * Maintains the {@link TurretSubsystem}'s robot-relative angle by updating it's robot-relative setpoint.
+     *
+     * @param setpoint the robot-relative {@link Rotation} setpoint.
+     */
     private void maintainRobotRelativeRotation(Rotation setpoint) {
         TurretSubsystem.getInstance().setTurretAngle(setpoint.getHeading());
     }
 
+    /**
+     * Maintains the {@link TurretSubsystem}'s field-relative aiming position by updating it's field-relative setpoint.
+     *
+     * The field-relative angle is determined by finding a line intersecting the {@link AutomatedTurretSuperstructure}'s
+     * current field-relative {@link Position} and the aiming setpoint {@link Position}. The angle of that line then
+     * represents the field-relative {@link Rotation} to aim towards.
+     *
+     * @param setpoint the field-relative {@link Rotation} setpoint.
+     */
     private void maintainFieldRelativeAim(Position setpoint) {
         Rotation rotationSetpoint =
-                new Line(Odometry.getInstance().getRobotTransform().getPosition(), setpoint).getLineAngle();
+                new Line(fieldRelativePosition, setpoint).getLineAngle();
         maintainFieldRelativeRotation(rotationSetpoint);
     }
 
+    /**
+     * Sets the field-relative aiming {@link Position}.
+     *
+     * @param setpoint the field-relative aiming {@link Position}.
+     */
     public void setFieldRelativeAimPosition(Position setpoint) {
         this.aimMode = TurretAutomationMode.FIELD_RELATIVE_AIM;
         this.setpoint = new Transform(setpoint, 0);
     }
 
+    /**
+     * Sets the field-relative aiming {@link Rotation}.
+     *
+     * @param setpoint the field-relative aiming {@link Rotation}.
+     */
     public void setFieldRelativeAimRotation(Rotation setpoint) {
         this.aimMode = TurretAutomationMode.FIELD_RELATIVE_ANGLE;
         this.setpoint = new Transform(0, 0, setpoint);
     }
 
+    /**
+     * Sets the robot-relative aiming {@link Rotation}.
+     *
+     * @param setpoint the robot-relative aiming {@link Rotation}.
+     */
     public void setRobotRelativeAimRotation(Rotation setpoint) {
         this.aimMode = TurretAutomationMode.ROBOT_RELATIVE_ANGLE;
         this.setpoint = new Transform(0, 0, setpoint);
     }
 
+    /**
+     * Sets the {@link VisionTarget} to aim at.
+     *
+     * @param target the {@link VisionTarget} to aim at.
+     */
     public void setVisionAim(VisionTarget target) {
         setFieldRelativeAimRotation(target.getFieldRelativeYaw());
     }
 
+    /**
+     * Disables all turret automation. This stops the {@link AutomatedTurretSuperstructure} from updating the
+     * turret's setpoint, allowing the turret to be moved from other places.
+     */
     public void disableAutomatedTurret() {
         this.aimMode = TurretAutomationMode.NO_AUTOMATION;
     }
@@ -168,6 +211,20 @@ public class AutomatedTurretSuperstructure {
      */
     public Rotation fieldToRobotRelativeAngle(Rotation gyro, Rotation fieldRelativeRotation) {
         return fieldRelativeRotation.subtract(gyro);
+    }
+
+    /**
+     * Compensates the angle based on the robot's movement. This works with either robot-relative angles or
+     * field-relative angles.
+     * <p>
+     * This will make the turret aim a little to the left or right of the target depending on the robot's movement in
+     * order to correctly aim for the ball to be shot into the target.
+     *
+     * @return the motion-compensated angle {@link Rotation}.
+     */
+    private Rotation computeMotionCompensationAngle(Rotation rotation) {
+        //TODO: Implement this
+        return rotation;
     }
 
     /**

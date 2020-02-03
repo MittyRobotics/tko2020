@@ -37,6 +37,7 @@ public class OI {
     private XboxController xboxController;
     private Joystick joystick1;
     private Joystick joystick2;
+    private boolean passedStage2;
 
     public static OI getInstance() {
         if (instance == null) {
@@ -74,5 +75,9 @@ public class OI {
     }
 
     public void digitalInputControls() {
+    }
+
+    public boolean passedStage2() {
+        return passedStage2;
     }
 }

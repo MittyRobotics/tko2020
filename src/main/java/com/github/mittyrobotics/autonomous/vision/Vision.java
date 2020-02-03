@@ -95,8 +95,6 @@ public class Vision {
         Rotation turretRelativeVisionYaw = computeTurretRelativeVisionYaw(cameraVisionDistance, turretRelativeVisionDistance, visionYaw);
         //Compensate for latency
         turretRelativeVisionYaw = computeLatencyCompensationAngle(turretRelativeVisionYaw);
-        //Compensate for robot motion
-        turretRelativeVisionYaw = computeMotionCompensationAngle(turretRelativeVisionYaw);
 
         //Compute field-relative angle of vision target from the turret
         Rotation fieldRelativeVisionYaw =
@@ -172,19 +170,6 @@ public class Vision {
      * @return the latency-compensated, turret-relative vision yaw {@link Rotation}.
      */
     private Rotation computeLatencyCompensationAngle(Rotation turretRelativeVisionYaw) {
-        //TODO: Implement this
-        return turretRelativeVisionYaw;
-    }
-
-    /**
-     * Compensates the vision angle based on the robot's movement.
-     * <p>
-     * This will make the turret aim a little to the left or right of the target depending on the robot's movement in
-     * order to correctly aim for the ball to be shot into the target.
-     *
-     * @return the motion-compensated, turret-relative vision yaw {@link Rotation}.
-     */
-    private Rotation computeMotionCompensationAngle(Rotation turretRelativeVisionYaw) {
         //TODO: Implement this
         return turretRelativeVisionYaw;
     }
