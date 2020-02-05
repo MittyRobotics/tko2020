@@ -53,13 +53,13 @@ public class DriveTrainFalcon extends SubsystemBase {
 //        rightDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
 //        rightDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
 
-        leftDrive[0].setNeutralMode(NeutralMode.Coast);
-        rightDrive[0].setNeutralMode(NeutralMode.Coast);
-        leftDrive[1].setNeutralMode(NeutralMode.Coast);
-        rightDrive[0].setNeutralMode(NeutralMode.Coast);
+        leftDrive[0].setNeutralMode(NeutralMode.Brake);
+        rightDrive[0].setNeutralMode(NeutralMode.Brake);
+        leftDrive[1].setNeutralMode(NeutralMode.Brake);
+        rightDrive[0].setNeutralMode(NeutralMode.Brake);
 
 
-        //setDefaultCommand(new JoystickDrive_CarSteering());
+        setDefaultCommand(new CurvatureSteering2());
 
 
         //controller = new PIDController(0.309 / 12.0, 0, 0);
