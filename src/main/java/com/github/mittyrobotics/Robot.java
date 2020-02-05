@@ -25,6 +25,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import com.github.mittyrobotics.turret.Constants;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -34,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     private double turretSpeed, shooterSpeed;
+    private double speed;
     private double[][] RPMS = {
             {180, 3675},
             {193, 3650},
@@ -45,17 +47,17 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        ShooterSubsystem.getInstance().initHardware();
+     //   ShooterSubsystem.getInstance().initHardware();
         TurretSubsystem.getInstance().initHardware();
 //        TurretSubsystem.getInstance().manualSetTurret(.2);
-        OI.getInstance().digitalInputControls();
+    //    OI.getInstance().digitalInputControls();
 
     }
 
     @Override
     public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
-        SmartDashboard.putNumber("rpm", ShooterSubsystem.getInstance().getShooterSpeed());
+//        CommandScheduler.getInstance().run();
+     //   SmartDashboard.putNumber("rpm", ShooterSubsystem.getInstance().getShooterSpeed());
     }
 
     @Override
@@ -83,12 +85,17 @@ public class Robot extends TimedRobot {
 //        CommandScheduler.getInstance().run();
         //  TurretSubsystem.getInstance().zeroEncoder();
 //        ShooterSubsystem.getInstance().initHardware();
-        ShooterSubsystem.getInstance().setShooterSpeed(3850);
+      //  ShooterSubsystem.getInstance().setShooterSpeed(3850);
+        TurretSubsystem.getInstance().changeTurretAngle(90);
+
     }
 
     @Override
     public void teleopPeriodic() {
-//        System.out.println("angle value: " + (TurretSubsystem.getInstance().getEncoderValue()/Constants.TICKS_PER_ANGLE));
+        TurretSubsystem.getInstance().updateTurretControlLoop();
+
+    //    TurretSubsystem.getInstance().manualSetTurret(0.5);
+        System.out.println("angle value: " + (TurretSubsystem.getInstance().getEncoderValue()/ Constants.TICKS_PER_ANGLE));
 //        System.out.println(TurretSubsystem.getInstance().getAngle());
 
 //        if (OI.getInstance().getJoystick1().getRawButtonPressed(6)) {
@@ -105,14 +112,14 @@ public class Robot extends TimedRobot {
 //            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint-10);
 //        }
 
-        turretSpeed = OI.getInstance().getJoystick1().getX();
-        TurretSubsystem.getInstance().manualSetTurret(vision());
-
-        double pitch = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
-        double distance = computeVisionDistance(pitch);
-        SmartDashboard.putNumber("vision_dist", distance);
-
-        ShooterSubsystem.getInstance().setShooterSpeed(rpmEquation(distance));
+//        turretSpeed = OI.getInstance().getJoystick1().getX();
+//        TurretSubsystem.getInstance().manualSetTurret(vision());
+//
+//        double pitch = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
+//        double distance = computeVisionDistance(pitch);
+//        SmartDashboard.putNumber("vision_dist", distance);
+//
+//        ShooterSubsystem.getInstance().setShooterSpeed(rpmEquation(distance));
 
     }
 
@@ -155,13 +162,12 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
 
+//
+//        ShooterSubsystem.getInstance().manualControl(-1);
+//        System.out.println("RPM" + ShooterSubsystem.getInstance().getShooterSpeed());
 
-        ShooterSubsystem.getInstance().manualControl(-1);
-        System.out.println("RPM" + ShooterSubsystem.getInstance().getShooterSpeed());
 
-
-//        speed = OI.getInstance().getJoystick1().getY();
-//        TurretSubsystem.getInstance().manualSetTurret(speed);
+        TurretSubsystem.getInstance().manualSetTurret(speed);
 //        System.out.println("angle value: " + (TurretSubsystem.getInstance().getEncoderValue()/ Constants.TICKS_PER_ANGLE));
 ////        System.out.println(TurretSubsystem.getInstance().getAngle());
 
