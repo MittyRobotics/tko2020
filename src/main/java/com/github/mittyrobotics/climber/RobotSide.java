@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.climber;
+package com.GitHub.mittyrobotics.climber;
 
 public enum RobotSide {
     LEFT, RIGHT

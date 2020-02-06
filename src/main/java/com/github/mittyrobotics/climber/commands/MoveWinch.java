@@ -1,11 +1,9 @@
-package com.github.mittyrobotics.climber.commands;
+package com.GitHub.mittyrobotics.climber.commands;
 
-import com.github.mittyrobotics.climber.Constants;
-import com.github.mittyrobotics.climber.RobotSide;
-import com.github.mittyrobotics.climber.Winch;
+import com.GitHub.mittyrobotics.climber.RobotSide;
+import com.GitHub.mittyrobotics.climber.Winch;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.revrobotics.CANPIDController;
-import com.revrobotics.ControlType;
 
 
 public class MoveWinch extends CommandBase {

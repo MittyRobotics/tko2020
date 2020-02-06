@@ -1,4 +1,4 @@
-package com.github.mittyrobotics;
+package com.GitHub.mittyrobotics;
 
 public class Constants {
 	public static final int XBOX_CONTROLLER_ID = 0;
