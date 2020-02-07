@@ -1,4 +1,4 @@
-package com.GitHub.mittyrobotics;
+package com.github.mittyrobotics;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Servo;

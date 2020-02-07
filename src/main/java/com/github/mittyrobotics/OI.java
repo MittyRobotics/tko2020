@@ -1,8 +1,8 @@
-package com.GitHub.mittyrobotics;
+package com.github.mittyrobotics;
 
-import com.GitHub.mittyrobotics.climber.PistonValue;
-import com.GitHub.mittyrobotics.climber.RobotSide;
-import com.GitHub.mittyrobotics.climber.commands.*;
+import com.github.mittyrobotics.climber.PistonValue;
+import com.github.mittyrobotics.climber.RobotSide;
+import com.github.mittyrobotics.climber.commands.*;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;

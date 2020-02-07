@@ -1,4 +1,4 @@
-package com.GitHub.mittyrobotics.climber;
+package com.github.mittyrobotics.climber;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
