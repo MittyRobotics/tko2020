@@ -1,4 +1,4 @@
-package com.github.mittyrobotics;
+package com.GitHub.mittyrobotics;
 
 import edu.wpi.first.wpilibj.RobotBase;
 //DO NOT TOUCH

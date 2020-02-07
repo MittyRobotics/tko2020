@@ -1,8 +1,8 @@
-package com.github.mittyrobotics.climber.commands;
+package com.GitHub.mittyrobotics.climber.commands;
 
-import com.github.mittyrobotics.climber.PistonValue;
-import com.github.mittyrobotics.climber.Hooks;
-import com.github.mittyrobotics.climber.RobotSide;
+import com.GitHub.mittyrobotics.climber.PistonValue;
+import com.GitHub.mittyrobotics.climber.Hooks;
+import com.GitHub.mittyrobotics.climber.RobotSide;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

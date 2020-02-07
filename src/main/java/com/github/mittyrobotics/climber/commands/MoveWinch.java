@@ -19,7 +19,7 @@ public class MoveWinch extends CommandBase {
 
     @Override
     public void initialize(){
-        Winch.getInstance().initHardware(side);
+
     }
 
     @Override
@@ -36,11 +36,11 @@ public class MoveWinch extends CommandBase {
 //            controller.setReference(tempPos, ControlType.kPosition);
         double tempPos;
         final double RAMP_RATE = 10;
-        tempPos = Winch.getInstance().getEncoder().getPosition() + RAMP_RATE;
-        if (RAMP_RATE > (pos - Winch.getInstance().getEncoder().getPosition())) {
+        tempPos = Winch.getInstance().getEncoder(side).getPosition() + RAMP_RATE;
+        if (RAMP_RATE > (pos - Winch.getInstance().getEncoder(side).getPosition())) {
             tempPos = pos;
         }
-        Winch.getInstance().setReference(tempPos);
+        Winch.getInstance().setReference(tempPos, side);
 //        if (side == RobotSide.LEFT) {
 //            tempPos = Winch.getInstance().getLeftEncoder().getPosition() + RAMP_RATE;
 //            if (RAMP_RATE > (pos - Winch.getInstance().getLeftEncoder().getPosition())) {
@@ -59,6 +59,6 @@ public class MoveWinch extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return Math.abs(pos - Winch.getInstance().getEncoder().getPosition()) < 1;
+        return Math.abs(pos - Winch.getInstance().getEncoder(side).getPosition()) < 1;
     }
 }

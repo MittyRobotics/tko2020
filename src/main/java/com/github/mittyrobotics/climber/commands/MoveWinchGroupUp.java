@@ -1,9 +1,7 @@
-package com.github.mittyrobotics.climber.commands;
+package com.GitHub.mittyrobotics.climber.commands;
 
-import com.github.mittyrobotics.climber.Constants;
-import com.github.mittyrobotics.climber.RobotSide;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
+import com.GitHub.mittyrobotics.climber.Constants;
+import com.GitHub.mittyrobotics.climber.RobotSide;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class MoveWinchGroupUp extends ParallelCommandGroup {

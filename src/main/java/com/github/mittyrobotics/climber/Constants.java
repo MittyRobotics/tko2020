@@ -11,5 +11,4 @@ public class Constants {
     public static final double PISTON_DISTANCE = 5;
     public static final double[] WINCH_PID_VALUES = {0.5, 0, 0};
     public static final double PID_OUTPUT_RANGE = 0.5;
-    public static final double PISTON_ACTIVE_PERCENT = 0.5; //MUST BE BETWEEN 0 and 1;
 }
