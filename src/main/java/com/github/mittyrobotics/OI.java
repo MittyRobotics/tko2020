@@ -2,9 +2,8 @@ package com.GitHub.mittyrobotics;
 
 import com.GitHub.mittyrobotics.climber.PistonValue;
 import com.GitHub.mittyrobotics.climber.RobotSide;
+import com.GitHub.mittyrobotics.climber.commands.*;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.GitHub.mittyrobotics.climber.commands.MoveHook;
-import com.GitHub.mittyrobotics.climber.commands.MoveHookPWM;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -46,7 +45,9 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
-/*
+
+
+
 		Button moveWinchDown = new Button() {
 			@Override
 			public boolean get() { return getJoystick1().getRawButtonPressed(1); }
@@ -73,39 +74,7 @@ public class OI {
 			public boolean get() { return getJoystick1().getRawButtonPressed(4); }
 		};
 		moveHookUp.whenPressed(new MoveHookGroupUp());
-*/
 
-		Button tempPWMtest = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(10);
-			}
-		};
-		tempPWMtest.whenPressed(new MoveHookPWM(RobotSide.LEFT, PistonValue.UP, 0.1, 5));
-
-		Button tempUp = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(8);
-			}
-		};
-		tempUp.whenPressed(new MoveHook(RobotSide.LEFT,PistonValue.UP));
-
-		Button tempDown = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(9);
-			}
-		};
-		tempDown.whenPressed(new MoveHook(RobotSide.LEFT,PistonValue.DOWN));
-
-		Button tempOff = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(11);
-			}
-		};
-		tempOff.whenPressed(new MoveHook(RobotSide.LEFT, PistonValue.OFF));
 
 
 	}
