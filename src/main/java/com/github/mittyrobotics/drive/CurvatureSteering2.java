@@ -22,25 +22,26 @@ public class CurvatureSteering2 extends CommandBase {
         double turn = (OI.getInstance().getXboxWheel().getX()*450); //steering wheel
         double joystickSpeed = -OI.getInstance().getJoystick1().getY(); //joystick
         boolean brake = OI.getInstance().getJoystick1().getTrigger(); //brake
-        final double radiusE = 1;
-        double radius = 450/turn * radiusE; //radius of imaginary circle
+        final double radiusE = 5;
+        double radius = Math.abs(450/turn * radiusE); //radius of imaginary circle
         double halfWidthRobot = 12.5; //from center of robot to imaginary circle
 
         double leftSpeed = 0;
         double rightSpeed = 0;
-        boolean inThreshold = Math.abs(turn) < 5;
-
+        double threshold = 5;
+        boolean inThreshold = Math.abs(turn) < threshold;
+        double turnScale = 1;
         //testing for 10 degrees to the left
-        if (turn >= 5){
+        if (turn >= threshold){
             leftSpeed = (radius + halfWidthRobot)*(2*Math.PI);
             rightSpeed = (radius - halfWidthRobot)*(2*Math.PI);
-            rightSpeed = rightSpeed/leftSpeed;
-            leftSpeed = 1;
-        } else if (turn <= -5){
+            rightSpeed = (rightSpeed/leftSpeed) * turnScale ;
+            leftSpeed = 1 * turnScale;
+        } else if (turn <= -threshold){
             leftSpeed = (radius - halfWidthRobot)*(2*Math.PI);
             rightSpeed = (radius + halfWidthRobot)*(2*Math.PI);
-            leftSpeed = leftSpeed/rightSpeed;
-            rightSpeed = 1;
+            leftSpeed = (leftSpeed/rightSpeed) * turnScale;
+            rightSpeed = 1 * turnScale;
         } else if (inThreshold) {
             turn = OI.getInstance().getXboxWheel().getX()*450/120;
         }
@@ -59,17 +60,13 @@ public class CurvatureSteering2 extends CommandBase {
             //System.out.println("Turn: " + turn);
             //DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
             //System.out.println("in-place");
-            DriveTrainFalcon.getInstance().tankDrive(-turn/200, turn/200);
-        } else if (turn > -0.05){
-            //DriveTrainTalon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
-            DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
-        } else if (turn < 0.05){
-            //DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
-            //System.out.println("Left");
+            DriveTrainFalcon.getInstance().tankDrive(-turn/350, turn/350);
+        } else {
             System.out.println("Turn: " + turn);
             System.out.println("Right Speed: " + rightSpeed);
             System.out.println("Left Speed: " + leftSpeed);
-            DriveTrainFalcon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
+
+            DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
         }
 
 //        if(Math.abs(joystickSpeed) < 0.05){
