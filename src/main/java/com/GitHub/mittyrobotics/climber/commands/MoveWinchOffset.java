@@ -26,7 +26,7 @@ public class MoveWinchOffset extends CommandBase {
         right = new PIDController(0,0,0);
         right.setSetpoint(setpoint);
         aux = new PIDController(0,0,0);
-        aux.setSetpoint(setpoint);
+        aux.setSetpoint(difference);
     }
 
     @Override
@@ -40,7 +40,8 @@ public class MoveWinchOffset extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        Winch.getInstance().setSpeed(0, RobotSide.LEFT);
+        Winch.getInstance().setSpeed(0, RobotSide.RIGHT);
     }
 
     @Override
