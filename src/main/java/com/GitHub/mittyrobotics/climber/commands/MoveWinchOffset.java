@@ -1,7 +1,7 @@
-package com.GitHub.mittyrobotics.climber.commands;
+package com.github.mittyrobotics.climber.commands;
 
-import com.GitHub.mittyrobotics.climber.RobotSide;
-import com.GitHub.mittyrobotics.climber.Winch;
+import com.github.mittyrobotics.climber.RobotSide;
+import com.github.mittyrobotics.climber.Winch;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

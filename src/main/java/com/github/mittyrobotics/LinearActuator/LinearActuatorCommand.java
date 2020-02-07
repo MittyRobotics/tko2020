@@ -1,4 +1,4 @@
-package com.GitHub.mittyrobotics.LinearActuator;
+package com.github.mittyrobotics.LinearActuator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

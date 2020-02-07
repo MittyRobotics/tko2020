@@ -1,4 +1,4 @@
-package com.GitHub.mittyrobotics.climber;
+package com.github.mittyrobotics.climber;
 
 public class Constants {
     public static final int LEFT_SPARK_ID = 0;

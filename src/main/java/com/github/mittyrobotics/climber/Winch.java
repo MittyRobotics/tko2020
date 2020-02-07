@@ -1,6 +1,6 @@
-package com.GitHub.mittyrobotics.climber;
+package com.github.mittyrobotics.climber;
 
-import com.GitHub.mittyrobotics.Robot;
+import com.github.mittyrobotics.Robot;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 

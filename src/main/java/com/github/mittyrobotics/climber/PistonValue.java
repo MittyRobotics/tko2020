@@ -1,4 +1,4 @@
-package com.GitHub.mittyrobotics.climber;
+package com.github.mittyrobotics.climber;
 
 
 public enum PistonValue {
