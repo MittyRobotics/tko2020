@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-
+    DriveTrain.getInstance().tankDrive(0, 0);
   }
 
   @Override
@@ -63,6 +63,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    double left = OI.getInstance().getXboxController.getY(GenericHID.Hand.kLeft);
+    double right = OI.getInstance().getXboxController.getY(GenericHID.Hand.kRight);
+    if(Math.abs(left) < 0.1) {
+      left = 0;
+    }
+    if(Math.abs(right) < 0.1) {
+      right = 0;
+    }
+    DriveTrainFalcon.getInstance().tankDrive(left/3, right/3);
+
 //    DriveTrainFalcon.getInstance().tankVelocity(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
@@ -73,6 +83,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    DriveTrainFalcon.getInstance().tankDrive(1, 1);
     //CommandScheduler.getInstance().cancelAll();
   }
 
@@ -80,4 +91,4 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
 
   }
-}
+};;
