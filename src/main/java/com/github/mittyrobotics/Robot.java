@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.commands.EasyVisionCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.AutonSelector;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
@@ -58,7 +59,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        OdometryManager.getInstance().run();
+        //OdometryManager.getInstance().run();
         Vision.getInstance().run();
         AutomatedTurretSuperstructure.getInstance().run();
         CommandScheduler.getInstance().run();
@@ -82,19 +83,19 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        //ShooterSubsystem.getInstance().setShooterSpeed(3500);
-        //CommandScheduler.getInstance().schedule(new EasyVisionCommand());
+        ShooterSubsystem.getInstance().setShooterSpeed(7000);
+        //ShooterSubsystem.getInstance().setPercent(.5);
+        CommandScheduler.getInstance().schedule(new EasyVisionCommand());
 
     }
 
     @Override
     public void teleopPeriodic() {
-        //shooterControl();
-        drive();
+        shooterControl();
+        //drive();
 
         SmartDashboard.putNumber("turret_encoder", TurretSubsystem.getInstance().getAngle());
-
-        AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(new Rotation(0));
+        SmartDashboard.putNumber("rpm", ShooterSubsystem.getInstance().getShooterSpeed());
         SmartDashboard.putNumber("field-rot",
                 AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
         SmartDashboard.putNumber("gyro", Gyro.getInstance().getAngle360());

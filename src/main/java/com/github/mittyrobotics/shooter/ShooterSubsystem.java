@@ -50,21 +50,20 @@ public class ShooterSubsystem extends SubsystemBase {
         return instance;
     }
 
-
     public void initHardware() {
-        double f = 0.00019;
+        double f = 0.00013699;
         double p = 0.0001;
-        double d = 0.00001;
+        double d = 0;
 
         spark1 = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
         spark1.restoreFactoryDefaults();
-        spark1.setInverted(true);
         spark1.getPIDController().setFF(f);
         spark1.getPIDController().setP(p);
         spark1.getPIDController().setD(d);
 
         spark2 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless); //TODO: find device id
         spark2.restoreFactoryDefaults();
+        spark2.setInverted(true);
         spark2.getPIDController().setFF(f);
         spark2.getPIDController().setP(p);
         spark2.getPIDController().setD(d);

@@ -35,7 +35,7 @@ public class EasyVisionCommand extends CommandBase {
     public EasyVisionCommand() {
         super();
         addRequirements(TurretSubsystem.getInstance());
-        addRequirements(ShooterSubsystem.getInstance());
+//        addRequirements(ShooterSubsystem.getInstance());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class EasyVisionCommand extends CommandBase {
     @Override
     public void execute() {
         VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
-        double p = -0.10;
+        double p = 0.10;
         TurretSubsystem.getInstance().manualSetTurret(p * target.getTurretRelativeYaw().getHeading());
         double rpm = rpmEquation(target.getDistance());
         //ShooterSubsystem.getInstance().setShooterSpeed(rpm);
