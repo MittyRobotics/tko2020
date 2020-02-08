@@ -1,12 +1,8 @@
 package com.github.mittyrobotics.drive;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -59,7 +55,7 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0].setNeutralMode(NeutralMode.Brake);
 
 
-        setDefaultCommand(new MaxSpeedTest());
+        setDefaultCommand(new MaxSpeedTestFalcon());
 
 
         //controller = new PIDController(0.309 / 12.0, 0, 0);
@@ -144,10 +140,10 @@ public class DriveTrainFalcon extends SubsystemBase {
         double fbLeft = leftController.calculate(leftDrive[0].getSelectedSensorVelocity());
         double fbRight = rightController.calculate(rightDrive[0].getSelectedSensorVelocity());
 
-        if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH_FALCON / 10){
+        if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH / 10){
             fbLeft = 0;
         }
-        if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH_FALCON / 10){
+        if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH / 10){
             fbRight = 0;
         }
 

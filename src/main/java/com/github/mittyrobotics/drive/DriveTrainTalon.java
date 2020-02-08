@@ -3,10 +3,12 @@ package com.github.mittyrobotics.drive;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 
 import java.util.jar.JarOutputStream;
 
@@ -70,7 +72,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		rightDrive[0].setNeutralMode(NeutralMode.Brake);
 		rightDrive[1].setNeutralMode(NeutralMode.Brake);
 
-		//setDefaultCommand(new JoystickDrive_CarSteering());
+		setDefaultCommand(new MaxSpeedTestTalon());
 
 		//Feedforward Velocit1y PID
 		controller = new PIDController(0.309 / 12.0, 0, 0);
@@ -96,10 +98,13 @@ public class DriveTrainTalon extends SubsystemBase {
 	}
 
 	public void tankVelocity(double left, double right) {
-		left *= Constants.TICKS_PER_INCH;
-		right *= Constants.TICKS_PER_INCH;
-		leftDrive[0].set(ControlMode.Velocity, left / 10);
-		rightDrive[0].set(ControlMode.Velocity, right / 10);
+		if(Math.abs(left) < 0.05){
+			left = 0;
+		}
+		if(Math.abs(right) < 0.05){
+			right = 0;
+		}
+		velocityPIDFeedForward(left*340, right*340);
 	}
 
 	public void movePos(double left, double right) {
@@ -136,23 +141,32 @@ public class DriveTrainTalon extends SubsystemBase {
 		return rightDrive[0];
 	}
 
-	public void velocityPIDFeedForward(double velocity) {
-		//velocity /= 2;
-		controller.setSetpoint(velocity);
-		double feedBackLeft = -controller.calculate(leftDrive[0].getSelectedSensorVelocity() / Constants.TICKS_PER_INCH, velocity) / 10;
-		double feedBackRight = -controller.calculate(rightDrive[0].getSelectedSensorVelocity() / Constants.TICKS_PER_INCH, velocity) / 10;
-//		if(leftDrive[0].getSelectedSensorVelocity() < velocity){
-//			feedBackLeft *= -1;
-//			feedBackRight *= -1;
-//		}
-		double feedForward = (0.177*velocity) / 12;
-//		System.out.println(feedBackLeft + " " + feedBackRight);
-//		System.out.println(feedForward);
-//		double addition = feedForward + feedBackLeft;
-//		System.out.println("Addition: " + addition);
-//		System.out.println(leftDrive[0].getMotorOutputPercent());
-		leftDrive[0].set(ControlMode.PercentOutput, feedForward);
-		rightDrive[0].set(ControlMode.PercentOutput, feedForward);
+	public void velocityPIDFeedForward(double leftVelocity, double rightVelocity) {
+		leftVelocity *= Constants.TICKS_PER_INCH / 10.0;
+		double ffLeft = leftVelocity * 1.0/Constants.MAX_FALCON_SPEED;
+		rightVelocity *= Constants.TICKS_PER_INCH / 10.0;
+		double ffRight = (rightVelocity) * 1.0/Constants.MAX_FALCON_SPEED;
+
+		PIDController leftController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[2]);
+		PIDController rightController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[2]);
+
+		leftController.setSetpoint(leftVelocity);
+		rightController.setSetpoint(rightVelocity);
+		//System.out.println(leftController.calculate(leftDrive[0].getSelectedSensorVelocity()));
+
+		double fbLeft = leftController.calculate(leftDrive[0].getSelectedSensorVelocity());
+		double fbRight = rightController.calculate(rightDrive[0].getSelectedSensorVelocity());
+
+		if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH_FALCON / 10){
+			fbLeft = 0;
+		}
+		if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH_FALCON / 10){
+			fbRight = 0;
+		}
+		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
+		rightDrive[0].set(ControlMode.PercentOutput, ffRight + fbRight);
+		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
+		rightDrive[0].set(ControlMode.PercentOutput, ffRight + fbRight);
 
 	}
 }

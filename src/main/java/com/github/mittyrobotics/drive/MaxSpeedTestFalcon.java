@@ -3,8 +3,8 @@ package com.github.mittyrobotics.drive;
 import com.github.mittyrobotics.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class MaxSpeedTest extends CommandBase {
-    public MaxSpeedTest(){ addRequirements(DriveTrainFalcon.getInstance()); }
+public class MaxSpeedTestFalcon extends CommandBase {
+    public MaxSpeedTestFalcon(){ addRequirements(DriveTrainFalcon.getInstance()); }
 
     @Override
     public void initialize(){
