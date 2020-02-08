@@ -1,18 +1,29 @@
 package com.github.mittyrobotics;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.github.mittyrobotics.music.TKOOrchestra;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+
+  WPI_TalonFX falcon1, falcon2;
+
+  TKOOrchestra orchestra;
+
   @Override
   public void robotInit() {
-    OI.getInstance().digitalInputControls();
+
+    falcon1 = new WPI_TalonFX(0);
+    falcon2 = new WPI_TalonFX(1);
+
+    orchestra = new TKOOrchestra(falcon1, falcon2);
+    orchestra.loadMusic("megalovania2.chrp");
   }
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-
   }
 
   @Override
@@ -37,15 +48,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-//    DriveTrainTalon.getInstance().resetEconder();
-//    DriveTrainTalon.getInstance().movePos(70, 70);
+    falcon1.set(TalonFXControlMode.PercentOutput, 0);
+    falcon2.set(TalonFXControlMode.PercentOutput, 0);
+
+    orchestra.play();
   }
 
   @Override
   public void teleopPeriodic() {
-//    System.out.print(DriveTrainTalon.getInstance().getLeftEncoder());
-//    System.out.print(DriveTrainTalon.getInstance().getRightEncoder());
-
+    if(!orchestra.isPlaying()) {
+      orchestra.stop();
+      orchestra.play();
+    }
   }
 
   @Override
