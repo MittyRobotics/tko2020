@@ -13,7 +13,7 @@ public class MaxSpeedTestTalon extends CommandBase {
 
     @Override
     public void execute(){
-        DriveTrainTalon.tankDrive(1, 1);
+        DriveTrainTalon.getInstance().tankDrive(1, 1);
         System.out.println("Left Speed: "+DriveTrainTalon.getInstance().getLeftEncoderVelocity());
         System.out.println("Right Speed: "+DriveTrainTalon.getInstance().getRightEncoderVelocity());
     }

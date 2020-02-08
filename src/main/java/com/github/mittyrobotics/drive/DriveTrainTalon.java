@@ -14,7 +14,7 @@ import java.util.jar.JarOutputStream;
 
 public class DriveTrainTalon extends SubsystemBase {
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[2];
-	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[1r];
+	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[1];
 	private static DriveTrainTalon ourInstance = new DriveTrainTalon();
 	private PIDController controller;
 
@@ -72,7 +72,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		rightDrive[0].setNeutralMode(NeutralMode.Brake);
 		rightDrive[1].setNeutralMode(NeutralMode.Brake);
 
-		setDefaultCommand(new MaxSpeedTestTalon);
+		setDefaultCommand(new MaxSpeedTestTalon());
 
 		//Feedforward Velocit1y PID
 		controller = new PIDController(0.309 / 12.0, 0, 0);
