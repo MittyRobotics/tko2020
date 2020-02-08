@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class JoystickDrive_CarSteering extends CommandBase {
 
     JoystickDrive_CarSteering(){
-        //addRequirements(DriveTrainTalon.getInstance());
+        addRequirements(DriveTrainTalon.getInstance());
         //addRequirements(DriveTrainSparks.getInstance());
-        addRequirements(DriveTrainFalcon.getInstance());
+        //addRequirements(DriveTrainFalcon.getInstance());
     }
 
     @Override
@@ -40,15 +40,15 @@ public class JoystickDrive_CarSteering extends CommandBase {
         double newTurn = turn;
 
         if(Math.abs(speed) < 0.05){
-            //DriveTrainTalon.getInstance().tankDrive(newTurn, - newTurn);
-            DriveTrainFalcon.getInstance().tankDrive(-newTurn, newTurn);
+            DriveTrainTalon.getInstance().tankDrive(newTurn, - newTurn);
+            //DriveTrainFalcon.getInstance().tankDrive(-newTurn, newTurn);
         }
         else if(speed >= 0){
-            //DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
-            DriveTrainFalcon.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
+            DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
+            //DriveTrainFalcon.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
         } else {
-            //DriveTrainTalon.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
-            DriveTrainFalcon.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
+            DriveTrainTalon.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
+            //DriveTrainFalcon.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
         }
 
     }
