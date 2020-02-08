@@ -59,7 +59,7 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0].setNeutralMode(NeutralMode.Brake);
 
 
-        setDefaultCommand(new CurvatureSteering2());
+        setDefaultCommand(new MaxSpeedTest());
 
 
         //controller = new PIDController(0.309 / 12.0, 0, 0);
