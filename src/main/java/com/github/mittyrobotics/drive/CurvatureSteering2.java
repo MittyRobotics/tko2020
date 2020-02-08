@@ -28,7 +28,7 @@ public class CurvatureSteering2 extends CommandBase {
 
         double leftSpeed = 0;
         double rightSpeed = 0;
-        double threshold = 5;
+        double threshold = 3;
         boolean inThreshold = Math.abs(turn) < threshold;
         double turnScale = 1;
         //testing for 10 degrees to the left
