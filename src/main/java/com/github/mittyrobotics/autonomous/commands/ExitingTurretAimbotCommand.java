@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.drive;
+package com.github.mittyrobotics.autonomous.commands;
 
-public class Constants {
-    public static final int LEFT_SPARK_1_ID = 1;
-    public static final int LEFT_SPARK_2_ID = 2;
-    public static final int RIGHT_SPARK_1_ID = 3;
-    public static final int RIGHT_SPARK_2_ID = 4;
+public class ExitingTurretAimbotCommand extends TurretAimbotCommand {
+    private double EXITING_ANGLE_THRESHOLD = 0.1; //degrees
+    private double EXITING_HOLD_COUNT = 10; //loops, how many times it loops 0.02 ms
+    private double holdCount = 0;
 
-    public static final double TICKS_PER_INCH = 163;
+    @Override
+    public void execute() {
+        super.execute();
+        if (Math.abs(getError()) < EXITING_ANGLE_THRESHOLD) {
+            holdCount++;
+        } else {
+            holdCount = 0;
+        }
+    }
 
-    public static final int LEFT_TALON_1 = 1;
-    public static final int LEFT_TALON_2 = 0;
-    public static final int RIGHT_TALON_1 = 2;
-    public static final int RIGHT_TALON_2 = 3;
-
-    public static final double[] DRIVE_VELOCITY_PID = {6, 0, 0}; //position: p val: 0.0668 i val: 0.00001 d val: 0.0315
-    public static final double[] TURN = {0.1, 0, 0};
-
-    public static final boolean LEFT_TALON_INVERSIONS[] = {false, false};
-    public static final boolean RIGHT_TALON_INVERSIONS[] = {true, true};
-
+    @Override
+    public boolean isFinished() {
+        return Math.abs(getError()) < EXITING_ANGLE_THRESHOLD && holdCount > EXITING_HOLD_COUNT;
+    }
 }

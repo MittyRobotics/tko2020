@@ -22,25 +22,43 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.drive;
+package com.github.mittyrobotics.colorwheel;
 
-public class Constants {
-    public static final int LEFT_SPARK_1_ID = 1;
-    public static final int LEFT_SPARK_2_ID = 2;
-    public static final int RIGHT_SPARK_1_ID = 3;
-    public static final int RIGHT_SPARK_2_ID = 4;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-    public static final double TICKS_PER_INCH = 163;
+public class SpinRevs extends CommandBase {
+    public SpinRevs() {
+        super();
+        addRequirements(Spinner.getInstance(), ColorPiston.getInstance());
+    }
 
-    public static final int LEFT_TALON_1 = 1;
-    public static final int LEFT_TALON_2 = 0;
-    public static final int RIGHT_TALON_1 = 2;
-    public static final int RIGHT_TALON_2 = 3;
+    @Override
+    public void initialize() {
+        //sets motor to fast velocity
+        ColorPiston.getInstance().up();
+        Spinner.getInstance().zeroEncoder();
+        Spinner.getInstance().setMotorFast();
 
-    public static final double[] DRIVE_VELOCITY_PID = {6, 0, 0}; //position: p val: 0.0668 i val: 0.00001 d val: 0.0315
-    public static final double[] TURN = {0.1, 0, 0};
 
-    public static final boolean LEFT_TALON_INVERSIONS[] = {false, false};
-    public static final boolean RIGHT_TALON_INVERSIONS[] = {true, true};
+    }
 
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        //turns off motor, updates status
+        Spinner.getInstance().setMotorOff();
+        ColorPiston.getInstance().down();
+        OI.getInstance().passedStage2();
+    }
+
+    @Override
+    public boolean isFinished() {
+        //returns 3 revs completed (one inch times 100 inches for each revolution times 3 revolutions)
+        return Spinner.getInstance().getRevolutions() > 3.5;
+    }
 }

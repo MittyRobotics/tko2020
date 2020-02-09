@@ -24,14 +24,13 @@
 
 package com.github.mittyrobotics.drive;
 
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class RampingCommand extends CommandBase {
-    private double pos;
+public class JoystickDrive_CarSteering extends CommandBase {
 
-    public RampingCommand(double pos) {
+    JoystickDrive_CarSteering() {
         addRequirements(DriveTrainTalon.getInstance());
-        this.pos = pos;
     }
 
     @Override
@@ -41,37 +40,42 @@ public class RampingCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double tempPosLeft;
-        double tempPosRight;
-        final double RAMP_RATE = 15;
 
-        tempPosLeft = DriveTrainTalon.getInstance().getLeftEncoder() + RAMP_RATE;
-        tempPosRight = DriveTrainTalon.getInstance().getRightEncoder() + RAMP_RATE;
-        if (RAMP_RATE > (pos - DriveTrainTalon.getInstance().getLeftEncoder())) {
-            tempPosLeft = pos;
-        }
-        if (RAMP_RATE > (pos - DriveTrainTalon.getInstance().getRightEncoder())) {
-            tempPosRight = pos;
-        }
-//        if(DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget() != pos * Constants.TICKS_PER_INCH && DriveTrainTalon.getInstance().getRightTalon().getClosedLoopTarget() != pos * Constants.TICKS_PER_INCH){
-        DriveTrainTalon.getInstance().movePos(tempPosLeft, tempPosRight);
-//        }
-        System.out.println("target: " +
-                DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget() / Constants.TICKS_PER_INCH);
+        double turn = OI.getInstance().getXboxWheel().getX() * 450 / 120;
 
+        double speed = -OI.getInstance().getJoystick1().getY();
+        boolean brake = OI.getInstance().getJoystick1().getTrigger();
+
+        if (Math.abs(turn) > 1) {
+            turn = Math.signum(turn);
+        }
+        double e = 1 - turn;
+
+        if (brake) {
+            speed = 0;
+            turn = 0;
+        }
+
+        double newSpeed = speed * e;
+        double newTurn = turn;
+
+        if (Math.abs(speed) < 0.05) {
+            DriveTrainTalon.getInstance().tankDrive(newTurn, -newTurn);
+        } else if (speed >= 0) {
+            DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
+        } else {
+            DriveTrainTalon.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
+        }
 
     }
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("end");
-        DriveTrainTalon.getInstance().tankDrive(0, 0);
+
     }
 
     @Override
     public boolean isFinished() {
-        return ((Math.abs(pos - DriveTrainTalon.getInstance().getLeftEncoder()) < .5) &&
-                (Math.abs(pos - DriveTrainTalon.getInstance().getLeftEncoder()) < .5));
-//        return false;
+        return false;
     }
 }

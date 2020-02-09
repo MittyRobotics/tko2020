@@ -22,36 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.drive;
+package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.controls.TKODifferentialDrive;
-import com.github.mittyrobotics.util.OI;
-import com.revrobotics.CANSparkMax;
+import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
+import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Drive extends CommandBase {
-    CANSparkMax left;
-    CANSparkMax right;
-    TKODifferentialDrive differentialDrive;
+public class EasyVisionCommand extends CommandBase {
 
-    public Drive() {
+    public EasyVisionCommand() {
         super();
-        addRequirements(DriveTrainSparks.getInstance());
+        addRequirements(Turret.getInstance());
+//        addRequirements(ShooterSubsystem.getInstance());
     }
 
     @Override
     public void initialize() {
-        left = DriveTrainSparks.getInstance().leftSpark1;
-        right = DriveTrainSparks.getInstance().rightSpark1;
 
-        differentialDrive = new TKODifferentialDrive(left, right);
     }
-
 
     @Override
     public void execute() {
-        differentialDrive.joystickCarSteering(OI.getInstance().getXboxWheel().getX() / 3,
-                OI.getInstance().getJoystick1().getY() / 3, OI.getInstance().getJoystick1().getTrigger());
+        VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
+        double p = 0.10;
+        Turret.getInstance().manualSetTurret(p * target.getTurretRelativeYaw().getHeading());
+        double rpm = rpmEquation(target.getDistance());
+        //ShooterSubsystem.getInstance().setShooterSpeed(rpm);
+    }
+
+    private double rpmEquation(double distance) {
+        return 9.766 * Math.pow(10, -3) * (distance * distance) - 2.4741 * distance + 3785.7830;
     }
 
     @Override
@@ -63,4 +64,5 @@ public class Drive extends CommandBase {
     public boolean isFinished() {
         return false;
     }
+
 }

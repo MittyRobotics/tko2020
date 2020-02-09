@@ -22,25 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.drive;
+package com.github.mittyrobotics.turret;
 
-public class Constants {
-    public static final int LEFT_SPARK_1_ID = 1;
-    public static final int LEFT_SPARK_2_ID = 2;
-    public static final int RIGHT_SPARK_1_ID = 3;
-    public static final int RIGHT_SPARK_2_ID = 4;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-    public static final double TICKS_PER_INCH = 163;
 
-    public static final int LEFT_TALON_1 = 1;
-    public static final int LEFT_TALON_2 = 0;
-    public static final int RIGHT_TALON_1 = 2;
-    public static final int RIGHT_TALON_2 = 3;
+public class SetTurretAngle extends CommandBase {
+    private double angle;
 
-    public static final double[] DRIVE_VELOCITY_PID = {6, 0, 0}; //position: p val: 0.0668 i val: 0.00001 d val: 0.0315
-    public static final double[] TURN = {0.1, 0, 0};
+    public SetTurretAngle(double angle) {
+        super();
+        this.angle = angle;
+        addRequirements(Turret.getInstance());
+    }
 
-    public static final boolean LEFT_TALON_INVERSIONS[] = {false, false};
-    public static final boolean RIGHT_TALON_INVERSIONS[] = {true, true};
+    @Override
+    public void initialize() {
+        Turret.getInstance().setTurretAngle(angle);
+    }
 
+    @Override
+    public void execute(){
+        Turret.getInstance().updateTurretControlLoop();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        Turret.getInstance().manualSetTurret(0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return Math.abs(Turret.getInstance().getError()) < .25;
+    }
 }

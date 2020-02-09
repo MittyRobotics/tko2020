@@ -22,45 +22,62 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.drive;
+package com.github.mittyrobotics.colorwheel;
 
-import com.github.mittyrobotics.controls.TKODifferentialDrive;
-import com.github.mittyrobotics.util.OI;
-import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Drive extends CommandBase {
-    CANSparkMax left;
-    CANSparkMax right;
-    TKODifferentialDrive differentialDrive;
 
-    public Drive() {
+public class ColorTesting extends CommandBase {
+    //counter
+    private int count;
+
+    //rgb values
+    private double red;
+    private double green;
+    private double blue;
+
+    public ColorTesting() {
         super();
-        addRequirements(DriveTrainSparks.getInstance());
+        addRequirements(Spinner.getInstance());
     }
 
     @Override
     public void initialize() {
-        left = DriveTrainSparks.getInstance().leftSpark1;
-        right = DriveTrainSparks.getInstance().rightSpark1;
-
-        differentialDrive = new TKODifferentialDrive(left, right);
+        //reset
+        count = 0;
+        red = 0;
+        green = 0;
+        blue = 0;
     }
-
 
     @Override
     public void execute() {
-        differentialDrive.joystickCarSteering(OI.getInstance().getXboxWheel().getX() / 3,
-                OI.getInstance().getJoystick1().getY() / 3, OI.getInstance().getJoystick1().getTrigger());
+        //gets current rgb values
+        double[] colors = Spinner.getInstance().getRGB();
+
+        //updates variables
+        red += colors[0];
+        green += colors[1];
+        blue += colors[2];
+
+        count++;
     }
 
     @Override
     public void end(boolean interrupted) {
+        //print current recognized color
+        System.out.println(Spinner.getInstance().getColor());
 
+        //print rgb averages
+        System.out.println("Red: " + red / 20);
+        System.out.println("Green: " + green / 20);
+        System.out.println("Blue: " + blue / 20);
+        System.out.println();
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        //20 cycles
+        return count > 18;
     }
 }

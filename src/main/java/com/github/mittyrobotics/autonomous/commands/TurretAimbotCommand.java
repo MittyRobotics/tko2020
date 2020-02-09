@@ -22,25 +22,47 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.drive;
+package com.github.mittyrobotics.autonomous.commands;
 
-public class Constants {
-    public static final int LEFT_SPARK_1_ID = 1;
-    public static final int LEFT_SPARK_2_ID = 2;
-    public static final int RIGHT_SPARK_1_ID = 3;
-    public static final int RIGHT_SPARK_2_ID = 4;
+import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
+import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
+import com.github.mittyrobotics.autonomous.vision.Vision;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-    public static final double TICKS_PER_INCH = 163;
+public class TurretAimbotCommand extends CommandBase {
 
-    public static final int LEFT_TALON_1 = 1;
-    public static final int LEFT_TALON_2 = 0;
-    public static final int RIGHT_TALON_1 = 2;
-    public static final int RIGHT_TALON_2 = 3;
+    private double error;
 
-    public static final double[] DRIVE_VELOCITY_PID = {6, 0, 0}; //position: p val: 0.0668 i val: 0.00001 d val: 0.0315
-    public static final double[] TURN = {0.1, 0, 0};
+    public TurretAimbotCommand() {
+        super();
+    }
 
-    public static final boolean LEFT_TALON_INVERSIONS[] = {false, false};
-    public static final boolean RIGHT_TALON_INVERSIONS[] = {true, true};
+    @Override
+    public void initialize() {
 
+    }
+
+    @Override
+    public void execute() {
+        VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
+        AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
+        this.error =
+                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation()
+                        .subtract(target.getFieldRelativeYaw())
+                        .getHeading();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    public double getError() {
+        return error;
+    }
 }
