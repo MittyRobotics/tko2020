@@ -33,21 +33,26 @@ public class SetTurretAngle extends CommandBase {
     public SetTurretAngle(double angle) {
         super();
         this.angle = angle;
-        addRequirements(TurretSubsystem.getInstance());
+        addRequirements(Turret.getInstance());
     }
 
     @Override
     public void initialize() {
-        TurretSubsystem.getInstance().setTurretAngle(angle);
+        Turret.getInstance().setTurretAngle(angle);
+    }
+
+    @Override
+    public void execute(){
+        Turret.getInstance().updateTurretControlLoop();
     }
 
     @Override
     public void end(boolean interrupted) {
-        TurretSubsystem.getInstance().manualSetTurret(0);
+        Turret.getInstance().manualSetTurret(0);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(TurretSubsystem.getInstance().getError()) < .25;
+        return Math.abs(Turret.getInstance().getError()) < .25;
     }
 }
