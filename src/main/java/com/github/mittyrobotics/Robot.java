@@ -42,7 +42,6 @@ import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-    private CommandGroupBase autonCommand;
 
     @Override
     public void robotInit() {
@@ -70,23 +69,15 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-//        autonCommand = AutonSelector.getInstance().getSelectedAutonomousMode();
-//        CommandScheduler.getInstance().schedule(autonCommand);
     }
 
     @Override
     public void autonomousPeriodic() {
-        //ShooterSubsystem.getInstance().setPercent(1);
-        SmartDashboard.putNumber("turret_encoder", TurretSubsystem.getInstance().getAngle());
-        SmartDashboard.putNumber("rpm", ShooterSubsystem.getInstance().getShooterSpeed());
 
     }
 
     @Override
     public void teleopInit() {
-        ShooterSubsystem.getInstance().setShooterSpeed(4000);
-        //ShooterSubsystem.getInstance().setPercent(1);
-        //CommandScheduler.getInstance().schedule(new EasyVisionCommand());
 
     }
 
