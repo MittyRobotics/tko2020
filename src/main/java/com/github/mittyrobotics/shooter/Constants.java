@@ -26,9 +26,10 @@ package com.github.mittyrobotics.shooter;
 
 public class Constants {
     //Shooter
-    public static final double ShooterP = 0;
-    public static final double ShooterI = 0;
-    public static final double ShooterD = 0;
-    public static final double ShooterOutputMin = -1;
-    public static final double ShooterOutputMax = 1;
+    public static final double SHOOTER_F = 0.00013699;
+    public static final double SHOOTER_P = 0.0001;
+    public static final double SHOOTER_I = 0;
+    public static final double SHOOTER_D = 0;
+    public static final int SHOOTER_SPARK_MASTER_ID = 5;
+    public static final int SHOOTER_SPARK_FOLLOWER_ID = 4;
 }

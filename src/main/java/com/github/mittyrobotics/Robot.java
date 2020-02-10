@@ -27,14 +27,12 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.autonomous.commands.EasyVisionCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.AutonSelector;
-import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
-import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
-import com.github.mittyrobotics.turret.TurretSubsystem;
+import com.github.mittyrobotics.shooter.Shooter;
+import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -50,8 +48,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         OI.getInstance().digitalInputControls();
 
-        ShooterSubsystem.getInstance().initHardware();
-        TurretSubsystem.getInstance().initHardware();
+        Shooter.getInstance().initHardware();
+        Turret.getInstance().initHardware();
         DriveTrainTalon.getInstance().initHardware();
 
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
@@ -96,9 +94,9 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         shooterControl();
         //drive();
-//        TurretSubsystem.getInstance().manualSetTurret(OI.getInstance().getJoystick1().getY()/4);
-        SmartDashboard.putNumber("turret_encoder", TurretSubsystem.getInstance().getAngle());
-        SmartDashboard.putNumber("rpm", ShooterSubsystem.getInstance().getShooterSpeed());
+
+        SmartDashboard.putNumber("turret_encoder", Turret.getInstance().getAngle());
+        SmartDashboard.putNumber("rpm", Shooter.getInstance().getShooterSpeed());
         SmartDashboard.putNumber("field-rot",
                 AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
         SmartDashboard.putNumber("gyro", Gyro.getInstance().getAngle360());
@@ -112,17 +110,17 @@ public class Robot extends TimedRobot {
 
     private void shooterControl() {
         if (OI.getInstance().getJoystick1().getRawButtonPressed(6)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint + 50);
+            Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint + 50);
         }
         if (OI.getInstance().getJoystick1().getRawButtonPressed(7)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint - 50);
+            Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint - 50);
         }
 
         if (OI.getInstance().getJoystick1().getRawButtonPressed(11)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint + 10);
+            Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint + 10);
         }
         if (OI.getInstance().getJoystick1().getRawButtonPressed(10)) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.currentSetpoint - 10);
+            Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint - 10);
         }
     }
 }

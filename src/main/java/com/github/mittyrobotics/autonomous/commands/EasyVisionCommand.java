@@ -29,13 +29,14 @@ import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class EasyVisionCommand extends CommandBase {
 
     public EasyVisionCommand() {
         super();
-        addRequirements(TurretSubsystem.getInstance());
+        addRequirements(Turret.getInstance());
 //        addRequirements(ShooterSubsystem.getInstance());
     }
 
