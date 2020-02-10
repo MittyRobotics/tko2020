@@ -28,6 +28,7 @@ import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.turret.TurretSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class EasyVisionCommand extends CommandBase {
@@ -46,9 +47,10 @@ public class EasyVisionCommand extends CommandBase {
     @Override
     public void execute() {
         VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
-        double p = 0.10;
+        double p = -0.10;
         TurretSubsystem.getInstance().manualSetTurret(p * target.getTurretRelativeYaw().getHeading());
         double rpm = rpmEquation(target.getDistance());
+        SmartDashboard.putNumber("vision_dist", target.getDistance());
         //ShooterSubsystem.getInstance().setShooterSpeed(rpm);
     }
 

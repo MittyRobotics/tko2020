@@ -72,20 +72,23 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        autonCommand = AutonSelector.getInstance().getSelectedAutonomousMode();
-        CommandScheduler.getInstance().schedule(autonCommand);
+//        autonCommand = AutonSelector.getInstance().getSelectedAutonomousMode();
+//        CommandScheduler.getInstance().schedule(autonCommand);
     }
 
     @Override
     public void autonomousPeriodic() {
+        //ShooterSubsystem.getInstance().setPercent(1);
+        SmartDashboard.putNumber("turret_encoder", TurretSubsystem.getInstance().getAngle());
+        SmartDashboard.putNumber("rpm", ShooterSubsystem.getInstance().getShooterSpeed());
 
     }
 
     @Override
     public void teleopInit() {
-        ShooterSubsystem.getInstance().setShooterSpeed(7000);
-        //ShooterSubsystem.getInstance().setPercent(.5);
-        CommandScheduler.getInstance().schedule(new EasyVisionCommand());
+        ShooterSubsystem.getInstance().setShooterSpeed(4000);
+        //ShooterSubsystem.getInstance().setPercent(1);
+        //CommandScheduler.getInstance().schedule(new EasyVisionCommand());
 
     }
 
@@ -93,7 +96,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         shooterControl();
         //drive();
-
+//        TurretSubsystem.getInstance().manualSetTurret(OI.getInstance().getJoystick1().getY()/4);
         SmartDashboard.putNumber("turret_encoder", TurretSubsystem.getInstance().getAngle());
         SmartDashboard.putNumber("rpm", ShooterSubsystem.getInstance().getShooterSpeed());
         SmartDashboard.putNumber("field-rot",

@@ -51,8 +51,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void initHardware() {
-        double f = 0.00013699;
-        double p = 0.0001;
+        double f = 1.0/5350.0;
+        double p = 0.0002;
         double d = 0;
 
         spark1 = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -86,6 +86,16 @@ public class ShooterSubsystem extends SubsystemBase {
         spark2.set(percent);
     }
 
+    public void setPercent1(double percent) { //in rpm of the motors
+        spark1.set(percent);
+        //spark2.set(percent);
+    }
+
+
+    public void setPercent2(double percent) { //in rpm of the motors
+        //spark1.set(percent);
+        spark2.set(percent);
+    }
     public void bangControl(double speed, double threshold) {
         if (!(Math.abs(speed - spark1.getEncoder().getVelocity()) < threshold)) {
             if ((spark1.getEncoder().getVelocity()) > speed) {
