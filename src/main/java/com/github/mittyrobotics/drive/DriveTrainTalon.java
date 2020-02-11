@@ -14,7 +14,7 @@ import java.util.jar.JarOutputStream;
 
 public class DriveTrainTalon extends SubsystemBase {
 	private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[2];
-	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[1];
+	private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[2];
 	private static DriveTrainTalon ourInstance = new DriveTrainTalon();
 	private PIDController controller;
 
@@ -168,5 +168,8 @@ public class DriveTrainTalon extends SubsystemBase {
 		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
 		rightDrive[0].set(ControlMode.PercentOutput, ffRight + fbRight);
 
+	}
+	public void printVel(){
+		System.out.println(leftDrive[0].getSelectedSensorVelocity() + " " + rightDrive[0].getSelectedSensorVelocity());
 	}
 }
