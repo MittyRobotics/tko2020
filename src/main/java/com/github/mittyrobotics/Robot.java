@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
     falcon2 = new WPI_TalonFX(1);
 
     orchestra = new TKOOrchestra(falcon1, falcon2);
-    orchestra.loadMusic("megalovania2.chrp");
+    orchestra.loadMusic("memories.chrp");
   }
 
   @Override
