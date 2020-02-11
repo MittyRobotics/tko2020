@@ -3,7 +3,7 @@ package com.github.mittyrobotics.conveyor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class BallCheck extends CommandBase {
+public class BallCheck extends CommandBase { //TODO don't make seperate command, run in periodic of ConveyorSubsystem
     private boolean previousEntranceSwitchValue;
     private static boolean ballCountHasChanged;
 

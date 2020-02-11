@@ -1,11 +1,10 @@
 package com.github.mittyrobotics.buffer;
 
-import com.github.mittyrobotics.conveyor.ConveyorSwitches;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class LockBall extends CommandBase {
-    public static boolean isDone = false;
+    private boolean isDone = false;
 
     public LockBall (){
         super();

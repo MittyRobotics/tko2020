@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class BufferSubsystem extends SubsystemBase {
     private WPI_TalonSRX bufferWheel;
 
+    //TODO not sure if we will use these
     private boolean isOptimalSpeed = true; //TODO: Assign value properly when merging
     private boolean isOptimalAngle = true; //TODO: Assign value properly when merging
 
@@ -22,7 +23,7 @@ public class BufferSubsystem extends SubsystemBase {
         setName("Buffer");
     }
 
-    public void initHardware(){
+    public void initHardware(){ //TODO add encoder
         bufferWheel = new WPI_TalonSRX(Constants.TalonID1);
 
     }
