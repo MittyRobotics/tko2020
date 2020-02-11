@@ -7,6 +7,7 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -59,8 +60,12 @@ public class Spinner extends SubsystemBase {
 
     public void initHardware() {
         //initialize talon
-        talon1 = new WPI_TalonSRX(TALON_DEVICE_NUMBER);
+        talon1 = new WPI_TalonSRX(0);
+        talon1.setSensorPhase(true);
 
+        talon1.config_kP(0, 0);
+        talon1.config_kI(0, 0);
+        talon1.config_kD(0, 0);
         //TODO setup encoder & PID
         //sets color match
         m_colorMatcher.addColorMatch(kBlueTarget);
@@ -71,6 +76,8 @@ public class Spinner extends SubsystemBase {
         map.put(WheelColor.Red, WheelColor.Blue);
         map.put(WheelColor.Green, WheelColor.Yellow);
         map.put(WheelColor.Yellow, WheelColor.Green);
+        //setDefaultCommand(new SpinRevs());
+
     }
 
     public void setMotorFast() {
@@ -79,10 +86,24 @@ public class Spinner extends SubsystemBase {
 
     }
 
+    public void setMotorPID(double rpm){
+        double setpoint = (rpm * (4 * Math.PI)) * TICKS_PER_INCH / 600.0; //Ticks per 100ms
+        PIDController controller = new PIDController(0.000001, 0, 0);
+        controller.setSetpoint(setpoint);
+        //System.out.println(controller.calculate(talon1.getSelectedSensorVelocity()));
+        //System.out.println("MOTOR OUT" + talon1.getMotorOutputPercent());
+        talon1.set(ControlMode.PercentOutput, 1/6250.0 * setpoint
+                + controller.calculate(talon1.getSelectedSensorVelocity())
+        );
+    }
     public void setMotorSlow() {
         //sets motor to slow velocity
         talon1.set(ControlMode.Velocity, SLOW_VELOCITY);
 
+    }
+
+    public void position(double pos) {
+        talon1.set(ControlMode.Position, pos * TICKS_PER_INCH);
     }
 
     public void setMotorOff() {
@@ -139,15 +160,32 @@ public class Spinner extends SubsystemBase {
     }
 
     public double getRevolutions() {
-        return talon1.getSelectedSensorPosition()/ (100*TICKS_PER_INCH);
+        return talon1.getSelectedSensorPosition() / (32*Math.PI*TICKS_PER_INCH);
     }
 
     public void zeroEncoder() {
         talon1.setSelectedSensorPosition(0);
     }
 
+    public double getEncoder() {
+        return talon1.getSelectedSensorPosition();
+    }
+
+    public double returnDistanceFromTarget() {
+        return talon1.getClosedLoopTarget();
+    }
+
     public boolean matching() {
         //return target color equals current color
         return getGameMessage() == map.get(getColor());
     }
+
+    public void setMotor(double percent) {
+        talon1.set(ControlMode.PercentOutput, percent);
+    }
+
+    public double getVelocity() {
+        return talon1.getSelectedSensorVelocity();
+    }
+
 }

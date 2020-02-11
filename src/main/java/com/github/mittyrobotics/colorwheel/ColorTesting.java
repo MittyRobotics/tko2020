@@ -1,6 +1,8 @@
 package com.github.mittyrobotics.colorwheel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 
 public class ColorTesting extends CommandBase {
@@ -27,8 +29,9 @@ public class ColorTesting extends CommandBase {
     public void execute(){
         //gets current rgb values
         double[] colors = Spinner.getInstance().getRGB();
+        //updates variable
 
-        //updates variables
+
         red += colors[0];
         green += colors[1];
         blue += colors[2];
@@ -49,6 +52,7 @@ public class ColorTesting extends CommandBase {
     @Override
     public boolean isFinished(){
         //20 cycles
-        return count > 18;
+        return count > 19;
     }
 }
+
