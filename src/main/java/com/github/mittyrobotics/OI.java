@@ -3,7 +3,10 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.buffer.LockBall;
 import com.github.mittyrobotics.buffer.ReleaseBall;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.conveyor.ConveyorMacro;
+import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.MoveConveyor;
+import com.github.mittyrobotics.conveyor.ResetBalls;
 import com.github.mittyrobotics.intake.IntakeBall;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -79,6 +82,15 @@ public class OI {
 			}
 		};
 		releaseBall.whenPressed(new ReleaseBall());
+
+		Button resetCounter = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(6);
+			}
+		};
+		resetCounter.whenPressed(new ResetBalls());
+
 
 	}
 }

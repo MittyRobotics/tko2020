@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    System.out.println("Ball Sensor Value:" + ballSensor.get());
+    System.out.println(ConveyorSubsystem.totalBallCount);
 
 
   }

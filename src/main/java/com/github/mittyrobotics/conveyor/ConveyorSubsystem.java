@@ -40,7 +40,9 @@ public class ConveyorSubsystem extends SubsystemBase {
     public void updateBallCount(int count){
         totalBallCount += count;
     }
-    public void resetBallCount() { totalBallCount = 0; }
+    public void resetBallCount() {
+        totalBallCount = 0;
+    }
     public void setConveyorSpeed (double speed) {
 
         conveyorWheel1.set(ControlMode.PercentOutput, speed);
