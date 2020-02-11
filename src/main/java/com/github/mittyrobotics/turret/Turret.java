@@ -98,14 +98,14 @@ public class Turret extends SubsystemBase {
 
     /**
      * Updates the turret's {@link PIDController} control loop.
-     *
+     * <p>
      * This should be called periodically whenever the turret should be running an angle control loop.
      */
-    public void updateTurretControlLoop(){
+    public void updateTurretControlLoop() {
         manualSetTurret(turretController.calculate(getTurretPosition()));
     }
 
-    private double capAngleSetpoint(double angle){
+    private double capAngleSetpoint(double angle) {
         angle %= Constants.REVOLUTION_TICKS;
         if (angle < 0) {
             angle += Constants.REVOLUTION_TICKS;
@@ -131,6 +131,10 @@ public class Turret extends SubsystemBase {
 
     public double getAngle() {
         return turretTalon.getSelectedSensorPosition() / Constants.TICKS_PER_ANGLE;
+    }
+
+    public double getEncoder() {
+        return turretTalon.getSelectedSensorPosition();
     }
 
     public double getError() {

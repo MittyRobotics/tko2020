@@ -26,8 +26,8 @@ package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.autonomous.vision.Vision;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.github.mittyrobotics.turret.Turret;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class EasyVisionCommand extends CommandBase {

@@ -27,7 +27,6 @@ package com.github.mittyrobotics.autonomous.util;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OdometryManager {
 
@@ -43,15 +42,7 @@ public class OdometryManager {
         double rightEncoderPosition = DriveTrainTalon.getInstance().getRightEncoder();
         double heading = Gyro.getInstance().getAngle();
 
-        //Update odometry
+        //Update Odometry
         Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
-
-        //Update smart dashboard numbers
-        SmartDashboard.putNumber("robot_x", Odometry.getInstance().getRobotTransform().getPosition().getX());
-        SmartDashboard.putNumber("robot_y", Odometry.getInstance().getRobotTransform().getPosition().getY());
-        SmartDashboard
-                .putNumber("robot_heading", Odometry.getInstance().getRobotTransform().getRotation().getHeading());
-        SmartDashboard.putNumber("robot_vel_left", DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-        SmartDashboard.putNumber("robot_vel_right", DriveTrainTalon.getInstance().getRightEncoderVelocity());
     }
 }

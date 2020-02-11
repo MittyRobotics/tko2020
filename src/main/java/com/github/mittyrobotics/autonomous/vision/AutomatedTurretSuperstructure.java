@@ -62,7 +62,8 @@ public class AutomatedTurretSuperstructure {
         this.fieldRelativeRotation = robotToFieldRelativeAngle(Gyro.getInstance().getRotation(),
                 robotRelativeRotation);
         this.fieldRelativePosition = computeFieldRelativePosition(Vision.getInstance().getCurrentVisionTarget());
-        //Maintains the automated turret control
+
+        //Maintain the automated turret control
         maintainAutomation();
     }
 
@@ -106,7 +107,7 @@ public class AutomatedTurretSuperstructure {
 
     /**
      * Maintains the {@link Turret}'s field-relative aiming position by updating it's field-relative setpoint.
-     *
+     * <p>
      * The field-relative angle is determined by finding a line intersecting the {@link AutomatedTurretSuperstructure}'s
      * current field-relative {@link Position} and the aiming setpoint {@link Position}. The angle of that line then
      * represents the field-relative {@link Rotation} to aim towards.
@@ -192,7 +193,7 @@ public class AutomatedTurretSuperstructure {
      * Converts a robot-relative {@link Rotation} into a field-relative {@link Rotation} using the gyro
      * {@link Rotation}.
      *
-     * @param gyro the robot gyro {@link Rotation}
+     * @param gyro                  the robot gyro {@link Rotation}
      * @param robotRelativeRotation the robot-relative {@link Rotation}
      * @return a field-relative {@link Rotation}.
      */
@@ -204,7 +205,7 @@ public class AutomatedTurretSuperstructure {
      * Converts a field-relative {@link Rotation} into a robot-relative {@link Rotation} using the gyro
      * {@link Rotation}.
      *
-     * @param gyro the robot gyro {@link Rotation}
+     * @param gyro                  the robot gyro {@link Rotation}
      * @param fieldRelativeRotation the field-relative {@link Rotation}
      * @return a robot-relative {@link Rotation}.
      */
@@ -236,8 +237,8 @@ public class AutomatedTurretSuperstructure {
         double closest = Double.POSITIVE_INFINITY;
         double rpm = 0;
         for (int i = 0; i < AutonConstants.SHOOTER_RPM_TABLE.length; i++) {
-            if (Math.abs(distance-AutonConstants.SHOOTER_RPM_TABLE[i][0]) < closest) {
-                closest = Math.abs(distance-AutonConstants.SHOOTER_RPM_TABLE[i][0]);
+            if (Math.abs(distance - AutonConstants.SHOOTER_RPM_TABLE[i][0]) < closest) {
+                closest = Math.abs(distance - AutonConstants.SHOOTER_RPM_TABLE[i][0]);
                 rpm = AutonConstants.SHOOTER_RPM_TABLE[i][1];
             }
         }

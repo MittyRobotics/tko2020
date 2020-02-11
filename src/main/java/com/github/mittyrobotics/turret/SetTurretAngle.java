@@ -42,7 +42,7 @@ public class SetTurretAngle extends CommandBase {
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         Turret.getInstance().updateTurretControlLoop();
     }
 

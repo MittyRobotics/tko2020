@@ -27,6 +27,7 @@ package com.github.mittyrobotics.autonomous.commands;
 import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurretAimbotCommand extends CommandBase {
@@ -44,12 +45,14 @@ public class TurretAimbotCommand extends CommandBase {
 
     @Override
     public void execute() {
-        VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
-        AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
-        this.error =
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation()
-                        .subtract(target.getFieldRelativeYaw())
-                        .getHeading();
+        if (Vision.getInstance().isSafeToUseVision()) {
+            VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
+            AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
+            this.error = target.getTurretRelativeYaw().getHeading();
+        } else {
+            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(new Rotation(0));
+            this.error = 9999;
+        }
     }
 
     @Override

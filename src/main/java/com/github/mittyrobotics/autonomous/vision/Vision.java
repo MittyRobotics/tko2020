@@ -92,7 +92,8 @@ public class Vision {
         double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(cameraVisionDistance, visionYaw);
 
         //Compute angle from turret's current angle to vision target
-        Rotation turretRelativeVisionYaw = computeTurretRelativeVisionYaw(cameraVisionDistance, turretRelativeVisionDistance, visionYaw);
+        Rotation turretRelativeVisionYaw =
+                computeTurretRelativeVisionYaw(cameraVisionDistance, turretRelativeVisionDistance, visionYaw);
         //Compensate for latency
         turretRelativeVisionYaw = computeLatencyCompensationAngle(turretRelativeVisionYaw);
 

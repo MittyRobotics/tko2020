@@ -48,8 +48,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void initHardware() {
-
-        shooterSparkMaster = new CANSparkMax(Constants.SHOOTER_SPARK_MASTER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        shooterSparkMaster =
+                new CANSparkMax(Constants.SHOOTER_SPARK_MASTER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         shooterSparkMaster.restoreFactoryDefaults();
         shooterSparkMaster.getPIDController().setFF(Constants.SHOOTER_F);
         shooterSparkMaster.getPIDController().setP(Constants.SHOOTER_P);
@@ -57,7 +57,8 @@ public class Shooter extends SubsystemBase {
         shooterSparkMaster.getPIDController().setD(Constants.SHOOTER_D);
 
         //TODO test to see if followers will work
-        shooterSparkFollower = new CANSparkMax(Constants.SHOOTER_SPARK_FOLLOWER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        shooterSparkFollower =
+                new CANSparkMax(Constants.SHOOTER_SPARK_FOLLOWER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         shooterSparkFollower.restoreFactoryDefaults();
         shooterSparkFollower.setInverted(true);
         shooterSparkFollower.getPIDController().setFF(Constants.SHOOTER_F);
@@ -83,8 +84,12 @@ public class Shooter extends SubsystemBase {
         shooterSparkFollower.set(percent);
     }
 
-    public double getShooterSpeed() {
+    public double getShooterRPM() {
         return (shooterSparkMaster.getEncoder().getVelocity() + shooterSparkFollower.getEncoder().getVelocity()) / 2;
+    }
+
+    public double getCurrentSetpoint() {
+        return currentSetpoint;
     }
 
     public void setShooterSpeed(double setpoint) { //in rpm of the motors
