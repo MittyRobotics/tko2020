@@ -1,5 +1,6 @@
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -36,18 +37,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-
   }
 
   @Override
   public void teleopInit() {
-    ballSensor = new DigitalInput(0);
-
   }
 
   @Override
   public void teleopPeriodic() {
-    System.out.println(ConveyorSubsystem.totalBallCount);
+    System.out.println(ConveyorSubsystem.getInstance().getTotalBallCount());
 
 
   }

@@ -21,7 +21,7 @@ public class MoveConveyor extends CommandBase {
     @Override
     public void execute() {
 
-        if (BallCheck.hasBallCountChanged()) {
+        if (ConveyorSubsystem.hasBallCountChanged()) {
             if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
                 ConveyorSubsystem.getInstance().moveConveyor(distance);
             } else {
@@ -40,6 +40,7 @@ public class MoveConveyor extends CommandBase {
 //            isDone = true;
 //        }
     }
+
 
 
     @Override

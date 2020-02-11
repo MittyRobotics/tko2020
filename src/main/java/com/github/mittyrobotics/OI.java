@@ -3,8 +3,6 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.buffer.LockBall;
 import com.github.mittyrobotics.buffer.ReleaseBall;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.conveyor.ConveyorMacro;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.MoveConveyor;
 import com.github.mittyrobotics.conveyor.ResetBalls;
 import com.github.mittyrobotics.intake.IntakeBall;

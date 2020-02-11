@@ -6,6 +6,7 @@ public class Constants {
 	public static final int JOYSTICK_2_ID = 2;
 	public static final int XBOX_WHEEL_ID = 0;
 	public static final int ENTRANCE_OPTICAL_SWITCH = 0;
+    public static final int EXIT_OPTICAL_SWITCH = 5;
 	public static final double distance = 0;
 
 }
