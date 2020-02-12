@@ -72,7 +72,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		rightDrive[0].setNeutralMode(NeutralMode.Brake);
 		rightDrive[1].setNeutralMode(NeutralMode.Brake);
 
-		setDefaultCommand(new MaxSpeedTestTalon());
+		//setDefaultCommand(new MaxSpeedTestTalon());
 
 		//Feedforward Velocit1y PID
 		controller = new PIDController(0.309 / 12.0, 0, 0);
@@ -143,9 +143,9 @@ public class DriveTrainTalon extends SubsystemBase {
 
 	public void velocityPIDFeedForward(double leftVelocity, double rightVelocity) {
 		leftVelocity *= Constants.TICKS_PER_INCH / 10.0;
-		double ffLeft = leftVelocity * 1.0/Constants.MAX_FALCON_SPEED;
+		double ffLeft = leftVelocity * 1.0/Constants.MAX_TALON_SPEED;
 		rightVelocity *= Constants.TICKS_PER_INCH / 10.0;
-		double ffRight = (rightVelocity) * 1.0/Constants.MAX_FALCON_SPEED;
+		double ffRight = (rightVelocity) * 1.0/Constants.MAX_TALON_SPEED;
 
 		PIDController leftController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[2]);
 		PIDController rightController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[2]);

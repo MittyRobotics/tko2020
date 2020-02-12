@@ -4,13 +4,16 @@ import com.github.mittyrobotics.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MaxSpeedTestTalon extends CommandBase {
-    public MaxSpeedTestTalon(){ addRequirements(DriveTrainFalcon.getInstance()); }
+
+    MaxSpeedTestTalon(){
+        addRequirements(DriveTrainTalon.getInstance());
+    }
 
     @Override
     public void initialize(){
 
     }
-r
+
     @Override
     public void execute(){
         DriveTrainTalon.getInstance().tankDrive(1, 1);

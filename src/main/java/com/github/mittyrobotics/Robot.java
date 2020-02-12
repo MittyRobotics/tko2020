@@ -17,9 +17,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    DriveTrainFalcon.getInstance().initHardware();
+    //DriveTrainFalcon.getInstance().initHardware();
     OI.getInstance().digitalInputControls();
-    //DriveTrainTalon.getInstance().initHardware();
+    DriveTrainTalon.getInstance().initHardware();
     //DriveTrainSparks.getInstance().initHardware();
 //    talon1 = new WPI_TalonFX(0);
 //    talon2 = new WPI_TalonFX(1);
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    DriveTrain.getInstance().tankDrive(0, 0);
+    //DriveTrainTalon.getInstance().tankDrive(0, 0);
   }
 
   @Override
@@ -55,9 +55,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
 
-    //CommandScheduler.getInstance().cancelAll();
+    CommandScheduler.getInstance().cancelAll();
     //DriveTrainFalcon.getInstance().tankDrive(1, 1);
     //DriveTrainFalcon.getInstance().resetEncoder();
+    DriveTrainTalon.getInstance().velocityPIDFeedForward(110, 110);
 
   }
 
@@ -77,18 +78,20 @@ public class Robot extends TimedRobot {
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
     //DriveTrainFalcon.getInstance().tankVelocity(50, 50);
-//    System.out.println("Left Encoder Velocity: " + DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
-//    System.out.println("Right Encoder Velocity: " + DriveTrainFalcon.getInstance().getRightEncoderVelocity());
+    System.out.println("Left Encoder Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+    System.out.println("Right Encoder Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
+
   }
 
   @Override
   public void testInit() {
-    DriveTrainTalon.getInstance().tankDrive(1, 1);
+    //CommandScheduler.getInstance().cancelAll();
     //CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
   public void testPeriodic() {
-    DriveTrainTalon.getInstance().printVel();
+//    DriveTrainTalon.getInstance().tankDrive(1, 1);
+//    DriveTrainTalon.getInstance().printVel();
   }
 };;
