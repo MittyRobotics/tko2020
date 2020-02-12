@@ -20,8 +20,8 @@ public class MoveConveyor extends CommandBase {
 
     @Override
     public void execute() {
-
-        if (ConveyorSubsystem.hasBallCountChanged()) {
+        //TODO this won't work logically, change it so the command just runs the conveyor to move a distance, and schedule the command based on conditions in periodic
+        if (ConveyorSubsystem.getInstance().hasBallCountChanged()) {
             if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
                 ConveyorSubsystem.getInstance().moveConveyor(distance);
             } else {

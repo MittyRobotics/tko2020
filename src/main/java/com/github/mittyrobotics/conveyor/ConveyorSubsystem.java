@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ConveyorSubsystem extends SubsystemBase {
-    private WPI_TalonSRX conveyorWheel1;
+    private WPI_TalonSRX conveyorTalon;
 
     private int totalBallCount = 0;
     private boolean previousEntranceSwitchValue;
     private boolean previousExitSwitchValue;
-    private static boolean ballCountHasChanged;
+    private boolean ballCountHasChanged;
 
     private DigitalInput entranceOpticalSwitch;
     private DigitalInput exitOpticalSwitch;
@@ -30,12 +30,12 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     public void initHardware(){
 
-        conveyorWheel1 = new WPI_TalonSRX(Constants.conveyorWheel1ID);
+        conveyorTalon = new WPI_TalonSRX(Constants.CONVEYOR_TALON_ID);
 //        conveyorWheel2 = new WPI_TalonSRX(Constants.conveyorWheel2ID);
 
-        conveyorWheel1.config_kP(0, Constants.CONVEYOR_P);
-        conveyorWheel1.config_kI(0, Constants.CONVEYOR_I);
-        conveyorWheel1.config_kD(0, Constants.CONVEYOR_D);
+        conveyorTalon.config_kP(0, Constants.CONVEYOR_P);
+        conveyorTalon.config_kI(0, Constants.CONVEYOR_I);
+        conveyorTalon.config_kD(0, Constants.CONVEYOR_D);
 
         entranceOpticalSwitch = new DigitalInput(com.github.mittyrobotics.Constants.ENTRANCE_OPTICAL_SWITCH);
         exitOpticalSwitch = new DigitalInput(com.github.mittyrobotics.Constants.EXIT_OPTICAL_SWITCH);
@@ -73,15 +73,15 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
     public void setConveyorSpeed (double speed) {
 
-        conveyorWheel1.set(ControlMode.PercentOutput, speed);
+        conveyorTalon.set(ControlMode.PercentOutput, speed);
 //        conveyorWheel2.set(ControlMode.PercentOutput, speed);
 
     }
 
-    public static boolean hasBallCountChanged() {return ballCountHasChanged;}
+    public boolean hasBallCountChanged() {return ballCountHasChanged;}
 
     public void moveConveyor(double distance) {
-        conveyorWheel1.set(ControlMode.Position, distance*Constants.TICKS_PER_INCH);
+        conveyorTalon.set(ControlMode.Position, distance*Constants.TICKS_PER_INCH);
     }
 
 }
