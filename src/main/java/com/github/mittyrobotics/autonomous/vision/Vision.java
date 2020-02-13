@@ -114,6 +114,15 @@ public class Vision {
         return Limelight.getInstance().isHasValidTarget();
     }
 
+    /**
+     * Returns if the vision system is locked onto the target.
+     *
+     * @return if the vision system is locked onto the target.
+     */
+    public boolean isVisionLocked(double angleThreshold){
+        return Math.abs(getLatestVisionTarget().getTurretRelativeYaw().getHeading()) < angleThreshold;
+    }
+
     private double computeVisionDistance(Rotation pitch) {
         return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
                 Math.tan(Math.toRadians(pitch.getHeading() + AutonConstants.LIMELIGHT_PITCH));

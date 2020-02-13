@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.modes;
+package com.github.mittyrobotics.autonomous.commands;
+import com.github.mittyrobotics.autonomous.vision.Vision;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-public class SequentialTenBallMovement extends SequentialCommandGroup {
-    public SequentialTenBallMovement(){
-        addCommands(
-                //TODO: Run intake in
-                //TODO: Drive to 2 ball location in party zone
-                //TODO: Stop intake
-                //TODO: Drive to shooting location
-                //TODO: Shoot 5 balls
-                //TODO: Run intake in
-                //TODO: Drive path to back of trench passing through all 5 balls
-                //TODO: Stop intake
-                //TODO: Drive path to shooting location
-                //TODO: Shoot 5 balls
-        );
+public class WaitUntilVisionDetectedCommand extends WaitUntilCommand {
+    public WaitUntilVisionDetectedCommand(double distanceToEnd) {
+        super(() -> Vision.getInstance().isSafeToUseVision());
     }
 }

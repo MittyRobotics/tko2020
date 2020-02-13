@@ -22,18 +22,14 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.modes;
+package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.util.Gyro;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import com.github.mittyrobotics.autonomous.AutonDriver;
+import com.github.mittyrobotics.path.generation.Path;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-
-public class TrenchAutoMode extends SequentialCommandGroup {
-    public TrenchAutoMode() {
-        addCommands(
-        );
+public class SetAutonDriverPathCommand extends InstantCommand {
+    public SetAutonDriverPathCommand(Path path){
+        super(() -> AutonDriver.getInstance().setPath(path));
     }
 }

@@ -24,18 +24,21 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.AutonDriver;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.Drive;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -65,6 +68,9 @@ public class Robot extends TimedRobot {
         Vision.getInstance().run();
         AutomatedTurretSuperstructure.getInstance().run();
         CommandScheduler.getInstance().run();
+        if(DriverStation.getInstance().isAutonomous()){
+            AutonDriver.getInstance().run();
+        }
         updateSmartDashboard();
     }
 
@@ -113,10 +119,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
+
     }
 
     @Override
     public void teleopInit() {
+        AutonDriver.getInstance().disableAutonDriver();
         //Shooter.getInstance().setShooterSpeed(3000);
     }
 

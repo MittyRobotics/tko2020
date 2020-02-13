@@ -22,23 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.modes;
+package com.github.mittyrobotics.autonomous.commands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import com.github.mittyrobotics.autonomous.AutonDriver;
+import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
+import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.path.following.PathFollower;
+import com.github.mittyrobotics.path.following.controllers.PurePursuitController;
+import com.github.mittyrobotics.path.following.controllers.RamseteController;
+import com.github.mittyrobotics.path.following.util.Odometry;
+import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
+import com.github.mittyrobotics.path.generation.Path;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SequentialTenBallMovement extends SequentialCommandGroup {
-    public SequentialTenBallMovement(){
-        addCommands(
-                //TODO: Run intake in
-                //TODO: Drive to 2 ball location in party zone
-                //TODO: Stop intake
-                //TODO: Drive to shooting location
-                //TODO: Shoot 5 balls
-                //TODO: Run intake in
-                //TODO: Drive path to back of trench passing through all 5 balls
-                //TODO: Stop intake
-                //TODO: Drive path to shooting location
-                //TODO: Shoot 5 balls
-        );
+public class SetAutonDriverGoalCommand extends InstantCommand {
+    public SetAutonDriverGoalCommand(Transform goal){
+        super(() -> AutonDriver.getInstance().setGoalTransform(goal));
     }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,23 +24,13 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-public class ExitingTurretAimbotCommand extends TurretAimbotCommand {
-    private double EXITING_ANGLE_THRESHOLD = 0.1; //degrees
-    private double EXITING_HOLD_COUNT = 10; //loops, how many times it loops 0.02 ms
-    private double holdCount = 0;
+import com.github.mittyrobotics.autonomous.vision.Vision;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-    @Override
-    public void execute() {
-        super.execute();
-        if (Math.abs(getError()) < EXITING_ANGLE_THRESHOLD) {
-            holdCount++;
-        } else {
-            holdCount = 0;
-        }
-    }
+import java.util.function.BooleanSupplier;
 
-    @Override
-    public boolean isFinished() {
-        return Math.abs(getError()) < EXITING_ANGLE_THRESHOLD && holdCount > EXITING_HOLD_COUNT;
+public class WaitUntilVisionLockedCommand extends WaitUntilCommand {
+    public WaitUntilVisionLockedCommand(double angleThreshold) {
+        super(() -> Vision.getInstance().isVisionLocked(angleThreshold));
     }
 }

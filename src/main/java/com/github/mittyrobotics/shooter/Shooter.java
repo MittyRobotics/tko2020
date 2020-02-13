@@ -92,6 +92,10 @@ public class Shooter extends SubsystemBase {
         return currentSetpoint;
     }
 
+    public double getShooterError(){
+        return getCurrentSetpoint()-getShooterRPM();
+    }
+
     public void setShooterSpeed(double setpoint) { //in rpm of the motors
         shooterSparkMaster.getPIDController().setReference(setpoint, ControlType.kVelocity);
         shooterSparkFollower.getPIDController().setReference(setpoint, ControlType.kVelocity);
