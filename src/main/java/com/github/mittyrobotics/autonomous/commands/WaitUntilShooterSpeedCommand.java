@@ -24,14 +24,11 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-import java.util.function.BooleanSupplier;
-
 public class WaitUntilShooterSpeedCommand extends WaitUntilCommand {
-    public WaitUntilShooterSpeedCommand(double speedThreshold) {
-        super(() -> Math.abs(Shooter.getInstance().getShooterError()) < speedThreshold);
+    public WaitUntilShooterSpeedCommand(double rpmThreshold) {
+        super(() -> Math.abs(Shooter.getInstance().getRPMError()) < rpmThreshold);
     }
 }

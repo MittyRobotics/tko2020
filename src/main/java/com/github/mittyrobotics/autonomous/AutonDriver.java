@@ -49,6 +49,10 @@ public class AutonDriver {
         this.previousTime = 0;
     }
 
+    public void initNewPathFollower(PathFollower pathFollower) {
+        this.pathFollower = pathFollower;
+    }
+
     public void initNewPathFollower(PathFollowerProperties properties,
                                     PathFollowerProperties.PurePursuitProperties purePursuitProperties) {
         this.pathFollower = new PathFollower(properties,purePursuitProperties);

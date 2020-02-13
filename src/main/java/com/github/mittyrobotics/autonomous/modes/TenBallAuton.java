@@ -24,14 +24,31 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
+import com.github.mittyrobotics.autonomous.AutonDriver;
+import com.github.mittyrobotics.autonomous.commands.SetAutonDriverGoalCommand;
 import com.github.mittyrobotics.autonomous.commands.TurretAimbotCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import com.github.mittyrobotics.autonomous.commands.WaitUntilShooterSpeedCommand;
+import com.github.mittyrobotics.autonomous.commands.WaitUntilVisionLockedCommand;
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class TenBallAuto extends ParallelCommandGroup {
-    public TenBallAuto() {
+public class TenBallAuton extends SequentialCommandGroup {
+    public TenBallAuton(){
+        AutonDriver.getInstance().initNewPathFollower(null);
         addCommands(
-            new TurretAimbotCommand(),
-            new SequentialTenBallMovement()
+                new TurretAimbotCommand(),
+                new SetAutonDriverGoalCommand(AutonCoordinates.A_TRENCH_FRONT_CENTER),
+                new WaitUntilShooterSpeedCommand(50),
+                new WaitUntilVisionLockedCommand(2),
+                //TODO: Shoot 5 balls
+                //TODO: Run intake in
+                new SetAutonDriverGoalCommand(AutonCoordinates.A_TRENCH_BACK_CENTER),
+                //TODO: Stop intake
+                new SetAutonDriverGoalCommand(AutonCoordinates.A_TRENCH_FRONT_CENTER),
+                new WaitUntilShooterSpeedCommand(50),
+                new WaitUntilVisionLockedCommand(2)
+                //TODO: Shoot 5 balls
         );
     }
 }

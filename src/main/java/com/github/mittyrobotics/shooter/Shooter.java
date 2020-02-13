@@ -92,7 +92,7 @@ public class Shooter extends SubsystemBase {
         return currentSetpoint;
     }
 
-    public double getShooterError(){
+    public double getRPMError(){
         return getCurrentSetpoint()-getShooterRPM();
     }
 
