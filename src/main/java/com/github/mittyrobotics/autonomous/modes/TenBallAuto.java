@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +24,14 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.util.Gyro;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import com.github.mittyrobotics.autonomous.commands.TurretAimbotCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-
-public class TrenchAutoMode extends SequentialCommandGroup {
-    public TrenchAutoMode() {
+public class TenBallAuto extends ParallelCommandGroup {
+    public TenBallAuto() {
         addCommands(
+            new TurretAimbotCommand(),
+            new SequentialTenBallMovement()
         );
     }
 }

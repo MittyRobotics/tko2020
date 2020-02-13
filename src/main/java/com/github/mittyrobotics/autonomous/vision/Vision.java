@@ -35,10 +35,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Vision {
     private static Vision instance = new Vision();
     /**
-     * The current detected {@link VisionTarget} containing turret-relative yaw to target, field-relative yaw from
+     * The latest detected {@link VisionTarget} containing turret-relative yaw to target, field-relative yaw from
      * turret to target, and distance from turret to target
      */
-    private VisionTarget currentVisionTarget;
+    private VisionTarget latestVisionTarget;
 
     public static Vision getInstance() {
         return instance;
@@ -51,7 +51,7 @@ public class Vision {
      * {@link Limelight}. It then grabs the robot-relative turret angle from the {@link Turret}. Lastly, it
      * grabs the robot's angle from the {@link Gyro} class.
      * <p>
-     * After it grabs all of the values, it computes the current {@link VisionTarget}. If no target is present, it
+     * After it grabs all of the values, it computes the latest {@link VisionTarget}. If no target is present, it
      * will return a new {@link VisionTarget} with the angle offset as zero and the field-relative {@link Rotation} as
      * the previous detected field-relative {@link Rotation}, making the turret stay in place.
      */
@@ -66,9 +66,9 @@ public class Vision {
             Rotation robotRelativeTurretAngle = new Rotation(Turret.getInstance().getAngle());
             Rotation gyro = Gyro.getInstance().getRotation();
 
-            this.currentVisionTarget = computeVisionTarget(visionPitch, visionYaw, robotRelativeTurretAngle, gyro);
+            this.latestVisionTarget = computeVisionTarget(visionPitch, visionYaw, robotRelativeTurretAngle, gyro);
         } else {
-            this.currentVisionTarget = new VisionTarget(new Rotation(), new Rotation(),
+            this.latestVisionTarget = new VisionTarget(new Rotation(), new Rotation(),
                     0);
         }
     }
@@ -84,7 +84,7 @@ public class Vision {
      * @return the {@link VisionTarget} containing turret-relative yaw to target, field-relative yaw from turret to
      * target, and distance from turret to target
      */
-    public VisionTarget computeVisionTarget(Rotation visionPitch, Rotation visionYaw,
+    private VisionTarget computeVisionTarget(Rotation visionPitch, Rotation visionYaw,
                                             Rotation robotRelativeTurretAngle, Rotation gyro) {
         //Compute distance from camera to target
         double cameraVisionDistance = computeVisionDistance(visionPitch);
@@ -100,8 +100,6 @@ public class Vision {
         //Compute field-relative angle of vision target from the turret
         Rotation fieldRelativeVisionYaw =
                 computeFieldRelativeVisionYaw(gyro, robotRelativeTurretAngle, turretRelativeVisionYaw);
-
-        SmartDashboard.putNumber("vision_dist", turretRelativeVisionDistance);
 
         //Return vision target
         return new VisionTarget(turretRelativeVisionYaw, fieldRelativeVisionYaw, turretRelativeVisionDistance);
@@ -176,14 +174,14 @@ public class Vision {
     }
 
     /**
-     * Returns the current {@link VisionTarget} detected by the {@link Vision} system.
+     * Returns the latest {@link VisionTarget} detected by the {@link Vision} system.
      * <p>
      * The {@link VisionTarget} contains the turret-relative yaw {@link Rotation} to the target, the field-relative
      * yaw {@link Rotation} from the turret to the target, and the distance from the turret to the target.
      *
-     * @return the current {@link VisionTarget} detected by the {@link Vision} system.
+     * @return the latest {@link VisionTarget} detected by the {@link Vision} system.
      */
-    public VisionTarget getCurrentVisionTarget() {
-        return currentVisionTarget;
+    public VisionTarget getLatestVisionTarget() {
+        return latestVisionTarget;
     }
 }

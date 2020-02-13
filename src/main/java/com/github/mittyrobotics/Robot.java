@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        //OdometryManager.getInstance().run();
+        OdometryManager.getInstance().run();
         Vision.getInstance().run();
         AutomatedTurretSuperstructure.getInstance().run();
         CommandScheduler.getInstance().run();
@@ -70,18 +70,25 @@ public class Robot extends TimedRobot {
 
     private void updateSmartDashboard() {
         //Turret
-//        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoder());
-//        SmartDashboard.putNumber("turret-robot-relative-angle",
-//                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
-//        SmartDashboard.putNumber("turret-field-relative-angle",
-//                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
-//        SmartDashboard.putNumber("turret-field-relative-position-x",
-//                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getX());
-//        SmartDashboard.putNumber("turret-field-relative-position-y",
-//                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getY());
+        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoder());
+        SmartDashboard.putNumber("turret-robot-relative-angle",
+                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
+        SmartDashboard.putNumber("turret-field-relative-angle",
+                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
+        SmartDashboard.putNumber("turret-field-relative-position-x",
+                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getX());
+        SmartDashboard.putNumber("turret-field-relative-position-y",
+                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getY());
         //Shooter
         SmartDashboard.putNumber("shooter-rpm", Shooter.getInstance().getShooterRPM());
         SmartDashboard.putNumber("shooter-rpm-setpoint", Shooter.getInstance().getCurrentSetpoint());
+        //Vision
+        SmartDashboard.putNumber("vision-turret-yaw",
+                Vision.getInstance().getLatestVisionTarget().getTurretRelativeYaw().getHeading());
+        SmartDashboard.putNumber("vision-field-yaw",
+                Vision.getInstance().getLatestVisionTarget().getFieldRelativeYaw().getHeading());
+        SmartDashboard.putNumber("vision-distance",
+                Vision.getInstance().getLatestVisionTarget().getDistance());
         //Odometry
 //        SmartDashboard.putNumber("odometry-x", Odometry.getInstance().getRobotTransform().getPosition().getX());
 //        SmartDashboard.putNumber("odometry-y", Odometry.getInstance().getRobotTransform().getPosition().getY());
@@ -110,11 +117,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        Shooter.getInstance().setShooterSpeed(3000);
+        //Shooter.getInstance().setShooterSpeed(3000);
     }
 
     @Override
     public void teleopPeriodic() {
-        OI.getInstance().shooterDebugControl();
+        //OI.getInstance().shooterDebugControl();
     }
 }

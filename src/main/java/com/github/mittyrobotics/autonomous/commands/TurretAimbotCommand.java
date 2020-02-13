@@ -27,7 +27,8 @@ package com.github.mittyrobotics.autonomous.commands;
 import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
-import com.github.mittyrobotics.datatypes.positioning.Rotation;
+import com.github.mittyrobotics.shooter.Shooter;
+import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurretAimbotCommand extends CommandBase {
@@ -36,6 +37,8 @@ public class TurretAimbotCommand extends CommandBase {
 
     public TurretAimbotCommand() {
         super();
+        addRequirements(Turret.getInstance());
+        addRequirements(Shooter.getInstance());
     }
 
     @Override
@@ -46,11 +49,18 @@ public class TurretAimbotCommand extends CommandBase {
     @Override
     public void execute() {
         if (Vision.getInstance().isSafeToUseVision()) {
-            VisionTarget target = Vision.getInstance().getCurrentVisionTarget();
+            //Get latest vision target
+            VisionTarget target = Vision.getInstance().getLatestVisionTarget();
+            //Set automated turret aim
             AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
+            //Set shooter speed
+            Shooter.getInstance().setShooterSpeed(
+                    AutomatedTurretSuperstructure.getInstance().computeShooterRPMFromDistance(target.getDistance()));
             this.error = target.getTurretRelativeYaw().getHeading();
         } else {
-            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(new Rotation(0));
+            //If no vision target is detected, lock the target onto the last detected vision target position
+            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(
+                    AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation());
             this.error = 9999;
         }
     }

@@ -61,12 +61,16 @@ public class AutomatedTurretSuperstructure {
         this.robotRelativeRotation = new Rotation(Turret.getInstance().getAngle());
         this.fieldRelativeRotation = robotToFieldRelativeAngle(Gyro.getInstance().getRotation(),
                 robotRelativeRotation);
-        this.fieldRelativePosition = computeFieldRelativePosition(Vision.getInstance().getCurrentVisionTarget());
+        this.fieldRelativePosition = computeFieldRelativePosition(Vision.getInstance().getLatestVisionTarget());
 
         //Maintain the automated turret control
         maintainAutomation();
     }
 
+    /**
+     * Maintains the {@link Turret}'s automation. Updates the setpoint based on the {@link TurretAutomationMode} and
+     * setpoint {@link Transform}.
+     */
     private void maintainAutomation() {
         switch (aimMode) {
             case FIELD_RELATIVE_AIM:

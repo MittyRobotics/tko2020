@@ -24,5 +24,20 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-public class AutonMode {
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+public class SequentialTenBallMovement extends SequentialCommandGroup {
+    public SequentialTenBallMovement(){
+        addCommands(
+                //TODO: Drive to 2 ball location in party zone
+                //TODO: Drive to front of code
+                //TODO: Shoot 3 balls
+                //TODO: Set intake to spin
+                //TODO: Drive to back of trench
+                //TODO: Set intake to stop spinning
+                //TODO: Drive to front of trench
+                //TODO: Shoot 5 balls
+                //TODO: Drive to
+        );
+    }
 }
