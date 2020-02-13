@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.colorwheel;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -76,6 +77,7 @@ public class Spinner extends SubsystemBase {
         map.put(WheelColor.Red, WheelColor.Blue);
         map.put(WheelColor.Green, WheelColor.Yellow);
         map.put(WheelColor.Yellow, WheelColor.Green);
+        talon1.setNeutralMode(NeutralMode.Brake);
         //setDefaultCommand(new SpinRevs());
 
     }
@@ -178,6 +180,10 @@ public class Spinner extends SubsystemBase {
     public boolean matching() {
         //return target color equals current color
         return getGameMessage() == map.get(getColor());
+    }
+
+    public boolean testMatching(){
+        return getColor() == WheelColor.Blue;
     }
 
     public void setMotor(double percent) {

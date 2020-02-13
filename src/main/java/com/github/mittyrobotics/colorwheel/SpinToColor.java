@@ -9,37 +9,44 @@ public class SpinToColor extends CommandBase {
     private double prevPosition;
     private boolean onColor = false;
     private boolean finished = false;
+    private int green = 0;
 
     public SpinToColor() {
         super();
-        addRequirements(Spinner.getInstance(), ColorPiston.getInstance());
+        addRequirements(Spinner.getInstance());
     }
     @Override
     public void initialize(){
-        ColorPiston.getInstance().up();
+        //ColorPiston.getInstance().up();
+        Spinner.getInstance().zeroEncoder();
+        Spinner.getInstance().setMotorPID(30*8);
     }
     @Override
     public void execute(){
-        if(Spinner.getInstance().matching()){
-            prevPosition = Spinner.getInstance().getRevolutions();
-            onColor = true;
+        /*if(Spinner.getInstance().matching()){
+            //prevPosition = Spinner.getInstance().getRevolutions();
+            //onColor = true;
+            finished = true;
         }
-        if(onColor){
+/*        if(onColor){
             if(Spinner.getInstance().getRevolutions() - prevPosition > 1.0/16.0) {
                 finished = true;
             }
-        }
+        }*/
+
+        System.out.println(Spinner.getInstance().getColor());
 
 
     }
     @Override
     public void end(boolean interrupted){
         //turn off motor
-        ColorPiston.getInstance().down();
+        //ColorPiston.getInstance().down();
         Spinner.getInstance().setMotorOff();
     }
     @Override
     public boolean isFinished(){
-        return finished;
+        return Spinner.getInstance().getColor() == WheelColor.Blue;
+        //return false;
     }
 }

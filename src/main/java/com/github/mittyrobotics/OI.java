@@ -99,7 +99,7 @@ public class OI {
 		*/
 
 
-		spinRevButton.whenPressed(new ColorTesting());
+		spinRevButton.whenPressed(new SpinToColor());
 		//spinColorButton.whenPressed(new SpinToColor());
 
 	}
