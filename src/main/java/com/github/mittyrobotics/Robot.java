@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
+    //CommandScheduler.getInstance().run();
 
   }
 
@@ -56,14 +56,15 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 
     CommandScheduler.getInstance().cancelAll();
+    DriveTrainTalon.getInstance().resetEncoder();
     //DriveTrainFalcon.getInstance().tankDrive(1, 1);
     //DriveTrainFalcon.getInstance().resetEncoder();
-    DriveTrainTalon.getInstance().velocityPIDFeedForward(110, 110);
 
   }
 
   @Override
   public void teleopPeriodic() {
+
 //    double left = OI.getInstance().getXboxController.getY(GenericHID.Hand.kLeft);
 //    double right = OI.getInstance().getXboxController.getY(GenericHID.Hand.kRight);
 //    if(Math.abs(left) < 0.1) {
@@ -78,8 +79,11 @@ public class Robot extends TimedRobot {
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
     //DriveTrainFalcon.getInstance().tankVelocity(50, 50);
-    System.out.println("Left Encoder Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-    System.out.println("Right Encoder Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
+    DriveTrainTalon.getInstance().velocityPIDFeedForward( 70, 70);
+//    System.out.println("Left Encoder Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+//    System.out.println("Right Encoder Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
+    System.out.println("Left Encoder: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+    System.out.println("Right Encoder: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
 
   }
 

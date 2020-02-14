@@ -75,7 +75,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		//setDefaultCommand(new MaxSpeedTestTalon());
 
 		//Feedforward Velocit1y PID
-		controller = new PIDController(0.309 / 12.0, 0, 0);
+		//controller = new PIDController(0.309 / 12.0, 0, 0);
 
 
 	}
@@ -142,9 +142,9 @@ public class DriveTrainTalon extends SubsystemBase {
 	}
 
 	public void velocityPIDFeedForward(double leftVelocity, double rightVelocity) {
-		leftVelocity *= Constants.TICKS_PER_INCH / 10.0;
+		leftVelocity *= Constants.TICKS_PER_INCH_LEFT / 10.0;
 		double ffLeft = leftVelocity * 1.0/Constants.MAX_TALON_SPEED;
-		rightVelocity *= Constants.TICKS_PER_INCH / 10.0;
+		rightVelocity *= Constants.TICKS_PER_INCH_RIGHT / 10.0;
 		double ffRight = (rightVelocity) * 1.0/Constants.MAX_TALON_SPEED;
 
 		PIDController leftController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[2]);
@@ -152,7 +152,7 @@ public class DriveTrainTalon extends SubsystemBase {
 
 		leftController.setSetpoint(leftVelocity);
 		rightController.setSetpoint(rightVelocity);
-		//System.out.println(leftController.calculate(leftDrive[0].getSelectedSensorVelocity()));
+//		System.out.println(leftController.calculate(leftDrive[0].getSelectedSensorVelocity()));
 
 		double fbLeft = leftController.calculate(leftDrive[0].getSelectedSensorVelocity());
 		double fbRight = rightController.calculate(rightDrive[0].getSelectedSensorVelocity());
@@ -163,6 +163,10 @@ public class DriveTrainTalon extends SubsystemBase {
 		if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH_FALCON / 10){
 			fbRight = 0;
 		}
+
+//		System .out.println("fbLeft: " + fbLeft);
+//		System.out.println("fbRight: " + fbRight);
+
 		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
 		rightDrive[0].set(ControlMode.PercentOutput, ffRight + fbRight);
 		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
