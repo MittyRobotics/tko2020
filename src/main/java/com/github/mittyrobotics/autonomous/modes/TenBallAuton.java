@@ -35,8 +35,8 @@ public class TenBallAuton {
                     new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)}));
 
     Path PICKUP_2_TO_SHOOT_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                    new Transform(0,0, 180)}));
+            new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 0),
+                    new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0)}));
 
     Path SHOOT_5_TO_PICKUP_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
             new Transform[]{new Transform(0,0, 0),

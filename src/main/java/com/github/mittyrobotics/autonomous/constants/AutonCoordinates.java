@@ -60,6 +60,9 @@ public class AutonCoordinates {
     public static final Position SHOOTING_POINT_TRENCH = new Position(-259.49f, -134.155f);
     public static final Position SHOOTING_POINT_PARTY = new Position(-121f, -44.24f);
 
+    public static final Position PICKUP_LAST_TRENCH = new Position(-259.49, -134.155);
+    public static final Position PICKUP_2_PARTY = new Position(-121.0, -44.24);
+
     //Opponent coordinates
     public static final Position O_TRENCH_BACK_CENTER = new Position(-86.63, 134.155);
     public static final Position O_TRENCH_FRONT_CENTER = new Position(-302.63, 134.155);
