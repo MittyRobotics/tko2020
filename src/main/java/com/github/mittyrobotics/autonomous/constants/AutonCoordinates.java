@@ -53,6 +53,8 @@ public class AutonCoordinates {
     public static final Transform BALL_4 = new Transform(-114.17, 0, 0);
     public static final Transform BALL_5 = new Transform(-120.51, 15.3, 0);
 
+    public static final Transform SHOOTING_POINT_TRENCH = new Transform(-259.49f, -134.155f);
+    public static final Transform SHOOTING_POINT_PARTY = new Transform(-121f, -44.24f);
 
     // OPPONENT VALUES
     public static final Transform O_TRENCH_BACK_CENTER = new Transform(-86.63, 134.155);
