@@ -36,9 +36,8 @@ import java.awt.*;
 public class GraphPathTest {
     public static void main(String[] args) {
         Path path = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
-                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)}));
-
+                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 0),
+                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0)}));
         Graph graph = new Graph();
         graph.getChart().removeLegend();
         for(double t = 0; t < 1; t+=0.01){

@@ -50,6 +50,7 @@ public class AutonCoordinates {
     public static final Position A_TRENCH_BACK_CENTER = new Position(-302.63, -134.155);
     public static final Position SCORING_ZONE_TIP = new Position(90, -67.25); // unstable
     public static final Position SCORING_TARGET = new Position(); //TODO: Figure this out!
+
     // Balls (party zone)
     public static final Position BALL_1 = new Position(-130.25, -46.05);
     public static final Position BALL_2 = new Position(-114.94, -39.71);
@@ -57,8 +58,8 @@ public class AutonCoordinates {
     public static final Position BALL_4 = new Position(-114.17, 0);
     public static final Position BALL_5 = new Position(-120.51, 15.3);
 
-    public static final Transform SHOOTING_POINT_TRENCH = new Transform(-259.49f, -134.155f);
-    public static final Transform SHOOTING_POINT_PARTY = new Transform(-121f, -44.24f);
+    public static final Position PICKUP_LAST_TRENCH = new Position(-259.49, -134.155);
+    public static final Position PICKUP_2_PARTY = new Position(-121.0, -44.24);
 
     //Opponent coordinates
     public static final Position O_TRENCH_BACK_CENTER = new Position(-86.63, 134.155);
