@@ -48,7 +48,9 @@ public class AutonCoordinates {
     public static final Position A_TRENCH_FRONT_CENTER = new Position(-86.63, -134.155);
     public static final Position A_TRENCH_BACK_CENTER = new Position(-302.63, -134.155);
     public static final Position SCORING_ZONE_TIP = new Position(90, -67.25); // unstable
-    public static final Position SCORING_TARGET = new Position(121.144f, -67.25f);
+    public static final Position SCORING_TARGET = new Position(120f, -67.25);
+
+    public static final Position OPTIMAL_SHOOT_POSITION = new Position(-60.0,-67.25);
 
     // Balls (party zone)
     public static final Position BALL_1 = new Position(-130.25, -46.05);

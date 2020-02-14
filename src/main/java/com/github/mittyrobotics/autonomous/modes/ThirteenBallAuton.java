@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.autonomous.modes;
 
 import com.github.mittyrobotics.autonomous.AutonDriver;
+import com.github.mittyrobotics.autonomous.commands.*;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.generation.Path;
@@ -34,22 +35,65 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class ThirteenBallAuton extends SequentialCommandGroup {
     public ThirteenBallAuton() {
         AutonDriver.getInstance().initNewPathFollower(null);
-        Path START_TO_SHOOT_3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+
+        Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
                         new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)}));
-        Path SHOOT_3_TO_PICKUP_TRENCH = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+
+        Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                        new Transform(0,0, 180)}));
-        Path PICKUP_TRENCH_TO_SHOOT_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(0,0, 0),
-                        new Transform(0,0, 0)}));
-        Path SHOOT_5_PARTY_TO_PICKUP_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(0,0, 0),
-                        new Transform(0,0, 0)}));
-        Path PICKUP_5_PARTY_TO_SHOOT_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(0,0, 0),
-                        new Transform(0,0, 0)}));
+                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 180)}));
+
+        Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0),
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45),
+                }));
+
+        Path path4 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180 + 45),
+                        new Transform(AutonCoordinates.PICKUP_2_PARTY, 90),
+                        new Transform(AutonCoordinates.BALL_5, 135)}));
+
+        Path path5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.BALL_5, 180 + 135),
+                        new Transform(AutonCoordinates.PICKUP_2_PARTY, 180 + 90),
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180 + 180 + 45)
+                }));
+
         addCommands(
-        );
+                //Start first path goal
+                new SetAutonDriverPathCommand(path1),
+
+                //Wait until conditions to shoot are met
+                new WaitUntilPathFollowerFinishedCommand(),
+                new WaitUntilVisionDetectedCommand(1), new WaitUntilShooterSpeedCommand(50),
+                new WaitUntilVisionLockedCommand(1),
+
+                //Set second path goal
+                new SetAutonDriverPathCommand(path2),
+
+                //Set third path goal
+                new SetAutonDriverPathCommand(path3),
+
+                //Wait until conditions to shoot are met
+                new WaitUntilPathFollowerFinishedCommand(),
+                new WaitUntilVisionDetectedCommand(1),
+                new WaitUntilShooterSpeedCommand(50),
+                new WaitUntilVisionLockedCommand(1),
+
+                //Set fourth path goal
+                new SetAutonDriverPathCommand(path4),
+
+                //Set fifth path goal
+                new SetAutonDriverPathCommand(path5),
+
+                //Wait until conditions to shoot are met
+                new WaitUntilPathFollowerFinishedCommand(),
+                new WaitUntilVisionDetectedCommand(1),
+                new WaitUntilShooterSpeedCommand(50),
+                new WaitUntilVisionLockedCommand(1)
+                );
     }
 }

@@ -41,6 +41,7 @@ public class TenBallAuton {
     Path SHOOT_5_TO_PICKUP_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
             new Transform[]{new Transform(0,0, 0),
                     new Transform(0,0, 0)}));
+
     Path PICKUP_5_TO_SHOOT_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
             new Transform[]{new Transform(0,0, 0),
                     new Transform(0,0, 0)}));

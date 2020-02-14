@@ -35,13 +35,41 @@ import java.awt.*;
 
 public class GraphPathTest {
     public static void main(String[] args) {
+
+
         Path path = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 0),
-                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0)}));
+                new Transform[]{new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)}));
+
+        Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
+                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 180)}));
+
+        Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0),
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45),
+                }));
+
+        Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180+45),
+                        new Transform(AutonCoordinates.PICKUP_2_PARTY, 90),
+                        new Transform(AutonCoordinates.BALL_5, 135)}));
+
+        Path path4 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.BALL_5, 180+135),
+                        new Transform(AutonCoordinates.PICKUP_2_PARTY, 180+90),
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180+180+45)
+                        }));
         Graph graph = new Graph();
         graph.getChart().removeLegend();
         for(double t = 0; t < 1; t+=0.01){
             graph.addDataset(GraphManager.getInstance().graphArrow(path.getTransform(t),1,1,"Arrow" + t, Color.red));
+            graph.addDataset(GraphManager.getInstance().graphArrow(path1.getTransform(t),1,1,"Arrow1" + t, Color.green));
+            graph.addDataset(GraphManager.getInstance().graphArrow(path2.getTransform(t),1,1,"Arrow2" + t, Color.blue));
+            graph.addDataset(GraphManager.getInstance().graphArrow(path3.getTransform(t),1,1,"Arrow3" + t, Color.yellow));
+            graph.addDataset(GraphManager.getInstance().graphArrow(path4.getTransform(t),1,1,"Arrow4" + t, Color.cyan));
         }
     }
 }
