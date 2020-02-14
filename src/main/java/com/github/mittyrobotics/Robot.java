@@ -121,11 +121,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        //Shooter.getInstance().setShooterSpeed(3000);
+        Shooter.getInstance().setShooterSpeed(3000);
     }
 
     @Override
     public void teleopPeriodic() {
-        //OI.getInstance().shooterDebugControl();
+        new Drive();
+        OI.getInstance().shooterDebugControl();
     }
 }

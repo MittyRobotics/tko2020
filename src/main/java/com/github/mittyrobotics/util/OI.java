@@ -76,17 +76,21 @@ public class OI {
     }
 
     public void shooterDebugControl() {
-        if (OI.getInstance().getJoystick1().getRawButtonPressed(6)) {
+//        if (OI.getInstance().getJoystick1().getRawButtonPressed(6)) {
+        if (OI.getInstance().getXboxController().getYButtonPressed()) {
             Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint + 50);
         }
-        if (OI.getInstance().getJoystick1().getRawButtonPressed(7)) {
+//        if (OI.getInstance().getJoystick1().getRawButtonPressed(7)) {
+        if (OI.getInstance().getXboxController().getAButtonPressed()) {
             Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint - 50);
         }
 
-        if (OI.getInstance().getJoystick1().getRawButtonPressed(11)) {
+//        if (OI.getInstance().getJoystick1().getRawButtonPressed(11)) {
+        if (OI.getInstance().getXboxController().getBButtonPressed()) {
             Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint + 10);
         }
-        if (OI.getInstance().getJoystick1().getRawButtonPressed(10)) {
+//        if (OI.getInstance().getJoystick1().getRawButtonPressed(10)) {
+        if (OI.getInstance().getXboxController().getXButtonPressed()) {
             Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint - 10);
         }
     }
