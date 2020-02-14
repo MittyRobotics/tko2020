@@ -80,7 +80,7 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     public boolean hasBallCountChanged() {return ballCountHasChanged;}
 
-    public void moveConveyor(double distance) {
+    public void moveConveyor(double distance) { //TODO if this is moving a distance instead of going to a distance, encoder value should be added to setpoint
         conveyorTalon.set(ControlMode.Position, distance*Constants.TICKS_PER_INCH);
     }
 

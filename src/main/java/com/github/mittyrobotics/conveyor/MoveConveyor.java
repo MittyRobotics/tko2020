@@ -20,7 +20,7 @@ public class MoveConveyor extends CommandBase {
 
     @Override
     public void execute() {
-        //TODO this won't work logically, change it so the command just runs the conveyor to move a distance, and schedule the command based on conditions in periodic
+        //TODO remove the else relating to the first if statement (else your conveyor will never actually move properly)
         if (ConveyorSubsystem.getInstance().hasBallCountChanged()) {
             if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
                 ConveyorSubsystem.getInstance().moveConveyor(distance);
@@ -49,7 +49,7 @@ public class MoveConveyor extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return false; //TODO create isFinished statements
+        return false;
     }
 
 }
