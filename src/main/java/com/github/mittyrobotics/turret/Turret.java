@@ -28,8 +28,10 @@ package com.github.mittyrobotics.turret;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.autonomous.commands.EasyVisionCommand;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
@@ -38,6 +40,7 @@ public class Turret extends SubsystemBase {
     private WPI_TalonSRX turretTalon;
     private DigitalInput limitSwitchLeft, limitSwitchRight;
     private PIDController turretController;
+
 
     private Turret() {
         super();
@@ -64,6 +67,7 @@ public class Turret extends SubsystemBase {
         //Initialize PIDController
         turretController = new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D);
         turretController.enableContinuousInput(0, Constants.REVOLUTION_TICKS - 1);
+
     }
 
     public void setTurretSpeed(double speed) {

@@ -44,7 +44,7 @@ public class DriveTrainTalon extends SubsystemBase {
     private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[2];
     private double count = 0;
 
-    private DriveTrainTalon() {
+    public DriveTrainTalon() {
         super();
         setName("Example Subsystem");
     }
@@ -73,14 +73,14 @@ public class DriveTrainTalon extends SubsystemBase {
         rightDrive[0].setInverted(Constants.RIGHT_TALON_INVERSIONS[0]);
         rightDrive[1].setInverted(Constants.RIGHT_TALON_INVERSIONS[1]);
 
-        leftDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        rightDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-
-        leftDrive[0].setSensorPhase(false);
-        rightDrive[0].setSensorPhase(false);
-
-        leftDrive[1].set(ControlMode.Follower, leftDrive[0].getDeviceID());
-        rightDrive[1].set(ControlMode.Follower, rightDrive[0].getDeviceID());
+//        leftDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+//        rightDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+//
+//        leftDrive[0].setSensorPhase(false);
+//        rightDrive[0].setSensorPhase(false);
+//
+//        leftDrive[1].set(ControlMode.Follower, leftDrive[0].getDeviceID());
+//        rightDrive[1].set(ControlMode.Follower, rightDrive[0].getDeviceID());
 
         leftDrive[0].config_kP(0, Constants.DRIVE_VELOCITY_PID[0]);
         leftDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
