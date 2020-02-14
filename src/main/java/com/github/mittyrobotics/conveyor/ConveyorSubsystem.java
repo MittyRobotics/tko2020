@@ -4,12 +4,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+//TODO create a quick command that just runs the conveyor infinitely at a certain speed
 public class ConveyorSubsystem extends SubsystemBase {
     private WPI_TalonSRX conveyorTalon;
 
     private int totalBallCount = 0;
-    private boolean previousEntranceSwitchValue;
+    private boolean previousEntranceSwitchValue; //TODO set all of these to false in initHardware
     private boolean previousExitSwitchValue;
     private boolean ballCountHasChanged;
 

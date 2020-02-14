@@ -42,10 +42,14 @@ public class MoveConveyor extends CommandBase {
     }
 
 
+    @Override
+    public void end(boolean interrupted) {
+        ConveyorSubsystem.getInstance().setConveyorSpeed(0);
+    }
 
     @Override
     public boolean isFinished(){
-        return false;
+        return false; //TODO create isFinished statements
     }
 
 }

@@ -15,7 +15,7 @@ public class ResetBalls extends CommandBase {
 
     @Override
     public void execute() {
-        ConveyorSubsystem.getInstance().resetBallCount();
+        ConveyorSubsystem.getInstance().resetBallCount(); //TODO should be in initialize
     }
 
 
