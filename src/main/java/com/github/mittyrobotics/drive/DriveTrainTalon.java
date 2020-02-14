@@ -142,13 +142,13 @@ public class DriveTrainTalon extends SubsystemBase {
 	}
 
 	public void velocityPIDFeedForward(double leftVelocity, double rightVelocity) {
-		leftVelocity *= Constants.TICKS_PER_INCH_LEFT / 10.0;
+		leftVelocity *= Constants.TICKS_PER_INCH / 10.0;
 		double ffLeft = leftVelocity * 1.0/Constants.MAX_TALON_SPEED;
-		rightVelocity *= Constants.TICKS_PER_INCH_RIGHT / 10.0;
+		rightVelocity *= Constants.TICKS_PER_INCH / 10.0;
 		double ffRight = (rightVelocity) * 1.0/Constants.MAX_TALON_SPEED;
 
-		PIDController leftController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[2]);
-		PIDController rightController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER[2]);
+		PIDController leftController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER_LEFT[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER_LEFT[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER_LEFT[2]);
+		PIDController rightController = new PIDController(Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER_RIGHT[0], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER_RIGHT[1], Constants.HIGH_SPEED_VELOCITY_PID_CONTROLLER_RIGHT[2]);
 
 		leftController.setSetpoint(leftVelocity);
 		rightController.setSetpoint(rightVelocity);
@@ -157,12 +157,12 @@ public class DriveTrainTalon extends SubsystemBase {
 		double fbLeft = leftController.calculate(leftDrive[0].getSelectedSensorVelocity());
 		double fbRight = rightController.calculate(rightDrive[0].getSelectedSensorVelocity());
 
-		if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH_FALCON / 10){
-			fbLeft = 0;
-		}
-		if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 10 * Constants.TICKS_PER_INCH_FALCON / 10){
-			fbRight = 0;
-		}
+//		if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 5 * Constants.TICKS_PER_INCH / 10){
+//			fbLeft = 0;
+//		}
+//		if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 5 * Constants.TICKS_PER_INCH / 10){
+//			fbRight = 0;
+//		}
 
 //		System .out.println("fbLeft: " + fbLeft);
 //		System.out.println("fbRight: " + fbRight);

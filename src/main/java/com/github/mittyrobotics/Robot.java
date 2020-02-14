@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    //DriveTrainTalon.getInstance().tankDrive(0, 0);
+
   }
 
   @Override
@@ -65,23 +65,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-//    double left = OI.getInstance().getXboxController.getY(GenericHID.Hand.kLeft);
-//    double right = OI.getInstance().getXboxController.getY(GenericHID.Hand.kRight);
-//    if(Math.abs(left) < 0.1) {
-//      left = 0;
-//    }
-//    if(Math.abs(right) < 0.1) {
-//      right = 0;
-//    }
-//    DriveTrainFalcon.getInstance().tankDrive(left/3, right/3);
-
 //    DriveTrainFalcon.getInstance().tankVelocity(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
-    //DriveTrainFalcon.getInstance().tankVelocity(50, 50);
+//    DriveTrainFalcon.getInstance().tankVelocity(60, 60);
+
+//    DriveTrainTalon.getInstance().velocityPIDFeedForward( -80, -80);
     DriveTrainTalon.getInstance().velocityPIDFeedForward( 70, 70);
-//    System.out.println("Left Encoder Velocity: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-//    System.out.println("Right Encoder Velocity: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
     System.out.println("Left Encoder: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
     System.out.println("Right Encoder: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
 
@@ -89,13 +79,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    //CommandScheduler.getInstance().cancelAll();
-    //CommandScheduler.getInstance().cancelAll();
+
   }
 
   @Override
   public void testPeriodic() {
-//    DriveTrainTalon.getInstance().tankDrive(1, 1);
-//    DriveTrainTalon.getInstance().printVel();
   }
 };;

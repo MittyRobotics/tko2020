@@ -14,8 +14,8 @@ public class MaxSpeedTestFalcon extends CommandBase {
     @Override
     public void execute(){
         DriveTrainFalcon.getInstance().tankDrive(1, 1);
-        System.out.println("Fucking Left Speed: "+DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
-        System.out.println("Fucking Right Speed: "+DriveTrainFalcon.getInstance().getRightEncoderVelocity());
+        System.out.println("Left Speed: "+DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
+        System.out.println("Right Speed: "+DriveTrainFalcon.getInstance().getRightEncoderVelocity());
     }
     @Override
     public void end(boolean interrupted){
