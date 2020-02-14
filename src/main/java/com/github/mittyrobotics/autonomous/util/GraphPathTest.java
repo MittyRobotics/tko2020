@@ -22,26 +22,27 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.modes;
+package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
+import com.github.mittyrobotics.visualization.graphs.Graph;
+import com.github.mittyrobotics.visualization.util.GraphManager;
 
-public class TenBallAuton {
-    Path START_TO_PICKUP_2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
-                    new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)}));
+import java.awt.*;
 
-    Path PICKUP_2_TO_SHOOT_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                    new Transform(0,0, 180)}));
+public class GraphPathTest {
+    public static void main(String[] args) {
+        Path path = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)}));
 
-    Path SHOOT_5_TO_PICKUP_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(0,0, 0),
-                    new Transform(0,0, 0)}));
-    Path PICKUP_5_TO_SHOOT_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(0,0, 0),
-                    new Transform(0,0, 0)}));
+        Graph graph = new Graph();
+        graph.getChart().removeLegend();
+        for(double t = 0; t < 1; t+=0.01){
+            graph.addDataset(GraphManager.getInstance().graphArrow(path.getTransform(t),1,1,"Arrow" + t, Color.red));
+        }
+    }
 }
