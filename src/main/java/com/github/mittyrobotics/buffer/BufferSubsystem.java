@@ -39,4 +39,5 @@ public class BufferSubsystem extends SubsystemBase {
 
     public boolean isOptimalAngle() { return isOptimalAngle; }
     public boolean isOptimalSpeed() { return isOptimalSpeed; }
+    public WPI_TalonSRX getBufferWheel() {return getBufferWheel();}
 }

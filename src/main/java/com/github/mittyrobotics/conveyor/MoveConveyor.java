@@ -20,17 +20,13 @@ public class MoveConveyor extends CommandBase {
 
     @Override
     public void execute() {
-        //TODO remove the else relating to the first if statement (else your conveyor will never actually move properly)
         if (ConveyorSubsystem.getInstance().hasBallCountChanged()) {
             if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
                 ConveyorSubsystem.getInstance().moveConveyor(distance);
             } else {
                 ConveyorSubsystem.getInstance().setConveyorSpeed(0);
             }
-        } else {
-            ConveyorSubsystem.getInstance().setConveyorSpeed(0);
         }
-
 
 
 //        if (ConveyorSwitches.getInstance().getSwitch1()) {

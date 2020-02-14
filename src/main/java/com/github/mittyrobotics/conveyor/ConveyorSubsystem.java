@@ -4,12 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//TODO create a quick command that just runs the conveyor infinitely at a certain speed
 public class ConveyorSubsystem extends SubsystemBase {
     private WPI_TalonSRX conveyorTalon;
 
     private int totalBallCount = 0;
-    private boolean previousEntranceSwitchValue; //TODO set all of these to false in initHardware
+    private boolean previousEntranceSwitchValue;
     private boolean previousExitSwitchValue;
     private boolean ballCountHasChanged;
 
@@ -39,6 +38,10 @@ public class ConveyorSubsystem extends SubsystemBase {
 
         entranceOpticalSwitch = new DigitalInput(com.github.mittyrobotics.Constants.ENTRANCE_OPTICAL_SWITCH);
         exitOpticalSwitch = new DigitalInput(com.github.mittyrobotics.Constants.EXIT_OPTICAL_SWITCH);
+
+        previousEntranceSwitchValue = false;
+        previousExitSwitchValue = false;
+        ballCountHasChanged = false;
     }
 
     @Override
@@ -78,10 +81,19 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     }
 
+    public void manualSetConveyorSpeed (double speed) {
+        if (Math.abs(speed)>0.05) {
+            conveyorTalon.set(speed);
+        } else {
+            conveyorTalon.set(0);
+        }
+    }
+
     public boolean hasBallCountChanged() {return ballCountHasChanged;}
 
-    public void moveConveyor(double distance) { //TODO if this is moving a distance instead of going to a distance, encoder value should be added to setpoint
-        conveyorTalon.set(ControlMode.Position, distance*Constants.TICKS_PER_INCH);
+    public void moveConveyor(double distance) {
+        conveyorTalon.set(ControlMode.Position, conveyorTalon.get()+distance*Constants.TICKS_PER_INCH);
     }
+
 
 }

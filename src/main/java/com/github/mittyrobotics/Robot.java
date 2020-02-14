@@ -41,11 +41,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    ConveyorSubsystem.getInstance().initHardware();
   }
 
   @Override
   public void teleopPeriodic() {
-    System.out.println(ConveyorSubsystem.getInstance().getTotalBallCount());
+//    System.out.println(ConveyorSubsystem.getInstance().getTotalBallCount());
+
+    //for testing conveyor talon:
+    ConveyorSubsystem.getInstance().manualSetConveyorSpeed(OI.getInstance().getJoystick1().getY());
 
 
   }
