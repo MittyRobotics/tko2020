@@ -27,14 +27,37 @@ package com.github.mittyrobotics.autonomous.modes;
 import com.github.mittyrobotics.autonomous.AutonDriver;
 import com.github.mittyrobotics.autonomous.commands.*;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
+import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.motionprofile.PathVelocityController;
+import com.github.mittyrobotics.path.following.PathFollower;
+import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class ThirteenBallAuton extends SequentialCommandGroup {
+public class ThirteenBallAuton extends ParallelCommandGroup {
     public ThirteenBallAuton() {
-        AutonDriver.getInstance().initNewPathFollower(null);
+        double maxAcceleration = 20;
+        double maxDeceleration = 20;
+        double maxVelocity = 50;
+        double startVelocity = 0;
+        double endVelocity = 0;
+        boolean extremeTakeoff = false;
+        double extremeTakeoffMultiplier = 1.2;
+        boolean continuouslyAdaptivePath = false;
+        double aggressiveGain = 0;
+        double dampingGain = 0;
+
+        VelocityConstraints velocityConstraints = new VelocityConstraints(maxAcceleration,maxDeceleration,maxVelocity);
+        PathVelocityController velocityController = new PathVelocityController(velocityConstraints,startVelocity,
+                endVelocity,extremeTakeoff,extremeTakeoffMultiplier);
+        PathFollowerProperties properties = new PathFollowerProperties(velocityController,false,
+                continuouslyAdaptivePath);
+        PathFollowerProperties.RamseteProperties ramseteProperties =
+                new PathFollowerProperties.RamseteProperties(aggressiveGain,dampingGain);
+        PathFollower follower = new PathFollower(properties,ramseteProperties);
 
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
@@ -63,37 +86,42 @@ public class ThirteenBallAuton extends SequentialCommandGroup {
                 }));
 
         addCommands(
-                //Start first path goal
-                new SetAutonDriverPathCommand(path1),
+                //Start turret aimbot command
+                new TurretAimbotCommand(),
+                //Start auton sequence in parallel
+                sequence(
+                        //Init path follower
+                        new InitNewPathFollowerCommand(follower),
+                        //Drive first path
+                        new PathFollowerCommand(path1,true),
 
-                //Wait until conditions to shoot are met
-                new WaitUntilPathFollowerFinishedCommand(),
-                new WaitUntilVisionDetectedCommand(1), new WaitUntilShooterSpeedCommand(50),
-                new WaitUntilVisionLockedCommand(1),
+                        //Wait until conditions to shoot are met
+                        new WaitUntilShooterSpeedCommand(50),
+                        new WaitUntilVisionDetectedCommand(1),
+                        new WaitUntilVisionLockedCommand(1),
 
-                //Set second path goal
-                new SetAutonDriverPathCommand(path2),
+                        //Drive second path
+                        new PathFollowerCommand(path2,true),
 
-                //Set third path goal
-                new SetAutonDriverPathCommand(path3),
+                        //Drive third path
+                        new PathFollowerCommand(path3,false),
 
-                //Wait until conditions to shoot are met
-                new WaitUntilPathFollowerFinishedCommand(),
-                new WaitUntilVisionDetectedCommand(1),
-                new WaitUntilShooterSpeedCommand(50),
-                new WaitUntilVisionLockedCommand(1),
+                        //Wait until conditions to shoot are met
+                        new WaitUntilShooterSpeedCommand(50),
+                        new WaitUntilVisionDetectedCommand(1),
+                        new WaitUntilVisionLockedCommand(1),
 
-                //Set fourth path goal
-                new SetAutonDriverPathCommand(path4),
+                        //Drive fourth path
+                        new PathFollowerCommand(path4,true),
 
-                //Set fifth path goal
-                new SetAutonDriverPathCommand(path5),
+                        //Drive fifth path
+                        new PathFollowerCommand(path5,false),
 
-                //Wait until conditions to shoot are met
-                new WaitUntilPathFollowerFinishedCommand(),
-                new WaitUntilVisionDetectedCommand(1),
-                new WaitUntilShooterSpeedCommand(50),
-                new WaitUntilVisionLockedCommand(1)
-                );
+                        //Wait until conditions to shoot are met
+                        new WaitUntilShooterSpeedCommand(50),
+                        new WaitUntilVisionDetectedCommand(1),
+                        new WaitUntilVisionLockedCommand(1)
+                )
+        );
     }
 }

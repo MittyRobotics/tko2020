@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.enums;
+package com.github.mittyrobotics.autonomous.commands;
 
-public enum TurretAutomationMode {
-    FIELD_RELATIVE_AIM,
-    FIELD_RELATIVE_ANGLE,
-    ROBOT_RELATIVE_ANGLE,
-    VISION,
-    NO_AUTOMATION
+import com.github.mittyrobotics.autonomous.AutonDriver;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+public class SetPathFollowerReversedCommand extends InstantCommand {
+    public SetPathFollowerReversedCommand(boolean reversed){
+        super(() -> AutonDriver.getInstance().setReversed(reversed));
+    }
 }

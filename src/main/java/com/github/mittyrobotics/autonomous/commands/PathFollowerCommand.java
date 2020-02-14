@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,22 +25,55 @@
 package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.AutonDriver;
-import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
+import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
+import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
+import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.path.following.PathFollower;
-import com.github.mittyrobotics.path.following.controllers.PurePursuitController;
-import com.github.mittyrobotics.path.following.controllers.RamseteController;
-import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.github.mittyrobotics.shooter.Shooter;
+import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SetAutonDriverGoalCommand extends InstantCommand {
-    public SetAutonDriverGoalCommand(Transform goal){
-        super(() -> AutonDriver.getInstance().setGoalTransform(goal));
+public class PathFollowerCommand extends CommandBase {
+    private Path path;
+    private double reversed;
+
+    public PathFollowerCommand(Path path) {
+        super();
+        addRequirements(DriveTrainTalon.getInstance());
+        this.reversed = -1;
+        this.path = path;
     }
+
+    public PathFollowerCommand(Path path, boolean reversed) {
+        super();
+        this.reversed = reversed?1:0;
+        addRequirements(DriveTrainTalon.getInstance());
+        this.path = path;
+    }
+
+    @Override
+    public void initialize() {
+        if(reversed != -1){
+            AutonDriver.getInstance().setReversed(reversed==1);
+        }
+        AutonDriver.getInstance().setPath(path);
+    }
+
+    @Override
+    public void execute() {
+        AutonDriver.getInstance().run();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        AutonDriver.getInstance().disableAutonDriver();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return AutonDriver.getInstance().isFinishedPath();
+    }
+
 }

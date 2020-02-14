@@ -25,11 +25,11 @@
 package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.AutonDriver;
-import com.github.mittyrobotics.path.generation.Path;
+import com.github.mittyrobotics.path.following.PathFollower;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SetAutonDriverPathCommand extends InstantCommand {
-    public SetAutonDriverPathCommand(Path path){
-        super(() -> AutonDriver.getInstance().setPath(path));
+public class InitNewPathFollowerCommand extends InstantCommand {
+    public InitNewPathFollowerCommand(PathFollower pathFollower){
+        super(() -> AutonDriver.getInstance().initNewPathFollower(pathFollower));
     }
 }

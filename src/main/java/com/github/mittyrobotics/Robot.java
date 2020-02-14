@@ -68,9 +68,6 @@ public class Robot extends TimedRobot {
         Vision.getInstance().run();
         AutomatedTurretSuperstructure.getInstance().run();
         CommandScheduler.getInstance().run();
-        if(DriverStation.getInstance().isAutonomous()){
-            AutonDriver.getInstance().run();
-        }
         updateSmartDashboard();
     }
 
@@ -124,7 +121,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        AutonDriver.getInstance().disableAutonDriver();
         //Shooter.getInstance().setShooterSpeed(3000);
     }
 

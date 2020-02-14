@@ -55,47 +55,66 @@ public class AutonDriver {
 
     public void initNewPathFollower(PathFollowerProperties properties,
                                     PathFollowerProperties.PurePursuitProperties purePursuitProperties) {
-        this.pathFollower = new PathFollower(properties,purePursuitProperties);
+        this.pathFollower = new PathFollower(properties, purePursuitProperties);
     }
 
     public void initNewPathFollower(PathFollowerProperties properties,
                                     PathFollowerProperties.RamseteProperties ramseteProperties) {
-        this.pathFollower = new PathFollower(properties,ramseteProperties);
+        this.pathFollower = new PathFollower(properties, ramseteProperties);
     }
 
-    public void setPath(Path path){
+    public void setReversed(boolean reversed) {
+        PathFollowerProperties properties =
+                new PathFollowerProperties(pathFollower.getProperties().velocityController, reversed,
+                        pathFollower.getProperties().continuouslyAdaptivePath);
+
+        if (pathFollower.getPurePursuitProperties() != null) {
+            PathFollowerProperties.PurePursuitProperties purePursuitProperties =
+                    pathFollower.getPurePursuitProperties();
+
+            this.pathFollower = new PathFollower(properties, purePursuitProperties);
+        } else if (pathFollower.getRamseteProperties() != null) {
+            PathFollowerProperties.RamseteProperties ramseteProperties =
+                    pathFollower.getRamseteProperties();
+
+            this.pathFollower = new PathFollower(properties, ramseteProperties);
+        }
+    }
+
+    public void setPath(Path path) {
         pathFollower.setPath(path);
         finishedPath = false;
         disabled = false;
     }
 
-    public void setGoalTransform(Transform goal){
+    public void setGoalTransform(Transform goal) {
         pathFollower.setDrivingGoal(goal);
         finishedPath = false;
         disabled = false;
     }
 
     public void run() {
-        if(!disabled){
+        if (!disabled) {
             double currentTime = Timer.getFPGATimestamp();
             double deltaTime = currentTime - previousTime;
             this.previousTime = currentTime;
-            if(!isFinishedPath()){
+            if (!isFinishedPath()) {
                 updatePathFollower(deltaTime);
                 this.finishedPath = pathFollower.isFinished(1);
+            } else {
+                DriveTrainTalon.getInstance().tankDrive(0, 0);
             }
-            DriveTrainTalon.getInstance().tankDrive(0, 0);
         }
     }
 
-    public void disableAutonDriver(){
+    public void disableAutonDriver() {
         DriveTrainTalon.getInstance().tankDrive(0, 0);
         this.pathFollower = null;
         this.finishedPath = true;
         this.disabled = true;
     }
 
-    private void updatePathFollower(double deltaTime){
+    private void updatePathFollower(double deltaTime) {
         DrivetrainVelocities currentVelocities = DrivetrainVelocities.calculateFromWheelVelocities(
                 DriveTrainTalon.getInstance().getLeftEncoderVelocity(),
                 DriveTrainTalon.getInstance().getRightEncoderVelocity()
@@ -107,7 +126,7 @@ public class AutonDriver {
         DriveTrainTalon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
     }
 
-    public double getRoughDistanceToEnd(){
+    public double getRoughDistanceToEnd() {
         return pathFollower.getCurrentDistanceToEnd();
     }
 
