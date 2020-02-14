@@ -49,7 +49,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    
+
+
+
   }
 
   @Override
@@ -70,8 +72,9 @@ public class Robot extends TimedRobot {
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
 //    DriveTrainFalcon.getInstance().tankVelocity(60, 60);
 
-//    DriveTrainTalon.getInstance().velocityPIDFeedForward( -80, -80);
-    DriveTrainTalon.getInstance().velocityPIDFeedForward( 70, 70);
+//    DriveTrainTalon.getInstance().velocityPIDFeedForward( -100, -100);
+//    DriveTrainTalon.getInstance().tankVelocity(OI.getInstance().getJoystick1().getY(), OI.getInstance().getJoystick2().getY());
+    DriveTrainTalon.getInstance().velocityPIDFeedForward( 100, 100);
     System.out.println("Left Encoder: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
     System.out.println("Right Encoder: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
 
@@ -80,9 +83,13 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
 
+
   }
 
   @Override
   public void testPeriodic() {
+
+    DriveTrainTalon.getInstance().tankDrive(-OI.getInstance().getJoystick1().getY(), -OI.getInstance().getJoystick2().getY());
+
   }
 };;

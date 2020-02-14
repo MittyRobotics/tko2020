@@ -6,61 +6,68 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CurvatureSteering extends CommandBase {
 
-	CurvatureSteering(){
-		//addRequirements(DriveTrainTalon.getInstance());
-		addRequirements(DriveTrainFalcon.getInstance());
-	}
+    CurvatureSteering(){
+        //addRequirements(DriveTrainTalon.getInstance());
+        addRequirements(DriveTrainFalcon.getInstance());
+    }
 
-	@Override
-	public void initialize(){
+    @Override
+    public void initialize(){
 
-	}
+    }
 
-	@Override
-	public void execute(){
-		//double ogTurn = OI.getInstance().getXboxWheel().getX();
-		double turn = (OI.getInstance().getXboxWheel().getX()*450); //steering wheel
-		double joystickSpeed = -OI.getInstance().getJoystick1().getY(); //joystick
-		boolean brake = OI.getInstance().getJoystick1().getTrigger(); //brake
-		final double radiusE = 5;
-		double radius = 450/turn * radiusE; //radius of imaginary circle
-		double halfWidthRobot = 12.5; //from center of robot to imaginary circle
+    @Override
+    public void execute(){
 
-		double leftSpeed = 1;
-		double rightSpeed = 1;
-		double threshold = 5;
-		boolean inThreshold = Math.abs(turn) < threshold;
-		double turnScale = 0.75;
-		//testing for 10 degrees to the left
-		if (Math.abs(turn) >= threshold){
-			leftSpeed = (radius - halfWidthRobot)*(2*Math.PI);
-			rightSpeed = (radius + halfWidthRobot)*(2*Math.PI);
-			leftSpeed = (leftSpeed/rightSpeed) * turnScale;
-			rightSpeed = 1 * turnScale;
-		} else if (inThreshold) {
-			turn = OI.getInstance().getXboxWheel().getX()*450/120;
-		}
+        double turn = (OI.getInstance().getXboxWheel().getX()*450); //steering wheel
+        double joystickSpeed = -OI.getInstance().getJoystick1().getY(); //joystick
+        boolean brake = OI.getInstance().getJoystick1().getTrigger(); //brake
+        final double radiusE = 5;
+        double radius = Math.abs(450/turn * radiusE); //radius of imaginary circle
+        double halfWidthRobot = 12.5; //from center of robot to imaginary circle
 
-		if (brake) {
-			turn = 0;
-			leftSpeed = 0;
-			rightSpeed = 0;
-			joystickSpeed = 0;
-		}
+        double leftSpeed = 0;
+        double rightSpeed = 0;
+        double threshold = 3;
+        boolean inThreshold = Math.abs(turn) < threshold;
+        double turnScale = 1;
+        //testing for 10 degrees to the left
+        if (turn >= threshold){
+            leftSpeed = (radius + halfWidthRobot)*(2*Math.PI);
+            rightSpeed = (radius - halfWidthRobot)*(2*Math.PI);
+            rightSpeed = (rightSpeed/leftSpeed) * turnScale ;
+            leftSpeed = 1 * turnScale;
+        } else if (turn <= -threshold){
+            leftSpeed = (radius - halfWidthRobot)*(2*Math.PI);
+            rightSpeed = (radius + halfWidthRobot)*(2*Math.PI);
+            leftSpeed = (leftSpeed/rightSpeed) * turnScale;
+            rightSpeed = 1 * turnScale;
+        } else if (inThreshold) {
+            turn = OI.getInstance().getXboxWheel().getX()*450/120;
+        }
 
-		if (inThreshold){
-			//DriveTrainTalon.getInstance().tankDrive(joystickSpeed*0.67, joystickSpeed*0.67);
-			DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
-		} else if (Math.abs(joystickSpeed) < 0.05) {
-			//System.out.println("Turn: " + turn);
-			//DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
-			//System.out.println("in-place");
-			DriveTrainFalcon.getInstance().tankDrive(-turn/200, turn/200);
-		} else if (turn < -2) {
-			DriveTrainFalcon.getInstance().tankDrive(leftSpeed * joystickSpeed/3, rightSpeed * joystickSpeed/3);
-		} else if (turn > 2){
-			DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
-		}
+        if (brake) {
+            turn = 0;
+            leftSpeed = 0;
+            rightSpeed = 0;
+            joystickSpeed = 0;
+        }
+
+        if (inThreshold){
+            //DriveTrainTalon.getInstance().tankDrive(joystickSpeed*0.67, joystickSpeed*0.67);
+            DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
+        } else if (Math.abs(joystickSpeed) < 0.05) {
+            //System.out.println("Turn: " + turn);
+            //DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
+            //System.out.println("in-place");
+            DriveTrainFalcon.getInstance().tankDrive(-turn/350, turn/350);
+        } else {
+            System.out.println("Turn: " + turn);
+            System.out.println("Right Speed: " + rightSpeed);
+            System.out.println("Left Speed: " + leftSpeed);
+
+            DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
+        }
 
 //        if(Math.abs(joystickSpeed) < 0.05){
 //            DriveTrainTalon.getInstance().tankDrive(turn, - turn);
@@ -75,15 +82,15 @@ public class CurvatureSteering extends CommandBase {
 //            //DriveTrainSparks.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
 //        }
 
-	}
-	@Override
-	public void end(boolean interrupted){
+    }
+    @Override
+    public void end(boolean interrupted){
 
-	}
-	@Override
-	public boolean isFinished() {
-		return false;
-	}
+    }
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }
 
 

@@ -26,7 +26,7 @@ public class Constants {
     public static final double MAX_FALCON_SPEED = 21600.0;
     public static final double MAX_TALON_SPEED = 3075.0;
     public static final double[] HIGH_SPEED_VELOCITY_PID_CONTROLLER = {0.0008, 0, 0}; // falcon chassis: 0.0001, 0, 0
-    public static final double[] HIGH_SPEED_VELOCITY_PID_CONTROLLER_LEFT = {0.0019, 0, 0}; // balanced talon chassis left side: 0.0019
+    public static final double[] HIGH_SPEED_VELOCITY_PID_CONTROLLER_LEFT = {0.0017, 0, 0};
     public static final double[] HIGH_SPEED_VELOCITY_PID_CONTROLLER_RIGHT = {0.0008, 0, 0};
     //public static final double[] LOW_SPEED_VELOCITY_PID_CONTROLLER = {0.000065, 0, 0};
     public static final double[] DRIVE_VELOCITY_PID = {2.05, 0, 0}; //position: p val: 0.0668 i val: 0.00001 d val: 0.0315

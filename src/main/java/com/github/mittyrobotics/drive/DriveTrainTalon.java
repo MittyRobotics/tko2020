@@ -74,7 +74,7 @@ public class DriveTrainTalon extends SubsystemBase {
 
 		//setDefaultCommand(new MaxSpeedTestTalon());
 
-		//Feedforward Velocit1y PID
+		//Feedforward Velocity PID
 		//controller = new PIDController(0.309 / 12.0, 0, 0);
 
 
@@ -142,6 +142,8 @@ public class DriveTrainTalon extends SubsystemBase {
 	}
 
 	public void velocityPIDFeedForward(double leftVelocity, double rightVelocity) {
+		double firstLeft = leftVelocity;
+		double firstRight = rightVelocity;
 		leftVelocity *= Constants.TICKS_PER_INCH / 10.0;
 		double ffLeft = leftVelocity * 1.0/Constants.MAX_TALON_SPEED;
 		rightVelocity *= Constants.TICKS_PER_INCH / 10.0;
@@ -152,10 +154,20 @@ public class DriveTrainTalon extends SubsystemBase {
 
 		leftController.setSetpoint(leftVelocity);
 		rightController.setSetpoint(rightVelocity);
-//		System.out.println(leftController.calculate(leftDrive[0].getSelectedSensorVelocity()));
 
 		double fbLeft = leftController.calculate(leftDrive[0].getSelectedSensorVelocity());
 		double fbRight = rightController.calculate(rightDrive[0].getSelectedSensorVelocity());
+
+//		if (firstLeft <= 60) {
+//			if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 9 * Constants.TICKS_PER_INCH / 10){
+//				fbLeft = 0;
+//			}
+//		}
+//		if (firstRight <= 60) {
+//			if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 9 * Constants.TICKS_PER_INCH / 10){
+//				fbRight = 0;
+//			}
+//		}
 
 //		if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 5 * Constants.TICKS_PER_INCH / 10){
 //			fbLeft = 0;
@@ -164,16 +176,10 @@ public class DriveTrainTalon extends SubsystemBase {
 //			fbRight = 0;
 //		}
 
-//		System .out.println("fbLeft: " + fbLeft);
-//		System.out.println("fbRight: " + fbRight);
-
 		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
 		rightDrive[0].set(ControlMode.PercentOutput, ffRight + fbRight);
 		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
 		rightDrive[0].set(ControlMode.PercentOutput, ffRight + fbRight);
 
-	}
-	public void printVel(){
-		System.out.println(leftDrive[0].getSelectedSensorVelocity() + " " + rightDrive[0].getSelectedSensorVelocity());
 	}
 }
