@@ -28,7 +28,6 @@ import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
-import javafx.geometry.Pos;
 
 public class AutonCoordinates {
 
@@ -46,10 +45,10 @@ public class AutonCoordinates {
     public static final Position SCORING_STARTING_POINT = new Position(0, -67.25);
     public static final Position TRENCH_STARTING_POINT = new Position(0, -134.155);
 
-    public static final Transform A_TRENCH_FRONT_CENTER = new Transform(-86.63, -134.155);
-    public static final Transform A_TRENCH_BACK_CENTER = new Transform(-302.63, -134.155);
-    public static final Transform SCORING_ZONE_TIP = new Transform(90, -67.25); // unstable
-    public static final Transform SCORING_TARGET = new Transform(121.144f, -67.25f);
+    public static final Position A_TRENCH_FRONT_CENTER = new Position(-86.63, -134.155);
+    public static final Position A_TRENCH_BACK_CENTER = new Position(-302.63, -134.155);
+    public static final Position SCORING_ZONE_TIP = new Position(90, -67.25); // unstable
+    public static final Position SCORING_TARGET = new Position(121.144f, -67.25f);
 
     // Balls (party zone)
     public static final Position BALL_1 = new Position(-130.25, -46.05);
@@ -58,15 +57,15 @@ public class AutonCoordinates {
     public static final Position BALL_4 = new Position(-114.17, 0);
     public static final Position BALL_5 = new Position(-120.51, 15.3);
 
-    public static final Transform SHOOTING_POINT_TRENCH = new Transform(-259.49f, -134.155f);
-    public static final Transform SHOOTING_POINT_PARTY = new Transform(-121f, -44.24f);
+    public static final Position SHOOTING_POINT_TRENCH = new Position(-259.49f, -134.155f);
+    public static final Position SHOOTING_POINT_PARTY = new Position(-121f, -44.24f);
 
     //Opponent coordinates
     public static final Position O_TRENCH_BACK_CENTER = new Position(-86.63, 134.155);
     public static final Position O_TRENCH_FRONT_CENTER = new Position(-302.63, 134.155);
 
     public static final Position[] FIELD_WAYPOINTS =
-            new Position[]{ZERO, LOADING_STARTING_POINT, LOADING_STARTING_POINT,
+            new Position[] {ZERO, LOADING_STARTING_POINT, LOADING_STARTING_POINT,
                     SCORING_STARTING_POINT, TRENCH_STARTING_POINT, A_TRENCH_BACK_CENTER, A_TRENCH_FRONT_CENTER,
                     SCORING_ZONE_TIP,
                     BALL_1, BALL_2, BALL_3, BALL_4, BALL_5, O_TRENCH_BACK_CENTER, O_TRENCH_FRONT_CENTER};
