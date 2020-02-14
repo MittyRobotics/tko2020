@@ -188,7 +188,7 @@ public class AutomatedTurretSuperstructure {
                 -target.getDistance() * target.getFieldRelativeYaw().sin());
 
         //Add scoring target to get field-relative position
-        turretPosition = turretPosition.add(AutonCoordinates.SCORING_TARGET.getPosition());
+        turretPosition = turretPosition.add(AutonCoordinates.SCORING_TARGET);
 
         return turretPosition;
     }
