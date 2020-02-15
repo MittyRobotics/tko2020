@@ -5,47 +5,36 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveConveyorRemoveBall extends CommandBase {
 
-    private double distance, initialPosition, currentPosition;
-    private boolean isDone = false;
+    private double d1, d2 , conveyorInitPos, bufferInitPos;
+    private boolean isDone;
 
-    public MoveConveyorRemoveBall(double distance){
+    public MoveConveyorRemoveBall(double d1, double d2){
         super();
-        this.distance = distance;
+        this.d1 = d1;
+        this.d2 = d2;
         addRequirements(Conveyor.getInstance(), Buffer.getInstance());
     }
 
     @Override
     public void initialize() {
-        //ConveyorSubsystem.getInstance().moveConveyor(distance);
-        initialPosition = Conveyor.getInstance().getPosition();
-        currentPosition = initialPosition;
+        conveyorInitPos = Conveyor.getInstance().getPosition();
+        bufferInitPos = Buffer.getInstance().getBufferPosition();
+        isDone = false;
     }
 
     @Override
     public void execute() {
-//        if (Conveyor.getInstance().hasBallCountChanged()) {
-//            if (Conveyor.getInstance().getTotalBallCount() < 5) {
-//                Conveyor.getInstance().moveConveyor(distance);
-//            } else {
-//                Conveyor.getInstance().setConveyorSpeed(0);
-//            }
-//        }
-
-        if ((currentPosition - initialPosition) < (distance*com.github.mittyrobotics.conveyor.Constants.TICKS_PER_BALL_INCH)) {
-            Conveyor.getInstance().setConveyorSpeed(0.15);
-            Buffer.getInstance().manualBufferSpeed(-0.3);
+        double bufferDiff = Buffer.getInstance().getBufferPosition() - bufferInitPos;
+        double conveyorDiff = Conveyor.getInstance().getPosition() - conveyorInitPos;
+        if(bufferDiff < d1){
+            Buffer.getInstance().manualBufferSpeed(-0.2);
+            Conveyor.getInstance().manualSetConveyorSpeed(0);
+        } else if(conveyorDiff < d2){
+            Conveyor.getInstance().manualSetConveyorSpeed(0.2);
+            Buffer.getInstance().manualBufferSpeed(0);
         } else {
             isDone = true;
         }
-        currentPosition = Conveyor.getInstance().getPosition();
-
-
-//        if (ConveyorSwitches.getInstance().getSwitch1()) {
-//            ConveyorSubsystem.getInstance().setConveyorSpeed(Constants.CONVEYOR_SPEED);
-//        } else {
-//            ConveyorSubsystem.getInstance().setConveyorSpeed(0);
-//            isDone = true;
-//        }
     }
 
 

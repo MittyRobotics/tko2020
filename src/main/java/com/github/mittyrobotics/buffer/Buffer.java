@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.buffer;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,7 +27,7 @@ public class Buffer extends SubsystemBase {
     public void initHardware(){ //TODO add encoder
         bufferWheel = new WPI_TalonSRX(Constants.TalonID1);
         bufferWheel.setInverted(true);
-
+        bufferWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     }
 
     public void bufferLock(double speed) {
@@ -51,4 +52,7 @@ public class Buffer extends SubsystemBase {
     public boolean isOptimalAngle() { return isOptimalAngle; }
     public boolean isOptimalSpeed() { return isOptimalSpeed; }
     public WPI_TalonSRX getBufferWheel() {return getBufferWheel();}
+    public double getBufferPosition(){
+        return bufferWheel.getSelectedSensorPosition();
+    }
 }
