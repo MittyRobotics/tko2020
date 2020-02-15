@@ -9,7 +9,7 @@ public class LockBall extends CommandBase {
 
     public LockBall (){
         super();
-        addRequirements(BufferSubsystem.getInstance());
+        addRequirements(Buffer.getInstance());
     }
 
     @Override
@@ -17,7 +17,7 @@ public class LockBall extends CommandBase {
 
     @Override
     public void execute() {
-        BufferSubsystem.getInstance().bufferLock(Constants.TalonLockSpeed);
+        Buffer.getInstance().bufferLock(Constants.TalonLockSpeed);
 //        isDone = BufferSubsystem.getInstance().isOptimalAngle() && BufferSubsystem.getInstance().isOptimalSpeed(); //TODO just make command return false, make a command group later for shooting that involves releasing the balls
         isDone = false;
     }

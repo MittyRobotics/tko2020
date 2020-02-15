@@ -2,7 +2,7 @@ package com.github.mittyrobotics.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.conveyor.Conveyor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -31,7 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     }
     public void intakeBall(double speed){
-        if(ConveyorSubsystem.getInstance().getTotalBallCount() < 5){
+        if(Conveyor.getInstance().getTotalBallCount() < 5){
             intakeWheel.set(ControlMode.Velocity, speed);
         }
 

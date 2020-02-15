@@ -3,12 +3,13 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.buffer.LockBall;
 import com.github.mittyrobotics.buffer.ReleaseBall;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.conveyor.MoveConveyor;
+import com.github.mittyrobotics.conveyor.MoveConveyorAddBall;
 import com.github.mittyrobotics.conveyor.ResetBalls;
 import com.github.mittyrobotics.intake.IntakeBall;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class OI {
 	private Button button1;
@@ -49,46 +50,27 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
-		Button intakeButton = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getTrigger();
-			}
-		};
-		intakeButton.whenPressed(new IntakeBall());
-
-		Button conveyorButton = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(3);
-			}
-		};
-		conveyorButton.whenPressed(new MoveConveyor(Constants.distance));
-
-		Button lockBall = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(4);
-			}
-		};
-		lockBall.whenPressed(new LockBall());
-
-		Button releaseBall = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(5);
-			}
-		};
-		releaseBall.whenPressed(new ReleaseBall());
-
-		Button resetCounter = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(6);
-			}
-		};
-		resetCounter.whenPressed(new ResetBalls());
-
+//		Trigger b1 = new Trigger() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getTrigger();
+//			}
+//		};
+//		b1.whileActiveOnce(new MoveConveyorAddBall(8));
+//		Button b2 = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getRawButton(2);
+//			}
+//		};
+//		b2.whenPressed(new MoveConveyorAddBall(7));
+//		Button b3 = new Button() {
+//			@Override
+//			public boolean get() {
+//				return getJoystick1().getRawButton(3);
+//			}
+//		};
+//		b3.whenPressed(new MoveConveyorAddBall(7.5));
 
 	}
 }

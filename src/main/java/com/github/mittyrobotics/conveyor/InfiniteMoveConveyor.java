@@ -9,7 +9,7 @@ public class InfiniteMoveConveyor extends CommandBase {
     public InfiniteMoveConveyor(double speed){
         super();
         this.speed = speed;
-        addRequirements(ConveyorSubsystem.getInstance());
+        addRequirements(Conveyor.getInstance());
     }
 
     @Override
@@ -18,7 +18,7 @@ public class InfiniteMoveConveyor extends CommandBase {
 
     @Override
     public void execute() {
-        ConveyorSubsystem.getInstance().setConveyorSpeed(speed);
+        Conveyor.getInstance().setConveyorSpeed(speed);
     }
 
     @Override

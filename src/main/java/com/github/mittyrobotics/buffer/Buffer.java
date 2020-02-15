@@ -4,32 +4,43 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class BufferSubsystem extends SubsystemBase {
+public class Buffer extends SubsystemBase {
     private WPI_TalonSRX bufferWheel;
 
     //TODO not sure if we will use these
     private boolean isOptimalSpeed = true; //TODO: Assign value properly when merging
     private boolean isOptimalAngle = true; //TODO: Assign value properly when merging
 
-    private static BufferSubsystem instance;
-    public static BufferSubsystem getInstance(){
+    private static Buffer instance;
+    public static Buffer getInstance(){
         if(instance == null){
-            instance = new BufferSubsystem();
+            instance = new Buffer();
         }
         return instance;
     }
-    private BufferSubsystem(){
+    private Buffer(){
         super();
         setName("Buffer");
     }
 
     public void initHardware(){ //TODO add encoder
         bufferWheel = new WPI_TalonSRX(Constants.TalonID1);
+        bufferWheel.setInverted(true);
 
     }
 
     public void bufferLock(double speed) {
         bufferWheel.set(ControlMode.PercentOutput, speed);
+
+    }
+
+    public void manualBufferSpeed(double speed) {
+        if (Math.abs(speed)>0.1) {
+            bufferWheel.set(ControlMode.PercentOutput, speed);
+            System.out.println("Buffer Percent Output: " + speed);
+        } else {
+            bufferWheel.set(ControlMode.PercentOutput, 0);
+        }
 
     }
 
