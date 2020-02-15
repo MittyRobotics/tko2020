@@ -53,6 +53,6 @@ public class SpinFlywheel extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return DriverStation.getInstance().isDisabled();
+        return true;
     }
 }

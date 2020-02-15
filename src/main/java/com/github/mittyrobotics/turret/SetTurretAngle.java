@@ -48,7 +48,7 @@ public class SetTurretAngle extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Turret.getInstance().manualSetTurret(0);
+        Turret.getInstance().overrideSetTurretPercent(0);
     }
 
     @Override
