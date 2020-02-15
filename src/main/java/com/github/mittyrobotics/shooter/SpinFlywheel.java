@@ -24,35 +24,19 @@
 
 package com.github.mittyrobotics.shooter;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SpinFlywheel extends CommandBase {
-    private double speed;
+/**
+ * Command that spins the flywheel at a certain RPM
+ */
+public class SpinFlywheel extends InstantCommand {
 
+    /**
+     * Constructor that requires the command to be run on the shooter subsystem
+     * Sets the shooter to run at a certain speed, and ends the command immediately
+     * @param speed the speed to set the shooter wheel to
+     */
     public SpinFlywheel(double speed) {
-        super();
-        this.speed = speed;
-        addRequirements(Shooter.getInstance());
-    }
-
-    @Override
-    public void initialize() {
-        Shooter.getInstance().setShooterSpeed(speed);
-    }
-
-    @Override
-    public void execute() {
-
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
+        super(()->Shooter.getInstance().setShooterSpeed(speed), Shooter.getInstance());
     }
 }

@@ -24,12 +24,18 @@
 
 package com.github.mittyrobotics.testing;
 
+import com.github.mittyrobotics.buffer.Buffer;
+import com.github.mittyrobotics.conveyor.Conveyor;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class ConveyorTesting extends TimedRobot {
+    private int counter;
+
     @Override
     public void robotInit() {
-
+        Conveyor.getInstance().initHardware();
+        Buffer.getInstance().initHardware();
+        Conveyor.getInstance().resetEncoder();
     }
 
     @Override
