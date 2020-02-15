@@ -38,18 +38,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PathFollowerCommand extends CommandBase {
     private Path path;
-    private double reversed;
 
     public PathFollowerCommand(Path path) {
         super();
-        addRequirements(DriveTrainFalcon.getInstance());
-        this.reversed = -1;
-        this.path = path;
-    }
-
-    public PathFollowerCommand(Path path, boolean reversed) {
-        super();
-        this.reversed = reversed?1:0;
         addRequirements(DriveTrainFalcon.getInstance());
         this.path = path;
     }
@@ -57,9 +48,6 @@ public class PathFollowerCommand extends CommandBase {
     @Override
     public void initialize() {
         System.out.println("Init path follower");
-        if(reversed != -1){
-            AutonDriver.getInstance().setReversed(reversed==1);
-        }
         AutonDriver.getInstance().setPath(path);
         AutonDriver.getInstance().initAutonDriver();
     }

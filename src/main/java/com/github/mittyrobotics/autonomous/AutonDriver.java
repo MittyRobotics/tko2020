@@ -64,24 +64,6 @@ public class AutonDriver {
         this.pathFollower = new PathFollower(properties, ramseteProperties);
     }
 
-    public void setReversed(boolean reversed) {
-//        PathFollowerProperties properties =
-//                new PathFollowerProperties(pathFollower.getProperties().velocityController, reversed,
-//                        pathFollower.getProperties().continuouslyAdaptivePath);
-//
-//        if (pathFollower.getPurePursuitProperties() != null) {
-//            PathFollowerProperties.PurePursuitProperties purePursuitProperties =
-//                    pathFollower.getPurePursuitProperties();
-//
-//            this.pathFollower = new PathFollower(properties, purePursuitProperties);
-//        } else if (pathFollower.getRamseteProperties() != null) {
-//            PathFollowerProperties.RamseteProperties ramseteProperties =
-//                    pathFollower.getRamseteProperties();
-//
-//            this.pathFollower = new PathFollower(properties, ramseteProperties);
-//        }
-    }
-
     public void setPath(Path path) {
         pathFollower.setPath(path);
         finishedPath = false;

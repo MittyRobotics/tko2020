@@ -113,42 +113,42 @@ public class ThirteenBallAuton extends SequentialCommandGroup {
                 //Init path follower
                 new InitNewPathFollowerCommand(followerReversed),
                 //Drive first path
-                new PathFollowerCommand(path1, false),
+                new PathFollowerCommand(path1),
                 new TestPrintCommand("End"),
                 new WaitCommand(1),
 
-//                        //Wait until conditions to shoot are met
-//                        new WaitUntilShooterSpeedCommand(50),
-//                        new WaitUntilVisionDetectedCommand(1),
-//                        new WaitUntilVisionLockedCommand(1),
+//              //Wait until conditions to shoot are met
+//              new WaitUntilShooterSpeedCommand(50),
+//              new WaitUntilVisionDetectedCommand(1),
+//              new WaitUntilVisionLockedCommand(1)
                 new InitNewPathFollowerCommand(followerReversed),
 
 
 
                 //Drive second path
-                new PathFollowerCommand(path2, false),
+                new PathFollowerCommand(path2),
 
                 new InitNewPathFollowerCommand(follower),
                 //Drive third path
-                new PathFollowerCommand(path3, false),
+                new PathFollowerCommand(path3),
 
-//                        //Wait until conditions to shoot are met
-//                        new WaitUntilShooterSpeedCommand(50),
-//                        new WaitUntilVisionDetectedCommand(1),
-//                        new WaitUntilVisionLockedCommand(1),
+//              //Wait until conditions to shoot are met
+//              new WaitUntilShooterSpeedCommand(50),
+//              new WaitUntilVisionDetectedCommand(1),
+//              new WaitUntilVisionLockedCommand(1)
                 new WaitCommand(1),
                 new InitNewPathFollowerCommand(followerReversed),
                 //Drive fourth path
-                new PathFollowerCommand(path4, false),
+                new PathFollowerCommand(path4),
 
                 new InitNewPathFollowerCommand(follower),
                 //Drive fifth path
-                new PathFollowerCommand(path5, false)
+                new PathFollowerCommand(path5)
 
-//                        //Wait until conditions to shoot are met
-//                        new WaitUntilShooterSpeedCommand(50),
-//                        new WaitUntilVisionDetectedCommand(1),
-//                        new WaitUntilVisionLockedCommand(1)
+//              //Wait until conditions to shoot are met
+//              new WaitUntilShooterSpeedCommand(50),
+//              new WaitUntilVisionDetectedCommand(1),
+//              new WaitUntilVisionLockedCommand(1)
 
         );
     }

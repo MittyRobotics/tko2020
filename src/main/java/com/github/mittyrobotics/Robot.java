@@ -26,6 +26,7 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.AutonDriver;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.modes.TenBallAuton;
 import com.github.mittyrobotics.autonomous.modes.TestPathFollowingAuton;
 import com.github.mittyrobotics.autonomous.modes.ThirteenBallAuton;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
@@ -118,12 +119,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Odometry.getInstance().calibrateTransformToZero(DriveTrainFalcon.getInstance().getLeftEncoder(),
-                DriveTrainFalcon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
-        Odometry.getInstance().calibrateRobotTransform(new Transform(0,0,0),
-                DriveTrainFalcon.getInstance().getLeftEncoder(),
-                DriveTrainFalcon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
-        new ThirteenBallAuton().schedule();
+        new TenBallAuton().schedule();
     }
 
     @Override

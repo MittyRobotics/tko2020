@@ -24,25 +24,207 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
+import com.github.mittyrobotics.autonomous.commands.InitNewPathFollowerCommand;
+import com.github.mittyrobotics.autonomous.commands.PathFollowerCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
+import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.motionprofile.PathVelocityController;
+import com.github.mittyrobotics.path.following.PathFollower;
+import com.github.mittyrobotics.path.following.util.Odometry;
+import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
+import com.github.mittyrobotics.util.Gyro;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class TenBallAuton {
-    Path START_TO_PICKUP_2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
-                    new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)}));
+public class TenBallAuton extends SequentialCommandGroup {
+    public TenBallAuton() {
+        //Properties
+        double defaultMaxAcceleration = 40;
+        double defaultMaxDeceleration = 40;
+        double defaultMaxVelocity = 150;
+        double defaultStartVelocity = 0;
+        double defaultEndVelocity = 0;
+        boolean defaultExtremeTakeoff = false;
+        double defaultExtremeTakeoffMultiplier = 2;
+        boolean defaultContinuouslyAdaptivePath = false;
+        //Ramsete properties
+        double defaultAggressiveGain = 2.0;
+        double defaultDampingGain = .7;
+        //Pure pursuit properties
+        double defaultLookahead = 30;
+        double defaultCurvatureSlowdownGain = 1.2;
+        double defaultMinSlowdownVelocity = 50;
 
-    Path PICKUP_2_TO_SHOOT_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 0),
-                    new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0)}));
+        //Initialize followers
+        PathFollower follower = new PathFollower(new PathFollowerProperties(
+                new PathVelocityController(new VelocityConstraints(
+                        defaultMaxAcceleration,
+                        defaultMaxDeceleration,
+                        defaultMaxVelocity),
+                        defaultStartVelocity,
+                        defaultEndVelocity,
+                        defaultExtremeTakeoff,
+                        defaultExtremeTakeoffMultiplier
+                ),
+                false,
+                defaultContinuouslyAdaptivePath
+        ),
+                new PathFollowerProperties.PurePursuitProperties(
+                        defaultLookahead,
+                        defaultCurvatureSlowdownGain,
+                        defaultMinSlowdownVelocity
+                )
+        );
 
-    Path SHOOT_5_TO_PICKUP_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(0,0, 0),
-                    new Transform(0,0, 0)}));
+        PathFollower followerReversed = new PathFollower(new PathFollowerProperties(
+                new PathVelocityController(new VelocityConstraints(
+                        defaultMaxAcceleration,
+                        defaultMaxDeceleration,
+                        defaultMaxVelocity),
+                        defaultStartVelocity,
+                        defaultEndVelocity,
+                        defaultExtremeTakeoff,
+                        defaultExtremeTakeoffMultiplier
+                ),
+                true,
+                defaultContinuouslyAdaptivePath
+        ),
+                new PathFollowerProperties.PurePursuitProperties(
+                        defaultLookahead,
+                        defaultCurvatureSlowdownGain,
+                        defaultMinSlowdownVelocity
+                ));
 
-    Path PICKUP_5_TO_SHOOT_5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-            new Transform[]{new Transform(0,0, 0),
-                    new Transform(0,0, 0)}));
+        PathFollower followerRamsete = new PathFollower(new PathFollowerProperties(
+                new PathVelocityController(new VelocityConstraints(
+                        defaultMaxAcceleration,
+                        defaultMaxDeceleration,
+                        defaultMaxVelocity),
+                        defaultStartVelocity,
+                        defaultEndVelocity,
+                        defaultExtremeTakeoff,
+                        defaultExtremeTakeoffMultiplier
+                ),
+                false,
+                defaultContinuouslyAdaptivePath
+        ),
+                new PathFollowerProperties.RamseteProperties(
+                        defaultAggressiveGain,
+                        defaultDampingGain
+                )
+        );
+
+        PathFollower followerRamseteReversed = new PathFollower(new PathFollowerProperties(
+                new PathVelocityController(new VelocityConstraints(
+                        defaultMaxAcceleration,
+                        defaultMaxDeceleration,
+                        defaultMaxVelocity),
+                        defaultStartVelocity,
+                        defaultEndVelocity,
+                        defaultExtremeTakeoff,
+                        defaultExtremeTakeoffMultiplier
+                ),
+                true,
+                defaultContinuouslyAdaptivePath
+        ),
+                new PathFollowerProperties.RamseteProperties(
+                        defaultAggressiveGain,
+                        defaultDampingGain
+                )
+        );
+
+        //Initialize paths
+        Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
+                })
+        );
+
+        Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
+                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 180)
+                })
+        );
+
+        Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0),
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
+                })
+        );
+
+        Path path4 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180 + 45),
+                        new Transform(AutonCoordinates.PICKUP_2_PARTY, 110)
+                })
+        );
+
+        Path path5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.PICKUP_2_PARTY, 180 + 110),
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180 + 180 + 45)
+                })
+        );
+
+        //Calibrate odometry
+        Odometry.getInstance().calibrateRobotTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
+                DriveTrainFalcon.getInstance().getLeftEncoder(),
+                DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
+
+        addCommands(
+                //Drive first path
+                new InitNewPathFollowerCommand(followerReversed),
+                new PathFollowerCommand(path1),
+
+                //PLACEHOLDER SHOOT WAIT COMMAND
+                new WaitCommand(1),
+
+//              //Wait until conditions to shoot are met
+//              new WaitUntilShooterSpeedCommand(50),
+//              new WaitUntilVisionDetectedCommand(1),
+//              new WaitUntilVisionLockedCommand(1)
+
+                //Drive second path
+                new InitNewPathFollowerCommand(followerReversed),
+                new PathFollowerCommand(path2),
+
+                //Drive third path
+                new InitNewPathFollowerCommand(follower),
+                new PathFollowerCommand(path3),
+
+//              //Wait until conditions to shoot are met
+//              new WaitUntilShooterSpeedCommand(50),
+//              new WaitUntilVisionDetectedCommand(1),
+//              new WaitUntilVisionLockedCommand(1)
+
+                //PLACEHOLDER SHOOT WAIT COMMAND
+                new WaitCommand(1),
+
+                //Drive fourth path
+                new InitNewPathFollowerCommand(followerRamseteReversed),
+                new PathFollowerCommand(path4),
+
+                //Drive fifth path
+                new InitNewPathFollowerCommand(followerRamsete),
+                new PathFollowerCommand(path5),
+
+//              //Wait until conditions to shoot are met
+//              new WaitUntilShooterSpeedCommand(50),
+//              new WaitUntilVisionDetectedCommand(1),
+//              new WaitUntilVisionLockedCommand(1)
+
+                //PLACEHOLDER SHOOT WAIT COMMAND
+                new WaitCommand(1),
+
+                new PrintCommand("AUTON DONE")
+        );
+    }
 }

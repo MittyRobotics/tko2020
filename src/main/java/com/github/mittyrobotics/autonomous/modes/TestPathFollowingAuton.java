@@ -89,14 +89,14 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
                 new InitNewPathFollowerCommand(follower),
                 //Drive first path
                 new TestPrintCommand("STARTING PATH FOLLOWER"),
-                new PathFollowerCommand(path1,false),
+                new PathFollowerCommand(path1),
                 new TestPrintCommand("FINISHED PATH FOLLOWER"),
 
                 new InitNewPathFollowerCommand(followerReversed),
 
                 //Drive second path
                 new TestPrintCommand("STARTING PATH FOLLOWER"),
-                new PathFollowerCommand(path2,true),
+                new PathFollowerCommand(path2),
                 new TestPrintCommand("FINISHED PATH FOLLOWER")
         );
     }
