@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.shooter;
 
+import com.github.mittyrobotics.TKOSubsystem;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
@@ -32,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /**
  * Shooter subsystem to shoot balls
  */
-public class Shooter extends SubsystemBase {
+public class Shooter extends SubsystemBase implements TKOSubsystem {
 
     private double currentSetpoint;
     private static Shooter instance;
@@ -60,6 +61,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Initializes and sets up both sparkmax settings
      */
+    @Override
     public void initHardware() {
         shooterSparkMaster =
                 new CANSparkMax(Constants.SHOOTER_SPARK_MASTER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -78,6 +80,11 @@ public class Shooter extends SubsystemBase {
         shooterSparkFollower.getPIDController().setP(Constants.SHOOTER_P);
         shooterSparkFollower.getPIDController().setI(Constants.SHOOTER_I);
         shooterSparkFollower.getPIDController().setD(Constants.SHOOTER_D);
+    }
+
+    @Override
+    public void updateDashboard() {
+
     }
 
     /**
