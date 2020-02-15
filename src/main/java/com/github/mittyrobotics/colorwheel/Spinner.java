@@ -64,7 +64,7 @@ public class Spinner extends SubsystemBase {
 
     public void initHardware() {
         //initialize talon
-        talon1 = new WPI_TalonSRX(20);
+        talon1 = new WPI_TalonSRX(0);
         talon1.setSensorPhase(true);
 
 
