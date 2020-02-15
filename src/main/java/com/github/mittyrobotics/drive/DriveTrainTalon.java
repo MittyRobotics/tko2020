@@ -158,16 +158,16 @@ public class DriveTrainTalon extends SubsystemBase {
 		double fbLeft = leftController.calculate(leftDrive[0].getSelectedSensorVelocity());
 		double fbRight = rightController.calculate(rightDrive[0].getSelectedSensorVelocity());
 
-//		if (firstLeft <= 60) {
-//			if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 9 * Constants.TICKS_PER_INCH / 10){
-//				fbLeft = 0;
-//			}
-//		}
-//		if (firstRight <= 60) {
-//			if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 9 * Constants.TICKS_PER_INCH / 10){
-//				fbRight = 0;
-//			}
-//		}
+		if (firstLeft < 50) {
+			if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 3 * Constants.TICKS_PER_INCH / 10){
+				fbLeft = 0;
+			}
+		}
+		if (firstRight < 50) {
+			if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 3 * Constants.TICKS_PER_INCH / 10){
+				fbRight = 0;
+			}
+		}
 
 //		if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 5 * Constants.TICKS_PER_INCH / 10){
 //			fbLeft = 0;

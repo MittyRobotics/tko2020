@@ -72,9 +72,9 @@ public class Robot extends TimedRobot {
 //    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
 //    DriveTrainFalcon.getInstance().tankVelocity(60, 60);
 
-//    DriveTrainTalon.getInstance().velocityPIDFeedForward( -100, -100);
-//    DriveTrainTalon.getInstance().tankVelocity(OI.getInstance().getJoystick1().getY(), OI.getInstance().getJoystick2().getY());
     DriveTrainTalon.getInstance().velocityPIDFeedForward( 100, 100);
+//    DriveTrainTalon.getInstance().tankVelocity(OI.getInstance().getJoystick1().getY(), OI.getInstance().getJoystick2().getY());
+//    DriveTrainTalon.getInstance().velocityPIDFeedForward( 50, 50); // 50 fine but 40 overshoots and undershoots
     System.out.println("Left Encoder: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
     System.out.println("Right Encoder: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
 
