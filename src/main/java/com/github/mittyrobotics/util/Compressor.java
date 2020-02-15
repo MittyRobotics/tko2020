@@ -1,6 +1,8 @@
 package com.github.mittyrobotics.util;
 
-public class Compressor extends edu.wpi.first.wpilibj.Compressor {
+import com.github.mittyrobotics.interfaces.IHardware;
+
+public class Compressor extends edu.wpi.first.wpilibj.Compressor implements IHardware {
     private static Compressor instance;
 
     private Compressor() {
@@ -12,5 +14,11 @@ public class Compressor extends edu.wpi.first.wpilibj.Compressor {
             instance = new Compressor();
         }
         return instance;
+    }
+
+    @Override
+    public void initHardware() {
+        start();
+        setClosedLoopControl(true);
     }
 }

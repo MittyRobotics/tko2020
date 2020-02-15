@@ -26,6 +26,7 @@ package com.github.mittyrobotics.colorwheel;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
@@ -39,7 +40,7 @@ import java.util.HashMap;
 import static com.github.mittyrobotics.colorwheel.Constants.*;
 
 
-public class Spinner extends SubsystemBase {
+public class Spinner extends SubsystemBase implements ISubsystem {
     //spinner singleton
     private static Spinner instance;
     //I2C port for color sensor
@@ -73,6 +74,7 @@ public class Spinner extends SubsystemBase {
 
     }
 
+    @Override
     public void initHardware() {
         //initialize talon
         talon1 = new WPI_TalonSRX(TALON_DEVICE_NUMBER);
@@ -87,6 +89,11 @@ public class Spinner extends SubsystemBase {
         map.put(WheelColor.Red, WheelColor.Blue);
         map.put(WheelColor.Green, WheelColor.Yellow);
         map.put(WheelColor.Yellow, WheelColor.Green);
+    }
+
+    @Override
+    public void updateDashboard() {
+
     }
 
     public void setMotorFast() {

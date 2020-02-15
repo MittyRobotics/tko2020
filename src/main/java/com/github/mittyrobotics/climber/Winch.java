@@ -1,5 +1,6 @@
 package com.github.mittyrobotics.climber;
 
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -7,7 +8,7 @@ import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class Winch extends SubsystemBase {
+public class Winch extends SubsystemBase implements ISubsystem {
     private static Winch instance;
 
     private CANSparkMax leftSpark, rightSpark;
@@ -23,6 +24,7 @@ public class Winch extends SubsystemBase {
         return instance;
     }
 
+    @Override
     public void initHardware() {
 
         leftSpark = new CANSparkMax(Constants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -47,6 +49,11 @@ public class Winch extends SubsystemBase {
         rightSpark.getPIDController().setI(Constants.WINCH_PID_VALUES[1]);
         rightSpark.getPIDController().setD(Constants.WINCH_PID_VALUES[2]);
         leftSpark.getPIDController().setOutputRange(-1 * Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
+
+    }
+
+    @Override
+    public void updateDashboard() {
 
     }
 

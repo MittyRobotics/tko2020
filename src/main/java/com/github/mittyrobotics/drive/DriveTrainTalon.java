@@ -27,16 +27,14 @@ package com.github.mittyrobotics.drive;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveTrainTalon extends SubsystemBase {
-    private static DriveTrainTalon ourInstance = new DriveTrainTalon();
-    //Making it a Singleton
+public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
     private static DriveTrainTalon instance;
     final double kV = .13; //0.13
     final double kA = 0.0; //0.0
     final double kP = 0.01; //0.01
-    final double kT = 0.0;
     double leftLastMeasured = 0;
     double rightLastMeasured = 0;
     private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[2];
@@ -60,6 +58,7 @@ public class DriveTrainTalon extends SubsystemBase {
 
     }
 
+    @Override
     public void initHardware() {
         leftDrive[0] = new WPI_TalonSRX(Constants.LEFT_TALON_1);
         leftDrive[1] = new WPI_TalonSRX(Constants.LEFT_TALON_2);
@@ -91,6 +90,11 @@ public class DriveTrainTalon extends SubsystemBase {
         leftDrive[1].setNeutralMode(NeutralMode.Brake);
         rightDrive[0].setNeutralMode(NeutralMode.Brake);
         rightDrive[1].setNeutralMode(NeutralMode.Brake);
+    }
+
+    @Override
+    public void updateDashboard() {
+
     }
 
     public void tankDrive(double left, double right) {
@@ -175,13 +179,4 @@ public class DriveTrainTalon extends SubsystemBase {
         leftDrive[0].setSelectedSensorPosition(0);
         rightDrive[0].setSelectedSensorPosition(0);
     }
-
-    public WPI_TalonSRX getLeftTalon() {
-        return leftDrive[0];
-    }
-
-    public WPI_TalonSRX getRightTalon() {
-        return rightDrive[0];
-    }
-
 }

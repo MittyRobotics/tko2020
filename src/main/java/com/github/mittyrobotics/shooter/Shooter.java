@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.shooter;
 
-import com.github.mittyrobotics.TKOSubsystem;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
@@ -33,10 +33,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /**
  * Shooter subsystem to shoot balls
  */
-public class Shooter extends SubsystemBase implements TKOSubsystem {
-
+public class Shooter extends SubsystemBase implements ISubsystem {
+    /**
+     * {@link Shooter} instance
+     */
     private static Shooter instance;
+
+    /**
+     * Shooter setpoint speed
+     */
     private double currentSetpoint;
+
+    /**
+     * Shooter {@link CANSparkMax}'s
+     */
     private CANSparkMax shooterSparkMaster, shooterSparkFollower;
 
     /**
@@ -48,9 +58,9 @@ public class Shooter extends SubsystemBase implements TKOSubsystem {
     }
 
     /**
-     * Returns a shooter instance and instantiates it if it is null
+     * Returns the {@link Shooter}'s {@link SubsystemBase} instance.
      *
-     * @return shooter instance
+     * @return the {@link Shooter}'s {@link SubsystemBase} instance.
      */
     public static Shooter getInstance() {
         if (instance == null) {
@@ -60,7 +70,7 @@ public class Shooter extends SubsystemBase implements TKOSubsystem {
     }
 
     /**
-     * Initializes and sets up both sparkmax settings
+     * Initializes the shooter's hardware.
      */
     @Override
     public void initHardware() {

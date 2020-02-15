@@ -2,34 +2,41 @@ package com.github.mittyrobotics.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.github.mittyrobotics.conveyor.Conveyor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class IntakeSubsystem extends SubsystemBase {
-    private static IntakeSubsystem instance;
+public class Intake extends SubsystemBase implements ISubsystem {
+    private static Intake instance;
     private WPI_TalonSRX intakeWheel;
     //ballSensor may not exist... Intake could be running forever
     //private DigitalInput ballSensor;
     private DoubleSolenoid extendIntake;
     private boolean isExtended;
 
-    private IntakeSubsystem() {
+    private Intake() {
         super();
         setName("Intake");
     }
 
-    public static IntakeSubsystem getInstance() {
+    public static Intake getInstance() {
         if (instance == null) {
-            instance = new IntakeSubsystem();
+            instance = new Intake();
         }
         return instance;
     }
 
+    @Override
     public void initHardware() {
 
         intakeWheel = new WPI_TalonSRX(Constants.Talon2ID);
         extendIntake = new DoubleSolenoid(Constants.solenoidForwqrdChannel, Constants.solenoidReverseChallenge);
+
+    }
+
+    @Override
+    public void updateDashboard() {
 
     }
 
