@@ -38,7 +38,7 @@ import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
 
 public class Robot extends TimedRobot {
 
-    //Compressor compressor;
+    Compressor compressor;
     Robot() {
         super(0.02);
     }
@@ -46,10 +46,10 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Spinner.getInstance().initHardware();
-        //ColorPiston.getInstance().initHardware();
+        ColorPiston.getInstance().initHardware();
         OI.getInstance().digitalInputControls();
-        //compressor = new Compressor();
-        //compressor.start();
+        compressor = new Compressor();
+        compressor.start();
 
     }
 

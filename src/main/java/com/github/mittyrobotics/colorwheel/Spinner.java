@@ -64,13 +64,10 @@ public class Spinner extends SubsystemBase {
 
     public void initHardware() {
         //initialize talon
-        talon1 = new WPI_TalonSRX(0);
+        talon1 = new WPI_TalonSRX(20);
         talon1.setSensorPhase(true);
 
-        talon1.config_kP(0, 0);
-        talon1.config_kI(0, 0);
-        talon1.config_kD(0, 0);
-        //TODO setup encoder & PID
+
         //sets color match
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);

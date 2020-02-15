@@ -128,6 +128,8 @@ public class OI {
 		red.whenPressed(new SpinToColor(WheelColor.Red));
 		yellow.whenPressed(new SpinToColor(WheelColor.Yellow));
 		green.whenPressed(new SpinToColor(WheelColor.Green));
+
+		spinRevButton.whenPressed(new SpinRevs());
 	}
 	public void passedStage2(){
 		stage3 = true;

@@ -14,7 +14,7 @@ public class SpinRevs extends CommandBase {
     public void initialize(){
         //sets motor to fast velocity
         System.out.println("Starting");
-        //ColorPiston.getInstance().up();
+        ColorPiston.getInstance().up();
         Spinner.getInstance().zeroEncoder();
 
     }
@@ -27,7 +27,7 @@ public class SpinRevs extends CommandBase {
     public void end(boolean interrupted){
         //turns off motor, updates status
         Spinner.getInstance().setMotorOff();
-        //ColorPiston.getInstance().down();
+        ColorPiston.getInstance().down();
         System.out.println("END");
         //OI.getInstance().passedStage2();
     }
