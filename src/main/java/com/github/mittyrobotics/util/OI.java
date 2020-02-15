@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.shooter.Shooter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -73,26 +72,7 @@ public class OI {
     }
 
     public void digitalInputControls() {
-    }
 
-    public void shooterDebugControl() {
-//        if (OI.getInstance().getJoystick1().getRawButtonPressed(6)) {
-        if (OI.getInstance().getXboxController().getYButtonPressed()) {
-            Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint + 50);
-        }
-//        if (OI.getInstance().getJoystick1().getRawButtonPressed(7)) {
-        if (OI.getInstance().getXboxController().getAButtonPressed()) {
-            Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint - 50);
-        }
-
-//        if (OI.getInstance().getJoystick1().getRawButtonPressed(11)) {
-        if (OI.getInstance().getXboxController().getBButtonPressed()) {
-            Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint + 10);
-        }
-//        if (OI.getInstance().getJoystick1().getRawButtonPressed(10)) {
-        if (OI.getInstance().getXboxController().getXButtonPressed()) {
-            Shooter.getInstance().setShooterSpeed(Shooter.currentSetpoint - 10);
-        }
     }
 
     public boolean passedStage2() {
