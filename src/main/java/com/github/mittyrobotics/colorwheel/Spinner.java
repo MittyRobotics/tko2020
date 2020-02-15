@@ -92,7 +92,7 @@ public class Spinner extends SubsystemBase {
 
     public void setMotorPID(double rpm){
         double setpoint = (rpm * (4 * Math.PI)) * TICKS_PER_INCH / 600.0; //Ticks per 100ms
-        PIDController controller = new PIDController(0.000001, 0, 0);
+        PIDController controller = new PIDController(0.0000001, 0, 0);
         controller.setSetpoint(setpoint);
         //System.out.println(controller.calculate(talon1.getSelectedSensorVelocity()));
         //System.out.println("MOTOR OUT" + talon1.getMotorOutputPercent());
