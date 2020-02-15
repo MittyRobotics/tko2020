@@ -133,7 +133,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-
         new TempTankDrive().schedule();
 
         //Shooter.getInstance().setShooterSpeed(3000);
