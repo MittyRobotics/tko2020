@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class CurvatureSteering extends CommandBase {
 
     CurvatureSteering(){
-        //addRequirements(DriveTrainTalon.getInstance());
-        addRequirements(DriveTrainFalcon.getInstance());
+        addRequirements(DriveTrainTalon.getInstance());
+        //addRequirements(DriveTrainFalcon.getInstance());
     }
 
     @Override
@@ -24,7 +24,7 @@ public class CurvatureSteering extends CommandBase {
         boolean brake = OI.getInstance().getJoystick1().getTrigger(); //brake
         final double radiusE = 5;
         double radius = Math.abs(450/turn * radiusE); //radius of imaginary circle
-        double halfWidthRobot = 12.5; //from center of robot to imaginary circle
+        double halfWidthRobot = 12.625; //12.5 for falcon
 
         double leftSpeed = 0;
         double rightSpeed = 0;
@@ -54,19 +54,21 @@ public class CurvatureSteering extends CommandBase {
         }
 
         if (inThreshold){
-            //DriveTrainTalon.getInstance().tankDrive(joystickSpeed*0.67, joystickSpeed*0.67);
-            DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
+            DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
+            //DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
         } else if (Math.abs(joystickSpeed) < 0.05) {
             //System.out.println("Turn: " + turn);
             //DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
             //System.out.println("in-place");
-            DriveTrainFalcon.getInstance().tankDrive(-turn/350, turn/350);
+            //DriveTrainFalcon.getInstance().tankDrive(-turn/350, turn/350);
+            DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
         } else {
             System.out.println("Turn: " + turn);
             System.out.println("Right Speed: " + rightSpeed);
             System.out.println("Left Speed: " + leftSpeed);
 
-            DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
+//            DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
+            DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
         }
 
 //        if(Math.abs(joystickSpeed) < 0.05){

@@ -1,46 +1,27 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.github.mittyrobotics.util.OI;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.drive.DriveTrainSparks;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        DriveTrainTalon.getInstance().initHardware();
         OI.getInstance().digitalInputControls();
+        DriveTrainTalon.getInstance().initHardware();
     }
 
     @Override
     public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
+
     }
 
     @Override
@@ -49,36 +30,60 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void disabledPeriodic(){
-
+    public void disabledPeriodic() {
     }
 
     @Override
     public void autonomousInit() {
+
 
     }
 
     @Override
     public void autonomousPeriodic() {
 
+
+
     }
 
     @Override
     public void teleopInit() {
 
+//        CommandScheduler.getInstance().cancelAll();
+//        DriveTrainTalon.getInstance().resetEncoder();
+        //DriveTrainFalcon.getInstance().tankDrive(1, 1);
+        //DriveTrainFalcon.getInstance().resetEncoder();
+
     }
 
     @Override
     public void teleopPeriodic() {
+        CommandScheduler.getInstance().run();
+
+
+//    DriveTrainFalcon.getInstance().tankVelocity(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+//    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+//    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+//    DriveTrainFalcon.getInstance().tankVelocity(60, 60);
+
+        //DriveTrainTalon.getInstance().velocityPIDFeedForward( 40, 40);
+//        DriveTrainTalon.getInstance().tankVelocity(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+//    DriveTrainTalon.getInstance().velocityPIDFeedForward( 50, 50); // 50 fine but 40 overshoots and undershoots
+//        System.out.println("Left Encoder: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
+//        System.out.println("Right Encoder: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
+
     }
 
     @Override
-    public void testInit(){
+    public void testInit() {
+
 
     }
 
     @Override
-    public void testPeriodic(){
+    public void testPeriodic() {
+
+
 
     }
 }

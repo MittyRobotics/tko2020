@@ -72,10 +72,11 @@ public class DriveTrainTalon extends SubsystemBase {
 		rightDrive[0].setNeutralMode(NeutralMode.Brake);
 		rightDrive[1].setNeutralMode(NeutralMode.Brake);
 
-		//setDefaultCommand(new MaxSpeedTestTalon());
+		setDefaultCommand(new CurvatureSteering());
 
 		//Feedforward Velocity PID
 		//controller = new PIDController(0.309 / 12.0, 0, 0);
+
 
 	}
 
@@ -97,10 +98,10 @@ public class DriveTrainTalon extends SubsystemBase {
 	}
 
 	public void tankVelocity(double left, double right) {
-		if(Math.abs(left) < 0.05){
+		if(Math.abs(left) < 0.1){
 			left = 0;
 		}
-		if(Math.abs(right) < 0.05){
+		if(Math.abs(right) < 0.1){
 			right = 0;
 		}
 		velocityPIDFeedForward(left*340, right*340);
@@ -157,13 +158,13 @@ public class DriveTrainTalon extends SubsystemBase {
 		double fbLeft = leftController.calculate(leftDrive[0].getSelectedSensorVelocity());
 		double fbRight = rightController.calculate(rightDrive[0].getSelectedSensorVelocity());
 
-		if (firstLeft < 50) {
-			if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 3 * Constants.TICKS_PER_INCH / 10){
+		if (firstLeft < 60) {
+			if(Math.abs(leftVelocity - leftDrive[0].getSelectedSensorVelocity()) > 9 * Constants.TICKS_PER_INCH / 10){
 				fbLeft = 0;
 			}
 		}
-		if (firstRight < 50) {
-			if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 3 * Constants.TICKS_PER_INCH / 10){
+		if (firstRight < 60) {
+			if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 9 * Constants.TICKS_PER_INCH / 10){
 				fbRight = 0;
 			}
 		}
@@ -174,7 +175,12 @@ public class DriveTrainTalon extends SubsystemBase {
 //		if(Math.abs(rightVelocity - rightDrive[0].getSelectedSensorVelocity()) > 5 * Constants.TICKS_PER_INCH / 10){
 //			fbRight = 0;
 //		}
-
+		if(leftVelocity == 0){
+			ffLeft = - fbLeft;
+		}
+		if (rightVelocity == 0){
+			ffRight = -fbRight;
+		}
 		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
 		rightDrive[0].set(ControlMode.PercentOutput, ffRight + fbRight);
 		leftDrive[0].set(ControlMode.PercentOutput, ffLeft + fbLeft);
