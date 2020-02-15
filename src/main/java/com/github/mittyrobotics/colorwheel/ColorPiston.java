@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,41 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.colorwheel;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public final class Main {
-    private Main() {
+import static com.github.mittyrobotics.colorwheel.Constants.SOLENOID_FOWARD_CHANNEL;
+import static com.github.mittyrobotics.colorwheel.Constants.SOLENOID_REVERSE_CHANNEL;
+
+public class ColorPiston extends SubsystemBase {
+
+    private static ColorPiston instance;
+    private DoubleSolenoid piston;
+
+    private ColorPiston() {
+        super();
+        setName("Color Piston");
+    }
+
+    public static ColorPiston getInstance() {
+        if (instance == null) {
+            instance = new ColorPiston();
+        }
+        return instance;
+    }
+
+    public void initHardware() {
+        piston = new DoubleSolenoid(SOLENOID_FOWARD_CHANNEL, SOLENOID_REVERSE_CHANNEL);
 
     }
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+    public void up() {
+        piston.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void down() {
+        piston.set(DoubleSolenoid.Value.kReverse);
     }
 }

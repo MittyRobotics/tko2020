@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,43 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.colorwheel;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public final class Main {
-    private Main() {
+public class SpinRevs extends CommandBase {
+    public SpinRevs() {
+        super();
+        addRequirements(Spinner.getInstance(), ColorPiston.getInstance());
+    }
+
+    @Override
+    public void initialize() {
+        //sets motor to fast velocity
+        ColorPiston.getInstance().up();
+        Spinner.getInstance().zeroEncoder();
+        Spinner.getInstance().setMotorFast();
+
 
     }
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        //turns off motor, updates status
+        Spinner.getInstance().setMotorOff();
+        ColorPiston.getInstance().down();
+        OI.getInstance().passedStage2();
+    }
+
+    @Override
+    public boolean isFinished() {
+        //returns 3 revs completed (one inch times 100 inches for each revolution times 3 revolutions)
+        return Spinner.getInstance().getRevolutions() > 3.5;
     }
 }

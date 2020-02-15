@@ -22,17 +22,31 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.constants;
 
-import edu.wpi.first.wpilibj.RobotBase;
+public class AutonConstants {
+    //Field
+    public static double HIGH_TARGET_HEIGHT = (6.836 + 9.438) / 2.0 * 12; /*(6.836 + 9.438) / 2.0;*/ //ft //TODO:
+    // Calibrate to field
+    public static double HIGH_TARGET_MIN_HEIGHT = 6.938 + (7.0 / 12.0 / 2.0); //ft
+    public static double HIGH_TARGET_MAX_HEIGHT = 9.438 - (7.0 / 12.0 / 2.0); //ft
 
-public final class Main {
-    private Main() {
+    //Vision
+    public static double LIMELIGHT_HEIGHT = 22; //TODO: Find this value
+    public static double LIMELIGHT_PITCH = 25; //TODO: Find this value
 
-    }
+    //Robot
+    public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
+    public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
+    public static double CAMERA_TURRET_OFFSET = 0; //Inches //TODO: Find this value
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
-    }
+    //Shooter //TODO: Tune these
+    /**
+     * Shooter RPM lookup table. Used to find the correct RPM of the shooter flywheel given a distance.
+     * <p>
+     * Elements are in the format {distance, RPM}
+     */
+    public static double[][] SHOOTER_RPM_TABLE = {
+            {0, 0}
+    };
 }

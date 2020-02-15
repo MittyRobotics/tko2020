@@ -22,17 +22,27 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.drive;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public final class Main {
-    private Main() {
-
+public class TempTankDrive extends CommandBase {
+    public TempTankDrive(){
+        super();
+        addRequirements(DriveTrainFalcon.getInstance());
     }
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+    @Override
+    public void execute() {
+        double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft)*50;
+        double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight)*50;
+        DriveTrainFalcon.getInstance().customTankVelocity(left,right);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        DriveTrainFalcon.getInstance().tankDrive(0,0);
     }
 }

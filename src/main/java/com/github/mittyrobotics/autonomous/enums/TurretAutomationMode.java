@@ -22,17 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.enums;
 
-import edu.wpi.first.wpilibj.RobotBase;
-
-public final class Main {
-    private Main() {
-
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
-    }
+public enum TurretAutomationMode {
+    FIELD_RELATIVE_AIM,
+    FIELD_RELATIVE_ANGLE,
+    ROBOT_RELATIVE_ANGLE,
+    VISION,
+    NO_AUTOMATION
 }

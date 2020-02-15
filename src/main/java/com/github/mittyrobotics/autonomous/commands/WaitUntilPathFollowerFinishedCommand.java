@@ -22,17 +22,15 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.autonomous.AutonDriver;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public final class Main {
-    private Main() {
+import java.util.function.BooleanSupplier;
 
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+public class WaitUntilPathFollowerFinishedCommand extends WaitUntilCommand {
+    public WaitUntilPathFollowerFinishedCommand() {
+        super(() -> AutonDriver.getInstance().isFinishedPath());
     }
 }

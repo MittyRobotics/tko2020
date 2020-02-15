@@ -22,17 +22,40 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.util;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
-public final class Main {
-    private Main() {
+public class Gyro extends ADXRS450_Gyro {
+    private static Gyro instance = new Gyro();
 
+    private Gyro() {
+        super();
     }
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+    public static Gyro getInstance() {
+        if (instance == null) {
+            instance = new Gyro();
+        }
+        return instance;
+    }
+
+    @Override
+    public double getAngle() {
+        return -super.getAngle();
+    }
+
+    public Rotation getRotation() {
+        return new Rotation(getAngle360());
+    }
+
+    public double getAngle360() {
+        double angle = getAngle();
+        angle %= 360;
+        if (angle < 0) {
+            angle += 360;
+        }
+        return angle;
     }
 }

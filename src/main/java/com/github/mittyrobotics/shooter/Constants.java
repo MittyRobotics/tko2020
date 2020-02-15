@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,15 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.shooter;
 
-import edu.wpi.first.wpilibj.RobotBase;
-
-public final class Main {
-    private Main() {
-
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
-    }
+public class Constants {
+    //Shooter
+    public static final double SHOOTER_F = 1.0/5211;
+//    public static final double SHOOTER_P = 0.000005;
+    public static final double SHOOTER_P = 0;
+    public static final double SHOOTER_I = 0;
+    public static final double SHOOTER_D = 0;
+    public static final int SHOOTER_SPARK_MASTER_ID = 5;
+    public static final int SHOOTER_SPARK_FOLLOWER_ID = 4;
 }
