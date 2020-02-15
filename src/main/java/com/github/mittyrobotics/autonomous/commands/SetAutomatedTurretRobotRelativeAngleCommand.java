@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
+import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 

@@ -25,15 +25,8 @@
 package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.AutonDriver;
-import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
-import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
-import com.github.mittyrobotics.autonomous.vision.Vision;
-import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.generation.Path;
-import com.github.mittyrobotics.shooter.Shooter;
-import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PathFollowerCommand extends CommandBase {

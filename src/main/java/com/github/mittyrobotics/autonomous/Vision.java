@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.vision;
+package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
@@ -30,7 +30,6 @@ import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.vision.Limelight;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision {
     private static Vision instance = new Vision();
