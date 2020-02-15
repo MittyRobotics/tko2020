@@ -88,7 +88,6 @@ public class Turret extends SubsystemBase {
 
     }
 
-
     /**
      * Set the turret's percent output, limiting it's range from the limit switches.
      *

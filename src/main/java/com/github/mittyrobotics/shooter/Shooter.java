@@ -35,8 +35,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Shooter extends SubsystemBase implements TKOSubsystem {
 
-    private double currentSetpoint;
     private static Shooter instance;
+    private double currentSetpoint;
     private CANSparkMax shooterSparkMaster, shooterSparkFollower;
 
     /**
@@ -49,6 +49,7 @@ public class Shooter extends SubsystemBase implements TKOSubsystem {
 
     /**
      * Returns a shooter instance and instantiates it if it is null
+     *
      * @return shooter instance
      */
     public static Shooter getInstance() {
@@ -89,6 +90,7 @@ public class Shooter extends SubsystemBase implements TKOSubsystem {
 
     /**
      * Gets the average RPM of both motors
+     *
      * @return the shooter RPM
      */
     public double getShooterRPM() {
@@ -97,6 +99,7 @@ public class Shooter extends SubsystemBase implements TKOSubsystem {
 
     /**
      * Gets the current setpoint for the motors to spin at
+     *
      * @return current setpoint
      */
     public double getCurrentSetpoint() {
@@ -105,18 +108,20 @@ public class Shooter extends SubsystemBase implements TKOSubsystem {
 
     /**
      * Returns the difference between the current setpoint and the actual RPM
+     *
      * @return the RPM error
      */
-    public double getRPMError(){
-        return getCurrentSetpoint()-getShooterRPM();
+    public double getRPMError() {
+        return getCurrentSetpoint() - getShooterRPM();
     }
 
     /**
      * Sets the shooter speed using velocity PID
+     *
      * @param setpoint the speed to set the shooter at
      */
     public void setShooterSpeed(double setpoint) { //in rpm of the motors
-        if(setpoint != 0){
+        if (setpoint != 0) {
             shooterSparkMaster.getPIDController().setReference(setpoint, ControlType.kVelocity);
             shooterSparkFollower.getPIDController().setReference(setpoint, ControlType.kVelocity);
         } else {

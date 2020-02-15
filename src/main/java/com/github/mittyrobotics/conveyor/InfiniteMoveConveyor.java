@@ -6,7 +6,7 @@ public class InfiniteMoveConveyor extends CommandBase {
 
     private double speed;
 
-    public InfiniteMoveConveyor(double speed){
+    public InfiniteMoveConveyor(double speed) {
         super();
         this.speed = speed;
         addRequirements(Conveyor.getInstance());
@@ -22,7 +22,7 @@ public class InfiniteMoveConveyor extends CommandBase {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 

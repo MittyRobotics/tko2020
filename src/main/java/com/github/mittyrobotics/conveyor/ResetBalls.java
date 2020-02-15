@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ResetBalls extends CommandBase {
 
-    public ResetBalls(){
+    public ResetBalls() {
         super();
         addRequirements(Conveyor.getInstance());
     }
@@ -20,7 +20,7 @@ public class ResetBalls extends CommandBase {
 
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return true;
     }
 

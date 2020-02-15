@@ -107,6 +107,6 @@ public class AutonTesting extends TimedRobot {
     @Override
     public void testInit() {
         Odometry.getInstance().calibrateTransformToZero(DriveTrainFalcon.getInstance().getLeftEncoder(),
-                DriveTrainFalcon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
+                DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
     }
 }

@@ -29,20 +29,20 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TempTankDrive extends CommandBase {
-    public TempTankDrive(){
+    public TempTankDrive() {
         super();
         addRequirements(DriveTrainFalcon.getInstance());
     }
 
     @Override
     public void execute() {
-        double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft)*50;
-        double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight)*50;
-        DriveTrainFalcon.getInstance().customTankVelocity(left,right);
+        double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft) * 50;
+        double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight) * 50;
+        DriveTrainFalcon.getInstance().customTankVelocity(left, right);
     }
 
     @Override
     public void end(boolean interrupted) {
-        DriveTrainFalcon.getInstance().tankDrive(0,0);
+        DriveTrainFalcon.getInstance().tankDrive(0, 0);
     }
 }

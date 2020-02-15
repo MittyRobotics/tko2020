@@ -1,7 +1,7 @@
 package com.github.mittyrobotics.climber.commands;
 
-import com.github.mittyrobotics.climber.PistonValue;
 import com.github.mittyrobotics.climber.Hooks;
+import com.github.mittyrobotics.climber.PistonValue;
 import com.github.mittyrobotics.climber.RobotSide;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

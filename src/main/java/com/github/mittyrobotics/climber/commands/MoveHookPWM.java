@@ -1,7 +1,7 @@
 package com.github.mittyrobotics.climber.commands;
 
-import com.github.mittyrobotics.climber.PistonValue;
 import com.github.mittyrobotics.climber.Hooks;
+import com.github.mittyrobotics.climber.PistonValue;
 import com.github.mittyrobotics.climber.RobotSide;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -29,7 +29,7 @@ public class MoveHookPWM extends CommandBase {
         inactivePercent = 1 - activePercent;
         cycleTime = Timer.getFPGATimestamp();
 
-        totalMult = 1/activePercent;
+        totalMult = 1 / activePercent;
         totalCount = 100 * totalMult;
         counter = 0;
         //activePercent *= 20;
@@ -75,11 +75,10 @@ public class MoveHookPWM extends CommandBase {
         */
 
 
-
-        if(pistonActive) {
+        if (pistonActive) {
             System.out.println("Active");
             Hooks.getInstance().push(side, value); //push in designated direction
-        } else  {
+        } else {
             System.out.println("Inactive");
             Hooks.getInstance().push(side, PistonValue.OFF); //turn piston off
         }

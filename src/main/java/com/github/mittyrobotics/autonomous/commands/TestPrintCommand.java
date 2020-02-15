@@ -27,7 +27,7 @@ package com.github.mittyrobotics.autonomous.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class TestPrintCommand extends InstantCommand {
-    public TestPrintCommand(String string){
+    public TestPrintCommand(String string) {
         super(() -> {
             System.out.println(string);
             System.out.println(string);

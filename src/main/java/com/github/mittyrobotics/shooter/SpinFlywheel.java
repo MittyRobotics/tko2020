@@ -34,9 +34,10 @@ public class SpinFlywheel extends InstantCommand {
     /**
      * Constructor that requires the command to be run on the shooter subsystem
      * Sets the shooter to run at a certain speed, and ends the command immediately
+     *
      * @param speed the speed to set the shooter wheel to
      */
     public SpinFlywheel(double speed) {
-        super(()->Shooter.getInstance().setShooterSpeed(speed), Shooter.getInstance());
+        super(() -> Shooter.getInstance().setShooterSpeed(speed), Shooter.getInstance());
     }
 }

@@ -5,7 +5,7 @@ import com.github.mittyrobotics.climber.RobotSide;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class MoveHookGroupDown extends ParallelCommandGroup {
-    public MoveHookGroupDown(){
+    public MoveHookGroupDown() {
         addCommands(new MoveHook(RobotSide.RIGHT, PistonValue.DOWN), new MoveHook(RobotSide.LEFT, PistonValue.DOWN));
     }
 }

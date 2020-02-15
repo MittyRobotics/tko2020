@@ -27,21 +27,18 @@ package com.github.mittyrobotics.autonomous.modes;
 import com.github.mittyrobotics.autonomous.commands.InitNewPathFollowerCommand;
 import com.github.mittyrobotics.autonomous.commands.PathFollowerCommand;
 import com.github.mittyrobotics.autonomous.commands.TestPrintCommand;
-import com.github.mittyrobotics.autonomous.commands.WaitUntilPathFollowerWithinDistanceCommand;
-import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.controllers.PurePursuitController;
-import com.github.mittyrobotics.path.following.controllers.RamseteController;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TestPathFollowingAuton extends SequentialCommandGroup {
-    public TestPathFollowingAuton(){
+    public TestPathFollowingAuton() {
         double maxAcceleration = 20;
         double maxDeceleration = 20;
         double maxVelocity = 50;
@@ -57,32 +54,33 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
 
         double curvatureSlowdownGain = PurePursuitController.DEFAULT_CURVATURE_SLOWDOWN_GAIN;
         double minSlowdownVelocity = 30;
-        VelocityConstraints velocityConstraints = new VelocityConstraints(maxAcceleration,maxDeceleration,maxVelocity);
-        PathVelocityController velocityController = new PathVelocityController(velocityConstraints,startVelocity,
-                endVelocity,extremeTakeoff,extremeTakeoffMultiplier);
-        PathFollowerProperties properties = new PathFollowerProperties(velocityController,false,
+        VelocityConstraints velocityConstraints =
+                new VelocityConstraints(maxAcceleration, maxDeceleration, maxVelocity);
+        PathVelocityController velocityController = new PathVelocityController(velocityConstraints, startVelocity,
+                endVelocity, extremeTakeoff, extremeTakeoffMultiplier);
+        PathFollowerProperties properties = new PathFollowerProperties(velocityController, false,
                 continuouslyAdaptivePath);
 
-        PathFollowerProperties propertiesReversed = new PathFollowerProperties(velocityController,true,
+        PathFollowerProperties propertiesReversed = new PathFollowerProperties(velocityController, true,
                 continuouslyAdaptivePath);
 
         PathFollowerProperties.RamseteProperties ramseteProperties =
-                new PathFollowerProperties.RamseteProperties(aggressiveGain,dampingGain);
+                new PathFollowerProperties.RamseteProperties(aggressiveGain, dampingGain);
 
         PathFollowerProperties.PurePursuitProperties purePursuitProperties =
                 new PathFollowerProperties.PurePursuitProperties(lookahead,
-                curvatureSlowdownGain,
-                minSlowdownVelocity);
-        PathFollower follower = new PathFollower(properties,purePursuitProperties);
-        PathFollower followerReversed = new PathFollower(propertiesReversed,ramseteProperties);
+                        curvatureSlowdownGain,
+                        minSlowdownVelocity);
+        PathFollower follower = new PathFollower(properties, purePursuitProperties);
+        PathFollower followerReversed = new PathFollower(propertiesReversed, ramseteProperties);
 
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(0,0, 0),
-                        new Transform(100,48, 0)}));
+                new Transform[]{new Transform(0, 0, 0),
+                        new Transform(100, 48, 0)}));
 
         Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(100,48, 180),
-                        new Transform(0,0, 180)}));
+                new Transform[]{new Transform(100, 48, 180),
+                        new Transform(0, 0, 180)}));
 
         addCommands(
                 //Init path follower

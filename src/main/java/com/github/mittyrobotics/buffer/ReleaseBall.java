@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 //TODO need to test if release ball can happen all in one shot or if pauses are needed
 public class ReleaseBall extends CommandBase {
     private boolean isDone = false;
-//    private double t, currentTime;
+    //    private double t, currentTime;
     private double initialDistance, currentDistance;
 
-    public ReleaseBall (){
+    public ReleaseBall() {
         super();
         addRequirements(Buffer.getInstance());
     }
@@ -25,7 +25,7 @@ public class ReleaseBall extends CommandBase {
     @Override
     public void execute() { //using encoder to control distance it travels instead of time(not PID, since it needs constant speed, but just an encoder checker)
 
-        if ((currentDistance- initialDistance)<Constants.RELEASE_SETPOINT) {
+        if ((currentDistance - initialDistance) < Constants.RELEASE_SETPOINT) {
             Buffer.getInstance().bufferRelease(Constants.TalonReleaseSpeed);
         } else {
             isDone = true;
@@ -41,7 +41,7 @@ public class ReleaseBall extends CommandBase {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return isDone;
     }
 }

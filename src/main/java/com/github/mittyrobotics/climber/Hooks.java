@@ -7,7 +7,7 @@ public class Hooks extends SubsystemBase {
     private static Hooks ourInstance = new Hooks();
     private DoubleSolenoid leftPiston, rightPiston;
 
-    private Hooks(){
+    private Hooks() {
         super();
     }
 
@@ -15,7 +15,7 @@ public class Hooks extends SubsystemBase {
         return ourInstance;
     }
 
-    public void initHardware(){
+    public void initHardware() {
         leftPiston = new DoubleSolenoid(Constants.LEFT_PISTON_FORWARD_ID, Constants.LEFT_PISTON_REVERSE_ID);
         //rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);
     }
@@ -29,8 +29,7 @@ public class Hooks extends SubsystemBase {
             } else if (value == PistonValue.OFF) {
                 leftPiston.set(DoubleSolenoid.Value.kOff);
             }
-        }
-        else if (side == RobotSide.RIGHT) {
+        } else if (side == RobotSide.RIGHT) {
             if (value == PistonValue.UP) {
                 rightPiston.set(DoubleSolenoid.Value.kForward);
             } else if (value == PistonValue.DOWN) {
@@ -40,11 +39,10 @@ public class Hooks extends SubsystemBase {
             }
         }
     }
-    public DoubleSolenoid.Value getSolenoidValue(){
+
+    public DoubleSolenoid.Value getSolenoidValue() {
         return leftPiston.get();
     }
-
-
 
 
 }

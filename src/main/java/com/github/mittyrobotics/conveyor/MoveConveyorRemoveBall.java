@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveConveyorRemoveBall extends CommandBase {
 
-    private double d1, d2 , conveyorInitPos, bufferInitPos;
+    private double d1, d2, conveyorInitPos, bufferInitPos;
     private boolean isDone;
 
-    public MoveConveyorRemoveBall(double d1, double d2){
+    public MoveConveyorRemoveBall(double d1, double d2) {
         super();
         this.d1 = d1;
         this.d2 = d2;
@@ -26,10 +26,10 @@ public class MoveConveyorRemoveBall extends CommandBase {
     public void execute() {
         double bufferDiff = Buffer.getInstance().getBufferPosition() - bufferInitPos;
         double conveyorDiff = Conveyor.getInstance().getPosition() - conveyorInitPos;
-        if(bufferDiff < d1){
+        if (bufferDiff < d1) {
             Buffer.getInstance().manualBufferSpeed(-0.2);
             Conveyor.getInstance().manualSetConveyorSpeed(0);
-        } else if(conveyorDiff < d2){
+        } else if (conveyorDiff < d2) {
             Conveyor.getInstance().manualSetConveyorSpeed(0.2);
             Buffer.getInstance().manualBufferSpeed(0);
         } else {
@@ -45,7 +45,7 @@ public class MoveConveyorRemoveBall extends CommandBase {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return isDone;
     }
 

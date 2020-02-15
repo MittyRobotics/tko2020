@@ -26,14 +26,12 @@ package com.github.mittyrobotics.autonomous.modes;
 
 import com.github.mittyrobotics.autonomous.commands.InitNewPathFollowerCommand;
 import com.github.mittyrobotics.autonomous.commands.PathFollowerCommand;
-import com.github.mittyrobotics.autonomous.commands.TestPrintCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
-import com.github.mittyrobotics.path.following.controllers.PurePursuitController;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
@@ -166,13 +164,13 @@ public class ThirteenBallAuton extends SequentialCommandGroup {
                 new Transform[]{
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180 + 45),
                         new Transform(AutonCoordinates.PICKUP_2_PARTY, 110),
-                        new Transform(AutonCoordinates.BALL_5,110)
+                        new Transform(AutonCoordinates.BALL_5, 110)
                 })
         );
 
         Path path5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.BALL_5,180+110),
+                        new Transform(AutonCoordinates.BALL_5, 180 + 110),
                         new Transform(AutonCoordinates.PICKUP_2_PARTY, 180 + 110),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180 + 180 + 45)
                 })

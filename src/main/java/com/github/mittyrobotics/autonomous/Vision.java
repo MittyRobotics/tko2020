@@ -84,7 +84,7 @@ public class Vision {
      * target, and distance from turret to target
      */
     private VisionTarget computeVisionTarget(Rotation visionPitch, Rotation visionYaw,
-                                            Rotation robotRelativeTurretAngle, Rotation gyro) {
+                                             Rotation robotRelativeTurretAngle, Rotation gyro) {
         //Compute distance from camera to target
         double cameraVisionDistance = computeVisionDistance(visionPitch);
         //Compute distance from turret to target
@@ -118,7 +118,7 @@ public class Vision {
      *
      * @return if the vision system is locked onto the target.
      */
-    public boolean isVisionLocked(double angleThreshold){
+    public boolean isVisionLocked(double angleThreshold) {
         return Math.abs(getLatestVisionTarget().getTurretRelativeYaw().getHeading()) < angleThreshold;
     }
 

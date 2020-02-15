@@ -25,9 +25,6 @@
 package com.github.mittyrobotics.autonomous.constants;
 
 import com.github.mittyrobotics.datatypes.positioning.Position;
-import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.path.generation.Path;
-import com.github.mittyrobotics.path.generation.PathGenerator;
 
 public class AutonCoordinates {
 
@@ -50,7 +47,7 @@ public class AutonCoordinates {
     public static final Position SCORING_ZONE_TIP = new Position(90, -67.25); // unstable
     public static final Position SCORING_TARGET = new Position(120f, -67.25);
 
-    public static final Position OPTIMAL_SHOOT_POSITION = new Position(-60.0,-67.25);
+    public static final Position OPTIMAL_SHOOT_POSITION = new Position(-60.0, -67.25);
 
     // Balls (party zone)
     public static final Position BALL_1 = new Position(-130.25, -46.05);
@@ -70,11 +67,10 @@ public class AutonCoordinates {
     public static final Position O_TRENCH_FRONT_CENTER = new Position(-302.63, 134.155);
 
     public static final Position[] FIELD_WAYPOINTS =
-            new Position[] {ZERO, LOADING_STARTING_POINT, LOADING_STARTING_POINT,
+            new Position[]{ZERO, LOADING_STARTING_POINT, LOADING_STARTING_POINT,
                     SCORING_STARTING_POINT, TRENCH_STARTING_POINT, A_TRENCH_BACK_CENTER, A_TRENCH_FRONT_CENTER,
                     SCORING_ZONE_TIP,
                     BALL_1, BALL_2, BALL_3, BALL_4, BALL_5, O_TRENCH_BACK_CENTER, O_TRENCH_FRONT_CENTER};
-
 
 
 }

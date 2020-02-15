@@ -26,13 +26,6 @@ package com.github.mittyrobotics.testing;
 
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.util.OdometryManager;
-import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
-import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.drive.TempTankDrive;
-import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Gyro;

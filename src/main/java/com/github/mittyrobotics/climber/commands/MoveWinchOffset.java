@@ -23,9 +23,9 @@ public class MoveWinchOffset extends CommandBase {
     public void initialize() {
         left = new PIDController(0, 0, 0);
         left.setSetpoint(setpoint);
-        right = new PIDController(0,0,0);
+        right = new PIDController(0, 0, 0);
         right.setSetpoint(setpoint);
-        aux = new PIDController(0,0,0);
+        aux = new PIDController(0, 0, 0);
         aux.setSetpoint(difference);
     }
 
@@ -33,7 +33,8 @@ public class MoveWinchOffset extends CommandBase {
     public void execute() {
         lSpeed = left.calculate(Winch.getInstance().getEncoderTicks(RobotSide.LEFT));
         rSpeed = right.calculate(Winch.getInstance().getEncoderTicks(RobotSide.RIGHT));
-        auxSpeed = aux.calculate(Winch.getInstance().getEncoderTicks(RobotSide.LEFT) - Winch.getInstance().getEncoderTicks(RobotSide.RIGHT));
+        auxSpeed = aux.calculate(Winch.getInstance().getEncoderTicks(RobotSide.LEFT) -
+                Winch.getInstance().getEncoderTicks(RobotSide.RIGHT));
         Winch.getInstance().setSpeed(lSpeed + auxSpeed, RobotSide.LEFT);
         Winch.getInstance().setSpeed(rSpeed - auxSpeed, RobotSide.RIGHT);
     }

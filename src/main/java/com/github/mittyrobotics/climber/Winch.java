@@ -1,6 +1,9 @@
 package com.github.mittyrobotics.climber;
 
-import com.revrobotics.*;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -14,7 +17,7 @@ public class Winch extends SubsystemBase {
     }
 
     public static Winch getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new Winch();
         }
         return instance;
@@ -38,12 +41,12 @@ public class Winch extends SubsystemBase {
         leftSpark.getPIDController().setP(Constants.WINCH_PID_VALUES[0]);
         leftSpark.getPIDController().setI(Constants.WINCH_PID_VALUES[1]);
         leftSpark.getPIDController().setD(Constants.WINCH_PID_VALUES[2]);
-        leftSpark.getPIDController().setOutputRange(-1*Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
+        leftSpark.getPIDController().setOutputRange(-1 * Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
 
         rightSpark.getPIDController().setP(Constants.WINCH_PID_VALUES[0]);
         rightSpark.getPIDController().setI(Constants.WINCH_PID_VALUES[1]);
         rightSpark.getPIDController().setD(Constants.WINCH_PID_VALUES[2]);
-        leftSpark.getPIDController().setOutputRange(-1*Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
+        leftSpark.getPIDController().setOutputRange(-1 * Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
 
     }
 
@@ -52,7 +55,7 @@ public class Winch extends SubsystemBase {
 //        return leftController;
 //    }
 
-    public CANEncoder getLeftEncoder(){
+    public CANEncoder getLeftEncoder() {
         return leftSpark.getEncoder();
     }
 
@@ -65,12 +68,12 @@ public class Winch extends SubsystemBase {
         return controller;
     }*/
 
-    public CANEncoder getRightEncoder(){
+    public CANEncoder getRightEncoder() {
         return rightSpark.getEncoder();
     }
 
     public void setReference(double tempPos, RobotSide side) {
-        if(side == RobotSide.LEFT) {
+        if (side == RobotSide.LEFT) {
             leftSpark.getPIDController().setReference(tempPos, ControlType.kPosition);
         } else {
             rightSpark.getPIDController().setReference(tempPos, ControlType.kPosition);
@@ -78,16 +81,15 @@ public class Winch extends SubsystemBase {
     }
 
     public CANEncoder getEncoder(RobotSide side) {
-        if(side == RobotSide.LEFT) {
+        if (side == RobotSide.LEFT) {
             return leftSpark.getEncoder();
-        }
-        else {
+        } else {
             return rightSpark.getEncoder();
         }
     }
 
     public double getEncoderTicks(RobotSide side) {
-        if(side == RobotSide.LEFT) {
+        if (side == RobotSide.LEFT) {
             return leftSpark.getEncoder().getPosition();
         } else {
             return rightSpark.getEncoder().getPosition();
@@ -96,7 +98,7 @@ public class Winch extends SubsystemBase {
 
 
     public void setSpeed(double speed, RobotSide side) {
-        if(side == RobotSide.LEFT) {
+        if (side == RobotSide.LEFT) {
             leftSpark.set(speed);
         } else {
             rightSpark.set(speed);

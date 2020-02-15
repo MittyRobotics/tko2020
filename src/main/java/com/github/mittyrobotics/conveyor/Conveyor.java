@@ -5,30 +5,30 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-public class Conveyor extends SubsystemBase {
-    private WPI_TalonSRX conveyorTalon;
 
+public class Conveyor extends SubsystemBase {
+    private static Conveyor instance;
+    private WPI_TalonSRX conveyorTalon;
     private int totalBallCount = 0;
     private boolean previousEntranceSwitchValue;
     private boolean previousExitSwitchValue;
     private boolean ballCountHasChanged;
-
     private DigitalInput entranceOpticalSwitch;
     private DigitalInput exitOpticalSwitch;
 
-    private static Conveyor instance;
-    public static Conveyor getInstance(){
-        if(instance == null){
-            instance = new Conveyor();
-        }
-        return instance;
-    }
-    private Conveyor(){
+    private Conveyor() {
         super();
         setName("Conveyor");
     }
 
-    public void initHardware(){
+    public static Conveyor getInstance() {
+        if (instance == null) {
+            instance = new Conveyor();
+        }
+        return instance;
+    }
+
+    public void initHardware() {
 
         conveyorTalon = new WPI_TalonSRX(Constants.CONVEYOR_TALON_ID);
 //        conveyorWheel2 = new WPI_TalonSRX(Constants.conveyorWheel2ID);
@@ -69,21 +69,24 @@ public class Conveyor extends SubsystemBase {
     public int getTotalBallCount() {
         return totalBallCount;
     }
-    public void updateBallCount(int count){
+
+    public void updateBallCount(int count) {
         totalBallCount += count;
     }
+
     public void resetBallCount() {
         totalBallCount = 0;
     }
-    public void setConveyorSpeed (double speed) {
+
+    public void setConveyorSpeed(double speed) {
 
         conveyorTalon.set(ControlMode.PercentOutput, speed);
 //        conveyorWheel2.set(ControlMode.PercentOutput, speed);
 
     }
 
-    public void manualSetConveyorSpeed (double speed) {
-        if (Math.abs(speed)>0.2) {
+    public void manualSetConveyorSpeed(double speed) {
+        if (Math.abs(speed) > 0.2) {
             conveyorTalon.set(ControlMode.PercentOutput, speed);
             System.out.println("Conveyor Percent Output: " + speed);
         } else {
@@ -91,21 +94,28 @@ public class Conveyor extends SubsystemBase {
         }
     }
 
-    public boolean hasBallCountChanged() {return ballCountHasChanged;}
+    public boolean hasBallCountChanged() {
+        return ballCountHasChanged;
+    }
 
     public void moveConveyor(double distance) {
-        conveyorTalon.set(ControlMode.Position, conveyorTalon.getSelectedSensorPosition()+distance*Constants.TICKS_PER_INCH);
+        conveyorTalon.set(ControlMode.Position,
+                conveyorTalon.getSelectedSensorPosition() + distance * Constants.TICKS_PER_INCH);
     }
+
     public boolean getEntranceSwitch() {
         return !entranceOpticalSwitch.get();
     }
-    public boolean getExitSwitch(){
+
+    public boolean getExitSwitch() {
         return !exitOpticalSwitch.get();
     }
-    public double getPosition(){
+
+    public double getPosition() {
         return conveyorTalon.getSelectedSensorPosition();
     }
-    public void resetEncoder(){
+
+    public void resetEncoder() {
         conveyorTalon.setSelectedSensorPosition(0);
     }
 

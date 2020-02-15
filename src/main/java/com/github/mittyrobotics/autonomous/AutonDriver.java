@@ -27,7 +27,6 @@ package com.github.mittyrobotics.autonomous;
 import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
@@ -41,13 +40,13 @@ public class AutonDriver {
     private boolean disabled;
     private double previousTime;
 
-    public static AutonDriver getInstance() {
-        return instance;
-    }
-
     private AutonDriver() {
         this.finishedPath = true;
         this.previousTime = 0;
+    }
+
+    public static AutonDriver getInstance() {
+        return instance;
     }
 
     public void initNewPathFollower(PathFollower pathFollower) {
@@ -76,7 +75,7 @@ public class AutonDriver {
         disabled = false;
     }
 
-    public void initAutonDriver(){
+    public void initAutonDriver() {
         this.previousTime = 0;
     }
 

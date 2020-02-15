@@ -29,7 +29,7 @@ import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class SetAutomatedTurretRobotRelativeAngleCommand extends InstantCommand {
-    public SetAutomatedTurretRobotRelativeAngleCommand(Rotation setpoint){
+    public SetAutomatedTurretRobotRelativeAngleCommand(Rotation setpoint) {
         super(() -> AutomatedTurretSuperstructure.getInstance().setRobotRelativeAimRotation(setpoint));
     }
 }

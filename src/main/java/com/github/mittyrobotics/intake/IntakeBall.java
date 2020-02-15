@@ -6,13 +6,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class IntakeBall extends CommandBase {
 
 
-    public IntakeBall(){
+    public IntakeBall() {
         super();
         addRequirements(IntakeSubsystem.getInstance());
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     @Override
     public void execute() { //TODO Need to have else to make it stop
@@ -23,9 +24,8 @@ public class IntakeBall extends CommandBase {
                 IntakeSubsystem.getInstance().extendIntake();
                 IntakeSubsystem.getInstance().intakeBall(Constants.Intakespeed);
             }
-        }
-        else{
-            if(!IntakeSubsystem.getInstance().isExtended()){
+        } else {
+            if (!IntakeSubsystem.getInstance().isExtended()) {
                 IntakeSubsystem.getInstance().intakeBall(0);
             } else {
                 IntakeSubsystem.getInstance().retractIntake();
@@ -38,7 +38,7 @@ public class IntakeBall extends CommandBase {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 

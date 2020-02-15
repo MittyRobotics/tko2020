@@ -41,10 +41,12 @@ public class ShooterTesting extends TimedRobot {
     }
 
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+    }
 
     @Override
-    public void autonomousInit() {}
+    public void autonomousInit() {
+    }
 
     @Override
     public void teleopInit() {
@@ -52,7 +54,8 @@ public class ShooterTesting extends TimedRobot {
     }
 
     @Override
-    public void testInit() {}
+    public void testInit() {
+    }
 
     @Override
     public void robotPeriodic() {
@@ -87,10 +90,12 @@ public class ShooterTesting extends TimedRobot {
 
 
     @Override
-    public void disabledPeriodic() { }
+    public void disabledPeriodic() {
+    }
 
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+    }
 
     @Override
     public void teleopPeriodic() {
@@ -99,5 +104,6 @@ public class ShooterTesting extends TimedRobot {
     }
 
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+    }
 }

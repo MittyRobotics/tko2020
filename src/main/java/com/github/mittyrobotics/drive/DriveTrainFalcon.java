@@ -3,26 +3,30 @@ package com.github.mittyrobotics.drive;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainFalcon extends SubsystemBase {
+    private static DriveTrainFalcon instance;
+    private final double kV = 0.06; //0.06
+    private final double kA = 0.0; //0.0
+    private final double kP = 0.01; //0.01
     private WPI_TalonFX[] leftDrive = new WPI_TalonFX[2];
     private WPI_TalonFX[] rightDrive = new WPI_TalonFX[2];
-
-
-    private static DriveTrainFalcon instance;
-    public static DriveTrainFalcon getInstance() {
-        if(instance == null){
-            instance = new DriveTrainFalcon();
-        }
-        return instance;
-    }
+    private double leftLastMeasured = 0;
+    private double rightLastMeasured = 0;
+    private double latestLeftVelSetpoint = 0;
+    private double latestRightVelSetpoint = 0;
 
     private DriveTrainFalcon() {
         super();
         setName("Drive Train Falcon");
+    }
+
+    public static DriveTrainFalcon getInstance() {
+        if (instance == null) {
+            instance = new DriveTrainFalcon();
+        }
+        return instance;
     }
 
     @Override
@@ -65,7 +69,7 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0].setSensorPhase(false);
     }
 
-    public void tankDrive(double left, double right){
+    public void tankDrive(double left, double right) {
         leftDrive[0].set(TalonFXControlMode.PercentOutput, left);
         leftDrive[1].set(TalonFXControlMode.PercentOutput, left);
         rightDrive[0].set(TalonFXControlMode.PercentOutput, right);
@@ -122,15 +126,6 @@ public class DriveTrainFalcon extends SubsystemBase {
         return rightDrive[0];
     }
 
-    private double leftLastMeasured = 0;
-    private double rightLastMeasured = 0;
-    private final double kV = 0.06; //0.06
-    private final double kA = 0.0; //0.0
-    private final double kP = 0.01; //0.01
-
-    private double latestLeftVelSetpoint = 0;
-    private double latestRightVelSetpoint = 0;
-
     public void customTankVelocity(double leftVel, double rightVel) {
         double left;
         double right;
@@ -172,7 +167,7 @@ public class DriveTrainFalcon extends SubsystemBase {
         return latestRightVelSetpoint;
     }
 
-    public double getLeftVelSetpoint(){
+    public double getLeftVelSetpoint() {
         return latestLeftVelSetpoint;
     }
 }

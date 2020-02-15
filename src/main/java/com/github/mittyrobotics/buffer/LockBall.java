@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class LockBall extends CommandBase {
     private boolean isDone = false;
 
-    public LockBall (){
+    public LockBall() {
         super();
         addRequirements(Buffer.getInstance());
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     @Override
     public void execute() {
@@ -21,12 +22,14 @@ public class LockBall extends CommandBase {
 //        isDone = BufferSubsystem.getInstance().isOptimalAngle() && BufferSubsystem.getInstance().isOptimalSpeed(); //TODO just make command return false, make a command group later for shooting that involves releasing the balls
         isDone = false;
     }
+
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         CommandScheduler.getInstance().schedule(new ReleaseBall());
     }
+
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return isDone;
     }
 }

@@ -2,8 +2,8 @@ package com.github.mittyrobotics.climber.commands;
 
 import com.github.mittyrobotics.climber.RobotSide;
 import com.github.mittyrobotics.climber.Winch;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.revrobotics.CANPIDController;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 public class MoveWinch extends CommandBase {
@@ -18,12 +18,12 @@ public class MoveWinch extends CommandBase {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
 
     }
 
     @Override
-    public void execute(){
+    public void execute() {
 //        double tempPos;
 //        final double RAMP_RATE = 10;
 //        if (side == RobotSide.LEFT) {
@@ -58,7 +58,7 @@ public class MoveWinch extends CommandBase {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return Math.abs(pos - Winch.getInstance().getEncoder(side).getPosition()) < 1;
     }
 }
