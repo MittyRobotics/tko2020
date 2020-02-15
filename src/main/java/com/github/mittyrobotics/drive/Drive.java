@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,60 +22,45 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.drive;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import com.github.mittyrobotics.controls.TKODifferentialDrive;
+import com.github.mittyrobotics.util.OI;
+import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Robot extends TimedRobot {
+public class Drive extends CommandBase {
+    CANSparkMax left;
+    CANSparkMax right;
+    TKODifferentialDrive differentialDrive;
+
+    public Drive() {
+        super();
+        addRequirements(DriveTrainSparks.getInstance());
+    }
 
     @Override
-    public void robotInit() {
+    public void initialize() {
+        left = DriveTrainSparks.getInstance().leftSpark1;
+        right = DriveTrainSparks.getInstance().rightSpark1;
+
+        differentialDrive = new TKODifferentialDrive(left, right);
+    }
+
+
+    @Override
+    public void execute() {
+        differentialDrive.joystickCarSteering(OI.getInstance().getXboxWheel().getX() / 3,
+                OI.getInstance().getJoystick1().getY() / 3, OI.getInstance().getJoystick1().getTrigger());
+    }
+
+    @Override
+    public void end(boolean interrupted) {
 
     }
 
     @Override
-    public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
-    }
-
-    @Override
-    public void disabledInit() {
-
-    }
-
-    @Override
-    public void disabledPeriodic(){
-
-    }
-
-    @Override
-    public void autonomousInit() {
-
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-
-    }
-
-    @Override
-    public void teleopInit() {
-
-    }
-
-    @Override
-    public void teleopPeriodic() {
-
-    }
-
-    @Override
-    public void testInit(){
-
-    }
-
-    @Override
-    public void testPeriodic(){
-
+    public boolean isFinished() {
+        return false;
     }
 }

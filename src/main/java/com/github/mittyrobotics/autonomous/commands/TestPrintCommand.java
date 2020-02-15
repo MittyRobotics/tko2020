@@ -22,17 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public final class Main {
-    private Main() {
-
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+public class TestPrintCommand extends InstantCommand {
+    public TestPrintCommand(String string){
+        super(() -> {
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+        });
     }
 }

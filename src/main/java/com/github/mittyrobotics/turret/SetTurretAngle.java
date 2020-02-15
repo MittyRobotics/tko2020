@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.turret;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public final class Main {
-    private Main() {
 
+public class SetTurretAngle extends CommandBase {
+    private double angle;
+
+    public SetTurretAngle(double angle) {
+        super();
+        this.angle = angle;
+        addRequirements(Turret.getInstance());
     }
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+    @Override
+    public void initialize() {
+        Turret.getInstance().setTurretAngle(angle);
+    }
+
+    @Override
+    public void execute() {
+        Turret.getInstance().updateTurretControlLoop();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        Turret.getInstance().manualSetTurret(0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return Math.abs(Turret.getInstance().getError()) < .25;
     }
 }

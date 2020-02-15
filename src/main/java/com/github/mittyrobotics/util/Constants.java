@@ -22,17 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.util;
 
-import edu.wpi.first.wpilibj.RobotBase;
-
-public final class Main {
-    private Main() {
-
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
-    }
+public class Constants {
+    public static final int XBOX_CONTROLLER_ID = 0;
+    public static final int JOYSTICK_1_ID = 1;
+    public static final int JOYSTICK_2_ID = 2;
+    public static final int XBOX_WHEEL_ID = 0;
 }

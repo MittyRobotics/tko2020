@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.autonomous.AutonDriver;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public final class Main {
-    private Main() {
-
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+public class WaitUntilPathFollowerWithinDistanceCommand extends WaitUntilCommand {
+    public WaitUntilPathFollowerWithinDistanceCommand(double distanceToEnd) {
+        super(() -> AutonDriver.getInstance().getRoughDistanceToEnd() < distanceToEnd);
     }
 }

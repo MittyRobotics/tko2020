@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.turret;
 
-import edu.wpi.first.wpilibj.RobotBase;
-
-public final class Main {
-    private Main() {
-
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
-    }
+public class Constants {
+    //Spin
+    public static final int TALON_ID = 23;
+    public static final double TURRET_P = .003;
+    public static final double TURRET_I = 0;
+    public static final double TURRET_D = 0;
+    public static final int TURRET_SWITCH_ID = 3;
+    public static final int TURRET_SWITCH_2_ID = 4;
+    public static final double TICKS_PER_ANGLE = 10.7;
+    public static final double REVOLUTION_TICKS = 3911;
 }

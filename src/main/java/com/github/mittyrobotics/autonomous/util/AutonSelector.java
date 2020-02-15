@@ -22,17 +22,26 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.util;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 
-public final class Main {
-    private Main() {
+public class AutonSelector {
+    private static AutonSelector instance = new AutonSelector();
 
+    public static AutonSelector getInstance() {
+        return instance;
     }
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+    /**
+     * Returns the autonomous command group to be run during the autonomous period of the match.
+     * <p>
+     * This pulls the autonomous selection from SmartDashboard, set by the driver before the match starts.
+     *
+     * @return the autonomous command group to be run during the autonomous period of the match.
+     */
+    public CommandGroupBase getSelectedAutonomousMode() {
+        //TODO: Implement this
+        return null;
     }
 }

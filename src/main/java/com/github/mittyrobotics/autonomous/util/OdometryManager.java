@@ -22,17 +22,28 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.util;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.path.following.util.Odometry;
+import com.github.mittyrobotics.util.Gyro;
 
-public final class Main {
-    private Main() {
+public class OdometryManager {
 
+    private static OdometryManager instance = new OdometryManager();
+
+    public static OdometryManager getInstance() {
+        return instance;
     }
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+    public void run() {
+        //Get left and right encoder positions and gyro heading
+        double leftEncoderPosition = DriveTrainFalcon.getInstance().getLeftEncoder();
+        double rightEncoderPosition = DriveTrainFalcon.getInstance().getRightEncoder();
+        double heading = Gyro.getInstance().getAngle();
+
+        //Update Odometry
+        Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,60 +22,49 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.colorwheel;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Robot extends TimedRobot {
+public class SpinToColor extends CommandBase {
+    private double prevPosition;
+    private boolean onColor = false;
+    private boolean finished = false;
+
+    public SpinToColor() {
+        super();
+        addRequirements(Spinner.getInstance(), ColorPiston.getInstance());
+    }
 
     @Override
-    public void robotInit() {
+    public void initialize() {
+        ColorPiston.getInstance().up();
+    }
+
+    @Override
+    public void execute() {
+        if (Spinner.getInstance().matching()) {
+            prevPosition = Spinner.getInstance().getRevolutions();
+            onColor = true;
+        }
+        if (onColor) {
+            if (Spinner.getInstance().getRevolutions() - prevPosition > 1.0 / 16.0) {
+                finished = true;
+            }
+        }
+
 
     }
 
     @Override
-    public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
+    public void end(boolean interrupted) {
+        //turn off motor
+        ColorPiston.getInstance().down();
+        Spinner.getInstance().setMotorOff();
     }
 
     @Override
-    public void disabledInit() {
-
-    }
-
-    @Override
-    public void disabledPeriodic(){
-
-    }
-
-    @Override
-    public void autonomousInit() {
-
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-
-    }
-
-    @Override
-    public void teleopInit() {
-
-    }
-
-    @Override
-    public void teleopPeriodic() {
-
-    }
-
-    @Override
-    public void testInit(){
-
-    }
-
-    @Override
-    public void testPeriodic(){
-
+    public boolean isFinished() {
+        return finished;
     }
 }
