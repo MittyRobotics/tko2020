@@ -4,7 +4,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Conveyor extends SubsystemBase implements ISubsystem {
@@ -45,6 +47,7 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
         previousEntranceSwitchValue = false;
         previousExitSwitchValue = false;
         ballCountHasChanged = false;
+        totalBallCount = 0;
     }
 
     @Override
@@ -54,23 +57,54 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
 
     @Override
     public void periodic() {
-//        if (!previousEntranceSwitchValue && entranceOpticalSwitch.get()) { //no ball before and now ball detected before conveyor
-//            updateBallCount(1);
-//            ballCountHasChanged = true;
-//        } else {
-//            ballCountHasChanged = false;
-//        }
-//
-//
-//        if (previousExitSwitchValue && !exitOpticalSwitch.get()) { //no ball before and now ball detected before conveyor
+        if (!previousEntranceSwitchValue && getEntranceSwitch()) { //no ball before and now ball detected before conveyor
+            if(totalBallCount < 3){
+                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(6.6));
+            } else if(totalBallCount == 3){
+                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2.8));
+            }
+            updateBallCount(1);
+            ballCountHasChanged = true;
+        } else {
+            ballCountHasChanged = false;
+        }
+
+
+        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor
+            updateBallCount(-1);
+            ballCountHasChanged = true;
+        } else {
+            ballCountHasChanged = false;
+        }
+
+        System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
+        previousEntranceSwitchValue = getEntranceSwitch();
+        previousExitSwitchValue = getExitSwitch();
+    }
+
+    public void periodic2() {
+        if (!previousEntranceSwitchValue && getEntranceSwitch()) { //no ball before and now ball detected before conveyor
+            if(totalBallCount < 3){
+                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(7.7));
+            } else if(totalBallCount == 3){
+                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(4));
+            }
+            updateBallCount(1);
+            ballCountHasChanged = true;
+        } else {
+            ballCountHasChanged = false;
+        }
+
+
+//        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor
 //            updateBallCount(-1);
 //            ballCountHasChanged = true;
 //        } else {
 //            ballCountHasChanged = false;
 //        }
-//
-//        previousEntranceSwitchValue = entranceOpticalSwitch.get();
-//        previousExitSwitchValue = exitOpticalSwitch.get();
+        System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
+        previousEntranceSwitchValue = getEntranceSwitch();
+        previousExitSwitchValue = getExitSwitch();
     }
 
     public int getTotalBallCount() {
@@ -93,7 +127,7 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
     }
 
     public void manualSetConveyorSpeed(double speed) {
-        if (Math.abs(speed) > 0.2) {
+        if (Math.abs(speed) > 0.1) {
             conveyorTalon.set(ControlMode.PercentOutput, speed);
             System.out.println("Conveyor Percent Output: " + speed);
         } else {

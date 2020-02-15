@@ -20,6 +20,10 @@ public class MoveConveyorRemoveBall extends CommandBase {
         conveyorInitPos = Conveyor.getInstance().getPosition();
         bufferInitPos = Buffer.getInstance().getBufferPosition();
         isDone = false;
+        d1 *= com.github.mittyrobotics.buffer.Constants.TICKS_PER_ROTATION;
+        d2 *= Constants.TICKS_PER_BALL_INCH;
+        System.out.println("INIT");
+
     }
 
     @Override
@@ -27,19 +31,23 @@ public class MoveConveyorRemoveBall extends CommandBase {
         double bufferDiff = Buffer.getInstance().getBufferPosition() - bufferInitPos;
         double conveyorDiff = Conveyor.getInstance().getPosition() - conveyorInitPos;
         if (bufferDiff < d1) {
-            Buffer.getInstance().manualBufferSpeed(-0.2);
+            Buffer.getInstance().manualBufferSpeed(0.4);
             Conveyor.getInstance().manualSetConveyorSpeed(0);
-        } else if (conveyorDiff < d2) {
-            Conveyor.getInstance().manualSetConveyorSpeed(0.2);
-            Buffer.getInstance().manualBufferSpeed(0);
         } else {
-            isDone = true;
+            if (conveyorDiff < d2) {
+                System.out.println("HE");
+                Conveyor.getInstance().manualSetConveyorSpeed(1);
+                Buffer.getInstance().manualBufferSpeed(0);
+            }  else {
+                isDone = true;
+            }
         }
     }
 
 
     @Override
     public void end(boolean interrupted) {
+        System.out.println("END");
         Conveyor.getInstance().setConveyorSpeed(0);
         Buffer.getInstance().manualBufferSpeed(0);
     }

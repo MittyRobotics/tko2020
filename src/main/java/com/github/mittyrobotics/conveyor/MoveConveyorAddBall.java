@@ -11,7 +11,7 @@ public class MoveConveyorAddBall extends CommandBase {
     public MoveConveyorAddBall(double distance) {
         super();
         this.distance = distance;
-        addRequirements(Conveyor.getInstance(), Buffer.getInstance());
+        addRequirements(Conveyor.getInstance());
     }
 
     @Override
@@ -33,8 +33,7 @@ public class MoveConveyorAddBall extends CommandBase {
 
         if ((currentPosition - initialPosition) <
                 (distance * com.github.mittyrobotics.conveyor.Constants.TICKS_PER_BALL_INCH)) {
-            Conveyor.getInstance().setConveyorSpeed(0.15);
-            //Buffer.getInstance().manualBufferSpeed(0.1);
+            Conveyor.getInstance().setConveyorSpeed(1);
         } else {
             isDone = true;
         }
@@ -53,7 +52,8 @@ public class MoveConveyorAddBall extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         Conveyor.getInstance().setConveyorSpeed(0);
-        Buffer.getInstance().manualBufferSpeed(0);
+//        Buffer.getInstance().manualBufferSpeed(0);
+        System.out.println("end");
     }
 
     @Override

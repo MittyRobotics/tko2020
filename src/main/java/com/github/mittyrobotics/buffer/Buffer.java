@@ -27,8 +27,12 @@ public class Buffer extends SubsystemBase implements ISubsystem {
 
     public void initHardware() {
         bufferWheel = new WPI_TalonSRX(Constants.TalonID1);
-        bufferWheel.setInverted(true);
+        bufferWheel.setInverted(false);
         bufferWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    }
+
+    public void resetEncoder(){
+        bufferWheel.setSelectedSensorPosition(0);
     }
 
     @Override
