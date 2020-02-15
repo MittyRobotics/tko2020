@@ -24,13 +24,32 @@
 
 package com.github.mittyrobotics;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.colorwheel.ColorPiston;
+import com.github.mittyrobotics.colorwheel.ColorTesting;
+import com.github.mittyrobotics.colorwheel.Spinner;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+
+import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
 
 public class Robot extends TimedRobot {
 
+    Compressor compressor;
+    Robot() {
+        super(0.02);
+    }
+
     @Override
     public void robotInit() {
+        Spinner.getInstance().initHardware();
+        ColorPiston.getInstance().initHardware();
+        OI.getInstance().digitalInputControls();
+        compressor = new Compressor();
+        compressor.start();
 
     }
 
@@ -41,11 +60,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-
-    }
-
-    @Override
-    public void disabledPeriodic() {
 
     }
 
@@ -61,7 +75,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-
     }
 
     @Override
