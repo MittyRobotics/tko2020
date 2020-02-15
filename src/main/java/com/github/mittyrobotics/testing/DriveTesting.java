@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.testing;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 
-public class Robot extends TimedRobot {
+public class DriveTesting extends TimedRobot {
     @Override
     public void robotInit() {
 
