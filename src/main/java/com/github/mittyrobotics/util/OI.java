@@ -25,8 +25,11 @@
 package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.drive.ColorWheelDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
     private static OI instance;
@@ -72,7 +75,14 @@ public class OI {
     }
 
     public void digitalInputControls() {
+        Button test = new Button() {
+            @Override
+            public boolean get(){
+                return getJoystick1().getRawButton(3);
+            }
+        };
 
+        test.whenPressed(new ColorWheelDrive());
     }
 
     public boolean passedStage2() {
