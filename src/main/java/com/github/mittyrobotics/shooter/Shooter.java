@@ -29,17 +29,27 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * Shooter subsystem to shoot balls
+ */
 public class Shooter extends SubsystemBase {
 
-    public static double currentSetpoint; //TODO for testing purposes only right?
+    private double currentSetpoint;
     private static Shooter instance;
     private CANSparkMax shooterSparkMaster, shooterSparkFollower;
 
+    /**
+     * Calls SubsystemBase constructor and names the subsystem "Shooter'
+     */
     private Shooter() {
         super();
         setName("Shooter");
     }
 
+    /**
+     * Returns a shooter instance and instantiates it if it is null
+     * @return shooter instance
+     */
     public static Shooter getInstance() {
         if (instance == null) {
             instance = new Shooter();
@@ -47,58 +57,65 @@ public class Shooter extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Initializes and sets up both sparkmax settings
+     */
     public void initHardware() {
         shooterSparkMaster =
                 new CANSparkMax(Constants.SHOOTER_SPARK_MASTER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         shooterSparkMaster.restoreFactoryDefaults();
+        shooterSparkMaster.setInverted(Constants.SHOOTER_SPARK_MASTER_INVERSION);
         shooterSparkMaster.getPIDController().setFF(Constants.SHOOTER_F);
         shooterSparkMaster.getPIDController().setP(Constants.SHOOTER_P);
         shooterSparkMaster.getPIDController().setI(Constants.SHOOTER_I);
         shooterSparkMaster.getPIDController().setD(Constants.SHOOTER_D);
 
-        //TODO test to see if followers will work
         shooterSparkFollower =
                 new CANSparkMax(Constants.SHOOTER_SPARK_FOLLOWER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         shooterSparkFollower.restoreFactoryDefaults();
-        shooterSparkFollower.setInverted(true);
+        shooterSparkFollower.setInverted(Constants.SHOOTER_SPARK_FOLLOWER_INVERSION);
         shooterSparkFollower.getPIDController().setFF(Constants.SHOOTER_F);
         shooterSparkFollower.getPIDController().setP(Constants.SHOOTER_P);
         shooterSparkFollower.getPIDController().setI(Constants.SHOOTER_I);
         shooterSparkFollower.getPIDController().setD(Constants.SHOOTER_D);
     }
 
-    public void manualControl(double speed) {
-        if (Math.abs(speed) >= 0.05) {
-            shooterSparkMaster.set(speed);
-            shooterSparkFollower.set(speed);
-            System.out.println("Spark speed: " + shooterSparkMaster.getEncoder().getVelocity());
-        } else {
-            shooterSparkMaster.stopMotor();
-            shooterSparkFollower.stopMotor();
-        }
-        System.out.println("Joystick speed: " + speed);
-    }
-
-    public void setPercent(double percent) { //in rpm of the motors
-        shooterSparkMaster.set(percent);
-        shooterSparkFollower.set(percent);
-    }
-
+    /**
+     * Gets the average RPM of both motors
+     * @return the shooter RPM
+     */
     public double getShooterRPM() {
         return (shooterSparkMaster.getEncoder().getVelocity() + shooterSparkFollower.getEncoder().getVelocity()) / 2;
     }
 
+    /**
+     * Gets the current setpoint for the motors to spin at
+     * @return current setpoint
+     */
     public double getCurrentSetpoint() {
         return currentSetpoint;
     }
 
+    /**
+     * Returns the difference between the current setpoint and the actual RPM
+     * @return the RPM error
+     */
     public double getRPMError(){
         return getCurrentSetpoint()-getShooterRPM();
     }
 
+    /**
+     * Sets the shooter speed using velocity PID
+     * @param setpoint the speed to set the shooter at
+     */
     public void setShooterSpeed(double setpoint) { //in rpm of the motors
-        shooterSparkMaster.getPIDController().setReference(setpoint, ControlType.kVelocity);
-        shooterSparkFollower.getPIDController().setReference(setpoint, ControlType.kVelocity);
+        if(setpoint != 0){
+            shooterSparkMaster.getPIDController().setReference(setpoint, ControlType.kVelocity);
+            shooterSparkFollower.getPIDController().setReference(setpoint, ControlType.kVelocity);
+        } else {
+            shooterSparkMaster.set(0);
+            shooterSparkFollower.set(0);
+        }
         currentSetpoint = setpoint;
     }
 }
