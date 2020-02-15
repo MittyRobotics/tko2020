@@ -3,9 +3,10 @@ package com.github.mittyrobotics.buffer;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Buffer extends SubsystemBase {
+public class Buffer extends SubsystemBase implements ISubsystem {
     private static Buffer instance;
     private WPI_TalonSRX bufferWheel;
     //TODO not sure if we will use these
@@ -24,10 +25,15 @@ public class Buffer extends SubsystemBase {
         return instance;
     }
 
-    public void initHardware() { //TODO add encoder
+    public void initHardware() {
         bufferWheel = new WPI_TalonSRX(Constants.TalonID1);
         bufferWheel.setInverted(true);
         bufferWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    }
+
+    @Override
+    public void updateDashboard() {
+
     }
 
     public void bufferLock(double speed) {

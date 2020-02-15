@@ -28,11 +28,12 @@ package com.github.mittyrobotics.turret;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Turret extends SubsystemBase {
+public class Turret extends SubsystemBase implements ISubsystem {
     /**
      * {@link Turret} instance.
      */
@@ -72,6 +73,7 @@ public class Turret extends SubsystemBase {
     /**
      * Initializes the turret's hardware.
      */
+    @Override
     public void initHardware() {
         //Config talon
         turretTalon = new WPI_TalonSRX(Constants.TALON_ID);
@@ -85,6 +87,11 @@ public class Turret extends SubsystemBase {
         //Initialize PIDController
         turretController = new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D);
         turretController.enableContinuousInput(0, Constants.REVOLUTION_TICKS - 1);
+
+    }
+
+    @Override
+    public void updateDashboard() {
 
     }
 

@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.shooter;
 
-import com.github.mittyrobotics.TKOSubsystem;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /**
  * Shooter subsystem to shoot balls
  */
-public class Shooter extends SubsystemBase implements TKOSubsystem {
+public class Shooter extends SubsystemBase implements ISubsystem {
 
     private static Shooter instance;
     private double currentSetpoint;

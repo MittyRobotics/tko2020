@@ -8,7 +8,7 @@ public class IntakeBall extends CommandBase {
 
     public IntakeBall() {
         super();
-        addRequirements(IntakeSubsystem.getInstance());
+        addRequirements(Intake.getInstance());
     }
 
     @Override
@@ -18,18 +18,18 @@ public class IntakeBall extends CommandBase {
     @Override
     public void execute() { //TODO Need to have else to make it stop
         if (Conveyor.getInstance().getTotalBallCount() < 5) {
-            if (IntakeSubsystem.getInstance().isExtended()) {
-                IntakeSubsystem.getInstance().intakeBall(Constants.Intakespeed);
+            if (Intake.getInstance().isExtended()) {
+                Intake.getInstance().intakeBall(Constants.Intakespeed);
             } else {
-                IntakeSubsystem.getInstance().extendIntake();
-                IntakeSubsystem.getInstance().intakeBall(Constants.Intakespeed);
+                Intake.getInstance().extendIntake();
+                Intake.getInstance().intakeBall(Constants.Intakespeed);
             }
         } else {
-            if (!IntakeSubsystem.getInstance().isExtended()) {
-                IntakeSubsystem.getInstance().intakeBall(0);
+            if (!Intake.getInstance().isExtended()) {
+                Intake.getInstance().intakeBall(0);
             } else {
-                IntakeSubsystem.getInstance().retractIntake();
-                IntakeSubsystem.getInstance().intakeBall(0);
+                Intake.getInstance().retractIntake();
+                Intake.getInstance().intakeBall(0);
             }
 
         }

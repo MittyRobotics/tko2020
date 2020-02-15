@@ -3,10 +3,11 @@ package com.github.mittyrobotics.conveyor;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Conveyor extends SubsystemBase {
+public class Conveyor extends SubsystemBase implements ISubsystem {
     private static Conveyor instance;
     private WPI_TalonSRX conveyorTalon;
     private int totalBallCount = 0;
@@ -28,6 +29,7 @@ public class Conveyor extends SubsystemBase {
         return instance;
     }
 
+    @Override
     public void initHardware() {
 
         conveyorTalon = new WPI_TalonSRX(Constants.CONVEYOR_TALON_ID);
@@ -43,6 +45,11 @@ public class Conveyor extends SubsystemBase {
         previousEntranceSwitchValue = false;
         previousExitSwitchValue = false;
         ballCountHasChanged = false;
+    }
+
+    @Override
+    public void updateDashboard() {
+
     }
 
     @Override

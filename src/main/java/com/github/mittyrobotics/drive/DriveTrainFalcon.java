@@ -3,9 +3,10 @@ package com.github.mittyrobotics.drive;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveTrainFalcon extends SubsystemBase {
+public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
     private static DriveTrainFalcon instance;
     private final double kV = 0.06; //0.06
     private final double kA = 0.0; //0.0
@@ -67,6 +68,11 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0].setSensorPhase(false);
         leftDrive[1].setSensorPhase(false);
         rightDrive[0].setSensorPhase(false);
+    }
+
+    @Override
+    public void updateDashboard() {
+
     }
 
     public void tankDrive(double left, double right) {
