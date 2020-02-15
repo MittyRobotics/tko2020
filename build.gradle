@@ -24,7 +24,7 @@
 
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2020.1.2"
+    id "edu.wpi.first.GradleRIO" version "2020.2.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -80,13 +80,14 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    compile 'com.github.MittyRobotics:tko-libraries:f47e7e056e'
+    compile 'com.github.MittyRobotics:tko-libraries:2df8401612'
 
     testImplementation 'junit:junit:4.12'
 
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+    implementation 'org.jetbrains:annotations:15.0'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

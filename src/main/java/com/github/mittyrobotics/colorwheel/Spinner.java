@@ -122,17 +122,17 @@ public class Spinner extends SubsystemBase {
         //matches rgb to color targets
         ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-            if (match.color == kBlueTarget) {
-                return WheelColor.Blue;
-            } else if (match.color == kRedTarget) {
-                return WheelColor.Red;
-            } else if (match.color == kGreenTarget) {
-                return WheelColor.Green;
-            } else if (match.color == kYellowTarget) {
-                return WheelColor.Yellow;
-            } else {
-                return WheelColor.None;
-            }
+        if (match.color == kBlueTarget) {
+            return WheelColor.Blue;
+        } else if (match.color == kRedTarget) {
+            return WheelColor.Red;
+        } else if (match.color == kGreenTarget) {
+            return WheelColor.Green;
+        } else if (match.color == kYellowTarget) {
+            return WheelColor.Yellow;
+        } else {
+            return WheelColor.None;
+        }
     }
 
     public double[] getRGB() {
