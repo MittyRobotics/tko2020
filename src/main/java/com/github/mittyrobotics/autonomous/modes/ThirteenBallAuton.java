@@ -39,117 +39,196 @@ import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
 import com.github.mittyrobotics.util.Gyro;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ThirteenBallAuton extends SequentialCommandGroup {
     public ThirteenBallAuton() {
-        double maxAcceleration = 40;
-        double maxDeceleration = 40;
-        double maxVelocity = 150;
-        double startVelocity = 0;
-        double endVelocity = 0;
-        boolean extremeTakeoff = false;
-        double extremeTakeoffMultiplier = 2;
-        boolean continuouslyAdaptivePath = false;
-        double aggressiveGain = 2.0;
-        double dampingGain = .7;
+        //Properties
+        double defaultMaxAcceleration = 40;
+        double defaultMaxDeceleration = 40;
+        double defaultMaxVelocity = 150;
+        double defaultStartVelocity = 0;
+        double defaultEndVelocity = 0;
+        boolean defaultExtremeTakeoff = false;
+        double defaultExtremeTakeoffMultiplier = 2;
+        boolean defaultContinuouslyAdaptivePath = false;
+        //Ramsete properties
+        double defaultAggressiveGain = 2.0;
+        double defaultDampingGain = .7;
+        //Pure pursuit properties
+        double defaultLookahead = 30;
+        double defaultCurvatureSlowdownGain = 1.2;
+        double defaultMinSlowdownVelocity = 50;
 
-        double lookahead = 30;
+        //Initialize followers
+        PathFollower follower = new PathFollower(new PathFollowerProperties(
+                new PathVelocityController(new VelocityConstraints(
+                        defaultMaxAcceleration,
+                        defaultMaxDeceleration,
+                        defaultMaxVelocity),
+                        defaultStartVelocity,
+                        defaultEndVelocity,
+                        defaultExtremeTakeoff,
+                        defaultExtremeTakeoffMultiplier
+                ),
+                false,
+                defaultContinuouslyAdaptivePath
+        ),
+                new PathFollowerProperties.PurePursuitProperties(
+                        defaultLookahead,
+                        defaultCurvatureSlowdownGain,
+                        defaultMinSlowdownVelocity
+                )
+        );
 
-        double curvatureSlowdownGain = 1.2;
-        double minSlowdownVelocity = 50;
+        PathFollower followerReversed = new PathFollower(new PathFollowerProperties(
+                new PathVelocityController(new VelocityConstraints(
+                        defaultMaxAcceleration,
+                        defaultMaxDeceleration,
+                        defaultMaxVelocity),
+                        defaultStartVelocity,
+                        defaultEndVelocity,
+                        defaultExtremeTakeoff,
+                        defaultExtremeTakeoffMultiplier
+                ),
+                true,
+                defaultContinuouslyAdaptivePath
+        ),
+                new PathFollowerProperties.PurePursuitProperties(
+                        defaultLookahead,
+                        defaultCurvatureSlowdownGain,
+                        defaultMinSlowdownVelocity
+                ));
 
-        VelocityConstraints velocityConstraints =
-                new VelocityConstraints(maxAcceleration, maxDeceleration, maxVelocity);
-        PathVelocityController velocityController = new PathVelocityController(velocityConstraints, startVelocity,
-                endVelocity, extremeTakeoff, extremeTakeoffMultiplier);
-        PathFollowerProperties properties = new PathFollowerProperties(velocityController, false,
-                continuouslyAdaptivePath);
+        PathFollower followerRamsete = new PathFollower(new PathFollowerProperties(
+                new PathVelocityController(new VelocityConstraints(
+                        defaultMaxAcceleration,
+                        defaultMaxDeceleration,
+                        defaultMaxVelocity),
+                        defaultStartVelocity,
+                        defaultEndVelocity,
+                        defaultExtremeTakeoff,
+                        defaultExtremeTakeoffMultiplier
+                ),
+                false,
+                defaultContinuouslyAdaptivePath
+        ),
+                new PathFollowerProperties.RamseteProperties(
+                        defaultAggressiveGain,
+                        defaultDampingGain
+                )
+        );
 
-        PathFollowerProperties propertiesReversed = new PathFollowerProperties(velocityController, true,
-                continuouslyAdaptivePath);
+        PathFollower followerRamseteReversed = new PathFollower(new PathFollowerProperties(
+                new PathVelocityController(new VelocityConstraints(
+                        defaultMaxAcceleration,
+                        defaultMaxDeceleration,
+                        defaultMaxVelocity),
+                        defaultStartVelocity,
+                        defaultEndVelocity,
+                        defaultExtremeTakeoff,
+                        defaultExtremeTakeoffMultiplier
+                ),
+                true,
+                defaultContinuouslyAdaptivePath
+        ),
+                new PathFollowerProperties.RamseteProperties(
+                        defaultAggressiveGain,
+                        defaultDampingGain
+                )
+        );
 
-        PathFollowerProperties.RamseteProperties ramseteProperties =
-                new PathFollowerProperties.RamseteProperties(aggressiveGain, dampingGain);
-
-        PathFollowerProperties.PurePursuitProperties purePursuitProperties =
-                new PathFollowerProperties.PurePursuitProperties(lookahead,
-                        curvatureSlowdownGain,
-                        minSlowdownVelocity);
-
-        PathFollower follower = new PathFollower(properties, purePursuitProperties);
-        PathFollower followerReversed = new PathFollower(propertiesReversed, purePursuitProperties);
-
+        //Initialize paths
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
-                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)}));
+                new Transform[]{
+                        new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
+                })
+        );
 
         Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 180)}));
+                new Transform[]{
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
+                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 180)
+                })
+        );
 
         Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0),
-                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45),
-                }));
+                new Transform[]{
+                        new Transform(AutonCoordinates.PICKUP_LAST_TRENCH, 0),
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
+                })
+        );
 
         Path path4 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180 + 45),
-                        new Transform(AutonCoordinates.PICKUP_2_PARTY, 110)}));
+                        new Transform(AutonCoordinates.PICKUP_2_PARTY, 110),
+                        new Transform(AutonCoordinates.BALL_5,110)
+                })
+        );
 
         Path path5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
+                        new Transform(AutonCoordinates.BALL_5,180+110),
                         new Transform(AutonCoordinates.PICKUP_2_PARTY, 180 + 110),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 180 + 180 + 45)
-                }));
+                })
+        );
 
+        //Calibrate odometry
         Odometry.getInstance().calibrateRobotTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
                 DriveTrainFalcon.getInstance().getLeftEncoder(),
                 DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
 
         addCommands(
-                //Init path follower
-                new InitNewPathFollowerCommand(followerReversed),
                 //Drive first path
+                new InitNewPathFollowerCommand(followerReversed),
                 new PathFollowerCommand(path1),
-                new TestPrintCommand("End"),
+
+                //PLACEHOLDER SHOOT WAIT COMMAND
                 new WaitCommand(1),
 
 //              //Wait until conditions to shoot are met
 //              new WaitUntilShooterSpeedCommand(50),
 //              new WaitUntilVisionDetectedCommand(1),
 //              new WaitUntilVisionLockedCommand(1)
-                new InitNewPathFollowerCommand(followerReversed),
-
-
 
                 //Drive second path
+                new InitNewPathFollowerCommand(followerReversed),
                 new PathFollowerCommand(path2),
 
-                new InitNewPathFollowerCommand(follower),
                 //Drive third path
+                new InitNewPathFollowerCommand(follower),
                 new PathFollowerCommand(path3),
 
 //              //Wait until conditions to shoot are met
 //              new WaitUntilShooterSpeedCommand(50),
 //              new WaitUntilVisionDetectedCommand(1),
 //              new WaitUntilVisionLockedCommand(1)
+
+                //PLACEHOLDER SHOOT WAIT COMMAND
                 new WaitCommand(1),
-                new InitNewPathFollowerCommand(followerReversed),
+
                 //Drive fourth path
+                new InitNewPathFollowerCommand(followerRamseteReversed),
                 new PathFollowerCommand(path4),
 
-                new InitNewPathFollowerCommand(follower),
                 //Drive fifth path
-                new PathFollowerCommand(path5)
+                new InitNewPathFollowerCommand(followerRamsete),
+                new PathFollowerCommand(path5),
 
 //              //Wait until conditions to shoot are met
 //              new WaitUntilShooterSpeedCommand(50),
 //              new WaitUntilVisionDetectedCommand(1),
 //              new WaitUntilVisionLockedCommand(1)
 
+                //PLACEHOLDER SHOOT WAIT COMMAND
+                new WaitCommand(1),
+
+                new PrintCommand("AUTON DONE")
         );
     }
 }
