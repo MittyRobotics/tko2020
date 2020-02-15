@@ -64,13 +64,10 @@ public class Spinner extends SubsystemBase {
 
     public void initHardware() {
         //initialize talon
-        talon1 = new WPI_TalonSRX(0);
+        talon1 = new WPI_TalonSRX(20);
         talon1.setSensorPhase(true);
 
-        talon1.config_kP(0, 0);
-        talon1.config_kI(0, 0);
-        talon1.config_kD(0, 0);
-        //TODO setup encoder & PID
+
         //sets color match
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
@@ -125,17 +122,17 @@ public class Spinner extends SubsystemBase {
         //matches rgb to color targets
         ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-            if (match.color == kBlueTarget) {
-                return WheelColor.Blue;
-            } else if (match.color == kRedTarget) {
-                return WheelColor.Red;
-            } else if (match.color == kGreenTarget) {
-                return WheelColor.Green;
-            } else if (match.color == kYellowTarget) {
-                return WheelColor.Yellow;
-            } else {
-                return WheelColor.None;
-            }
+        if (match.color == kBlueTarget) {
+            return WheelColor.Blue;
+        } else if (match.color == kRedTarget) {
+            return WheelColor.Red;
+        } else if (match.color == kGreenTarget) {
+            return WheelColor.Green;
+        } else if (match.color == kYellowTarget) {
+            return WheelColor.Yellow;
+        } else {
+            return WheelColor.None;
+        }
     }
 
     public double[] getRGB() {

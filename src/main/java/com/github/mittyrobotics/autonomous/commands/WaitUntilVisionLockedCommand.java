@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,30 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.autonomous.commands;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import com.github.mittyrobotics.autonomous.Vision;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class Gyro extends ADXRS450_Gyro {
-    private static Gyro instance = new Gyro();
-
-    private Gyro() {
-        super();
-    }
-
-    public static Gyro getInstance() {
-        if (instance == null) {
-            instance = new Gyro();
-        }
-        return instance;
-    }
-
-    public double getAngle360() {
-        double angle = getAngle();
-        angle %= 360;
-        if (angle < 0) {
-            angle += 360;
-        }
-        return angle;
+public class WaitUntilVisionLockedCommand extends WaitUntilCommand {
+    public WaitUntilVisionLockedCommand(double angleThreshold) {
+        super(() -> Vision.getInstance().isVisionLocked(angleThreshold));
     }
 }

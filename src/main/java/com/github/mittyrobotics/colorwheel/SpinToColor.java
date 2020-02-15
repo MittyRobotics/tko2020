@@ -1,4 +1,3 @@
-
 package com.github.mittyrobotics.colorwheel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -23,7 +22,8 @@ public class SpinToColor extends CommandBase {
     }
     @Override
     public void initialize(){
-        //ColorPiston.getInstance().up();
+        System.out.println("Starting")
+        ;        ColorPiston.getInstance().up();
         Spinner.getInstance().zeroEncoder();
 
         WheelColor cur = Spinner.getInstance().getColor();
@@ -58,8 +58,9 @@ public class SpinToColor extends CommandBase {
     @Override
     public void end(boolean interrupted){
         //turn off motor
-        //ColorPiston.getInstance().down();
         Spinner.getInstance().setMotorOff();
+
+        ColorPiston.getInstance().down();
     }
     @Override
     public boolean isFinished(){

@@ -26,13 +26,13 @@ package com.github.mittyrobotics;
 
 import edu.wpi.first.wpilibj.RobotBase;
 
-//DO NOT TOUCH
 public final class Main {
     private Main() {
 
     }
 
+    //DO NOT PUSH ANY CHANGES FROM MAIN
     public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
     }
 }
