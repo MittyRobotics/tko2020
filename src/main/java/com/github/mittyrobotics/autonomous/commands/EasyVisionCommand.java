@@ -26,6 +26,7 @@ package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
+import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -35,7 +36,7 @@ public class EasyVisionCommand extends CommandBase {
     public EasyVisionCommand() {
         super();
         addRequirements(Turret.getInstance());
-//        addRequirements(ShooterSubsystem.getInstance());
+        addRequirements(Shooter.getInstance());
     }
 
     @Override
@@ -46,15 +47,14 @@ public class EasyVisionCommand extends CommandBase {
     @Override
     public void execute() {
         VisionTarget target = Vision.getInstance().getLatestVisionTarget();
-        double p = -0.10;
+        double p = 0.10;
         Turret.getInstance().overrideSetTurretPercent(p * target.getTurretRelativeYaw().getHeading(),true);
-        double rpm = rpmEquation(target.getDistance());
-        SmartDashboard.putNumber("vision_dist", target.getDistance());
-        //Shooter.getInstance().setShooterSpeed(rpm);
+        double rpm = rpmEquation(target.getDistance()/12);
+        Shooter.getInstance().setShooterSpeed(rpm);
     }
 
     private double rpmEquation(double distance) {
-        return 9.766 * Math.pow(10, -3) * (distance * distance) - 2.4741 * distance + 3785.7830;
+        return 4700-226*(distance)+15.1*(distance*distance)-0.291*(distance*distance*distance);
     }
 
     @Override

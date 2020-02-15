@@ -86,7 +86,7 @@ public class Vision {
     private VisionTarget computeVisionTarget(Rotation visionPitch, Rotation visionYaw,
                                              Rotation robotRelativeTurretAngle, Rotation gyro) {
         //Compute distance from camera to target
-        double cameraVisionDistance = computeVisionDistance(visionPitch);
+        double cameraVisionDistance = computeVisionDistance(visionPitch)/1.246;
         //Compute distance from turret to target
         double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(cameraVisionDistance, visionYaw);
 

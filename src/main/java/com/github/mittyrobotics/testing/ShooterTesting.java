@@ -26,9 +26,12 @@ package com.github.mittyrobotics.testing;
 
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.commands.EasyVisionCommand;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -38,6 +41,7 @@ public class ShooterTesting extends TimedRobot {
     public void robotInit() {
         Shooter.getInstance().initHardware();
         Turret.getInstance().initHardware();
+        DriveTrainTalon.getInstance().initHardware();
     }
 
     @Override
@@ -50,7 +54,8 @@ public class ShooterTesting extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        Shooter.getInstance().setShooterSpeed(3000);
+        System.out.println("Init");
+        new EasyVisionCommand().schedule();
     }
 
     @Override
@@ -71,6 +76,7 @@ public class ShooterTesting extends TimedRobot {
         //Shooter
         SmartDashboard.putNumber("shooter-rpm", Shooter.getInstance().getShooterRPM());
         SmartDashboard.putNumber("shooter-rpm-setpoint", Shooter.getInstance().getCurrentSetpoint());
+        SmartDashboard.putNumber("vision-distance", Vision.getInstance().getLatestVisionTarget().getDistance());
     }
 
     private void shooterDebugControl() {
@@ -99,7 +105,7 @@ public class ShooterTesting extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        shooterDebugControl();
+        //shooterDebugControl();
 
     }
 
