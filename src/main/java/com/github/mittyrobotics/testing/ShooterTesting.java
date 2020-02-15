@@ -67,7 +67,7 @@ public class ShooterTesting extends TimedRobot {
 
     private void updateSmartDashboard() {
         //Turret
-        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoder());
+        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoderPosition());
         //Shooter
         SmartDashboard.putNumber("shooter-rpm", Shooter.getInstance().getShooterRPM());
         SmartDashboard.putNumber("shooter-rpm-setpoint", Shooter.getInstance().getCurrentSetpoint());

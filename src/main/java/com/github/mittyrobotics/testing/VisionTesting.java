@@ -60,7 +60,7 @@ public class VisionTesting extends TimedRobot {
 
     private void updateSmartDashboard() {
         //Turret
-        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoder());
+        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoderPosition());
         SmartDashboard.putNumber("turret-robot-relative-angle",
                 AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
         SmartDashboard.putNumber("turret-field-relative-angle",

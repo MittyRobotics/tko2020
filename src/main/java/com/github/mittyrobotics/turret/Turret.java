@@ -142,7 +142,7 @@ public class Turret extends SubsystemBase {
      * This should be called periodically whenever the turret is automated.
      */
     public void updateTurretControlLoop() {
-        setTurretPercent(turretController.calculate(getTurretPosition()));
+        setTurretPercent(turretController.calculate(getEncoderPosition()));
     }
 
     /**
@@ -177,7 +177,7 @@ public class Turret extends SubsystemBase {
      *
      * @return the turret's encoder position in ticks.
      */
-    public double getTurretPosition() {
+    public double getEncoderPosition() {
         return turretTalon.getSelectedSensorPosition();
     }
 

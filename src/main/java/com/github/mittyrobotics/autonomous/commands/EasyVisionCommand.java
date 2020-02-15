@@ -47,7 +47,7 @@ public class EasyVisionCommand extends CommandBase {
     public void execute() {
         VisionTarget target = Vision.getInstance().getLatestVisionTarget();
         double p = -0.10;
-        Turret.getInstance().overrideSetTurretPercent(p * target.getTurretRelativeYaw().getHeading());
+        Turret.getInstance().overrideSetTurretPercent(p * target.getTurretRelativeYaw().getHeading(),true);
         double rpm = rpmEquation(target.getDistance());
         SmartDashboard.putNumber("vision_dist", target.getDistance());
         //Shooter.getInstance().setShooterSpeed(rpm);
