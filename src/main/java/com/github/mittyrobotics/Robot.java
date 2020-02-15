@@ -25,15 +25,27 @@
 package com.github.mittyrobotics;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+
     @Override
     public void robotInit() {
 
     }
 
     @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
+    }
+
+    @Override
     public void disabledInit() {
+
+    }
+
+    @Override
+    public void disabledPeriodic(){
 
     }
 
@@ -43,27 +55,12 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopInit() {
-
-    }
-
-    @Override
-    public void testInit() {
-
-    }
-
-    @Override
-    public void robotPeriodic() {
-
-    }
-
-    @Override
-    public void disabledPeriodic() {
-
-    }
-
-    @Override
     public void autonomousPeriodic() {
+
+    }
+
+    @Override
+    public void teleopInit() {
 
     }
 
@@ -73,7 +70,12 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void testPeriodic() {
+    public void testInit(){
+
+    }
+
+    @Override
+    public void testPeriodic(){
 
     }
 }
