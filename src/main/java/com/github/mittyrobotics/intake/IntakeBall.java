@@ -17,21 +17,10 @@ public class IntakeBall extends CommandBase {
 
     @Override
     public void execute() { //TODO Need to have else to make it stop
-        if (Conveyor.getInstance().getTotalBallCount() < 5) {
-            if (Intake.getInstance().isExtended()) {
-                Intake.getInstance().intakeBall(Constants.Intakespeed);
-            } else {
-                Intake.getInstance().extendIntake();
-                Intake.getInstance().intakeBall(Constants.Intakespeed);
-            }
+        if (Conveyor.getInstance().getTotalBallCount() < 4) {
+            Intake.getInstance().intakeBall(0.5);
         } else {
-            if (!Intake.getInstance().isExtended()) {
-                Intake.getInstance().intakeBall(0);
-            } else {
-                Intake.getInstance().retractIntake();
-                Intake.getInstance().intakeBall(0);
-            }
-
+            Intake.getInstance().intakeBall(0.2);
         }
 
 

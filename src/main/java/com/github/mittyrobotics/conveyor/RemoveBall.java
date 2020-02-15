@@ -2,6 +2,7 @@ package com.github.mittyrobotics.conveyor;
 
 import com.github.mittyrobotics.buffer.Buffer;
 import com.github.mittyrobotics.buffer.Constants;
+import com.github.mittyrobotics.intake.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RemoveBall extends CommandBase {
@@ -12,7 +13,7 @@ public class RemoveBall extends CommandBase {
     public RemoveBall(double d) {
         super();
         this.d = d;
-        addRequirements(Conveyor.getInstance(), Buffer.getInstance());
+        addRequirements(Conveyor.getInstance(), Buffer.getInstance(), Intake.getInstance());
     }
 
     @Override
@@ -30,6 +31,7 @@ public class RemoveBall extends CommandBase {
         if (bufferDiff < d) {
             Buffer.getInstance().manualBufferSpeed(0.4);
             Conveyor.getInstance().manualSetConveyorSpeed(1);
+            Intake.getInstance().intakeBall(.5);
         } else{
             isDone = true;
         }

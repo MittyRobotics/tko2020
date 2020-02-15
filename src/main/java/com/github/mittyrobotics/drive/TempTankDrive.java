@@ -36,8 +36,8 @@ public class TempTankDrive extends CommandBase {
 
     @Override
     public void execute() {
-        double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft) * 50;
-        double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight) * 50;
+        double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft) * 320;
+        double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight) * 320;
         DriveTrainFalcon.getInstance().customTankVelocity(left, right);
     }
 

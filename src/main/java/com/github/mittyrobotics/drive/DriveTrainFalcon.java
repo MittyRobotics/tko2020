@@ -68,6 +68,7 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
         rightDrive[0].setSensorPhase(false);
         leftDrive[1].setSensorPhase(false);
         rightDrive[0].setSensorPhase(false);
+        setDefaultCommand(new TempTankDrive());
     }
 
     @Override

@@ -41,9 +41,7 @@ public class Intake extends SubsystemBase implements ISubsystem {
     }
 
     public void intakeBall(double speed) {
-        if (Conveyor.getInstance().getTotalBallCount() < 5) {
             intakeWheel.set(ControlMode.Velocity, speed);
-        }
 
     }
 
