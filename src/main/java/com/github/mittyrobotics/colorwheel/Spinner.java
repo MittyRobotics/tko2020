@@ -80,7 +80,9 @@ public class Spinner extends SubsystemBase {
         map.put(WheelColor.Green, WheelColor.Yellow);
         map.put(WheelColor.Yellow, WheelColor.Green);
         talon1.setNeutralMode(NeutralMode.Brake);
-        //setDefaultCommand(new SpinRevs());
+
+
+        setDefaultCommand(new ColorWheelDrive());
 
     }
 
