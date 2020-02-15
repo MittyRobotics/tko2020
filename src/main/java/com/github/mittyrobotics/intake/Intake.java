@@ -10,10 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase implements ISubsystem {
     private static Intake instance;
     private WPI_TalonSRX intakeWheel;
-    //ballSensor may not exist... Intake could be running forever
-    //private DigitalInput ballSensor;
     private DoubleSolenoid extendIntake;
-    private boolean isExtended;
 
     private Intake() {
         super();
@@ -41,22 +38,16 @@ public class Intake extends SubsystemBase implements ISubsystem {
     }
 
     public void intakeBall(double speed) {
-            intakeWheel.set(ControlMode.Velocity, speed);
+        intakeWheel.set(ControlMode.Velocity, speed);
 
     }
 
     public void extendIntake() {
         extendIntake.set(DoubleSolenoid.Value.kForward);
-        isExtended = true;
-
     }
 
     public void retractIntake() {
         extendIntake.set(DoubleSolenoid.Value.kReverse);
-        isExtended = false;
     }
 
-    public boolean isExtended() {
-        return isExtended;
-    }
 }

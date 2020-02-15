@@ -9,7 +9,7 @@ public class Compressor extends edu.wpi.first.wpilibj.Compressor implements IHar
         super();
     }
 
-    public Compressor getInstance() {
+    public static Compressor getInstance() {
         if (instance == null) {
             instance = new Compressor();
         }

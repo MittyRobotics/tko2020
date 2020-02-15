@@ -24,38 +24,43 @@
 
 package com.github.mittyrobotics;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.buffer.Buffer;
 import com.github.mittyrobotics.colorwheel.ColorPiston;
-import com.github.mittyrobotics.colorwheel.ColorTesting;
 import com.github.mittyrobotics.colorwheel.Spinner;
-import edu.wpi.first.wpilibj.Compressor;
+import com.github.mittyrobotics.conveyor.Conveyor;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.intake.Intake;
+import com.github.mittyrobotics.shooter.Shooter;
+import com.github.mittyrobotics.turret.Turret;
+import com.github.mittyrobotics.util.Compressor;
+import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-
-import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
 
 public class Robot extends TimedRobot {
 
-    Compressor compressor;
     Robot() {
         super(0.02);
     }
 
     @Override
     public void robotInit() {
-        Spinner.getInstance().initHardware();
+        DriveTrainFalcon.getInstance().initHardware();
+        Intake.getInstance().initHardware();
+        Conveyor.getInstance().initHardware();
+        Buffer.getInstance().initHardware();
+        Shooter.getInstance().initHardware();
+        Turret.getInstance().initHardware();
         ColorPiston.getInstance().initHardware();
-        OI.getInstance().digitalInputControls();
-        compressor = new Compressor();
-        compressor.start();
-
+        Spinner.getInstance().initHardware();
+        Gyro.getInstance().initHardware();
+        Compressor.getInstance().initHardware();
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        Conveyor.getInstance().periodic();
     }
 
     @Override
