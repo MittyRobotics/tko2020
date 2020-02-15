@@ -24,56 +24,80 @@
 
 package com.github.mittyrobotics.testing;
 
+import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
+import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.shooter.Shooter;
+import com.github.mittyrobotics.turret.Turret;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class ShooterTesting extends TimedRobot {
     @Override
     public void robotInit() {
-
+        Shooter.getInstance().initHardware();
+        Turret.getInstance().initHardware();
     }
 
     @Override
-    public void disabledInit() {
-
-    }
+    public void disabledInit() {}
 
     @Override
-    public void autonomousInit() {
-
-    }
+    public void autonomousInit() {}
 
     @Override
     public void teleopInit() {
-
+        Shooter.getInstance().setShooterSpeed(3000);
     }
 
     @Override
-    public void testInit() {
-
-    }
+    public void testInit() {}
 
     @Override
     public void robotPeriodic() {
-
+        Vision.getInstance().run();
+        AutomatedTurretSuperstructure.getInstance().run();
+        CommandScheduler.getInstance().run();
+        updateSmartDashboard();
     }
+
+    private void updateSmartDashboard() {
+        //Turret
+        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoder());
+        //Shooter
+        SmartDashboard.putNumber("shooter-rpm", Shooter.getInstance().getShooterRPM());
+        SmartDashboard.putNumber("shooter-rpm-setpoint", Shooter.getInstance().getCurrentSetpoint());
+    }
+
+    private void shooterDebugControl() {
+        if (OI.getInstance().getXboxController().getYButtonPressed()) {
+            Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getCurrentSetpoint() + 50);
+        }
+        if (OI.getInstance().getXboxController().getAButtonPressed()) {
+            Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getCurrentSetpoint() - 50);
+        }
+        if (OI.getInstance().getXboxController().getBButtonPressed()) {
+            Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getCurrentSetpoint() + 10);
+        }
+        if (OI.getInstance().getXboxController().getXButtonPressed()) {
+            Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getCurrentSetpoint() - 10);
+        }
+    }
+
 
     @Override
-    public void disabledPeriodic() {
-
-    }
+    public void disabledPeriodic() { }
 
     @Override
-    public void autonomousPeriodic() {
-
-    }
+    public void autonomousPeriodic() {}
 
     @Override
     public void teleopPeriodic() {
+        shooterDebugControl();
 
     }
 
     @Override
-    public void testPeriodic() {
-
-    }
+    public void testPeriodic() {}
 }
