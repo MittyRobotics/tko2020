@@ -73,58 +73,7 @@ public class OI {
 		return joystick2;
 	}
 	public void digitalInputControls(){
-		Button spinRevButton = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(3)
-						//&& !stage3
-				;
-			}
-		};
-
-		Button blue = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(6);
-			}
-		};
-		Button red = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(7);
-			}
-		};
-		Button yellow = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(11);
-			}
-		};
-		Button green = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButton(10);
-			}
-		};
-
-		/*Button spinColorButton = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButtonPressed(3) && stage3;
-			}
-		};*/
-
-
-		//UNCOMMENT FOR COLOR CALIBRATION
-		/*Button colorTestingButton = new Button() {
-			@Override
-			public boolean get() {
-				return getJoystick1().getRawButtonPressed(3);
-			}
-		};
-
-		colorTestingButton.whenPressed(new ColorTesting());
-		*/
+		
 	}
 	public void passedStage2(){
 		stage3 = true;
