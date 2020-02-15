@@ -17,18 +17,26 @@ public class Constants {
 
     //rgb for color sensor targets (CALIBRATE THIS)
     public static final double BLUE_R = 0.21;
-    public static final double BLUE_G = 0.46;
-    public static final double BLUE_B = 0.32;
+    public static final double BLUE_G = 0.48;
+    public static final double BLUE_B = 0.31;
 
-    public static final double GREEN_R = 0.23;
-    public static final double GREEN_G = 0.50;
-    public static final double GREEN_B = 0.26;
+    public static final double GREEN_R = 0.22;
+    public static final double GREEN_G = 0.51;
+    public static final double GREEN_B = 0.27;
 
-    public static final double RED_R = 0.35;
-    public static final double RED_G = 0.42;
-    public static final double RED_B = 0.22;
+    public static final double RED_R = 0.31;
+    public static final double RED_G = 0.45;
+    public static final double RED_B = 0.24;
 
-    public static final double YELLOW_R = 0.30;
-    public static final double YELLOW_G = 0.54;
-    public static final double YELLOW_B = 0.15;
+    public static final double YELLOW_R = 0.29;
+    public static final double YELLOW_G = 0.56;
+    public static final double YELLOW_B = 0.16;
+
+    public static final double NULL_R = 0.26;
+    public static final double NULL_G = 0.53;
+    public static final double NULL_B = 0.21;
+
+    public static final double ALSO_NULL_R = 0.23;
+    public static final double ALSO_NULL_G = 0.50;
+    public static final double ALSO_NULL_B = 0.27;
 }

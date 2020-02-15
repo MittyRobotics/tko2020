@@ -27,6 +27,7 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.colorwheel.ColorTesting;
 import com.github.mittyrobotics.colorwheel.SpinRevs;
 import com.github.mittyrobotics.colorwheel.SpinToColor;
+import com.github.mittyrobotics.colorwheel.WheelColor;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -79,6 +80,32 @@ public class OI {
 				;
 			}
 		};
+
+		Button blue = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(6);
+			}
+		};
+		Button red = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(7);
+			}
+		};
+		Button yellow = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(11);
+			}
+		};
+		Button green = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(10);
+			}
+		};
+
 		/*Button spinColorButton = new Button() {
 			@Override
 			public boolean get() {
@@ -97,11 +124,10 @@ public class OI {
 
 		colorTestingButton.whenPressed(new ColorTesting());
 		*/
-
-
-		spinRevButton.whenPressed(new SpinToColor());
-		//spinColorButton.whenPressed(new SpinToColor());
-
+		blue.whenPressed(new SpinToColor(WheelColor.Blue));
+		red.whenPressed(new SpinToColor(WheelColor.Red));
+		yellow.whenPressed(new SpinToColor(WheelColor.Yellow));
+		green.whenPressed(new SpinToColor(WheelColor.Green));
 	}
 	public void passedStage2(){
 		stage3 = true;

@@ -13,8 +13,8 @@ public class SpinRevs extends CommandBase {
     @Override
     public void initialize(){
         //sets motor to fast velocity
-        //ColorPiston.getInstance().up();
         System.out.println("Starting");
+        //ColorPiston.getInstance().up();
         Spinner.getInstance().zeroEncoder();
 
     }
@@ -29,7 +29,7 @@ public class SpinRevs extends CommandBase {
         Spinner.getInstance().setMotorOff();
         //ColorPiston.getInstance().down();
         System.out.println("END");
-        OI.getInstance().passedStage2();
+        //OI.getInstance().passedStage2();
     }
     @Override
     public boolean isFinished(){

@@ -38,6 +38,9 @@ public class Spinner extends SubsystemBase {
     private final Color kGreenTarget = ColorMatch.makeColor(GREEN_R, GREEN_G, GREEN_B);
     private final Color kRedTarget = ColorMatch.makeColor(RED_R, RED_G, RED_B);
     private final Color kYellowTarget = ColorMatch.makeColor(YELLOW_R, YELLOW_G, YELLOW_B);
+    private final Color nullTarget = ColorMatch.makeColor(NULL_R, NULL_G, NULL_B);
+    private final Color alsoNullTarget = ColorMatch.makeColor(ALSO_NULL_R, ALSO_NULL_G, ALSO_NULL_B);
+
 
     private HashMap<WheelColor, WheelColor> map = new HashMap<>();
 
@@ -56,7 +59,7 @@ public class Spinner extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        //System.out.println(Spinner.getInstance().getColor());
     }
 
     public void initHardware() {
@@ -73,6 +76,8 @@ public class Spinner extends SubsystemBase {
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
         m_colorMatcher.addColorMatch(kYellowTarget);
+        m_colorMatcher.addColorMatch(nullTarget);
+        m_colorMatcher.addColorMatch(alsoNullTarget);
         map.put(WheelColor.Blue, WheelColor.Red);
         map.put(WheelColor.Red, WheelColor.Blue);
         map.put(WheelColor.Green, WheelColor.Yellow);

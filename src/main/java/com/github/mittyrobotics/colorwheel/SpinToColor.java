@@ -3,6 +3,8 @@ package com.github.mittyrobotics.colorwheel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import java.util.ArrayList;
+
 import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
 
 public class SpinToColor extends CommandBase {
@@ -10,19 +12,35 @@ public class SpinToColor extends CommandBase {
     private boolean onColor = false;
     private boolean finished = false;
     private int green = 0;
+    private WheelColor color;
 
-    public SpinToColor() {
+
+    public SpinToColor(WheelColor color) {
         super();
+        this.color = color;
+
         addRequirements(Spinner.getInstance());
     }
     @Override
     public void initialize(){
         //ColorPiston.getInstance().up();
         Spinner.getInstance().zeroEncoder();
-        Spinner.getInstance().setMotorPID(30*8);
+
+        WheelColor cur = Spinner.getInstance().getColor();
+
+        if((cur == WheelColor.Green && color == WheelColor.Blue)||(cur == WheelColor.Blue && color == WheelColor.Yellow) || (cur == WheelColor.Yellow && color == WheelColor.Red) || (cur == WheelColor.Red && color == WheelColor.Green)) {
+            Spinner.getInstance().setMotorPID(-24 * 8);
+        } else {
+            Spinner.getInstance().setMotorPID(22 * 8);
+        }
     }
     @Override
     public void execute(){
+        if(Spinner.getInstance().getColor() == WheelColor.Green){
+            green += 1;
+        } else {
+            green = 0;
+        }
         /*if(Spinner.getInstance().matching()){
             //prevPosition = Spinner.getInstance().getRevolutions();
             //onColor = true;
@@ -34,7 +52,6 @@ public class SpinToColor extends CommandBase {
             }
         }*/
 
-        System.out.println(Spinner.getInstance().getColor());
 
 
     }
@@ -46,7 +63,13 @@ public class SpinToColor extends CommandBase {
     }
     @Override
     public boolean isFinished(){
-        return Spinner.getInstance().getColor() == WheelColor.Blue;
-        //return false;
+        if(color == WheelColor.Green) {
+            if(green > 3) {
+                return true;
+            }
+        } else {
+            return Spinner.getInstance().getColor() == color;
+        }
+        return false;
     }
 }
