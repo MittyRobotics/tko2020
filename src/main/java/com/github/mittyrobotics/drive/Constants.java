@@ -36,10 +36,10 @@ public class Constants {
 
     public static final double TICKS_PER_INCH_FALCON = 642.83;
 
-    public static final int LEFT_TALON_1 = 20;
-    public static final int LEFT_TALON_2 = 21;
-    public static final int RIGHT_TALON_1 = 23;
-    public static final int RIGHT_TALON_2 = 22;
+    public static final int LEFT_TALON_1 = 1;
+    public static final int LEFT_TALON_2 = 2;
+    public static final int RIGHT_TALON_1 = 3;
+    public static final int RIGHT_TALON_2 = 4;
 
     public static final int LEFT_FALCON_1 = 0;
     public static final int LEFT_FALCON_2 = 1;

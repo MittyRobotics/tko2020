@@ -77,7 +77,7 @@ public class DriveTrainTalon extends SubsystemBase {
 		//Feedforward Velocity PID
 		//controller = new PIDController(0.309 / 12.0, 0, 0);
 
-
+		setDefaultCommand(new ColorWheelDrive());
 	}
 
 	public void tankDrive(double left, double right) {

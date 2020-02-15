@@ -13,13 +13,12 @@ public class ColorWheelDrive extends CommandBase {
 
     @Override
     public void initialize() {
-        DriveTrainTalon.getInstance().getLeftTalon().set(ControlMode.Current, COLORWHEELDRIVE_CURRENT);
-        DriveTrainTalon.getInstance().getRightTalon().set(ControlMode.Current, COLORWHEELDRIVE_CURRENT);
+        System.out.println("Starting");
     }
 
     @Override
     public void execute() {
-
+        DriveTrainTalon.getInstance().tankDrive(0.1, 0.1);
     }
 
     @Override
