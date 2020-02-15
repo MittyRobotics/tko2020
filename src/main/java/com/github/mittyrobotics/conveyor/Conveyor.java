@@ -37,8 +37,8 @@ public class Conveyor extends SubsystemBase {
         conveyorTalon.config_kI(0, Constants.CONVEYOR_I);
         conveyorTalon.config_kD(0, Constants.CONVEYOR_D);
 //
-        entranceOpticalSwitch = new DigitalInput(com.github.mittyrobotics.Constants.ENTRANCE_OPTICAL_SWITCH);
-        exitOpticalSwitch = new DigitalInput(com.github.mittyrobotics.Constants.EXIT_OPTICAL_SWITCH);
+        entranceOpticalSwitch = new DigitalInput(Constants.ENTRANCE_OPTICAL_SWITCH);
+        exitOpticalSwitch = new DigitalInput(Constants.EXIT_OPTICAL_SWITCH);
 
         previousEntranceSwitchValue = false;
         previousExitSwitchValue = false;
