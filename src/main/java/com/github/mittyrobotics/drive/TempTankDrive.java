@@ -22,28 +22,27 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.util;
+package com.github.mittyrobotics.drive;
 
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.util.Gyro;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class OdometryManager {
-
-    private static OdometryManager instance = new OdometryManager();
-
-    public static OdometryManager getInstance() {
-        return instance;
+public class TempTankDrive extends CommandBase {
+    public TempTankDrive(){
+        super();
+        addRequirements(DriveTrainFalcon.getInstance());
     }
 
-    public void run() {
-        //Get left and right encoder positions and gyro heading
-        double leftEncoderPosition = DriveTrainFalcon.getInstance().getLeftEncoder();
-        double rightEncoderPosition = DriveTrainFalcon.getInstance().getRightEncoder();
-        double heading = Gyro.getInstance().getAngle();
+    @Override
+    public void execute() {
+        double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft)*50;
+        double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight)*50;
+        DriveTrainFalcon.getInstance().customTankVelocity(left,right);
+    }
 
-        //Update Odometry
-        Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
+    @Override
+    public void end(boolean interrupted) {
+        DriveTrainFalcon.getInstance().tankDrive(0,0);
     }
 }

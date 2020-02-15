@@ -26,13 +26,17 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.AutonDriver;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.modes.TestPathFollowingAuton;
+import com.github.mittyrobotics.autonomous.modes.ThirteenBallAuton;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.Drive;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.drive.TempTankDrive;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
@@ -50,60 +54,62 @@ public class Robot extends TimedRobot {
         OI.getInstance().digitalInputControls();
 
         //Init hardware
-        Shooter.getInstance().initHardware();
-        Turret.getInstance().initHardware();
-        DriveTrainTalon.getInstance().initHardware();
+        //Shooter.getInstance().initHardware();
+        //Turret.getInstance().initHardware();
+        DriveTrainFalcon.getInstance().initHardware();
 
         //Setup DifferentialDriveKinematics track width (essential for path following)
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
 
         //Set Odometry position to robot starting position and calibrate Odometry
-        Odometry.getInstance().calibrateRobotTransform(new Transform(), DriveTrainTalon.getInstance().getLeftEncoder(),
-                DriveTrainTalon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle360());
+        Gyro.getInstance().calibrate();
+        Gyro.getInstance().reset();
+        Odometry.getInstance().calibrateRobotTransform(new Transform(), DriveTrainFalcon.getInstance().getLeftEncoder(),
+                DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
     }
 
     @Override
     public void robotPeriodic() {
         OdometryManager.getInstance().run();
-        Vision.getInstance().run();
-        AutomatedTurretSuperstructure.getInstance().run();
+        //Vision.getInstance().run();
+        //AutomatedTurretSuperstructure.getInstance().run();
         CommandScheduler.getInstance().run();
         updateSmartDashboard();
     }
 
     private void updateSmartDashboard() {
-        //Turret
-        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoder());
-        SmartDashboard.putNumber("turret-robot-relative-angle",
-                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
-        SmartDashboard.putNumber("turret-field-relative-angle",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
-        SmartDashboard.putNumber("turret-field-relative-position-x",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getX());
-        SmartDashboard.putNumber("turret-field-relative-position-y",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getY());
-        //Shooter
-        SmartDashboard.putNumber("shooter-rpm", Shooter.getInstance().getShooterRPM());
-        SmartDashboard.putNumber("shooter-rpm-setpoint", Shooter.getInstance().getCurrentSetpoint());
-        //Vision
-        SmartDashboard.putNumber("vision-turret-yaw",
-                Vision.getInstance().getLatestVisionTarget().getTurretRelativeYaw().getHeading());
-        SmartDashboard.putNumber("vision-field-yaw",
-                Vision.getInstance().getLatestVisionTarget().getFieldRelativeYaw().getHeading());
-        SmartDashboard.putNumber("vision-distance",
-                Vision.getInstance().getLatestVisionTarget().getDistance());
-        //Odometry
-//        SmartDashboard.putNumber("odometry-x", Odometry.getInstance().getRobotTransform().getPosition().getX());
-//        SmartDashboard.putNumber("odometry-y", Odometry.getInstance().getRobotTransform().getPosition().getY());
-//        SmartDashboard.putNumber("odometry-heading",
-//                Odometry.getInstance().getRobotTransform().getRotation().getHeading());
-//        //Drivetrain
-//        SmartDashboard.putNumber("drive-vel-left", DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-//        SmartDashboard.putNumber("drive-vel-right", DriveTrainTalon.getInstance().getRightEncoderVelocity());
-//        SmartDashboard.putNumber("drive-vel-left-setpoint",
-//                DriveTrainTalon.getInstance().getLeftTalon().getClosedLoopTarget());
-//        SmartDashboard.putNumber("drive-vel-right-setpoint",
-//                DriveTrainTalon.getInstance().getRightTalon().getClosedLoopTarget());
+//        //Turret
+//        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoder());
+//        SmartDashboard.putNumber("turret-robot-relative-angle",
+//                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
+//        SmartDashboard.putNumber("turret-field-relative-angle",
+//                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
+//        SmartDashboard.putNumber("turret-field-relative-position-x",
+//                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getX());
+//        SmartDashboard.putNumber("turret-field-relative-position-y",
+//                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getY());
+//        //Shooter
+//        SmartDashboard.putNumber("shooter-rpm", Shooter.getInstance().getShooterRPM());
+//        SmartDashboard.putNumber("shooter-rpm-setpoint", Shooter.getInstance().getCurrentSetpoint());
+//        //Vision
+//        SmartDashboard.putNumber("vision-turret-yaw",
+//                Vision.getInstance().getLatestVisionTarget().getTurretRelativeYaw().getHeading());
+//        SmartDashboard.putNumber("vision-field-yaw",
+//                Vision.getInstance().getLatestVisionTarget().getFieldRelativeYaw().getHeading());
+//        SmartDashboard.putNumber("vision-distance",
+//                Vision.getInstance().getLatestVisionTarget().getDistance());
+//        //Odometry
+        SmartDashboard.putNumber("odometry-x", Odometry.getInstance().getRobotTransform().getPosition().getX());
+        SmartDashboard.putNumber("odometry-y", Odometry.getInstance().getRobotTransform().getPosition().getY());
+        SmartDashboard.putNumber("odometry-heading",
+                Odometry.getInstance().getRobotTransform().getRotation().getHeading());
+        //Drivetrain
+        SmartDashboard.putNumber("drive-vel-left", DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
+        SmartDashboard.putNumber("drive-vel-right", DriveTrainFalcon.getInstance().getRightEncoderVelocity());
+        SmartDashboard.putNumber("drive-vel-left-setpoint",
+                DriveTrainFalcon.getInstance().getLeftVelSetpoint());
+        SmartDashboard.putNumber("drive-vel-right-setpoint",
+                DriveTrainFalcon.getInstance().getRightVelSetpoint());
     }
 
     @Override
@@ -112,6 +118,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Odometry.getInstance().calibrateTransformToZero(DriveTrainFalcon.getInstance().getLeftEncoder(),
+                DriveTrainFalcon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
+        Odometry.getInstance().calibrateRobotTransform(new Transform(0,0,0),
+                DriveTrainFalcon.getInstance().getLeftEncoder(),
+                DriveTrainFalcon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
+        new ThirteenBallAuton().schedule();
     }
 
     @Override
@@ -121,11 +133,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+
+        new TempTankDrive().schedule();
+
         //Shooter.getInstance().setShooterSpeed(3000);
     }
 
     @Override
     public void teleopPeriodic() {
+        //DriveTrainFalcon.getInstance().customTankVelocity(20,20);
         //OI.getInstance().shooterDebugControl();
+    }
+
+    @Override
+    public void testInit() {
+        Odometry.getInstance().calibrateTransformToZero(DriveTrainFalcon.getInstance().getLeftEncoder(),
+                DriveTrainFalcon.getInstance().getRightEncoder(),Gyro.getInstance().getAngle());
     }
 }

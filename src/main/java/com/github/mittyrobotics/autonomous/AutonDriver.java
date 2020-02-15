@@ -26,6 +26,7 @@ package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
@@ -64,21 +65,21 @@ public class AutonDriver {
     }
 
     public void setReversed(boolean reversed) {
-        PathFollowerProperties properties =
-                new PathFollowerProperties(pathFollower.getProperties().velocityController, reversed,
-                        pathFollower.getProperties().continuouslyAdaptivePath);
-
-        if (pathFollower.getPurePursuitProperties() != null) {
-            PathFollowerProperties.PurePursuitProperties purePursuitProperties =
-                    pathFollower.getPurePursuitProperties();
-
-            this.pathFollower = new PathFollower(properties, purePursuitProperties);
-        } else if (pathFollower.getRamseteProperties() != null) {
-            PathFollowerProperties.RamseteProperties ramseteProperties =
-                    pathFollower.getRamseteProperties();
-
-            this.pathFollower = new PathFollower(properties, ramseteProperties);
-        }
+//        PathFollowerProperties properties =
+//                new PathFollowerProperties(pathFollower.getProperties().velocityController, reversed,
+//                        pathFollower.getProperties().continuouslyAdaptivePath);
+//
+//        if (pathFollower.getPurePursuitProperties() != null) {
+//            PathFollowerProperties.PurePursuitProperties purePursuitProperties =
+//                    pathFollower.getPurePursuitProperties();
+//
+//            this.pathFollower = new PathFollower(properties, purePursuitProperties);
+//        } else if (pathFollower.getRamseteProperties() != null) {
+//            PathFollowerProperties.RamseteProperties ramseteProperties =
+//                    pathFollower.getRamseteProperties();
+//
+//            this.pathFollower = new PathFollower(properties, ramseteProperties);
+//        }
     }
 
     public void setPath(Path path) {
@@ -93,6 +94,10 @@ public class AutonDriver {
         disabled = false;
     }
 
+    public void initAutonDriver(){
+        this.previousTime = 0;
+    }
+
     public void run() {
         if (!disabled) {
             double currentTime = Timer.getFPGATimestamp();
@@ -100,15 +105,15 @@ public class AutonDriver {
             this.previousTime = currentTime;
             if (!isFinishedPath()) {
                 updatePathFollower(deltaTime);
-                this.finishedPath = pathFollower.isFinished(1);
+                this.finishedPath = pathFollower.isFinished(4);
             } else {
-                DriveTrainTalon.getInstance().tankDrive(0, 0);
+                DriveTrainFalcon.getInstance().tankDrive(0, 0);
             }
         }
     }
 
     public void disableAutonDriver() {
-        DriveTrainTalon.getInstance().tankDrive(0, 0);
+        DriveTrainFalcon.getInstance().tankDrive(0, 0);
         this.pathFollower = null;
         this.finishedPath = true;
         this.disabled = true;
@@ -116,14 +121,14 @@ public class AutonDriver {
 
     private void updatePathFollower(double deltaTime) {
         DrivetrainVelocities currentVelocities = DrivetrainVelocities.calculateFromWheelVelocities(
-                DriveTrainTalon.getInstance().getLeftEncoderVelocity(),
-                DriveTrainTalon.getInstance().getRightEncoderVelocity()
+                DriveTrainFalcon.getInstance().getLeftEncoderVelocity(),
+                DriveTrainFalcon.getInstance().getRightEncoderVelocity()
         );
 
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getRobotTransform()
                 , currentVelocities, deltaTime);
 
-        DriveTrainTalon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
+        DriveTrainFalcon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
     }
 
     public double getRoughDistanceToEnd() {

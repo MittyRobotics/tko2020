@@ -22,28 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.util;
+package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.util.Gyro;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class OdometryManager {
-
-    private static OdometryManager instance = new OdometryManager();
-
-    public static OdometryManager getInstance() {
-        return instance;
-    }
-
-    public void run() {
-        //Get left and right encoder positions and gyro heading
-        double leftEncoderPosition = DriveTrainFalcon.getInstance().getLeftEncoder();
-        double rightEncoderPosition = DriveTrainFalcon.getInstance().getRightEncoder();
-        double heading = Gyro.getInstance().getAngle();
-
-        //Update Odometry
-        Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
+public class TestPrintCommand extends InstantCommand {
+    public TestPrintCommand(String string){
+        super(() -> {
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+            System.out.println(string);
+        });
     }
 }

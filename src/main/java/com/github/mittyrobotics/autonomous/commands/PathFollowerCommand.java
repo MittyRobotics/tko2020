@@ -29,6 +29,7 @@ import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.autonomous.vision.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.vision.Vision;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.shooter.Shooter;
@@ -41,7 +42,7 @@ public class PathFollowerCommand extends CommandBase {
 
     public PathFollowerCommand(Path path) {
         super();
-        addRequirements(DriveTrainTalon.getInstance());
+        addRequirements(DriveTrainFalcon.getInstance());
         this.reversed = -1;
         this.path = path;
     }
@@ -49,16 +50,18 @@ public class PathFollowerCommand extends CommandBase {
     public PathFollowerCommand(Path path, boolean reversed) {
         super();
         this.reversed = reversed?1:0;
-        addRequirements(DriveTrainTalon.getInstance());
+        addRequirements(DriveTrainFalcon.getInstance());
         this.path = path;
     }
 
     @Override
     public void initialize() {
+        System.out.println("Init path follower");
         if(reversed != -1){
             AutonDriver.getInstance().setReversed(reversed==1);
         }
         AutonDriver.getInstance().setPath(path);
+        AutonDriver.getInstance().initAutonDriver();
     }
 
     @Override
