@@ -29,6 +29,7 @@ import com.github.mittyrobotics.colorwheel.SpinRevs;
 import com.github.mittyrobotics.colorwheel.SpinToColor;
 import com.github.mittyrobotics.colorwheel.WheelColor;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.util.Constants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -124,12 +125,6 @@ public class OI {
 
 		colorTestingButton.whenPressed(new ColorTesting());
 		*/
-		blue.whenPressed(new SpinToColor(WheelColor.Blue));
-		red.whenPressed(new SpinToColor(WheelColor.Red));
-		yellow.whenPressed(new SpinToColor(WheelColor.Yellow));
-		green.whenPressed(new SpinToColor(WheelColor.Green));
-
-		spinRevButton.whenPressed(new SpinRevs());
 	}
 	public void passedStage2(){
 		stage3 = true;
