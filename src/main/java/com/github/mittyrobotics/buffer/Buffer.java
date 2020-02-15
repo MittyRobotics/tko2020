@@ -29,6 +29,7 @@ public class Buffer extends SubsystemBase implements ISubsystem {
         bufferWheel = new WPI_TalonSRX(Constants.TalonID1);
         bufferWheel.setInverted(false);
         bufferWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        setDefaultCommand(new LockBall());
     }
 
     public void resetEncoder(){

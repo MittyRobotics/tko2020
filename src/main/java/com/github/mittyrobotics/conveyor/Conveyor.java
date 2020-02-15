@@ -37,9 +37,6 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
         conveyorTalon = new WPI_TalonSRX(Constants.CONVEYOR_TALON_ID);
 //        conveyorWheel2 = new WPI_TalonSRX(Constants.conveyorWheel2ID);
         conveyorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        conveyorTalon.config_kP(0, Constants.CONVEYOR_P);
-        conveyorTalon.config_kI(0, Constants.CONVEYOR_I);
-        conveyorTalon.config_kD(0, Constants.CONVEYOR_D);
 //
         entranceOpticalSwitch = new DigitalInput(Constants.ENTRANCE_OPTICAL_SWITCH);
         exitOpticalSwitch = new DigitalInput(Constants.EXIT_OPTICAL_SWITCH);

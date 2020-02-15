@@ -1,27 +1,25 @@
 package com.github.mittyrobotics.conveyor;
 
 import com.github.mittyrobotics.buffer.Buffer;
+import com.github.mittyrobotics.buffer.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class MoveConveyorRemoveBall extends CommandBase {
+public class RemoveBall extends CommandBase {
 
-    private double d1, d2, conveyorInitPos, bufferInitPos;
+    private double d, bufferInitPos;
     private boolean isDone;
 
-    public MoveConveyorRemoveBall(double d1, double d2) {
+    public RemoveBall(double d) {
         super();
-        this.d1 = d1;
-        this.d2 = d2;
+        this.d = d;
         addRequirements(Conveyor.getInstance(), Buffer.getInstance());
     }
 
     @Override
     public void initialize() {
-        conveyorInitPos = Conveyor.getInstance().getPosition();
         bufferInitPos = Buffer.getInstance().getBufferPosition();
         isDone = false;
-        d1 *= com.github.mittyrobotics.buffer.Constants.TICKS_PER_ROTATION;
-        d2 *= Constants.TICKS_PER_BALL_INCH;
+        d*= Constants.TICKS_PER_ROTATION;
         System.out.println("INIT");
 
     }
@@ -29,18 +27,11 @@ public class MoveConveyorRemoveBall extends CommandBase {
     @Override
     public void execute() {
         double bufferDiff = Buffer.getInstance().getBufferPosition() - bufferInitPos;
-        double conveyorDiff = Conveyor.getInstance().getPosition() - conveyorInitPos;
-        if (bufferDiff < d1) {
+        if (bufferDiff < d) {
             Buffer.getInstance().manualBufferSpeed(0.4);
-            Conveyor.getInstance().manualSetConveyorSpeed(0);
-        } else {
-            if (conveyorDiff < d2) {
-                System.out.println("HE");
-                Conveyor.getInstance().manualSetConveyorSpeed(1);
-                Buffer.getInstance().manualBufferSpeed(0);
-            }  else {
-                isDone = true;
-            }
+            Conveyor.getInstance().manualSetConveyorSpeed(1);
+        } else{
+            isDone = true;
         }
     }
 
