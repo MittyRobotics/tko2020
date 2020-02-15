@@ -26,8 +26,8 @@ package com.github.mittyrobotics.colorwheel;
 
 public class Constants {
     //channels for hardware
-    public static final int SOLENOID_FOWARD_CHANNEL = 0;
-    public static final int SOLENOID_REVERSE_CHANNEL = 1;
+    public static final int SOLENOID_FOWARD_CHANNEL = 1;
+    public static final int SOLENOID_REVERSE_CHANNEL = 0;
 
     public static final int TALON_DEVICE_NUMBER = 2;
 

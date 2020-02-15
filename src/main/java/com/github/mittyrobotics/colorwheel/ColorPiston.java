@@ -51,7 +51,7 @@ public class ColorPiston extends SubsystemBase implements ISubsystem {
     @Override
     public void initHardware() {
         piston = new DoubleSolenoid(SOLENOID_FOWARD_CHANNEL, SOLENOID_REVERSE_CHANNEL);
-
+        down();
     }
 
     @Override
