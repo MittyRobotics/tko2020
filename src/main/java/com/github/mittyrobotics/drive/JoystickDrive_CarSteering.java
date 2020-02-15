@@ -1,6 +1,6 @@
 package com.github.mittyrobotics.drive;
 
-import com.github.mittyrobotics.OI;
+import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
