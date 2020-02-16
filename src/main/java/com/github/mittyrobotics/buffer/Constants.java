@@ -1,10 +1,10 @@
 package com.github.mittyrobotics.buffer;
 
 public class Constants {
-    public static final int TalonID1 = 1;
-    public static final double TalonLockSpeed = 0.2;
-    public static final double TalonReleaseSpeed = 0.2;
-    public static final double RELEASE_SETPOINT = 0; //TODO: find distance setpoint value for ball release
+    public static final int BUFFER_WHEEL_ID = 1;
+    public static final double LOCK_SPEED = -0.5;
+    public static final double RELEASE_SPEED = 0.2;
     public static final double TICKS_PER_ROTATION = 4163;
-
+    public static final boolean BUFFER_WHEEL_INVERSION = false;
+    public static final boolean BUFFER_WHEEL_ENCODER_INVERSION = false;
 }

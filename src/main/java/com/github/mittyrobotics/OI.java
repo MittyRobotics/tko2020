@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.colorwheel.ColorTesting;
 import com.github.mittyrobotics.colorwheel.SpinRevs;
 import com.github.mittyrobotics.colorwheel.SpinToColor;
 import com.github.mittyrobotics.colorwheel.WheelColor;

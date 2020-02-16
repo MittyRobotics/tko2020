@@ -25,8 +25,6 @@
 package com.github.mittyrobotics.colorwheel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 
 public class ColorTesting extends CommandBase {
@@ -37,9 +35,11 @@ public class ColorTesting extends CommandBase {
     private double red;
     private double green;
     private double blue;
+    private double cycles;
 
-    public ColorTesting() {
+    public ColorTesting(double cycles) {
         super();
+        this.cycles = cycles;
         addRequirements(Spinner.getInstance());
     }
 
@@ -72,16 +72,16 @@ public class ColorTesting extends CommandBase {
         System.out.println(Spinner.getInstance().getColor());
 
         //print rgb averages
-        System.out.println("Red: " + red / 20);
-        System.out.println("Green: " + green / 20);
-        System.out.println("Blue: " + blue / 20);
+        System.out.println("Red: " + red / cycles);
+        System.out.println("Green: " + green / cycles);
+        System.out.println("Blue: " + blue / cycles);
         System.out.println();
     }
 
     @Override
     public boolean isFinished() {
         //20 cycles
-        return count > 19;
+        return count > cycles;
     }
 }
 

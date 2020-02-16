@@ -19,7 +19,7 @@ public class Hooks extends SubsystemBase implements ISubsystem {
     @Override
     public void initHardware() {
         leftPiston = new DoubleSolenoid(Constants.LEFT_PISTON_FORWARD_ID, Constants.LEFT_PISTON_REVERSE_ID);
-        //rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);
+        rightPiston = new DoubleSolenoid(Constants.RIGHT_PISTON_FORWARD_ID, Constants.RIGHT_PISTON_REVERSE_ID);
     }
 
     @Override
@@ -27,24 +27,29 @@ public class Hooks extends SubsystemBase implements ISubsystem {
 
     }
 
-    public void push(RobotSide side, PistonValue value) {
+    public void pushHooks(RobotSide side) {
         if (side == RobotSide.LEFT) {
-            if (value == PistonValue.UP) {
-                leftPiston.set(DoubleSolenoid.Value.kForward);
-            } else if (value == PistonValue.DOWN) {
-                leftPiston.set(DoubleSolenoid.Value.kReverse);
-            } else if (value == PistonValue.OFF) {
-                leftPiston.set(DoubleSolenoid.Value.kOff);
-            }
-        } else if (side == RobotSide.RIGHT) {
-            if (value == PistonValue.UP) {
-                rightPiston.set(DoubleSolenoid.Value.kForward);
-            } else if (value == PistonValue.DOWN) {
-                rightPiston.set(DoubleSolenoid.Value.kReverse);
-            } else if (value == PistonValue.OFF) {
-                rightPiston.set(DoubleSolenoid.Value.kOff);
-            }
+            leftPiston.set(DoubleSolenoid.Value.kForward);
+        } else {
+            rightPiston.set(DoubleSolenoid.Value.kForward);
         }
+    }
+    public void pushHooks(){
+        pushHooks(RobotSide.LEFT);
+        pushHooks(RobotSide.RIGHT);
+    }
+
+    public void pullHooks(RobotSide side){
+        if(side == RobotSide.LEFT){
+            leftPiston.set(DoubleSolenoid.Value.kReverse);
+        } else {
+            rightPiston.set(DoubleSolenoid.Value.kReverse);
+        }
+    }
+
+    public void pullHooks(){
+        pullHooks(RobotSide.LEFT);
+        pullHooks(RobotSide.RIGHT);
     }
 
     public DoubleSolenoid.Value getSolenoidValue() {

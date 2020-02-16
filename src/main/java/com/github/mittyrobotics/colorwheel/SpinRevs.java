@@ -1,11 +1,9 @@
 package com.github.mittyrobotics.colorwheel;
 
-import com.github.mittyrobotics.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
-
 public class SpinRevs extends CommandBase {
+    private double initPos;
     public SpinRevs() {
         super();
         addRequirements(Spinner.getInstance());
@@ -15,13 +13,11 @@ public class SpinRevs extends CommandBase {
         //sets motor to fast velocity
         System.out.println("Starting");
         ColorPiston.getInstance().up();
-        Spinner.getInstance().zeroEncoder();
-
+        initPos = Spinner.getInstance().getRevolutions() ;
     }
     @Override
     public void execute(){
-        //System.out.println(Spinner.getInstance().getVelocity());
-        Spinner.getInstance().setMotorPID(480);
+        Spinner.getInstance().setMotorFast();
     }
     @Override
     public void end(boolean interrupted){
@@ -29,10 +25,9 @@ public class SpinRevs extends CommandBase {
         Spinner.getInstance().setMotorOff();
         ColorPiston.getInstance().down();
         System.out.println("END");
-        //OI.getInstance().passedStage2();
     }
     @Override
     public boolean isFinished(){
-        return Spinner.getInstance().getRevolutions() > 3.5;
+        return Spinner.getInstance().getRevolutions()-initPos > 3.5;
     }
 }

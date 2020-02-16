@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class LockBall extends CommandBase {
-    private boolean isDone = false;
 
     public LockBall() {
         super();
@@ -13,11 +12,12 @@ public class LockBall extends CommandBase {
 
     @Override
     public void initialize() {
+        Buffer.getInstance().bufferLock();
     }
 
     @Override
     public void execute() {
-        Buffer.getInstance().bufferLock(-.5);
+
     }
 
     @Override

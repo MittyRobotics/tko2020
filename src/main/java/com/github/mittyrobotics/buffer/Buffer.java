@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Buffer extends SubsystemBase implements ISubsystem {
     private static Buffer instance;
     private WPI_TalonSRX bufferWheel;
-    //TODO not sure if we will use these
-    private boolean isOptimalSpeed = true; //TODO: Assign value properly when merging
-    private boolean isOptimalAngle = true; //TODO: Assign value properly when merging
 
     private Buffer() {
         super();
@@ -26,9 +23,10 @@ public class Buffer extends SubsystemBase implements ISubsystem {
     }
 
     public void initHardware() {
-        bufferWheel = new WPI_TalonSRX(Constants.TalonID1);
-        bufferWheel.setInverted(false);
+        bufferWheel = new WPI_TalonSRX(Constants.BUFFER_WHEEL_ID);
+        bufferWheel.setInverted(Constants.BUFFER_WHEEL_INVERSION);
         bufferWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        bufferWheel.setSensorPhase(Constants.BUFFER_WHEEL_ENCODER_INVERSION);
         setDefaultCommand(new LockBall());
     }
 
@@ -41,7 +39,7 @@ public class Buffer extends SubsystemBase implements ISubsystem {
 
     }
 
-    public void bufferLock(double speed) {
+    private void moveWheel(double speed) {
         bufferWheel.set(ControlMode.PercentOutput, speed);
 
     }
@@ -56,23 +54,15 @@ public class Buffer extends SubsystemBase implements ISubsystem {
 
     }
 
-    public void bufferRelease(double speed) {
-        bufferWheel.set(ControlMode.PercentOutput, speed);
-    }
-
-    public boolean isOptimalAngle() {
-        return isOptimalAngle;
-    }
-
-    public boolean isOptimalSpeed() {
-        return isOptimalSpeed;
-    }
-
-    public WPI_TalonSRX getBufferWheel() {
-        return getBufferWheel();
-    }
-
     public double getBufferPosition() {
         return bufferWheel.getSelectedSensorPosition();
+    }
+
+    public void bufferLock(){
+        moveWheel(Constants.LOCK_SPEED);
+    }
+
+    public void bufferRelease(){
+        moveWheel(Constants.RELEASE_SPEED);
     }
 }

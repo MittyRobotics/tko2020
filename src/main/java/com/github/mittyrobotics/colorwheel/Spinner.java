@@ -12,37 +12,30 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.awt.event.MouseWheelListener;
 import java.util.HashMap;
-import java.util.WeakHashMap;
-
-import static com.github.mittyrobotics.colorwheel.Constants.*;
 
 
 public class Spinner extends SubsystemBase {
     //talon for spinner
-    private WPI_TalonSRX talon1;
+    private WPI_TalonSRX spinnerTalon;
 
     //spinner singleton
     private static Spinner instance;
 
-    //I2C port for color sensor
-    private final I2C.Port i2cPort = I2C.Port.kOnboard;
-
     //initialize color sensor
-    private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-    private final ColorMatch m_colorMatcher = new ColorMatch();
+    private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+    private final ColorMatch colorMatcher = new ColorMatch();
 
     //calibrated
-    private final Color kBlueTarget = ColorMatch.makeColor(BLUE_R, BLUE_G, BLUE_B);
-    private final Color kGreenTarget = ColorMatch.makeColor(GREEN_R, GREEN_G, GREEN_B);
-    private final Color kRedTarget = ColorMatch.makeColor(RED_R, RED_G, RED_B);
-    private final Color kYellowTarget = ColorMatch.makeColor(YELLOW_R, YELLOW_G, YELLOW_B);
-    private final Color nullTarget = ColorMatch.makeColor(NULL_R, NULL_G, NULL_B);
-    private final Color alsoNullTarget = ColorMatch.makeColor(ALSO_NULL_R, ALSO_NULL_G, ALSO_NULL_B);
+    private final Color blue = ColorMatch.makeColor(Constants.BLUE_R, Constants.BLUE_G, Constants.BLUE_B);
+    private final Color green = ColorMatch.makeColor(Constants.GREEN_R, Constants.GREEN_G, Constants.GREEN_B);
+    private final Color red = ColorMatch.makeColor(Constants.RED_R, Constants.RED_G, Constants.RED_B);
+    private final Color yellow = ColorMatch.makeColor(Constants.YELLOW_R, Constants.YELLOW_G, Constants.YELLOW_B);
+    private final Color nullTarget = ColorMatch.makeColor(Constants.NULL_R, Constants.NULL_G, Constants.NULL_B);
+    private final Color alsoNullTarget = ColorMatch.makeColor(Constants.ALSO_NULL_R, Constants.ALSO_NULL_G, Constants.ALSO_NULL_B);
 
 
-    private HashMap<WheelColor, WheelColor> map = new HashMap<>();
+    private HashMap<WheelColor, WheelColor> map;
 
     public static Spinner getInstance() {
         if (instance == null) {
@@ -59,76 +52,71 @@ public class Spinner extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //System.out.println(Spinner.getInstance().getColor());
+
     }
 
     public void initHardware() {
         //initialize talon
-        talon1 = new WPI_TalonSRX(20);
-        talon1.setSensorPhase(true);
-
-
-        //sets color match
-        m_colorMatcher.addColorMatch(kBlueTarget);
-        m_colorMatcher.addColorMatch(kGreenTarget);
-        m_colorMatcher.addColorMatch(kRedTarget);
-        m_colorMatcher.addColorMatch(kYellowTarget);
-        m_colorMatcher.addColorMatch(nullTarget);
-        m_colorMatcher.addColorMatch(alsoNullTarget);
+        spinnerTalon = new WPI_TalonSRX(Constants.SPINNER_TALON_ID);
+        spinnerTalon.setInverted(Constants.SPINNER_TALON_INVERSION);
+        spinnerTalon.setSensorPhase(Constants.SPINNER_ENCODER_INVERSION);
+        colorMatcher.addColorMatch(blue);
+        colorMatcher.addColorMatch(green);
+        colorMatcher.addColorMatch(red);
+        colorMatcher.addColorMatch(yellow);
+        colorMatcher.addColorMatch(nullTarget);
+        colorMatcher.addColorMatch(alsoNullTarget);
+        map = new HashMap<>();
         map.put(WheelColor.Blue, WheelColor.Red);
         map.put(WheelColor.Red, WheelColor.Blue);
         map.put(WheelColor.Green, WheelColor.Yellow);
         map.put(WheelColor.Yellow, WheelColor.Green);
-        talon1.setNeutralMode(NeutralMode.Brake);
-        //setDefaultCommand(new SpinRevs());
+        spinnerTalon.setNeutralMode(NeutralMode.Brake);
 
     }
 
     public void setMotorFast() {
         //sets motor to fast velocity
-        talon1.set(ControlMode.Velocity, FAST_VELOCITY);
+        setMotorPID(Constants.FAST_VELOCITY);
 
     }
 
-    public void setMotorPID(double rpm){
-        double setpoint = (rpm * (4 * Math.PI)) * TICKS_PER_INCH / 600.0; //Ticks per 100ms
-        PIDController controller = new PIDController(0.000001, 0, 0);
+    private void setMotorPID(double rpm){ //TODO cleanup setpoint conversion
+        double setpoint = (rpm * (4 * Math.PI)) * Constants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
+        PIDController controller = new PIDController(Constants.SPINNER_P, Constants.SPINNER_I, Constants.SPINNER_D);
         controller.setSetpoint(setpoint);
-        //System.out.println(controller.calculate(talon1.getSelectedSensorVelocity()));
-        //System.out.println("MOTOR OUT" + talon1.getMotorOutputPercent());
-        talon1.set(ControlMode.PercentOutput, 1/6250.0 * setpoint
-                + controller.calculate(talon1.getSelectedSensorVelocity())
+        spinnerTalon.set(ControlMode.PercentOutput, Constants.SPINNER_FF * setpoint
+                + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
         );
     }
-    public void setMotorSlow() {
+    public void setMotorSlow(boolean isReversed) {
         //sets motor to slow velocity
-        talon1.set(ControlMode.Velocity, SLOW_VELOCITY);
-
-    }
-
-    public void position(double pos) {
-        talon1.set(ControlMode.Position, pos * TICKS_PER_INCH);
+        if(isReversed){
+            setMotorPID(-Constants.SLOW_VELOCITY);
+        } else {
+            setMotorPID(Constants.SLOW_VELOCITY);
+        }
     }
 
     public void setMotorOff() {
         //turn off motor
-        talon1.set(ControlMode.PercentOutput, 0);
+        spinnerTalon.set(ControlMode.PercentOutput, 0);
     }
 
     public WheelColor getColor() {
         //gets current rgb
-        Color detectedColor = m_colorSensor.getColor();
+        Color detectedColor = colorSensor.getColor();
 
         //matches rgb to color targets
-        ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+        ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
-        if (match.color == kBlueTarget) {
+        if (match.color == blue) {
             return WheelColor.Blue;
-        } else if (match.color == kRedTarget) {
+        } else if (match.color == red) {
             return WheelColor.Red;
-        } else if (match.color == kGreenTarget) {
+        } else if (match.color == green) {
             return WheelColor.Green;
-        } else if (match.color == kYellowTarget) {
+        } else if (match.color == yellow) {
             return WheelColor.Yellow;
         } else {
             return WheelColor.None;
@@ -137,7 +125,7 @@ public class Spinner extends SubsystemBase {
 
     public double[] getRGB() {
         //returns array of rgb values
-        Color detectedColor = m_colorSensor.getColor();
+        Color detectedColor = colorSensor.getColor();
         double[] colors = new double[3];
         colors[0] = detectedColor.red;
         colors[1] = detectedColor.green;
@@ -164,36 +152,10 @@ public class Spinner extends SubsystemBase {
     }
 
     public double getRevolutions() {
-        return talon1.getSelectedSensorPosition() / (32*Math.PI*TICKS_PER_INCH);
+        return spinnerTalon.getSelectedSensorPosition() / (32*Math.PI*Constants.TICKS_PER_INCH);
     }
 
     public void zeroEncoder() {
-        talon1.setSelectedSensorPosition(0);
+        spinnerTalon.setSelectedSensorPosition(0);
     }
-
-    public double getEncoder() {
-        return talon1.getSelectedSensorPosition();
-    }
-
-    public double returnDistanceFromTarget() {
-        return talon1.getClosedLoopTarget();
-    }
-
-    public boolean matching() {
-        //return target color equals current color
-        return getGameMessage() == map.get(getColor());
-    }
-
-    public boolean testMatching(){
-        return getColor() == WheelColor.Blue;
-    }
-
-    public void setMotor(double percent) {
-        talon1.set(ControlMode.PercentOutput, percent);
-    }
-
-    public double getVelocity() {
-        return talon1.getSelectedSensorVelocity();
-    }
-
 }
