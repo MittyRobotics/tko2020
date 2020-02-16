@@ -24,6 +24,8 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.buffer.Buffer;
 import com.github.mittyrobotics.climber.Hooks;
 import com.github.mittyrobotics.climber.Winch;
@@ -63,8 +65,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        //Run command scheduler
         CommandScheduler.getInstance().run();
-        Conveyor.getInstance().periodic();
+        //Update dashboards
+        DriveTrainFalcon.getInstance().updateDashboard();
+        Intake.getInstance().updateDashboard();
+        Conveyor.getInstance().updateDashboard();
+        Buffer.getInstance().updateDashboard();
+        Shooter.getInstance().updateDashboard();
+        Turret.getInstance().updateDashboard();
+        ColorPiston.getInstance().updateDashboard();
+        Spinner.getInstance().updateDashboard();
+        Hooks.getInstance().updateDashboard();
+        Winch.getInstance().updateDashboard();
+        Vision.getInstance().updateDashboard();
+        OdometryManager.getInstance().updateDashboard();
     }
 
     @Override

@@ -28,9 +28,11 @@ package com.github.mittyrobotics.turret;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase implements ISubsystem {
@@ -94,7 +96,15 @@ public class Turret extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoderPosition());
+        SmartDashboard.putNumber("turret-robot-relative-angle",
+                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
+        SmartDashboard.putNumber("turret-field-relative-angle",
+                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
+        SmartDashboard.putNumber("turret-field-relative-position-x",
+                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getX());
+        SmartDashboard.putNumber("turret-field-relative-position-y",
+                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getY());
     }
 
     /**

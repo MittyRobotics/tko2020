@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.github.mittyrobotics.interfaces.ISubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
@@ -73,7 +74,10 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putNumber("drive-vel-left", getLeftEncoderVelocity());
+        SmartDashboard.putNumber("drive-vel-right", getRightEncoderVelocity());
+        SmartDashboard.putNumber("drive-vel-left-setpoint", getLeftVelSetpoint());
+        SmartDashboard.putNumber("drive-vel-right-setpoint", getRightVelSetpoint());
     }
 
     public void tankDrive(double left, double right) {

@@ -30,6 +30,7 @@ import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.drive.TempTankDrive;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
@@ -61,22 +62,9 @@ public class AutonTesting extends TimedRobot {
     public void robotPeriodic() {
         OdometryManager.getInstance().run();
         CommandScheduler.getInstance().run();
-        updateSmartDashboard();
-    }
 
-    private void updateSmartDashboard() {
-        //Odometry
-        SmartDashboard.putNumber("odometry-x", Odometry.getInstance().getRobotTransform().getPosition().getX());
-        SmartDashboard.putNumber("odometry-y", Odometry.getInstance().getRobotTransform().getPosition().getY());
-        SmartDashboard.putNumber("odometry-heading",
-                Odometry.getInstance().getRobotTransform().getRotation().getHeading());
-        //Drivetrain
-        SmartDashboard.putNumber("drive-vel-left", DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
-        SmartDashboard.putNumber("drive-vel-right", DriveTrainFalcon.getInstance().getRightEncoderVelocity());
-        SmartDashboard.putNumber("drive-vel-left-setpoint",
-                DriveTrainFalcon.getInstance().getLeftVelSetpoint());
-        SmartDashboard.putNumber("drive-vel-right-setpoint",
-                DriveTrainFalcon.getInstance().getRightVelSetpoint());
+        DriveTrainFalcon.getInstance().updateDashboard();
+        OdometryManager.getInstance().updateDashboard();
     }
 
     @Override

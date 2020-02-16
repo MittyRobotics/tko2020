@@ -3,6 +3,7 @@ package com.github.mittyrobotics.colorwheel;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.HashMap;
 
 
-public class Spinner extends SubsystemBase {
+public class Spinner extends SubsystemBase implements ISubsystem {
     //talon for spinner
     private WPI_TalonSRX spinnerTalon;
 
@@ -55,6 +56,7 @@ public class Spinner extends SubsystemBase {
 
     }
 
+    @Override
     public void initHardware() {
         //initialize talon
         spinnerTalon = new WPI_TalonSRX(Constants.SPINNER_TALON_ID);
@@ -72,6 +74,10 @@ public class Spinner extends SubsystemBase {
         map.put(WheelColor.Green, WheelColor.Yellow);
         map.put(WheelColor.Yellow, WheelColor.Green);
         spinnerTalon.setNeutralMode(NeutralMode.Brake);
+    }
+
+    @Override
+    public void updateDashboard() {
 
     }
 

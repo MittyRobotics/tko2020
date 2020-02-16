@@ -31,9 +31,7 @@ import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.OI;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class ShooterTesting extends TimedRobot {
@@ -42,6 +40,16 @@ public class ShooterTesting extends TimedRobot {
         Shooter.getInstance().initHardware();
         Turret.getInstance().initHardware();
         DriveTrainTalon.getInstance().initHardware();
+    }
+
+    @Override
+    public void robotPeriodic() {
+        Vision.getInstance().run();
+        AutomatedTurretSuperstructure.getInstance().run();
+        CommandScheduler.getInstance().run();
+
+        Shooter.getInstance().updateDashboard();
+        Turret.getInstance().updateDashboard();
     }
 
     @Override
@@ -60,23 +68,6 @@ public class ShooterTesting extends TimedRobot {
 
     @Override
     public void testInit() {
-    }
-
-    @Override
-    public void robotPeriodic() {
-        Vision.getInstance().run();
-        AutomatedTurretSuperstructure.getInstance().run();
-        CommandScheduler.getInstance().run();
-        updateSmartDashboard();
-    }
-
-    private void updateSmartDashboard() {
-        //Turret
-        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoderPosition());
-        //Shooter
-        SmartDashboard.putNumber("shooter-rpm", Shooter.getInstance().getShooterRPM());
-        SmartDashboard.putNumber("shooter-rpm-setpoint", Shooter.getInstance().getCurrentSetpoint());
-        SmartDashboard.putNumber("vision-distance", Vision.getInstance().getLatestVisionTarget().getDistance());
     }
 
     private void shooterDebugControl() {

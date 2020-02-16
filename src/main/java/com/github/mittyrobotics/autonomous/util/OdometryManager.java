@@ -25,10 +25,12 @@
 package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.interfaces.IDashboard;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class OdometryManager {
+public class OdometryManager implements IDashboard {
 
     private static OdometryManager instance = new OdometryManager();
 
@@ -44,5 +46,13 @@ public class OdometryManager {
 
         //Update Odometry
         Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
+    }
+
+    @Override
+    public void updateDashboard() {
+        SmartDashboard.putNumber("odometry-x", Odometry.getInstance().getRobotTransform().getPosition().getX());
+        SmartDashboard.putNumber("odometry-y", Odometry.getInstance().getRobotTransform().getPosition().getY());
+        SmartDashboard
+                .putNumber("odometry-heading", Odometry.getInstance().getRobotTransform().getRotation().getHeading());
     }
 }

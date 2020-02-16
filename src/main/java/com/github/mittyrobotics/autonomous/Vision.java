@@ -27,11 +27,13 @@ package com.github.mittyrobotics.autonomous;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
+import com.github.mittyrobotics.interfaces.IDashboard;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.vision.Limelight;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Vision {
+public class Vision implements IDashboard {
     private static Vision instance = new Vision();
     /**
      * The latest detected {@link VisionTarget} containing turret-relative yaw to target, field-relative yaw from
@@ -70,6 +72,13 @@ public class Vision {
             this.latestVisionTarget = new VisionTarget(new Rotation(), new Rotation(),
                     0);
         }
+    }
+
+    @Override
+    public void updateDashboard() {
+        SmartDashboard.putNumber("vision-turret-yaw", getLatestVisionTarget().getTurretRelativeYaw().getHeading());
+        SmartDashboard.putNumber("vision-field-yaw", getLatestVisionTarget().getFieldRelativeYaw().getHeading());
+        SmartDashboard.putNumber("vision-distance", getLatestVisionTarget().getDistance());
     }
 
     /**

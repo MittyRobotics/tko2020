@@ -26,8 +26,18 @@ package com.github.mittyrobotics.testing;
 
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.util.OdometryManager;
+import com.github.mittyrobotics.buffer.Buffer;
+import com.github.mittyrobotics.climber.Hooks;
+import com.github.mittyrobotics.climber.Winch;
+import com.github.mittyrobotics.colorwheel.ColorPiston;
+import com.github.mittyrobotics.colorwheel.Spinner;
+import com.github.mittyrobotics.conveyor.Conveyor;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.intake.Intake;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
+import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -38,8 +48,6 @@ public class VisionTesting extends TimedRobot {
 
     @Override
     public void robotInit() {
-        OI.getInstance().digitalInputControls();
-
         //Init hardware
         Shooter.getInstance().initHardware();
         Turret.getInstance().initHardware();
@@ -47,7 +55,6 @@ public class VisionTesting extends TimedRobot {
         //Set Odometry position to robot starting position and calibrate Odometry
         Gyro.getInstance().calibrate();
         Gyro.getInstance().reset();
-
     }
 
     @Override
@@ -55,30 +62,11 @@ public class VisionTesting extends TimedRobot {
         Vision.getInstance().run();
         AutomatedTurretSuperstructure.getInstance().run();
         CommandScheduler.getInstance().run();
-        updateSmartDashboard();
-    }
 
-    private void updateSmartDashboard() {
-        //Turret
-        SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoderPosition());
-        SmartDashboard.putNumber("turret-robot-relative-angle",
-                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
-        SmartDashboard.putNumber("turret-field-relative-angle",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
-        SmartDashboard.putNumber("turret-field-relative-position-x",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getX());
-        SmartDashboard.putNumber("turret-field-relative-position-y",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getY());
-        //Shooter
-        SmartDashboard.putNumber("shooter-rpm", Shooter.getInstance().getShooterRPM());
-        SmartDashboard.putNumber("shooter-rpm-setpoint", Shooter.getInstance().getCurrentSetpoint());
-        //Vision
-        SmartDashboard.putNumber("vision-turret-yaw",
-                Vision.getInstance().getLatestVisionTarget().getTurretRelativeYaw().getHeading());
-        SmartDashboard.putNumber("vision-field-yaw",
-                Vision.getInstance().getLatestVisionTarget().getFieldRelativeYaw().getHeading());
-        SmartDashboard.putNumber("vision-distance",
-                Vision.getInstance().getLatestVisionTarget().getDistance());
+        //Update dashboards
+        Shooter.getInstance().updateDashboard();
+        Turret.getInstance().updateDashboard();
+        Vision.getInstance().updateDashboard();
     }
 
     @Override

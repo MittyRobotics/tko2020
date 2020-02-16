@@ -28,6 +28,7 @@ import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -97,7 +98,8 @@ public class Shooter extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putNumber("shooter-rpm", getShooterRPM());
+        SmartDashboard.putNumber("shooter-rpm-setpoint", getCurrentSetpoint());
     }
 
     /**
