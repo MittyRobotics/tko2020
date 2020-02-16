@@ -7,6 +7,8 @@ import static com.github.mittyrobotics.colorwheel.Constants.REVS;
 import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
 
 public class SpinRevs extends CommandBase {
+
+    boolean done;
     public SpinRevs() {
         super();
         addRequirements(Spinner.getInstance());
@@ -17,12 +19,19 @@ public class SpinRevs extends CommandBase {
         System.out.println("Starting");
         ColorPiston.getInstance().up();
         Spinner.getInstance().zeroEncoder();
+        done = false;
 
     }
     @Override
     public void execute(){
         //System.out.println(Spinner.getInstance().getEncoder());
         Spinner.getInstance().setMotorPID(480);
+
+        if(Spinner.getInstance().getRevolutions() > REVS) {
+            done = true;
+            Spinner.getInstance().setMotor(0);
+
+        }
     }
     @Override
     public void end(boolean interrupted){
@@ -34,6 +43,6 @@ public class SpinRevs extends CommandBase {
     }
     @Override
     public boolean isFinished(){
-        return Spinner.getInstance().getRevolutions() > REVS;
+        return Spinner.getInstance().getVelocity() == 0;
     }
 }

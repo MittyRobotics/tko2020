@@ -29,7 +29,6 @@ public class Constants {
     public static final int SOLENOID_FOWARD_CHANNEL = 1;
     public static final int SOLENOID_REVERSE_CHANNEL = 0;
 
-    public static final int TALON_DEVICE_NUMBER = 2;
 
     public static final double REVS = 1.75;
 

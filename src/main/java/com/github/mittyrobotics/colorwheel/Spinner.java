@@ -3,6 +3,7 @@ package com.github.mittyrobotics.colorwheel;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.drive.ColorWheelDrive;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
@@ -81,8 +82,6 @@ public class Spinner extends SubsystemBase {
         map.put(WheelColor.Yellow, WheelColor.Green);
         talon1.setNeutralMode(NeutralMode.Brake);
 
-
-        setDefaultCommand(new ColorWheelDrive());
 
     }
 

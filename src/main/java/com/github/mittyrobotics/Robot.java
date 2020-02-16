@@ -29,6 +29,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.colorwheel.ColorPiston;
 import com.github.mittyrobotics.colorwheel.ColorTesting;
 import com.github.mittyrobotics.colorwheel.Spinner;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -45,6 +46,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        DriveTrainTalon.getInstance().initHardware();
         Spinner.getInstance().initHardware();
         ColorPiston.getInstance().initHardware();
         OI.getInstance().digitalInputControls();

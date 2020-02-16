@@ -29,6 +29,7 @@ import com.github.mittyrobotics.colorwheel.SpinRevs;
 import com.github.mittyrobotics.colorwheel.SpinToColor;
 import com.github.mittyrobotics.colorwheel.WheelColor;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.drive.ColorWheelDrive;
 import com.github.mittyrobotics.util.Constants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -82,6 +83,15 @@ public class OI {
 			}
 		};
 
+		Button upButton = new Button() {
+			@Override
+			public boolean get() {
+				return getJoystick1().getRawButton(2)
+						//&& !stage3
+						;
+			}
+		};
+
 		Button blue = new Button() {
 			@Override
 			public boolean get() {
@@ -130,7 +140,8 @@ public class OI {
 		yellow.whenPressed(new SpinToColor(WheelColor.Yellow));
 		green.whenPressed(new SpinToColor(WheelColor.Green));
 
-		spinRevButton.whenPressed(new SpinRevs());
+		spinRevButton.whenPressed(new ColorWheelDrive());
+		upButton.whenPressed(new SpinRevs());
 	}
 	public void passedStage2(){
 		stage3 = true;

@@ -71,6 +71,8 @@ public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
         rightDrive[0].setInverted(Constants.RIGHT_TALON_INVERSIONS[0]);
         rightDrive[1].setInverted(Constants.RIGHT_TALON_INVERSIONS[1]);
 
+        rightDrive[0].setSensorPhase(true);
+
 //        leftDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 //        rightDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 //
@@ -95,6 +97,13 @@ public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
     @Override
     public void updateDashboard() {
 
+    }
+
+    public void setMotor(double left, double right) {
+        leftDrive[0].set(ControlMode.PercentOutput, left);
+        leftDrive[1].set(ControlMode.PercentOutput, left);
+        rightDrive[0].set(ControlMode.PercentOutput, right);
+        rightDrive[1].set(ControlMode.PercentOutput, right);
     }
 
     public void tankDrive(double left, double right) {
