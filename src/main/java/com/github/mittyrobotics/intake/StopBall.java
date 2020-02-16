@@ -1,6 +1,5 @@
 package com.github.mittyrobotics.intake;
 
-import com.github.mittyrobotics.conveyor.Conveyor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class StopBall extends CommandBase {
@@ -13,19 +12,17 @@ public class StopBall extends CommandBase {
 
     @Override
     public void initialize() {
+        Intake.getInstance().stopWheel();
     }
 
     @Override
-    public void execute() { //TODO Need to have else to make it stop
-        Intake.getInstance().intakeBall(0);
-
+    public void execute() {
 
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
-
 
 }

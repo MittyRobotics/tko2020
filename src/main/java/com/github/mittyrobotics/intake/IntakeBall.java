@@ -1,6 +1,5 @@
 package com.github.mittyrobotics.intake;
 
-import com.github.mittyrobotics.conveyor.Conveyor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeBall extends CommandBase {
@@ -17,13 +16,7 @@ public class IntakeBall extends CommandBase {
 
     @Override
     public void execute() {
-        if (Conveyor.getInstance().getTotalBallCount() < 4) {
-            Intake.getInstance().intakeBall(0.5);
-        } else {
-            Intake.getInstance().intakeBall(0.2);
-        }
-
-
+        Intake.getInstance().intakeBall();
     }
 
     @Override
