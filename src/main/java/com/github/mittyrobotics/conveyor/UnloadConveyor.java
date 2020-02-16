@@ -12,7 +12,7 @@ public class UnloadConveyor extends CommandBase {
     public void execute(){
         Conveyor.getInstance().manualSetConveyorSpeed(1);
         Buffer.getInstance().manualBufferSpeed(.4);
-        Intake.getInstance().intakeBall(.5);
+        Intake.getInstance().intakeBall();
     }
     @Override
     public boolean isFinished(){

@@ -31,7 +31,7 @@ public class RemoveBall extends CommandBase {
         if (bufferDiff < d) {
             Buffer.getInstance().manualBufferSpeed(0.4);
             Conveyor.getInstance().manualSetConveyorSpeed(1);
-            Intake.getInstance().intakeBall(.5);
+            Intake.getInstance().intakeBall();
         } else{
             isDone = true;
         }
