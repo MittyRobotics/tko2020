@@ -82,6 +82,7 @@ public class Shooter extends SubsystemBase implements ISubsystem {
         shooterSparkMaster.getPIDController().setP(Constants.SHOOTER_P);
         shooterSparkMaster.getPIDController().setI(Constants.SHOOTER_I);
         shooterSparkMaster.getPIDController().setD(Constants.SHOOTER_D);
+        shooterSparkMaster.getEncoder().setInverted(Constants.SHOOTER_SPARK_MASTER_ENCODER_INVERSION);
 
         shooterSparkFollower =
                 new CANSparkMax(Constants.SHOOTER_SPARK_FOLLOWER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -91,6 +92,7 @@ public class Shooter extends SubsystemBase implements ISubsystem {
         shooterSparkFollower.getPIDController().setP(Constants.SHOOTER_P);
         shooterSparkFollower.getPIDController().setI(Constants.SHOOTER_I);
         shooterSparkFollower.getPIDController().setD(Constants.SHOOTER_D);
+        shooterSparkFollower.getEncoder().setInverted(Constants.SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION);
     }
 
     @Override

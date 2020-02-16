@@ -76,13 +76,15 @@ public class Turret extends SubsystemBase implements ISubsystem {
     @Override
     public void initHardware() {
         //Config talon
-        turretTalon = new WPI_TalonSRX(Constants.TALON_ID);
+        turretTalon = new WPI_TalonSRX(Constants.Turret_Talon_ID);
+        turretTalon.setInverted(Constants.TURRET_TALON_INVERSION);
         turretTalon.config_kP(0, Constants.TURRET_P);
         turretTalon.config_kI(0, Constants.TURRET_I);
         turretTalon.config_kD(0, Constants.TURRET_D);
 //      limitSwitchLeft = new DigitalInput(Constants.TURRET_SWITCH_ID);
 //      limitSwitchRight = new DigitalInput(Constants.TURRET_SWITCH_2_ID);
         turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        turretTalon.setSensorPhase(Constants.TURRET_ENCODER_INVERSION);
 
         //Initialize PIDController
         turretController = new PIDController(Constants.TURRET_P, Constants.TURRET_I, Constants.TURRET_D);

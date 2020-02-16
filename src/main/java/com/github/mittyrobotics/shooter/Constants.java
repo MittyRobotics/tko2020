@@ -34,4 +34,6 @@ public class Constants {
     public static final int SHOOTER_SPARK_FOLLOWER_ID = 4;
     public static final boolean SHOOTER_SPARK_MASTER_INVERSION = false;
     public static final boolean SHOOTER_SPARK_FOLLOWER_INVERSION = true;
+    public static final boolean SHOOTER_SPARK_MASTER_ENCODER_INVERSION = false;
+    public static final boolean SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION = false;
 }
