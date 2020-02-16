@@ -25,6 +25,8 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.buffer.Buffer;
+import com.github.mittyrobotics.climber.Hooks;
+import com.github.mittyrobotics.climber.Winch;
 import com.github.mittyrobotics.colorwheel.ColorPiston;
 import com.github.mittyrobotics.colorwheel.Spinner;
 import com.github.mittyrobotics.conveyor.Conveyor;
@@ -53,6 +55,8 @@ public class Robot extends TimedRobot {
         Turret.getInstance().initHardware();
         ColorPiston.getInstance().initHardware();
         Spinner.getInstance().initHardware();
+        Hooks.getInstance().initHardware();
+        Winch.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
     }

@@ -5,13 +5,15 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class Winch extends SubsystemBase implements ISubsystem {
+public class  Winch extends SubsystemBase implements ISubsystem {
     private static Winch instance;
 
     private CANSparkMax leftSpark, rightSpark;
+    private Servo leftActuator, rightActuator;
 
     private Winch() {
         super();
@@ -26,57 +28,18 @@ public class Winch extends SubsystemBase implements ISubsystem {
 
     @Override
     public void initHardware() {
-
         leftSpark = new CANSparkMax(Constants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         rightSpark = new CANSparkMax(Constants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
         leftSpark.restoreFactoryDefaults();
         rightSpark.restoreFactoryDefaults();
 
-
-        // setup PID
-        /*controller.setP(Constants.WINCH_PID_VALUES[0]);
-        controller.setI(Constants.WINCH_PID_VALUES[1]);
-        controller.setD(Constants.WINCH_PID_VALUES[2]);
-        controller.setOutputRange(-1*Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);*/
-
-        leftSpark.getPIDController().setP(Constants.WINCH_PID_VALUES[0]);
-        leftSpark.getPIDController().setI(Constants.WINCH_PID_VALUES[1]);
-        leftSpark.getPIDController().setD(Constants.WINCH_PID_VALUES[2]);
-        leftSpark.getPIDController().setOutputRange(-1 * Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
-
-        rightSpark.getPIDController().setP(Constants.WINCH_PID_VALUES[0]);
-        rightSpark.getPIDController().setI(Constants.WINCH_PID_VALUES[1]);
-        rightSpark.getPIDController().setD(Constants.WINCH_PID_VALUES[2]);
-        leftSpark.getPIDController().setOutputRange(-1 * Constants.PID_OUTPUT_RANGE, Constants.PID_OUTPUT_RANGE);
-
+        leftActuator = new Servo(0);
+        rightActuator = new Servo(0);
     }
 
     @Override
     public void updateDashboard() {
 
-    }
-
-    //TO DO change to use the getPIDController() function instead of making a new one
-    //public CANPIDController getLeftController(){
-//        return leftController;
-//    }
-
-    public CANEncoder getLeftEncoder() {
-        return leftSpark.getEncoder();
-    }
-
-    //TO DO change to use the getPIDController() function instead of making a new one
-//    public CANPIDController getRightController(){
-//        return rightController;
-//    }
-
-/*    public CANPIDController getPIDController() {
-        return controller;
-    }*/
-
-    public CANEncoder getRightEncoder() {
-        return rightSpark.getEncoder();
     }
 
     public void setReference(double tempPos, RobotSide side) {
@@ -109,6 +72,20 @@ public class Winch extends SubsystemBase implements ISubsystem {
             leftSpark.set(speed);
         } else {
             rightSpark.set(speed);
+        }
+    }
+    public void unlockWinch(RobotSide side){
+        if(side == RobotSide.LEFT){
+            leftActuator.set(1);
+        } else {
+            rightActuator.set(1);
+        }
+    }
+    public void lockWinch(RobotSide side){
+        if(side == RobotSide.LEFT){
+            leftActuator.set(0);
+        } else {
+            rightActuator.set(0);
         }
     }
 
