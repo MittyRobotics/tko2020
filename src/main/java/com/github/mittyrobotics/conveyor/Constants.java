@@ -1,7 +1,7 @@
 package com.github.mittyrobotics.conveyor;
 
 public class Constants {
-    public static final int CONVEYOR_TALON_ID = 3;
+    public static final int CONVEYOR_TALON_ID = 41;
     public static final double CONVEYOR_SPEED = 0.5;
     public static final int ENTRANCE_OPTICAL_SWITCH = 1;
     public static final int EXIT_OPTICAL_SWITCH = 0;

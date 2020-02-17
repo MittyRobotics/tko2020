@@ -22,19 +22,17 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.drive;
 
-import com.github.mittyrobotics.testing.AutonTesting;
-import com.github.mittyrobotics.testing.ConveyorTesting;
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.colorwheel.SpinRevs;
+import com.github.mittyrobotics.colorwheel.SpinnerDown;
+import com.github.mittyrobotics.colorwheel.SpinnerUp;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public final class Main {
-    private Main() {
-
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(ConveyorTesting::new); //Replace Robot with whatever class you are using
+public class ColorWheelMacro extends SequentialCommandGroup {
+    public ColorWheelMacro(){
+        addCommands(parallel(new ConstDrive(0, 0), new SpinnerUp()));
+        addCommands(new SpinRevs(), new ConstDrive(0, 0));
+        addCommands(parallel(new ConstDrive(0, 0), new SpinnerDown()));
     }
 }

@@ -27,6 +27,7 @@ package com.github.mittyrobotics.autonomous;
 import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
@@ -94,7 +95,7 @@ public class AutonDriver {
     }
 
     public void disableAutonDriver() {
-        DriveTrainFalcon.getInstance().tankDrive(0, 0);
+        DriveTrainTalon.getInstance().tankDrive(0, 0);
         this.pathFollower = null;
         this.finishedPath = true;
         this.disabled = true;
@@ -102,14 +103,14 @@ public class AutonDriver {
 
     private void updatePathFollower(double deltaTime) {
         DrivetrainVelocities currentVelocities = DrivetrainVelocities.calculateFromWheelVelocities(
-                DriveTrainFalcon.getInstance().getLeftEncoderVelocity(),
-                DriveTrainFalcon.getInstance().getRightEncoderVelocity()
+                DriveTrainTalon.getInstance().getLeftEncoderVelocity(),
+                DriveTrainTalon.getInstance().getRightEncoderVelocity()
         );
 
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getRobotTransform()
                 , currentVelocities, deltaTime);
 
-        DriveTrainFalcon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
+        DriveTrainTalon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
     }
 
     public double getRoughDistanceToEnd() {

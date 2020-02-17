@@ -164,4 +164,8 @@ public class Spinner extends SubsystemBase implements ISubsystem {
     public void zeroEncoder() {
         spinnerTalon.setSelectedSensorPosition(0);
     }
+
+    public void setSpinnerManual(double percent){
+        spinnerTalon.set(percent);
+    }
 }

@@ -1,8 +1,15 @@
+
 package com.github.mittyrobotics.drive;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.github.mittyrobotics.colorwheel.ColorPiston;
+import com.github.mittyrobotics.colorwheel.Spinner;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import java.awt.*;
 
+import static com.github.mittyrobotics.drive.Constants.COLORWHEELDRIVE_CURRENT;
+//TODO fix
 public class ColorWheelDrive extends CommandBase {
 
     boolean atSpeed;
@@ -20,22 +27,23 @@ public class ColorWheelDrive extends CommandBase {
 
     @Override
     public void execute() {
-        DriveTrainTalon.getInstance().tankDrive(0.17, 0.17);
+        //DriveTrainTalon.getInstance().setMotor(0.2, 0.2);
         System.out.println("Left: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
         System.out.println("Right: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
-        if(DriveTrainTalon.getInstance().getLeftEncoderVelocity() < -8) {
+        if(DriveTrainTalon.getInstance().getLeftEncoderVelocity() < -7) {
             atSpeed = true;
         }
+
     }
 
     @Override
     public void end(boolean interrupted) {
-        DriveTrainTalon.getInstance().tankDrive(0.1,0.1);
+        //DriveTrainTalon.getInstance().set(0.13,0.13);
         System.out.println("END");
     }
 
     @Override
     public boolean isFinished() {
-        return atSpeed;
+        return atSpeed && DriveTrainTalon.getInstance().getLeftEncoderVelocity() > -3;
     }
 }

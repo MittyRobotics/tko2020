@@ -19,22 +19,15 @@
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * SOFTWARE. 
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.colorwheel;
 
-import com.github.mittyrobotics.testing.AutonTesting;
-import com.github.mittyrobotics.testing.ConveyorTesting;
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public final class Main {
-    private Main() {
-
-    }
-
-    //DO NOT PUSH ANY CHANGES FROM MAIN
-    public static void main(String... args) {
-        RobotBase.startRobot(ConveyorTesting::new); //Replace Robot with whatever class you are using
+public class SpinnerUp extends InstantCommand {
+    public SpinnerUp(){
+        super(()-> ColorPiston.getInstance().up(), ColorPiston.getInstance());
     }
 }

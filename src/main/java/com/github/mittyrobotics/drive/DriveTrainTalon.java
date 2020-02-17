@@ -25,16 +25,16 @@
 package com.github.mittyrobotics.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.interfaces.ISubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
     private static DriveTrainTalon instance;
-    final double kV = .13; //0.13
-    final double kA = 0.0; //0.0
-    final double kP = 0.01; //0.01
+
     double leftLastMeasured = 0;
     double rightLastMeasured = 0;
     private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[2];
@@ -65,17 +65,15 @@ public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
         rightDrive[0] = new WPI_TalonSRX(Constants.RIGHT_TALON_1);
         rightDrive[1] = new WPI_TalonSRX(Constants.RIGHT_TALON_2);
 
-
         leftDrive[0].setInverted(Constants.LEFT_TALON_INVERSIONS[0]);
         leftDrive[1].setInverted(Constants.LEFT_TALON_INVERSIONS[1]);
         rightDrive[0].setInverted(Constants.RIGHT_TALON_INVERSIONS[0]);
         rightDrive[1].setInverted(Constants.RIGHT_TALON_INVERSIONS[1]);
 
-//        leftDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-//        rightDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-//
-//        leftDrive[0].setSensorPhase(false);
-//        rightDrive[0].setSensorPhase(false);
+        leftDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        rightDrive[0].configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+        rightDrive[0].setSensorPhase(true);
 //
 //        leftDrive[1].set(ControlMode.Follower, leftDrive[0].getDeviceID());
 //        rightDrive[1].set(ControlMode.Follower, rightDrive[0].getDeviceID());
@@ -94,18 +92,21 @@ public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putNumber("drive-vel-left", getLeftEncoderVelocity());
+        SmartDashboard.putNumber("drive-vel-right", getRightEncoderVelocity());
+        SmartDashboard.putNumber("drive-vel-left-setpoint", leftSetpoint);
+        SmartDashboard.putNumber("drive-vel-right-setpoint", rightSetpoint);
     }
 
     public void tankDrive(double left, double right) {
-        if (Math.abs(left) < 0.1) {
+        if (Math.abs(left) < 0) {
             leftDrive[0].set(ControlMode.PercentOutput, 0);
             leftDrive[1].set(ControlMode.PercentOutput, 0);
         } else {
             leftDrive[0].set(ControlMode.PercentOutput, left);
             leftDrive[1].set(ControlMode.PercentOutput, left);
         }
-        if (Math.abs(right) < 0.1) {
+        if (Math.abs(right) < 0) {
             rightDrive[0].set(ControlMode.PercentOutput, 0);
             rightDrive[1].set(ControlMode.PercentOutput, 0);
         } else {
@@ -122,9 +123,19 @@ public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
         System.out.println(left + " " + right);
     }
 
+    final double kV = .11; //0.11
+    final double kA = 0.0; //0.0
+    final double kP = 0.01; //0.01
+
+    private double leftSetpoint;
+    private double rightSetpoint;
+
     public void customTankVelocity(double leftVel, double rightVel) {
         double left;
         double right;
+
+        this.leftSetpoint = leftVel;
+        this.rightSetpoint = rightVel;
 
         double measuredLeft = getLeftEncoderVelocity();
         double FFLeft = kV * leftVel + kA * ((measuredLeft - leftLastMeasured) / .02);

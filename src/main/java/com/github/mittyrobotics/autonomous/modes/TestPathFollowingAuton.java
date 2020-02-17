@@ -28,6 +28,8 @@ import com.github.mittyrobotics.autonomous.commands.InitNewPathFollowerCommand;
 import com.github.mittyrobotics.autonomous.commands.PathFollowerCommand;
 import com.github.mittyrobotics.autonomous.commands.TestPrintCommand;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
+import com.github.mittyrobotics.datatypes.positioning.Position;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
@@ -39,8 +41,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TestPathFollowingAuton extends SequentialCommandGroup {
     public TestPathFollowingAuton() {
-        double maxAcceleration = 20;
-        double maxDeceleration = 20;
+        double maxAcceleration = 30;
+        double maxDeceleration = 30;
         double maxVelocity = 50;
         double startVelocity = 0;
         double endVelocity = 0;
@@ -52,8 +54,8 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
 
         double lookahead = 20;
 
-        double curvatureSlowdownGain = PurePursuitController.DEFAULT_CURVATURE_SLOWDOWN_GAIN;
-        double minSlowdownVelocity = 30;
+        double curvatureSlowdownGain = 5;
+        double minSlowdownVelocity = 20;
         VelocityConstraints velocityConstraints =
                 new VelocityConstraints(maxAcceleration, maxDeceleration, maxVelocity);
         PathVelocityController velocityController = new PathVelocityController(velocityConstraints, startVelocity,
@@ -72,15 +74,19 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
                         curvatureSlowdownGain,
                         minSlowdownVelocity);
         PathFollower follower = new PathFollower(properties, purePursuitProperties);
-        PathFollower followerReversed = new PathFollower(propertiesReversed, ramseteProperties);
+        PathFollower followerReversed = new PathFollower(propertiesReversed, purePursuitProperties);
 
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(0, 0, 0),
-                        new Transform(100, 48, 0)}));
+                new Transform[] {
+                        new Transform(new Position(121.88534545898438, -30.914794921875), new Rotation(180.0)),
+                        new Transform(new Position(28.727142333984375, -36.14836883544922), new Rotation(89.0)),
+                        new Transform(new Position(28.727142333984375, -36.14836883544922), new Rotation(89.0)),
+                        new Transform(new Position(17.854766845703125, 24.730712890625), new Rotation(122.0)),
+                        new Transform(new Position(17.854766845703125, 24.730712890625), new Rotation(122.0)),
+                        new Transform(new Position(29.935211181640625, 59.945068359375), new Rotation(37.0)),
+                }
+                ));
 
-        Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(100, 48, 180),
-                        new Transform(0, 0, 180)}));
 
         addCommands(
                 //Init path follower
@@ -88,13 +94,6 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
                 //Drive first path
                 new TestPrintCommand("STARTING PATH FOLLOWER"),
                 new PathFollowerCommand(path1),
-                new TestPrintCommand("FINISHED PATH FOLLOWER"),
-
-                new InitNewPathFollowerCommand(followerReversed),
-
-                //Drive second path
-                new TestPrintCommand("STARTING PATH FOLLOWER"),
-                new PathFollowerCommand(path2),
                 new TestPrintCommand("FINISHED PATH FOLLOWER")
         );
     }

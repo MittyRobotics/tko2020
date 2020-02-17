@@ -1,12 +1,13 @@
 package com.github.mittyrobotics.conveyor;
 
 import com.github.mittyrobotics.buffer.Buffer;
+import com.github.mittyrobotics.drive.ConstDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveConveyorAddBall extends CommandBase {
 
     private double distance, initialPosition, currentPosition;
-    private boolean isDone = false;
+    private boolean isDone;
 
     public MoveConveyorAddBall(double distance) {
         super();
@@ -19,6 +20,8 @@ public class MoveConveyorAddBall extends CommandBase {
         //ConveyorSubsystem.getInstance().moveConveyor(distance);
         initialPosition = Conveyor.getInstance().getPosition();
         currentPosition = initialPosition;
+        isDone = false;
+        Conveyor.getInstance().setConveyorSpeed(1);
     }
 
     @Override
@@ -31,10 +34,8 @@ public class MoveConveyorAddBall extends CommandBase {
 //            }
 //        }
 
-        if ((currentPosition - initialPosition) <
+        if ((currentPosition - initialPosition) >
                 (distance * com.github.mittyrobotics.conveyor.Constants.TICKS_PER_BALL_INCH)) {
-            Conveyor.getInstance().setConveyorSpeed(1);
-        } else {
             isDone = true;
         }
         currentPosition = Conveyor.getInstance().getPosition();
@@ -46,6 +47,9 @@ public class MoveConveyorAddBall extends CommandBase {
 //            ConveyorSubsystem.getInstance().setConveyorSpeed(0);
 //            isDone = true;
 //        }
+        System.out.println(currentPosition);
+        System.out.println(initialPosition);
+        System.out.println((currentPosition-initialPosition)/ Constants.TICKS_PER_BALL_INCH);
     }
 
 

@@ -181,4 +181,8 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
     public double getLeftVelSetpoint() {
         return latestLeftVelSetpoint;
     }
+
+    public double getAverageVelocity(){
+        return (getLeftEncoderVelocity()+getRightEncoderVelocity())/2;
+    }
 }

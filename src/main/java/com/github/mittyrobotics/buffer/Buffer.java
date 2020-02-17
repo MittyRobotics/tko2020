@@ -47,7 +47,7 @@ public class Buffer extends SubsystemBase implements ISubsystem {
     public void manualBufferSpeed(double speed) {
         if (Math.abs(speed) > 0.1) {
             bufferWheel.set(ControlMode.PercentOutput, speed);
-            System.out.println("Buffer Percent Output: " + speed);
+//            System.out.println("Buffer Percent Output: " + speed);
         } else {
             bufferWheel.set(ControlMode.PercentOutput, 0);
         }
