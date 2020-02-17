@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.conveyor;
 
 import com.github.mittyrobotics.buffer.Buffer;
+import com.github.mittyrobotics.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveConveyorRemoveBall extends CommandBase {
@@ -23,6 +24,7 @@ public class MoveConveyorRemoveBall extends CommandBase {
         d1 *= com.github.mittyrobotics.buffer.Constants.TICKS_PER_ROTATION;
         d2 *= Constants.TICKS_PER_BALL_INCH;
         System.out.println("INIT");
+        Shooter.getInstance().setShooterPercent(.3);
 
     }
 
@@ -49,6 +51,7 @@ public class MoveConveyorRemoveBall extends CommandBase {
     public void end(boolean interrupted) {
         System.out.println("END");
         Conveyor.getInstance().setConveyorSpeed(0);
+        Buffer.getInstance().manualBufferSpeed(0);
     }
 
     @Override

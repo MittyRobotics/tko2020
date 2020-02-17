@@ -59,6 +59,7 @@ public class ConveyorTesting extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Conveyor.getInstance().resetBallCount();
 //        CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(7.6));
 //        Conveyor.getInstance().resetBallCount();
     }
@@ -67,6 +68,8 @@ public class ConveyorTesting extends TimedRobot {
     public void teleopInit() {
 //        CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(4));
 //        CommandScheduler.getInstance().schedule(new MoveConveyorRemoveBall(3, 4));
+//        Buffer.getInstance().manualBufferSpeed(0);
+        Shooter.getInstance().setShooterPercent(0);
     }
 
     @Override
@@ -76,7 +79,7 @@ public class ConveyorTesting extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-//        CommandScheduler.getInstance().run();
+        CommandScheduler.getInstance().run();
     }
 
     @Override
@@ -86,9 +89,19 @@ public class ConveyorTesting extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        Conveyor.getInstance().setConveyorSpeed(.5);
+        if(OI.getInstance().getJoystick1().getRawButtonPressed(10)){
+            Conveyor.getInstance().updateBallCount(-1);
+        }
+        System.out.println(Conveyor.getInstance().getTotalBallCount());
+//        Conveyor.getInstance().periodic();
+//        Conveyor.getInstance().setConveyorSpeed(.5);
+//        Conveyor.getInstance().periodic();
 //        Shooter.getInstance().setShooterPercent(-OI.getInstance().getJoystick1().getZ());
-//        Buffer.getInstance().manualBufferSpeed(.5);
+//        Buffer.getInstance().manualBufferSpeed(.
+//        5);
+//        Conveyor.getInstance().setConveyorSpeed(.1);
+//        Buffer.getInstance().manualBufferSpeed(-.4);
+//        Shooter.getInstance().setShooterPercent(0);
     }
 
     @Override
@@ -116,21 +129,25 @@ public class ConveyorTesting extends TimedRobot {
 //            alreadyThere3 = false;
 //        }
         if(OI.getInstance().getJoystick1().getRawButtonPressed(2)){
-            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(8));
+            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(1.85));
         }
         else if(OI.getInstance().getJoystick1().getRawButtonPressed(3)){
-            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(7));
+            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(1.9));
         }
         else if(OI.getInstance().getJoystick1().getRawButtonPressed(4)){
-            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(6));
+            Shooter.getInstance().setShooterPercent(0.3);
+            CommandScheduler.getInstance().schedule(new MoveConveyorRemoveBall(4, 2.05));
         }
         else if(OI.getInstance().getJoystick1().getRawButtonPressed(5)){
-            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(5));
+            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2.05));
         }
         else if(OI.getInstance().getJoystick1().getRawButtonPressed(1)){
-            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(4));
+            CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(1));
+        } if(OI.getInstance().getJoystick1().getRawButtonPressed(8)){
+            CommandScheduler.getInstance().schedule(new UnloadConveyor());
         }
-        Buffer.getInstance().manualBufferSpeed(1);
+//        Buffer.getInstance().manualBufferSpeed(-.3);
+//        Shooter.getInstance().setShooterPercent(0);
 //        Conveyor.getInstance().setConveyorSpeed(.5);
 //        Shooter.getInstance().setShooterPercent(-OI.getInstance().getJoystick1().getZ());
 //        Buffer.getInstance().manualBufferSpeed(.5);
