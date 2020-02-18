@@ -26,7 +26,7 @@ package com.github.mittyrobotics.testing;
 
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.commands.EasyVisionCommand;
+import com.github.mittyrobotics.autonomous.commands.MinimalVisionCommand;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
@@ -63,7 +63,7 @@ public class ShooterTesting extends TimedRobot {
     @Override
     public void teleopInit() {
         System.out.println("Init");
-        new EasyVisionCommand().schedule();
+        new MinimalVisionCommand().schedule();
     }
 
     @Override

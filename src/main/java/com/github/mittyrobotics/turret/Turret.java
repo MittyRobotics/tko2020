@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class Turret extends SubsystemBase implements ISubsystem {
     /**
@@ -54,6 +55,7 @@ public class Turret extends SubsystemBase implements ISubsystem {
      * Needs to be updated periodically with the {@link #updateTurretControlLoop()} method.
      */
     private PIDController turretController;
+    private double maxPercent;
 
     private Turret() {
         super();
@@ -143,6 +145,10 @@ public class Turret extends SubsystemBase implements ISubsystem {
         turretController.setSetpoint(angle);
     }
 
+    public void setControlLoopMaxPercent(double maxPercent){
+        this.maxPercent = maxPercent;
+    }
+
     /**
      * Changes the turret's robot-relative angle by <code>angle</code>.
      * <p>
@@ -161,7 +167,7 @@ public class Turret extends SubsystemBase implements ISubsystem {
      * This should be called periodically whenever the turret is automated.
      */
     public void updateTurretControlLoop() {
-        setTurretPercent(turretController.calculate(getEncoderPosition()));
+        setTurretPercent(MathUtil.clamp(turretController.calculate(getEncoderPosition()),-maxPercent,maxPercent));
     }
 
     /**

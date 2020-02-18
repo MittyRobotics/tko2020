@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,11 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.Vision;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import com.github.mittyrobotics.turret.Turret;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class WaitUntilVisionDetectedCommand extends WaitUntilCommand {
-    public WaitUntilVisionDetectedCommand() {
-        super(() -> Vision.getInstance().isSafeToUseVision());
+public class SetTurretPercentCommand extends InstantCommand {
+    public SetTurretPercentCommand(double percent){
+        super(()->Turret.getInstance().setTurretPercent(percent),Turret.getInstance());
     }
 }

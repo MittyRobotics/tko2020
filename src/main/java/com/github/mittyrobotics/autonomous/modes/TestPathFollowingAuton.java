@@ -26,7 +26,7 @@ package com.github.mittyrobotics.autonomous.modes;
 
 import com.github.mittyrobotics.autonomous.commands.InitNewPathFollowerCommand;
 import com.github.mittyrobotics.autonomous.commands.PathFollowerCommand;
-import com.github.mittyrobotics.autonomous.commands.TestPrintCommand;
+import com.github.mittyrobotics.autonomous.commands.DebugPrintCommand;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
@@ -34,7 +34,6 @@ import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.datatypes.positioning.TransformWithVelocity;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
-import com.github.mittyrobotics.path.following.controllers.PurePursuitController;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
@@ -89,9 +88,9 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
                 //Init path follower
                 new InitNewPathFollowerCommand(follower),
                 //Drive first path
-                new TestPrintCommand("STARTING PATH FOLLOWER"),
+                new DebugPrintCommand("STARTING PATH FOLLOWER"),
                 new PathFollowerCommand(path1),
-                new TestPrintCommand("FINISHED PATH FOLLOWER")
+                new DebugPrintCommand("FINISHED PATH FOLLOWER")
         );
     }
 }

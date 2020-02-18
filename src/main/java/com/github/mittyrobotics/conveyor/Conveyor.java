@@ -55,11 +55,11 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
     @Override
     public void periodic() {
         if (!previousEntranceSwitchValue && getEntranceSwitch()) { //no ball before and now ball detected before conveyor
-            if(totalBallCount < 3){
-                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(6.6));
-            } else if(totalBallCount == 3){
-                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2.8));
-            }
+//            if(totalBallCount < 3){
+                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2.1));
+//            } else if(totalBallCount == 3){
+//                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2));
+//            }
             updateBallCount(1);
             ballCountHasChanged = true;
         } else {
@@ -82,9 +82,9 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
     public void periodic2() {
         if (!previousEntranceSwitchValue && getEntranceSwitch()) { //no ball before and now ball detected before conveyor
             if(totalBallCount < 3){
-                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(7.7));
+//                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(7.7));
             } else if(totalBallCount == 3){
-                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(4));
+//                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(4));
             }
             updateBallCount(1);
             ballCountHasChanged = true;
