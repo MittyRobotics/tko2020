@@ -24,21 +24,11 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
+import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class TestPrintCommand extends InstantCommand {
-    public TestPrintCommand(String string) {
-        super(() -> {
-            System.out.println(string);
-            System.out.println(string);
-            System.out.println(string);
-            System.out.println(string);
-            System.out.println(string);
-            System.out.println(string);
-            System.out.println(string);
-            System.out.println(string);
-            System.out.println(string);
-            System.out.println(string);
-        });
+public class SetTurretControlLoopMaxPercentCommand extends InstantCommand {
+    public SetTurretControlLoopMaxPercentCommand(double maxPercent){
+        super(()-> Turret.getInstance().setControlLoopMaxPercent(maxPercent));
     }
 }

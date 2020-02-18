@@ -41,12 +41,20 @@ public class AutonConstants {
     public static double CAMERA_TURRET_OFFSET = 0; //Inches //TODO: Find this value
 
     //Shooter //TODO: Tune these
+    //TODO: Convert real distances into vision distance
     /**
      * Shooter RPM lookup table. Used to find the correct RPM of the shooter flywheel given a distance.
      * <p>
      * Elements are in the format {distance, RPM}
      */
     public static double[][] SHOOTER_RPM_TABLE = {
-            {0, 0}
+            {10, 3748},
+            {12, 3748},
+            {14, 3785},
+            {16, 3880},
+            {18, 3865},
+            {20, 4048},
+            {22, 4010},
+            {24, 4060}
     };
 }

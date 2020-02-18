@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,47 +24,29 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
-import com.github.mittyrobotics.shooter.Shooter;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.turret.Turret;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class EasyVisionCommand extends CommandBase {
-
-    public EasyVisionCommand() {
-        super();
+public class VisionScanCommand extends SequentialCommandGroup {
+    private static double VISION_SCAN_PERCENT_OUTPUT = .6;
+    public VisionScanCommand() {
         addRequirements(Turret.getInstance());
-        addRequirements(Shooter.getInstance());
+        addCommands(
+                new ParallelRaceGroup(
+                        new WaitUntilVisionDetectedCommand(),
+                        sequence(
+                                new SetTurretControlLoopMaxPercentCommand(1),
+                                new SetAutomatedTurretRobotRelativeAngleCommand(new Rotation(-90)),
+                                new WaitUntilTurretReachedSetpointCommand(1),
+                                new SetTurretControlLoopMaxPercentCommand(VISION_SCAN_PERCENT_OUTPUT),
+                                new SetAutomatedTurretRobotRelativeAngleCommand(new Rotation(90)),
+                                new WaitUntilTurretReachedSetpointCommand(1)
+                        )
+                ),
+                new SetTurretControlLoopMaxPercentCommand(1)
+        );
     }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void execute() {
-        VisionTarget target = Vision.getInstance().getLatestVisionTarget();
-        double p = 0.10;
-        Turret.getInstance().overrideSetTurretPercent(p * target.getTurretRelativeYaw().getHeading(),true);
-        double rpm = rpmEquation(target.getDistance()/12);
-        Shooter.getInstance().setShooterSpeed(rpm);
-    }
-
-    private double rpmEquation(double distance) {
-        return 4700-226*(distance)+15.1*(distance*distance)-0.291*(distance*distance*distance);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
 }
