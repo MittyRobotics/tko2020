@@ -1,13 +1,14 @@
 package com.github.mittyrobotics.climber;
 
 import com.github.mittyrobotics.interfaces.ISubsystem;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class WinchLock extends SubsystemBase implements ISubsystem {
     private static WinchLock instance;
 
-    private Servo linearActuatorLeft, linearActuatorRight;
+    private PWM linearActuatorLeft, linearActuatorRight;
 
     public static WinchLock getInstance(){
         if(instance == null){
@@ -23,8 +24,8 @@ public class WinchLock extends SubsystemBase implements ISubsystem {
 
     @Override
     public void initHardware() {
-        linearActuatorLeft = new Servo(Constants.LEFT_ACTUATOR_ID);
-        linearActuatorRight = new Servo(Constants.RIGHT_ACTATOR_ID);
+        linearActuatorLeft = new PWM(Constants.LEFT_ACTUATOR_ID);
+        linearActuatorRight = new PWM(Constants.RIGHT_ACTATOR_ID);
     }
 
 
@@ -34,11 +35,11 @@ public class WinchLock extends SubsystemBase implements ISubsystem {
     }
 
     public void unlockWinch(){
-        linearActuatorLeft.set(1);
-        linearActuatorRight.set(1);
+        linearActuatorLeft.setPosition(1);
+        linearActuatorRight.setPosition(1);
     }
     public void lockWinch(){
-        linearActuatorLeft.set(0);
-        linearActuatorRight.set(0);
+        linearActuatorLeft.setPosition(0);
+        linearActuatorRight.setPosition(0);
     }
 }
