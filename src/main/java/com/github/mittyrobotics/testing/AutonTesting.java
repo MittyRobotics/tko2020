@@ -37,6 +37,7 @@ import com.github.mittyrobotics.drive.TempTankDrive;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -57,9 +58,10 @@ public class AutonTesting extends TimedRobot {
         Gyro.getInstance().calibrate();
         Gyro.getInstance().reset();
         Odometry.getInstance().calibrateRobotTransform(
-                new Transform(new Position(121.88534545898438, -30.914794921875), new Rotation(180.0))
-                , DriveTrainTalon.getInstance().getLeftEncoder(),
-                DriveTrainTalon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
+                new Transform(new Position(61.448822021484375, 82.49746704101562), new Rotation(180.0)),
+                DriveTrainTalon.getInstance().getLeftEncoder(),
+                DriveTrainTalon.getInstance().getRightEncoder(),
+                Gyro.getInstance().getAngle());
     }
 
     @Override
@@ -92,7 +94,8 @@ public class AutonTesting extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        DriveTrainTalon.getInstance().customTankVelocity(20,20);
+        DriveTrainTalon.getInstance().tankDrive(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+        //DriveTrainTalon.getInstance().customTankVelocity(20,20);
         //OI.getInstance().shooterDebugControl();
     }
 

@@ -31,6 +31,7 @@ import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.datatypes.positioning.TransformWithVelocity;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.controllers.PurePursuitController;
@@ -41,14 +42,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TestPathFollowingAuton extends SequentialCommandGroup {
     public TestPathFollowingAuton() {
-        double maxAcceleration = 30;
-        double maxDeceleration = 30;
-        double maxVelocity = 50;
+        double maxAcceleration = 40;
+        double maxDeceleration = 20;
+        double maxVelocity = 30;
         double startVelocity = 0;
         double endVelocity = 0;
         boolean extremeTakeoff = false;
         double extremeTakeoffMultiplier = 2;
-        boolean continuouslyAdaptivePath = false;
+        boolean continuouslyAdaptivePath = true;
         double aggressiveGain = 2.0;
         double dampingGain = .7;
 
@@ -78,15 +79,11 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
 
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[] {
-                        new Transform(new Position(121.88534545898438, -30.914794921875), new Rotation(180.0)),
-                        new Transform(new Position(28.727142333984375, -36.14836883544922), new Rotation(89.0)),
-                        new Transform(new Position(28.727142333984375, -36.14836883544922), new Rotation(89.0)),
-                        new Transform(new Position(17.854766845703125, 24.730712890625), new Rotation(122.0)),
-                        new Transform(new Position(17.854766845703125, 24.730712890625), new Rotation(122.0)),
-                        new Transform(new Position(29.935211181640625, 59.945068359375), new Rotation(37.0)),
-                }
-                ));
-
+                        new Transform(new Position(61.448822021484375, 82.49746704101562), new Rotation(180.0)),
+                        new Transform(new Position(30.398895263671875, -5.1641845703125), new Rotation(177.0)),
+                        new Transform(new Position(30.398895263671875, -5.1641845703125), new Rotation(177.0)),
+                        new Transform(new Position(-3.42333984375, -104.33146667480469), new Rotation(176.0)),
+                }));
 
         addCommands(
                 //Init path follower
