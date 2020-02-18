@@ -60,6 +60,7 @@ public class AutonCoordinates {
     public static final Position SHOOTING_POINT_PARTY = new Position(-121f, -44.24f);
 
     public static final Position PICKUP_LAST_TRENCH = new Position(-259.49, -134.155);
+    public static final Position PICKUP_3_TRENCH = new Position(-200, -134.155); //TODO: Find distance
     public static final Position PICKUP_2_PARTY = new Position(-121.0, -44.24);
 
     //Opponent coordinates
