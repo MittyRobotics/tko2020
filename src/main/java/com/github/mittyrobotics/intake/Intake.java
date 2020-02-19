@@ -28,6 +28,7 @@ public class Intake extends SubsystemBase implements ISubsystem {
     @Override
     public void initHardware() {
         intakeWheel = new WPI_TalonSRX(Constants.INTAKE_WHEEL_ID);
+        intakeWheel.setInverted(Constants.INTAKE_WHEEL_INVERSION);
         intakeWheel.configFactoryDefault();
         extendIntake = new DoubleSolenoid(Constants.SOLENOID_FORWQRD_CHANNEL, Constants.SOLENOID_REVERSE_CHALLENGE);
         isExtended = false;

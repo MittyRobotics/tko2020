@@ -6,12 +6,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
     private static DriveTrainFalcon instance;
-    private final double kV = 0.06; //0.06
-    private final double kA = 0.0; //0.0
-    private final double kP = 0.01; //0.01
     private WPI_TalonFX[] leftDrive = new WPI_TalonFX[2];
     private WPI_TalonFX[] rightDrive = new WPI_TalonFX[2];
     private double leftLastMeasured = 0;
@@ -84,32 +82,29 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
         SmartDashboard.putNumber("drive-vel-right-setpoint", getRightVelSetpoint());
     }
 
-    public void tankDrive(double left, double right) {
-        leftDrive[0].set(TalonFXControlMode.PercentOutput, left);
-        leftDrive[1].set(TalonFXControlMode.PercentOutput, left);
-        rightDrive[0].set(TalonFXControlMode.PercentOutput, right);
-        rightDrive[1].set(TalonFXControlMode.PercentOutput, right);
-//        if(Math.abs(left) > 0.1) {
-//
-//        } else {
-//            leftDrive[0].set(TalonFXControlMode.PercentOutput, 0);
-//            leftDrive[1].set(TalonFXControlMode.PercentOutput, 0);
-//        }
-//        if(Math.abs(right) > 0.1){
-//
-//        }  else {
-//            rightDrive[0].set(TalonFXControlMode.PercentOutput, 0);
-//            rightDrive[1].set(TalonFXControlMode.PercentOutput, 0);
-//        }
+    public void tankDrive(double left, double right, double threshold, double multiplier) {
+        multiplier = MathUtil.clamp(multiplier, 0, 1);
+        threshold = MathUtil.clamp(threshold, 0, 1);
+        left = MathUtil.clamp(left, -1, 1);
+        right = MathUtil.clamp(right, -1, 1);
+        if(Math.abs(left) > threshold){
+            leftDrive[0].set(left * multiplier);
+            leftDrive[1].set(left * multiplier);
+        } else {
+            leftDrive[0].set(0);
+            leftDrive[1].set(0);
+        }
+        if(Math.abs(right) > 0.1){
+            rightDrive[0].set(right * multiplier);
+            rightDrive[1].set(right * multiplier);
+        } else {
+            rightDrive[0].set(0);
+            rightDrive[1].set(0);
+        }
     }
 
-    public void tankVelocity(double left, double right) {
-        customTankVelocity(left, right);
-    }
-
-    public void movePos(double left, double right) {
-        leftDrive[0].set(TalonFXControlMode.Position, left * Constants.TICKS_PER_INCH_FALCON);
-        rightDrive[0].set(TalonFXControlMode.Position, right * Constants.TICKS_PER_INCH_FALCON);
+    public void tankDrive(double left, double right){
+        tankDrive(left, right, 0.1, 1);
     }
 
     public double getLeftEncoder() {
@@ -133,14 +128,6 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
         rightDrive[0].setSelectedSensorPosition(0);
     }
 
-    public WPI_TalonFX getLeftFalcon() {
-        return leftDrive[0];
-    }
-
-    public WPI_TalonFX getRightFalcon() {
-        return rightDrive[0];
-    }
-
     public void customTankVelocity(double leftVel, double rightVel) {
         double left;
         double right;
@@ -151,22 +138,26 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
         double MAX_SPEED = 12;
 
         double measuredLeft = getLeftEncoderVelocity();
-        double FFLeft = kV * leftVel + kA * ((measuredLeft - leftLastMeasured) / .02);
+        //0.06
+        //0.0
+        double kA = 0.0;
+        double FFLeft = Constants.DRIVE_FALCON_FF * leftVel + kA * ((measuredLeft - leftLastMeasured) / .02);
         leftLastMeasured = measuredLeft;
         double errorLeft = leftVel - measuredLeft;
-        double FBLeft = kP * errorLeft;
+        //0.01
+        double FBLeft = Constants.DRIVE_FALCON_P * errorLeft;
         left = (FFLeft + FBLeft);
         left = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, left));
 
         double measuredRight = getRightEncoderVelocity();
 
-        double FFRight = kV * rightVel + kA * ((measuredRight - rightLastMeasured) / .02);
+        double FFRight = Constants.DRIVE_FALCON_FF * rightVel + kA * ((measuredRight - rightLastMeasured) / .02);
 
         rightLastMeasured = measuredRight;
 
         double errorRight = rightVel - measuredRight;
 
-        double FBRight = kP * errorRight;
+        double FBRight = Constants.DRIVE_FALCON_P * errorRight;
 
         right = (FFRight + FBRight);
 
