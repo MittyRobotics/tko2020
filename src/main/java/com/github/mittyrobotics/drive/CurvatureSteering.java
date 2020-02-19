@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class CurvatureSteering extends CommandBase {
 
     CurvatureSteering(){
-        addRequirements(DriveTrainTalon.getInstance());
-        //addRequirements(DriveTrainFalcon.getInstance());
+        //addRequirements(DriveTrainTalon.getInstance());
+        addRequirements(DriveTrainFalcon.getInstance());
     }
 
     @Override
@@ -54,35 +54,15 @@ public class CurvatureSteering extends CommandBase {
         }
 
         if (inThreshold){
-            DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
-            //DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
+            //DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
+            DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
         } else if (Math.abs(joystickSpeed) < 0.05) {
-            //System.out.println("Turn: " + turn);
-            //DriveTrainTalon.getInstance().tankDrive(turn/20, -turn/20);
-            //System.out.println("in-place");
-            //DriveTrainFalcon.getInstance().tankDrive(-turn/350, turn/350);
-            DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
+            DriveTrainFalcon.getInstance().tankDrive(-turn/350, turn/350);
+            //DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
         } else {
-            System.out.println("Turn: " + turn);
-            System.out.println("Right Speed: " + rightSpeed);
-            System.out.println("Left Speed: " + leftSpeed);
-
-//            DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
-            DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
+            DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
+            //DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
         }
-
-//        if(Math.abs(joystickSpeed) < 0.05){
-//            DriveTrainTalon.getInstance().tankDrive(turn, - turn);
-//            //DriveTrainSparks.getInstance().tankDrive(newTurn, - newTurn);
-//
-//        }
-//        else if(joystickSpeed >= 0){
-//            DriveTrainTalon.getInstance().tankDrive(joystickSpeed + leftSpeed, joystickSpeed - rightSpeed);
-//            //DriveTrainSparks.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
-//        } else {
-//            DriveTrainTalon.getInstance().tankDrive(joystickSpeed - leftSpeed, joystickSpeed + rightSpeed);
-//            //DriveTrainSparks.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
-//        }
 
     }
     @Override

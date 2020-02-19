@@ -63,25 +63,25 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0].setSensorPhase(false);
         leftDrive[1].setSensorPhase(false);
         rightDrive[0].setSensorPhase(false);
+
+        setDefaultCommand(new CurvatureSteering());
     }
 
     public void tankDrive(double left, double right){
-        leftDrive[0].set(TalonFXControlMode.PercentOutput, left);
-        leftDrive[1].set(TalonFXControlMode.PercentOutput, left);
-        rightDrive[0].set(TalonFXControlMode.PercentOutput, right);
-        rightDrive[1].set(TalonFXControlMode.PercentOutput, right);
-//        if(Math.abs(left) > 0.1) {
-//
-//        } else {
-//            leftDrive[0].set(TalonFXControlMode.PercentOutput, 0);
-//            leftDrive[1].set(TalonFXControlMode.PercentOutput, 0);
-//        }
-//        if(Math.abs(right) > 0.1){
-//
-//        }  else {
-//            rightDrive[0].set(TalonFXControlMode.PercentOutput, 0);
-//            rightDrive[1].set(TalonFXControlMode.PercentOutput, 0);
-//        }
+        if(Math.abs(left) > 0.1) {
+            leftDrive[0].set(TalonFXControlMode.PercentOutput, left);
+            leftDrive[1].set(TalonFXControlMode.PercentOutput, left);
+        } else {
+            leftDrive[0].set(TalonFXControlMode.PercentOutput, 0);
+            leftDrive[1].set(TalonFXControlMode.PercentOutput, 0);
+        }
+        if(Math.abs(right) > 0.1){
+            rightDrive[0].set(TalonFXControlMode.PercentOutput, right);
+            rightDrive[1].set(TalonFXControlMode.PercentOutput, right);
+        }  else {
+            rightDrive[0].set(TalonFXControlMode.PercentOutput, 0);
+            rightDrive[1].set(TalonFXControlMode.PercentOutput, 0);
+        }
     }
 
     public void tankVelocity(double left, double right) {
