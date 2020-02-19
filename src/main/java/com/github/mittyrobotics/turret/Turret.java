@@ -81,6 +81,7 @@ public class Turret extends SubsystemBase implements ISubsystem {
     public void initHardware() {
         //Config talon
         turretTalon = new WPI_TalonSRX(Constants.Turret_Talon_ID);
+        turretTalon.configFactoryDefault();
         turretTalon.setInverted(Constants.TURRET_TALON_INVERSION);
         turretTalon.config_kP(0, Constants.TURRET_P);
         turretTalon.config_kI(0, Constants.TURRET_I);

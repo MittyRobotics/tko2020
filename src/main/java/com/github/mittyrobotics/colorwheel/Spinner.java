@@ -60,8 +60,10 @@ public class Spinner extends SubsystemBase implements ISubsystem {
     public void initHardware() {
         //initialize talon
         spinnerTalon = new WPI_TalonSRX(Constants.SPINNER_TALON_ID);
+        spinnerTalon.configFactoryDefault();
         spinnerTalon.setInverted(Constants.SPINNER_TALON_INVERSION);
         spinnerTalon.setSensorPhase(Constants.SPINNER_ENCODER_INVERSION);
+        spinnerTalon.setNeutralMode(NeutralMode.Brake);
         colorMatcher.addColorMatch(blue);
         colorMatcher.addColorMatch(green);
         colorMatcher.addColorMatch(red);
@@ -73,7 +75,6 @@ public class Spinner extends SubsystemBase implements ISubsystem {
         map.put(WheelColor.Red, WheelColor.Blue);
         map.put(WheelColor.Green, WheelColor.Yellow);
         map.put(WheelColor.Yellow, WheelColor.Green);
-        spinnerTalon.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
