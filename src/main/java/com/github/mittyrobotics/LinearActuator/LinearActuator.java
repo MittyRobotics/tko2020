@@ -1,10 +1,11 @@
 package com.github.mittyrobotics.LinearActuator;
 
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LinearActuator extends SubsystemBase {
-    private Servo actuator;
+    private PWM actuator;
     private static LinearActuator instance;
 
     public LinearActuator() {}
@@ -16,16 +17,16 @@ public class LinearActuator extends SubsystemBase {
         return instance;
     }
 
-    public void initHardware(int channel) {
-        actuator = new Servo(channel);
+    public void initHardware() {
+        actuator = new PWM(0);
     }
 
-    public void set(double len) {
-        actuator.set(len);
+    public void set(double lengthValue) {
+        actuator.setPosition(lengthValue);
     }
 
     public double get() {
-        return actuator.get();
+        return actuator.getPosition();
     }
 
 }
