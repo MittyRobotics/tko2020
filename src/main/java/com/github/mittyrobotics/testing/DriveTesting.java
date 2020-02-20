@@ -24,12 +24,14 @@
 
 package com.github.mittyrobotics.testing;
 
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class DriveTesting extends TimedRobot {
     @Override
     public void robotInit() {
-
+        DriveTrainFalcon.getInstance().initHardware();
     }
 
     @Override
@@ -54,7 +56,7 @@ public class DriveTesting extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-
+        CommandScheduler.getInstance().run();
     }
 
     @Override

@@ -51,8 +51,8 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
         rightDrive[0].setInverted(true);
         rightDrive[1].setInverted(true);
 
-        leftDrive[1].set(TalonFXControlMode.Follower, leftDrive[0].getDeviceID());
-        rightDrive[1].set(TalonFXControlMode.Follower, rightDrive[0].getDeviceID());
+//        leftDrive[1].set(TalonFXControlMode.Follower, leftDrive[0].getDeviceID());
+//        rightDrive[1].set(TalonFXControlMode.Follower, rightDrive[0].getDeviceID());
 
 
 //        leftDrive[0].config_kP(0, Constants.DRIVE_VELOCITY_PID[0]);
@@ -62,16 +62,12 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
 //        rightDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
 //        rightDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
 
-        leftDrive[0].setNeutralMode(NeutralMode.Brake);
-        rightDrive[0].setNeutralMode(NeutralMode.Brake);
-        leftDrive[1].setNeutralMode(NeutralMode.Brake);
-        rightDrive[0].setNeutralMode(NeutralMode.Brake);
+        leftDrive[0].setNeutralMode(NeutralMode.Coast);
+        rightDrive[0].setNeutralMode(NeutralMode.Coast);
+        leftDrive[1].setNeutralMode(NeutralMode.Coast);
+        rightDrive[0].setNeutralMode(NeutralMode.Coast);
 
-        leftDrive[0].setSensorPhase(false);
-        rightDrive[0].setSensorPhase(false);
-        leftDrive[1].setSensorPhase(false);
-        rightDrive[0].setSensorPhase(false);
-        setDefaultCommand(new TempTankDrive());
+        setDefaultCommand(new JoystickDrive_CarSteering());
     }
 
     @Override
@@ -104,7 +100,7 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
     }
 
     public void tankDrive(double left, double right){
-        tankDrive(left, right, 0.1, 1);
+        tankDrive(left, right, 0.2, 1);
     }
 
     public double getLeftEncoder() {

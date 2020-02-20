@@ -26,6 +26,7 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.testing.AutonTesting;
 import com.github.mittyrobotics.testing.ConveyorTesting;
+import com.github.mittyrobotics.testing.DriveTesting;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Main {
@@ -35,6 +36,6 @@ public final class Main {
 
     //DO NOT PUSH ANY CHANGES FROM MAIN
     public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+        RobotBase.startRobot(DriveTesting::new); //Replace Robot with whatever class you are using
     }
 }
