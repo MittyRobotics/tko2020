@@ -41,6 +41,9 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/**
+ * Ten ball autonomous mode
+ */
 public class TenBallAuton extends SequentialCommandGroup {
     public TenBallAuton() {
         //Properties

@@ -39,12 +39,16 @@ import com.github.mittyrobotics.path.generation.PathGenerator;
 import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+/**
+ * Safe six ball autonomous mode. Shoots slower to ensure maximum probability of inner goal shots. Also ensures all
+ * balls enter the intake straight on, in case the intake's vectoring capabilities break.
+ */
 public class SixBallAuton extends SequentialCommandGroup {
     public SixBallAuton(){
         //Properties
-        double defaultMaxAcceleration = 40;
-        double defaultMaxDeceleration = 40;
-        double defaultMaxVelocity = 150;
+        double defaultMaxAcceleration = 30;
+        double defaultMaxDeceleration = 30;
+        double defaultMaxVelocity = 100;
         double defaultStartVelocity = 0;
         double defaultEndVelocity = 0;
         boolean defaultExtremeTakeoff = false;
@@ -139,19 +143,13 @@ public class SixBallAuton extends SequentialCommandGroup {
         //Initialize paths
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
-                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
-                })
-        );
-
-        Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{
+                        new Transform(AutonCoordinates.SCORING_STARTING_POINT, 180),
                         new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
                         new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180)
                 })
         );
 
-        Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+        Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
@@ -164,15 +162,22 @@ public class SixBallAuton extends SequentialCommandGroup {
                 DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
 
         addCommands(
+                //Wait until ready to shoot
+
+                //Shoot 3 balls from starting point
+
+                //Start intaking
+
                 //Drive first path
                 new InitNewPathFollowerCommand(followerReversed),
                 new PathFollowerCommand(path1),
 
-                new InitNewPathFollowerCommand(followerReversed),
-                new PathFollowerCommand(path2),
+                //Stop intaking
 
                 new InitNewPathFollowerCommand(follower),
-                new PathFollowerCommand(path3)
+                new PathFollowerCommand(path2)
+
+                //Shoot 3 balls from optimal shooting point
         );
     }
 }

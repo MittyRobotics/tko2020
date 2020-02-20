@@ -29,6 +29,7 @@ import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class VisionScanCommand extends SequentialCommandGroup {
     private static double VISION_SCAN_PERCENT_OUTPUT = .6;
@@ -38,6 +39,7 @@ public class VisionScanCommand extends SequentialCommandGroup {
                 new ParallelRaceGroup(
                         new WaitUntilVisionDetectedCommand(),
                         sequence(
+                                new WaitCommand(0.1),
                                 new SetTurretControlLoopMaxPercentCommand(1),
                                 new SetAutomatedTurretRobotRelativeAngleCommand(new Rotation(-90)),
                                 new WaitUntilTurretReachedSetpointCommand(1),
