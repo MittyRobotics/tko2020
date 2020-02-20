@@ -55,6 +55,10 @@ public class Turret extends SubsystemBase implements ISubsystem {
      * Needs to be updated periodically with the {@link #updateTurretControlLoop()} method.
      */
     private PIDController turretController;
+
+    /**
+     * The turret's maximum percent output for the {@link PIDController} control loop.
+     */
     private double maxPercent;
 
     private Turret() {
@@ -75,7 +79,7 @@ public class Turret extends SubsystemBase implements ISubsystem {
     }
 
     /**
-     * Initializes the turret's hardware.
+     * Initializes all hardware associated with the class
      */
     @Override
     public void initHardware() {
@@ -97,6 +101,9 @@ public class Turret extends SubsystemBase implements ISubsystem {
 
     }
 
+    /**
+     * Updates the {@link SmartDashboard} values associated with the class
+     */
     @Override
     public void updateDashboard() {
         SmartDashboard.putNumber("turret-encoder", Turret.getInstance().getEncoderPosition());
@@ -146,6 +153,11 @@ public class Turret extends SubsystemBase implements ISubsystem {
         turretController.setSetpoint(angle);
     }
 
+    /**
+     * Sets the turret's maximum percent output for the {@link PIDController} control loop.
+     *
+     * @param maxPercent max percent output value
+     */
     public void setControlLoopMaxPercent(double maxPercent){
         this.maxPercent = maxPercent;
     }
@@ -254,5 +266,14 @@ public class Turret extends SubsystemBase implements ISubsystem {
      */
     public double getSetpoint() {
         return turretController.getSetpoint();
+    }
+
+    /**
+     * Returns the turret's maximum percent output for the {@link PIDController} control loop.
+     *
+     * @return the turret's maximum percent output for the {@link PIDController} control loop.
+     */
+    public double getMaxPercent() {
+        return maxPercent;
     }
 }
