@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.testing;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.modes.TenBallAuton;
 import com.github.mittyrobotics.autonomous.modes.TestPathFollowingAuton;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
@@ -33,12 +32,10 @@ import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
-import com.github.mittyrobotics.drive.TempTankDrive;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class AutonTesting extends TimedRobot {

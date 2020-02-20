@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.datatypes;
+package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 

@@ -26,7 +26,6 @@ package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
-import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
 import com.github.mittyrobotics.datatypes.geometry.Line;
 import com.github.mittyrobotics.datatypes.positioning.Position;

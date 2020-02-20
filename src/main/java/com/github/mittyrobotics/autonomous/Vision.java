@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.datatypes.VisionTarget;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.interfaces.IDashboard;
 import com.github.mittyrobotics.turret.Turret;
