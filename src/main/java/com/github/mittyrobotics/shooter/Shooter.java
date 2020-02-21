@@ -120,7 +120,7 @@ public class Shooter extends SubsystemBase implements ISubsystem {
      * @return the shooter RPM
      */
     public double getShooterRPM() {
-        return (masterEncoder.getVelocity() + masterEncoder.getVelocity()) / 2;
+        return (masterEncoder.getVelocity() + followerEncoder.getVelocity()) / 2;
     }
 
     /**
