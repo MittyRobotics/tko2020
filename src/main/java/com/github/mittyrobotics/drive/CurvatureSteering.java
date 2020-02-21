@@ -5,7 +5,7 @@ import com.github.mittyrobotics.drive.DriveTrainTalon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CurvatureSteering extends CommandBase {
-
+    private boolean isReversed;
     CurvatureSteering(){
         //addRequirements(DriveTrainTalon.getInstance());
         addRequirements(DriveTrainFalcon.getInstance());
@@ -13,7 +13,7 @@ public class CurvatureSteering extends CommandBase {
 
     @Override
     public void initialize(){
-
+        isReversed = false;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class CurvatureSteering extends CommandBase {
 
         double leftSpeed = 0;
         double rightSpeed = 0;
-        double threshold = 3;
+        double threshold = 10;
         boolean inThreshold = Math.abs(turn) < threshold;
         double turnScale = 1;
         //testing for 10 degrees to the left
@@ -53,15 +53,24 @@ public class CurvatureSteering extends CommandBase {
             joystickSpeed = 0;
         }
 
+        if(OI.getInstance().getJoystick1().getRawButtonPressed(2)){
+            isReversed = !isReversed;
+        }
+        if(isReversed){
+            joystickSpeed = -joystickSpeed;
+            double temp = leftSpeed;
+            leftSpeed = rightSpeed;
+            rightSpeed = temp;
+        }
         if (inThreshold){
             //DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
             DriveTrainFalcon.getInstance().tankDrive(
-                    joystickSpeed/3, joystickSpeed/3);
+                    joystickSpeed, joystickSpeed);
         } else if (Math.abs(joystickSpeed) < 0.1) {
-            DriveTrainFalcon.getInstance().tankDrive(-turn/350, turn/350);
+            DriveTrainFalcon.getInstance().tankDrive(turn/350, -turn/350);
             //DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
         } else {
-            DriveTrainFalcon.getInstance().tankDrive(rightSpeed * joystickSpeed/3, leftSpeed * joystickSpeed/3);
+            DriveTrainFalcon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
             //DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
         }
 
