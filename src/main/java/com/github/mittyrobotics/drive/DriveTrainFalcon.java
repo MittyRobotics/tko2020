@@ -37,6 +37,11 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0] = new WPI_TalonFX(Constants.RIGHT_FALCON_1);
         rightDrive[1] = new WPI_TalonFX(Constants.RIGHT_FALCON_2);
 
+        leftDrive[0].configFactoryDefault();
+        leftDrive[1].configFactoryDefault();
+        rightDrive[0].configFactoryDefault();
+        rightDrive[1].configFactoryDefault();
+
         leftDrive[0].setInverted(false);
         leftDrive[1].setInverted(false);
 
@@ -54,10 +59,10 @@ public class DriveTrainFalcon extends SubsystemBase {
 //        rightDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
 //        rightDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
 
-        leftDrive[0].setNeutralMode(NeutralMode.Brake);
-        rightDrive[0].setNeutralMode(NeutralMode.Brake);
-        leftDrive[1].setNeutralMode(NeutralMode.Brake);
-        rightDrive[0].setNeutralMode(NeutralMode.Brake);
+        leftDrive[0].setNeutralMode(NeutralMode.Coast);
+        rightDrive[0].setNeutralMode(NeutralMode.Coast);
+        leftDrive[1].setNeutralMode(NeutralMode.Coast);
+        rightDrive[0].setNeutralMode(NeutralMode.Coast);
 
         leftDrive[0].setSensorPhase(false);
         rightDrive[0].setSensorPhase(false);

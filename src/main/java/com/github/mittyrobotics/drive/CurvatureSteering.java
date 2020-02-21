@@ -55,8 +55,9 @@ public class CurvatureSteering extends CommandBase {
 
         if (inThreshold){
             //DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
-            DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
-        } else if (Math.abs(joystickSpeed) < 0.05) {
+            DriveTrainFalcon.getInstance().tankDrive(
+                    joystickSpeed/3, joystickSpeed/3);
+        } else if (Math.abs(joystickSpeed) < 0.1) {
             DriveTrainFalcon.getInstance().tankDrive(-turn/350, turn/350);
             //DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
         } else {
