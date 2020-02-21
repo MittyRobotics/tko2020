@@ -25,9 +25,7 @@
 package com.github.mittyrobotics.shooter;
 
 import com.github.mittyrobotics.interfaces.ISubsystem;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.ControlType;
+import com.revrobotics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -46,9 +44,19 @@ public class Shooter extends SubsystemBase implements ISubsystem {
     private double currentSetpoint;
 
     /**
-     * Shooter {@link CANSparkMax}'s
+     * Shooter {@link CANSparkMax}s
      */
     private CANSparkMax shooterSparkMaster, shooterSparkFollower;
+
+    /**
+     * Shooter {@link CANEncoder}s
+     */
+    private CANEncoder masterEncoder, followerEncoder;
+
+    /**
+     * Shooter {@link CANPIDController}s
+     */
+    private CANPIDController masterPIDController, followerPIDController;
 
     /**
      * Calls SubsystemBase constructor and names the subsystem "Shooter'
@@ -79,21 +87,25 @@ public class Shooter extends SubsystemBase implements ISubsystem {
                 new CANSparkMax(Constants.SHOOTER_SPARK_MASTER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         shooterSparkMaster.restoreFactoryDefaults();
         shooterSparkMaster.setInverted(Constants.SHOOTER_SPARK_MASTER_INVERSION);
-        shooterSparkMaster.getPIDController().setFF(Constants.SHOOTER_F);
-        shooterSparkMaster.getPIDController().setP(Constants.SHOOTER_P);
-        shooterSparkMaster.getPIDController().setI(Constants.SHOOTER_I);
-        shooterSparkMaster.getPIDController().setD(Constants.SHOOTER_D);
-//        shooterSparkMaster.getEncoder().setInverted(Constants.SHOOTER_SPARK_MASTER_ENCODER_INVERSION);
+        this.masterPIDController = shooterSparkMaster.getPIDController();
+        this.masterEncoder = shooterSparkMaster.getEncoder();
+        masterPIDController.setFF(Constants.SHOOTER_F);
+        masterPIDController.setP(Constants.SHOOTER_P);
+        masterPIDController.setI(Constants.SHOOTER_I);
+        masterPIDController.setD(Constants.SHOOTER_D);
+//      masterEncoder.setInverted(Constants.SHOOTER_SPARK_MASTER_ENCODER_INVERSION);
 
         shooterSparkFollower =
                 new CANSparkMax(Constants.SHOOTER_SPARK_FOLLOWER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         shooterSparkFollower.restoreFactoryDefaults();
         shooterSparkFollower.setInverted(Constants.SHOOTER_SPARK_FOLLOWER_INVERSION);
-        shooterSparkFollower.getPIDController().setFF(Constants.SHOOTER_F);
-        shooterSparkFollower.getPIDController().setP(Constants.SHOOTER_P);
-        shooterSparkFollower.getPIDController().setI(Constants.SHOOTER_I);
-        shooterSparkFollower.getPIDController().setD(Constants.SHOOTER_D);
-//        shooterSparkFollower.getEncoder().setInverted(Constants.SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION);
+        this.followerPIDController = shooterSparkFollower.getPIDController();
+        this.followerEncoder = shooterSparkFollower.getEncoder();
+        followerPIDController.setFF(Constants.SHOOTER_F);
+        followerPIDController.setP(Constants.SHOOTER_P);
+        followerPIDController.setI(Constants.SHOOTER_I);
+        followerPIDController.setD(Constants.SHOOTER_D);
+//      followerEncoder.setInverted(Constants.SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION);
     }
 
     @Override
@@ -108,7 +120,7 @@ public class Shooter extends SubsystemBase implements ISubsystem {
      * @return the shooter RPM
      */
     public double getShooterRPM() {
-        return (shooterSparkMaster.getEncoder().getVelocity() + shooterSparkFollower.getEncoder().getVelocity()) / 2;
+        return (masterEncoder.getVelocity() + masterEncoder.getVelocity()) / 2;
     }
 
     /**
@@ -136,8 +148,8 @@ public class Shooter extends SubsystemBase implements ISubsystem {
      */
     public void setShooterSpeed(double setpoint) { //in rpm of the motors
         if (setpoint != 0) {
-            shooterSparkMaster.getPIDController().setReference(setpoint, ControlType.kVelocity);
-            shooterSparkFollower.getPIDController().setReference(setpoint, ControlType.kVelocity);
+            masterPIDController.setReference(setpoint, ControlType.kVelocity);
+            followerPIDController.setReference(setpoint, ControlType.kVelocity);
         } else {
             shooterSparkMaster.set(0);
             shooterSparkFollower.set(0);
