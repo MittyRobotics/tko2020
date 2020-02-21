@@ -24,10 +24,7 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.colorwheel.ColorTesting;
-import com.github.mittyrobotics.colorwheel.SpinRevs;
-import com.github.mittyrobotics.colorwheel.SpinToColor;
-import com.github.mittyrobotics.colorwheel.WheelColor;
+import com.github.mittyrobotics.colorwheel.*;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.drive.ColorWheelDrive;
 import com.github.mittyrobotics.util.Constants;
@@ -135,13 +132,12 @@ public class OI {
 
 		colorTestingButton.whenPressed(new ColorTesting());
 		*/
-		blue.whenPressed(new SpinToColor(WheelColor.Blue));
-		red.whenPressed(new SpinToColor(WheelColor.Red));
-		yellow.whenPressed(new SpinToColor(WheelColor.Yellow));
-		green.whenPressed(new SpinToColor(WheelColor.Green));
+		blue.whenPressed(new SpinToColorMacro(WheelColor.Blue));
+		red.whenPressed(new SpinToColorMacro(WheelColor.Red));
+		yellow.whenPressed(new SpinToColorMacro(WheelColor.Yellow));
+		green.whenPressed(new SpinToColorMacro(WheelColor.Green));
 
-		spinRevButton.whenPressed(new ColorWheelDrive());
-		upButton.whenPressed(new SpinRevs());
+		upButton.whenPressed(new SpinRevsMacro());
 	}
 	public void passedStage2(){
 		stage3 = true;

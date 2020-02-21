@@ -35,6 +35,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
+import java.awt.*;
+
 import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
 
 public class Robot extends TimedRobot {
@@ -46,12 +48,15 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        compressor = new Compressor();
+        compressor.start();
+
         DriveTrainTalon.getInstance().initHardware();
         Spinner.getInstance().initHardware();
         ColorPiston.getInstance().initHardware();
+        ColorPiston.getInstance().down();
         OI.getInstance().digitalInputControls();
-        compressor = new Compressor();
-        compressor.start();
+
 
     }
 
@@ -77,6 +82,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        ColorPiston.getInstance().down();
+        Spinner.getInstance().setMotor(0);
+        DriveTrainTalon.getInstance().setMotor(0,0);
     }
 
     @Override

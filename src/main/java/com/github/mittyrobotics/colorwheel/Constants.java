@@ -30,7 +30,7 @@ public class Constants {
     public static final int SOLENOID_REVERSE_CHANNEL = 0;
 
 
-    public static final double REVS = 1.75;
+    public static final double REVS = 4;
 
 
     //ticks for one inch of the color wheel

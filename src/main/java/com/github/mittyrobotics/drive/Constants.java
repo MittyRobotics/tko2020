@@ -53,7 +53,7 @@ public class Constants {
             //position: p val: 0.0668 i val: 0.00001 d val: 0.0315
     public static final double[] TURN = {0.1, 0, 0};
 
-    public static final boolean LEFT_TALON_INVERSIONS[] = {true, false};
+    public static final boolean LEFT_TALON_INVERSIONS[] = {true, true};
     public static final boolean RIGHT_TALON_INVERSIONS[] = {false, false};
 
     public static final int COLORWHEELDRIVE_CURRENT = 5;

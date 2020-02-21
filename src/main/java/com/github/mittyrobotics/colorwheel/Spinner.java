@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.colorwheel;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.drive.ColorWheelDrive;
@@ -66,8 +67,11 @@ public class Spinner extends SubsystemBase {
     public void initHardware() {
         //initialize talon
         talon1 = new WPI_TalonSRX(0);
-        talon1.setSensorPhase(true);
 
+        talon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        talon1.configFactoryDefault();
+        talon1.setSensorPhase(true);
+        talon1.setNeutralMode(NeutralMode.Brake);
 
         //sets color match
         m_colorMatcher.addColorMatch(kBlueTarget);
@@ -80,8 +84,6 @@ public class Spinner extends SubsystemBase {
         map.put(WheelColor.Red, WheelColor.Blue);
         map.put(WheelColor.Green, WheelColor.Yellow);
         map.put(WheelColor.Yellow, WheelColor.Green);
-        talon1.setNeutralMode(NeutralMode.Brake);
-
 
     }
 

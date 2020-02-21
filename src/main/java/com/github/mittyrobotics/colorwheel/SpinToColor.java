@@ -60,7 +60,6 @@ public class SpinToColor extends CommandBase {
         //turn off motor
         Spinner.getInstance().setMotorOff();
 
-        ColorPiston.getInstance().down();
     }
     @Override
     public boolean isFinished(){

@@ -65,6 +65,12 @@ public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
         rightDrive[0] = new WPI_TalonSRX(Constants.RIGHT_TALON_1);
         rightDrive[1] = new WPI_TalonSRX(Constants.RIGHT_TALON_2);
 
+        leftDrive[0].configFactoryDefault();
+        leftDrive[1].configFactoryDefault();
+        rightDrive[0].configFactoryDefault();
+        rightDrive[1].configFactoryDefault();
+
+
 
         leftDrive[0].setInverted(Constants.LEFT_TALON_INVERSIONS[0]);
         leftDrive[1].setInverted(Constants.LEFT_TALON_INVERSIONS[1]);
