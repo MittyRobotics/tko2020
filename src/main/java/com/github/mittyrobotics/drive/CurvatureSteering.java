@@ -1,95 +1,87 @@
-/*
- * MIT License
- *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package com.github.mittyrobotics.drive;
 
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CurvatureSteering extends CommandBase {
-
-    CurvatureSteering() {
-        addRequirements(DriveTrainTalon.getInstance());
+    private boolean isReversed;
+    CurvatureSteering(){
+        //addRequirements(DriveTrainTalon.getInstance());
+        addRequirements(DriveTrainFalcon.getInstance());
     }
 
     @Override
-    public void initialize() {
-
+    public void initialize(){
+        isReversed = false;
     }
 
     @Override
     public void execute() {
 
-        double turn = OI.getInstance().getXboxWheel().getX() * 450;
-        double wheelWidth = 30;
-        double radius = 0;
+        double turn = (OI.getInstance().getXboxWheel().getX() * 450); //steering wheel
+        double joystickSpeed = -OI.getInstance().getJoystick1().getY(); //joystick
+        boolean brake = OI.getInstance().getJoystick1().getTrigger(); //brake
+        final double radiusE = 5;
+        double radius = Math.abs(450 / turn * radiusE); //radius of imaginary circle
+        double halfWidthRobot = 12.625; //12.5 for falcon
 
-        if ((turn > -5) & (turn < 5)) {
-            radius = 0;
-        } else {
-            radius = 360 / turn;
-        }
         double leftSpeed = 0;
         double rightSpeed = 0;
-
-        if (radius > 0) {
-            leftSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
-            rightSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
-
-        } else if (radius < 0) {
-            leftSpeed = 2 * Math.PI * (radius - (0.5 * wheelWidth));
-            rightSpeed = 2 * Math.PI * (radius + (0.5 * wheelWidth));
-        } else {
-            leftSpeed = 0;
-            rightSpeed = 0;
+        double threshold = 10;
+        boolean inThreshold = Math.abs(turn) < threshold;
+        double turnScale = 1;
+        //testing for 10 degrees to the left
+        if (turn >= threshold) {
+            leftSpeed = (radius + halfWidthRobot) * (2 * Math.PI);
+            rightSpeed = (radius - halfWidthRobot) * (2 * Math.PI);
+            rightSpeed = (rightSpeed / leftSpeed) * turnScale;
+            leftSpeed = 1 * turnScale;
+        } else if (turn <= -threshold) {
+            leftSpeed = (radius - halfWidthRobot) * (2 * Math.PI);
+            rightSpeed = (radius + halfWidthRobot) * (2 * Math.PI);
+            leftSpeed = (leftSpeed / rightSpeed) * turnScale;
+            rightSpeed = 1 * turnScale;
+        } else if (inThreshold) {
+            turn = OI.getInstance().getXboxWheel().getX() * 450 / 120;
         }
-        turn = rightSpeed - leftSpeed;
-        //negative for right turns, positive for left turns
-
-
-        double speed = -OI.getInstance().getJoystick1().getY();
-        boolean brake = OI.getInstance().getJoystick1().getTrigger();
 
         if (brake) {
-            speed = 0;
             turn = 0;
+            leftSpeed = 0;
+            rightSpeed = 0;
+            joystickSpeed = 0;
         }
 
-
-        double newSpeed = speed;
-        double newTurn = turn;
-        if (Math.abs(speed) < 0.05) {
-            DriveTrainTalon.getInstance().tankDrive(newTurn, -newTurn);
+        if (OI.getInstance().getJoystick1().getRawButtonPressed(2)) {
+            isReversed = true;
+        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(1)) { //change button based on kito's preference
+            isReversed = false;
         }
-        DriveTrainTalon.getInstance().tankDrive(newSpeed + newTurn / 2, newSpeed - newTurn / 2);
+
+        if(isReversed){
+            joystickSpeed = -joystickSpeed;
+            double temp = leftSpeed;
+            leftSpeed = rightSpeed;
+            rightSpeed = temp;
+        }
+
+        if (inThreshold){
+            //DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
+            DriveTrainFalcon.getInstance().tankDrive(
+                    joystickSpeed, joystickSpeed);
+        } else if (Math.abs(joystickSpeed) < 0.1) {
+            DriveTrainFalcon.getInstance().tankDrive(turn/350, -turn/350);
+            //DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
+        } else {
+            DriveTrainFalcon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
+            //DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
+        }
+
     }
-
     @Override
-    public void end(boolean interrupted) {
+    public void end(boolean interrupted){
 
     }
-
     @Override
     public boolean isFinished() {
         return false;

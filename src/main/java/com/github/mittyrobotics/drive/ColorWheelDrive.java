@@ -15,22 +15,22 @@ public class ColorWheelDrive extends CommandBase {
     boolean atSpeed;
 
     public ColorWheelDrive() {
-        addRequirements(DriveTrainTalon.getInstance());
+        addRequirements(DriveTrainFalcon.getInstance());
     }
 
     @Override
     public void initialize() {
         atSpeed = false;
         System.out.println("Starting");
-        DriveTrainTalon.getInstance().tankDrive(0, 0);
+        DriveTrainFalcon.getInstance().tankDrive(0, 0);
     }
 
     @Override
     public void execute() {
         //DriveTrainTalon.getInstance().setMotor(0.2, 0.2);
-        System.out.println("Left: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-        System.out.println("Right: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
-        if(DriveTrainTalon.getInstance().getLeftEncoderVelocity() < -7) {
+        System.out.println("Left: " + DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
+        System.out.println("Right: " + DriveTrainFalcon.getInstance().getRightEncoderVelocity());
+        if(DriveTrainFalcon.getInstance().getLeftEncoderVelocity() < -7) {
             atSpeed = true;
         }
 
@@ -44,6 +44,6 @@ public class ColorWheelDrive extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return atSpeed && DriveTrainTalon.getInstance().getLeftEncoderVelocity() > -3;
+        return atSpeed && DriveTrainFalcon.getInstance().getLeftEncoderVelocity() > -3;
     }
 }

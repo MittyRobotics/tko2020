@@ -19,7 +19,7 @@ public class ColorWheelDriveSpinRev extends CommandBase {
     private double t;
     private boolean isFinished;
     public ColorWheelDriveSpinRev() {
-        addRequirements(DriveTrainTalon.getInstance(), ColorPiston.getInstance(), Spinner.getInstance());
+        addRequirements(DriveTrainFalcon.getInstance(), ColorPiston.getInstance(), Spinner.getInstance());
     }
 
     @Override
@@ -56,9 +56,9 @@ public class ColorWheelDriveSpinRev extends CommandBase {
                 break;
         }
         DriveTrainFalcon.getInstance().customTankVelocity(0.2, 0.2);
-        System.out.println("Left: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-        System.out.println("Right: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
-        if(DriveTrainTalon.getInstance().getLeftEncoderVelocity() < -7) {
+        System.out.println("Left: " + DriveTrainFalcon.getInstance().getLeftEncoderVelocity());
+        System.out.println("Right: " + DriveTrainFalcon.getInstance().getRightEncoderVelocity());
+        if(DriveTrainFalcon.getInstance().getLeftEncoderVelocity() < -7) {
             atSpeed = true;
         }
 

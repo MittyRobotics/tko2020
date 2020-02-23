@@ -27,7 +27,7 @@ package com.github.mittyrobotics.testing;
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.commands.MinimalVisionCommand;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.OI;
@@ -39,7 +39,7 @@ public class ShooterTesting extends TimedRobot {
     public void robotInit() {
         Shooter.getInstance().initHardware();
         Turret.getInstance().initHardware();
-        DriveTrainTalon.getInstance().initHardware();
+        DriveTrainFalcon.getInstance().initHardware();
     }
 
     @Override

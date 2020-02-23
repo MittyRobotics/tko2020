@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.drive.DriveTrainTalon;
 import com.github.mittyrobotics.interfaces.IDashboard;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
@@ -41,8 +40,8 @@ public class OdometryManager implements IDashboard {
 
     public void run() {
         //Get left and right encoder positions and gyro heading
-        double leftEncoderPosition = DriveTrainTalon.getInstance().getLeftEncoder();
-        double rightEncoderPosition = DriveTrainTalon.getInstance().getRightEncoder();
+        double leftEncoderPosition = DriveTrainFalcon.getInstance().getLeftEncoder();
+        double rightEncoderPosition = DriveTrainFalcon.getInstance().getRightEncoder();
         double heading = Gyro.getInstance().getAngle();
 
         //Update Odometry
