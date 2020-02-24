@@ -6,12 +6,13 @@ public class RetractIntake extends CommandBase {
 
     public RetractIntake() {
         super();
-        addRequirements(Intake.getInstance());
+        addRequirements(IntakePiston.getInstance(), Intake.getInstance());
     }
 
     @Override
     public void initialize() {
-        Intake.getInstance().retractIntake();
+        IntakePiston.getInstance().retractIntake();
+        Intake.getInstance().stopWheel();
     }
 
     @Override

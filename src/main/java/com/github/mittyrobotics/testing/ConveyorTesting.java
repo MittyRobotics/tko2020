@@ -31,11 +31,8 @@ import com.github.mittyrobotics.conveyor.MoveConveyorRemoveBall;
 import com.github.mittyrobotics.conveyor.UnloadConveyor;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.util.OI;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.Button;
-import org.ejml.dense.row.CovarianceOps_DDRM;
 
 public class ConveyorTesting extends TimedRobot {
     private double init;

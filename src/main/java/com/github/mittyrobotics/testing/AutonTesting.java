@@ -42,7 +42,7 @@ public class AutonTesting extends TimedRobot {
 
     @Override
     public void robotInit() {
-        OI.getInstance().digitalInputControls();
+        OI.getInstance().setupControls();
 
         //Init hardware
         DriveTrainFalcon.getInstance().initHardware();

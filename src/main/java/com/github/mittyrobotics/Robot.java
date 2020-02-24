@@ -25,7 +25,6 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.commands.TurretAimbotCommand;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.buffer.Buffer;
 import com.github.mittyrobotics.buffer.LockBall;
@@ -41,6 +40,7 @@ import com.github.mittyrobotics.turret.AutoTurret;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
