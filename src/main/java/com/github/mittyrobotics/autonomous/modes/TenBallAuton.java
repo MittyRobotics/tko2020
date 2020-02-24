@@ -178,9 +178,8 @@ public class TenBallAuton extends SequentialCommandGroup {
         );
 
         //Calibrate odometry
-        Odometry.getInstance().calibrateRobotTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
-                DriveTrainFalcon.getInstance().getLeftEncoder(),
-                DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
+        Odometry.getInstance().setTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
+                Gyro.getInstance().getAngle());
 
         addCommands(
                 //Drive first path

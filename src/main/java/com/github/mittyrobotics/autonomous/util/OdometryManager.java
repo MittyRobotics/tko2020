@@ -28,6 +28,7 @@ import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.interfaces.IDashboard;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OdometryManager implements IDashboard {
@@ -45,14 +46,21 @@ public class OdometryManager implements IDashboard {
         double heading = Gyro.getInstance().getAngle();
 
         //Update Odometry
-        Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading);
+        Odometry.getInstance().update(leftEncoderPosition, rightEncoderPosition, heading, Timer.getFPGATimestamp());
     }
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("odometry-x", Odometry.getInstance().getRobotTransform().getPosition().getX());
-        SmartDashboard.putNumber("odometry-y", Odometry.getInstance().getRobotTransform().getPosition().getY());
+        SmartDashboard.putNumber("odometry-x", Odometry.getInstance().getLatestRobotTransform().getPosition().getX());
+        SmartDashboard.putNumber("odometry-y", Odometry.getInstance().getLatestRobotTransform().getPosition().getY());
         SmartDashboard
-                .putNumber("odometry-heading", Odometry.getInstance().getRobotTransform().getRotation().getHeading());
+                .putNumber("odometry-heading",
+                        Odometry.getInstance().getLatestRobotTransform().getRotation().getHeading());
+        SmartDashboard
+                .putNumber("odometry-velocity-x", Odometry.getInstance().getLatestRobotVelocity().getPosition().getX());
+        SmartDashboard
+                .putNumber("odometry-velocity-y", Odometry.getInstance().getLatestRobotVelocity().getPosition().getY());
+        SmartDashboard.putNumber("odometry-velocity-heading",
+                Odometry.getInstance().getLatestRobotVelocity().getRotation().getHeading());
     }
 }

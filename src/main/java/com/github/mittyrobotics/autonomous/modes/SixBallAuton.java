@@ -156,10 +156,9 @@ public class SixBallAuton extends SequentialCommandGroup {
                 })
         );
 
-        //Calibrate odometry
-        Odometry.getInstance().calibrateRobotTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
-                DriveTrainFalcon.getInstance().getLeftEncoder(),
-                DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
+        //Set odometry
+        Odometry.getInstance().setTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
+                Gyro.getInstance().getAngle());
 
         addCommands(
                 //Wait until ready to shoot

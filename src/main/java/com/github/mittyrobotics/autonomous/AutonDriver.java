@@ -106,7 +106,7 @@ public class AutonDriver {
                 DriveTrainFalcon.getInstance().getRightEncoderVelocity()
         );
 
-        DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getRobotTransform()
+        DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getLatestRobotTransform()
                 , currentVelocities, deltaTime);
 
         DriveTrainFalcon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());

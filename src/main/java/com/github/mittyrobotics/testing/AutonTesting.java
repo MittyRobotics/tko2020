@@ -53,10 +53,11 @@ public class AutonTesting extends TimedRobot {
         //Set Odometry position to robot starting position and calibrate Odometry
         Gyro.getInstance().calibrate();
         Gyro.getInstance().reset();
-        Odometry.getInstance().calibrateRobotTransform(
-                new Transform(new Position(121.88534545898438, -30.914794921875), new Rotation(180.0))
-                , DriveTrainFalcon.getInstance().getLeftEncoder(),
+        Odometry.getInstance().calibrateTransformToZero(DriveTrainFalcon.getInstance().getLeftEncoder(),
                 DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
+        Odometry.getInstance().setTransform(
+                new Transform(new Position(121.88534545898438, -30.914794921875), new Rotation(180.0))
+                , Gyro.getInstance().getAngle());
     }
 
     @Override
@@ -89,7 +90,7 @@ public class AutonTesting extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        DriveTrainFalcon.getInstance().customTankVelocity(20,20);
+        DriveTrainFalcon.getInstance().customTankVelocity(20, 20);
         //OI.getInstance().shooterDebugControl();
     }
 
