@@ -22,55 +22,46 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.colorwheel;
+package com.github.mittyrobotics.turret;
 
-import com.github.mittyrobotics.interfaces.ISubsystem;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
+import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.VisionTarget;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import static com.github.mittyrobotics.colorwheel.Constants.SOLENOID_FOWARD_CHANNEL;
-import static com.github.mittyrobotics.colorwheel.Constants.SOLENOID_REVERSE_CHANNEL;
+public class AutoTurret extends CommandBase {
 
-public class ColorPiston extends SubsystemBase implements ISubsystem {
-
-    private static ColorPiston instance;
-    private DoubleSolenoid piston;
-    private boolean isPistonUp;
-
-    private ColorPiston() {
+    public AutoTurret() {
         super();
-        setName("Color Piston");
+        addRequirements(Turret.getInstance());
     }
 
-    public static ColorPiston getInstance() {
-        if (instance == null) {
-            instance = new ColorPiston();
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void execute() {
+        if (Vision.getInstance().isSafeToUseVision()) {
+            //Get latest vision target
+            VisionTarget target = Vision.getInstance().getLatestVisionTarget();
+            //Set automated turret aim
+            AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
+        } else {
+            //If no vision target is detected, lock the target onto the last detected vision target position
+            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(
+                    AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation());
         }
-        return instance;
     }
 
     @Override
-    public void initHardware() {
-        piston = new DoubleSolenoid(SOLENOID_FOWARD_CHANNEL, SOLENOID_REVERSE_CHANNEL);
-        isPistonUp = false;
+    public void end(boolean interrupted) {
+
     }
 
     @Override
-    public void updateDashboard() {
-
-    }
-
-    public void up() {
-        piston.set(DoubleSolenoid.Value.kForward);
-        isPistonUp = true;
-    }
-
-    public void down() {
-        piston.set(DoubleSolenoid.Value.kReverse);
-        isPistonUp = false;
-    }
-
-    public boolean isPistonUp(){
-        return isPistonUp;
+    public boolean isFinished() {
+        return false;
     }
 }

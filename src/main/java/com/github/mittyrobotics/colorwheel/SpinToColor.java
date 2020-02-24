@@ -2,14 +2,21 @@ package com.github.mittyrobotics.colorwheel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import java.util.ArrayList;
+
+import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
+
 public class SpinToColor extends CommandBase {
+    private double prevPosition;
+    private boolean onColor = false;
+    private boolean finished = false;
     private int green = 0;
     private WheelColor color;
 
 
-    public SpinToColor() {
+    public SpinToColor(WheelColor color) {
         super();
-        this.color = Spinner.getInstance().getGameMessage();
+        this.color = color;
 
         addRequirements(Spinner.getInstance());
     }
@@ -34,22 +41,35 @@ public class SpinToColor extends CommandBase {
         } else {
             green = 0;
         }
-    }
+        /*if(Spinner.getInstance().matching()){
+            //prevPosition = Spinner.getInstance().getRevolutions();
+            //onColor = true;
+            finished = true;
+        }
+/*        if(onColor){
+            if(Spinner.getInstance().getRevolutions() - prevPosition > 1.0/16.0) {
+                finished = true;
+            }
+        }*/
 
+
+
+    }
     @Override
     public void end(boolean interrupted){
         //turn off motor
         Spinner.getInstance().setMotorOff();
 
-        ColorPiston.getInstance().down();
     }
-
     @Override
     public boolean isFinished(){
         if(color == WheelColor.Green) {
-            return green > 3;
+            if(green > 3) {
+                return true;
+            }
         } else {
-            return Spinner.getInstance().getColor() == color || color == WheelColor.None;
+            return Spinner.getInstance().getColor() == color;
         }
+        return false;
     }
 }

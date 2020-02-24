@@ -25,8 +25,10 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.commands.TurretAimbotCommand;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.buffer.Buffer;
+import com.github.mittyrobotics.buffer.LockBall;
 import com.github.mittyrobotics.climber.Hooks;
 import com.github.mittyrobotics.climber.Winch;
 import com.github.mittyrobotics.colorwheel.ColorPiston;
@@ -35,6 +37,7 @@ import com.github.mittyrobotics.conveyor.Conveyor;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.intake.Intake;
 import com.github.mittyrobotics.shooter.Shooter;
+import com.github.mittyrobotics.turret.AutoTurret;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
@@ -89,7 +92,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-
+        Buffer.getInstance().setDefaultCommand(new LockBall());
+        Turret.getInstance().setDefaultCommand(new AutoTurret());
     }
 
     @Override
@@ -99,6 +103,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        OI.getInstance().setupControls();
     }
 
     @Override
