@@ -70,7 +70,7 @@ public class ColorPiston extends SubsystemBase implements ISubsystem {
         isPistonUp = false;
     }
 
-    public boolean isPistonUp(){
+    public boolean isPistonUp() {
         return isPistonUp;
     }
 }

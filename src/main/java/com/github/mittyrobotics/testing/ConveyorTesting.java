@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class ConveyorTesting extends TimedRobot {
     private double init;
     private boolean alreadyThere1, alreadyThere2, alreadyThere3;
+
     @Override
     public void robotInit() {
         Conveyor.getInstance().initHardware();
@@ -86,7 +87,7 @@ public class ConveyorTesting extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        if(OI.getInstance().getJoystick1().getRawButtonPressed(10)){
+        if (OI.getInstance().getJoystick1().getRawButtonPressed(10)) {
             Conveyor.getInstance().updateBallCount(-1);
         }
         System.out.println(Conveyor.getInstance().getTotalBallCount());
@@ -125,22 +126,19 @@ public class ConveyorTesting extends TimedRobot {
 //        if(OI.getInstance().getJoystick1().getX() < x){
 //            alreadyThere3 = false;
 //        }
-        if(OI.getInstance().getJoystick1().getRawButtonPressed(2)){
+        if (OI.getInstance().getJoystick1().getRawButtonPressed(2)) {
             CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(1.85));
-        }
-        else if(OI.getInstance().getJoystick1().getRawButtonPressed(3)){
+        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(3)) {
             CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(1.9));
-        }
-        else if(OI.getInstance().getJoystick1().getRawButtonPressed(4)){
+        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(4)) {
             Shooter.getInstance().setShooterPercent(0.3);
             CommandScheduler.getInstance().schedule(new MoveConveyorRemoveBall(4, 2.05));
-        }
-        else if(OI.getInstance().getJoystick1().getRawButtonPressed(5)){
+        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(5)) {
             CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2.05));
-        }
-        else if(OI.getInstance().getJoystick1().getRawButtonPressed(1)){
+        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(1)) {
             CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(1));
-        } if(OI.getInstance().getJoystick1().getRawButtonPressed(8)){
+        }
+        if (OI.getInstance().getJoystick1().getRawButtonPressed(8)) {
             CommandScheduler.getInstance().schedule(new UnloadConveyor());
         }
 //        Buffer.getInstance().manualBufferSpeed(-.3);

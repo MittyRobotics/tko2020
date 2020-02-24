@@ -27,7 +27,7 @@ package com.github.mittyrobotics.colorwheel;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class SpinnerDown extends InstantCommand {
-    public SpinnerDown(){
-        super(()-> ColorPiston.getInstance().down(), ColorPiston.getInstance());
+    public SpinnerDown() {
+        super(() -> ColorPiston.getInstance().down(), ColorPiston.getInstance());
     }
 }

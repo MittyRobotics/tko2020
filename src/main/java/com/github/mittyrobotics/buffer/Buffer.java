@@ -31,7 +31,7 @@ public class Buffer extends SubsystemBase implements ISubsystem {
         setDefaultCommand(new LockBall());
     }
 
-    public void resetEncoder(){
+    public void resetEncoder() {
         bufferWheel.setSelectedSensorPosition(0);
     }
 
@@ -59,11 +59,11 @@ public class Buffer extends SubsystemBase implements ISubsystem {
         return bufferWheel.getSelectedSensorPosition();
     }
 
-    public void bufferLock(){
+    public void bufferLock() {
         moveWheel(Constants.LOCK_SPEED);
     }
 
-    public void bufferRelease(){
+    public void bufferRelease() {
         moveWheel(Constants.RELEASE_SPEED);
     }
 }

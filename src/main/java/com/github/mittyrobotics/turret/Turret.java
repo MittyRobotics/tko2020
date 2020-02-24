@@ -158,7 +158,7 @@ public class Turret extends SubsystemBase implements ISubsystem {
      *
      * @param maxPercent max percent output value
      */
-    public void setControlLoopMaxPercent(double maxPercent){
+    public void setControlLoopMaxPercent(double maxPercent) {
         this.maxPercent = maxPercent;
     }
 
@@ -180,7 +180,7 @@ public class Turret extends SubsystemBase implements ISubsystem {
      * This should be called periodically whenever the turret is automated.
      */
     public void updateTurretControlLoop() {
-        setTurretPercent(MathUtil.clamp(turretController.calculate(getEncoderPosition()),-maxPercent,maxPercent));
+        setTurretPercent(MathUtil.clamp(turretController.calculate(getEncoderPosition()), -maxPercent, maxPercent));
     }
 
     /**

@@ -34,20 +34,21 @@ public class Hooks extends SubsystemBase implements ISubsystem {
             rightPiston.set(DoubleSolenoid.Value.kForward);
         }
     }
-    public void pushHooks(){
+
+    public void pushHooks() {
         pushHooks(RobotSide.LEFT);
         pushHooks(RobotSide.RIGHT);
     }
 
-    public void pullHooks(RobotSide side){
-        if(side == RobotSide.LEFT){
+    public void pullHooks(RobotSide side) {
+        if (side == RobotSide.LEFT) {
             leftPiston.set(DoubleSolenoid.Value.kReverse);
         } else {
             rightPiston.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
-    public void pullHooks(){
+    public void pullHooks() {
         pullHooks(RobotSide.LEFT);
         pullHooks(RobotSide.RIGHT);
     }

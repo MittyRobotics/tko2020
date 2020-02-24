@@ -36,7 +36,7 @@ public class Constants {
     public static final double SPINNER_P = 0.0000001;
     public static final double SPINNER_I = 0;
     public static final double SPINNER_D = 0;
-    public static final double SPINNER_FF = 1/6250.0;
+    public static final double SPINNER_FF = 1 / 6250.0;
     public static final double REVS = 4;
 
 

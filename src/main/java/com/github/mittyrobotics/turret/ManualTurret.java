@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualTurret extends CommandBase {
-    public ManualTurret(){
+    public ManualTurret() {
         addRequirements(Turret.getInstance());
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         Turret.getInstance().setTurretPercent(OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight));
     }
 

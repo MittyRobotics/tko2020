@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 //TODO find all numbers
 public class ColorWheelDrive extends CommandBase {
 
@@ -20,7 +21,7 @@ public class ColorWheelDrive extends CommandBase {
     @Override
     public void execute() {
         DriveTrainTalon.getInstance().tankVelocity(0.2, 0.2);
-        if(DriveTrainTalon.getInstance().getLeftEncoderVelocity() < -5) {
+        if (DriveTrainTalon.getInstance().getLeftEncoderVelocity() < -5) {
             DriveTrainTalon.getInstance().tankVelocity(0.1, 0.1);
             atSpeed = true;
         }

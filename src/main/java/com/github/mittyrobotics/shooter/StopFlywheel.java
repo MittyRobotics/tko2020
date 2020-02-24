@@ -3,7 +3,7 @@ package com.github.mittyrobotics.shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class StopFlywheel extends CommandBase {
-    public StopFlywheel(){
+    public StopFlywheel() {
         addRequirements(Shooter.getInstance());
     }
 

@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.conveyor.Conveyor;
 import com.github.mittyrobotics.interfaces.ISubsystem;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase implements ISubsystem {
@@ -36,23 +35,24 @@ public class Intake extends SubsystemBase implements ISubsystem {
     }
 
     private void moveWheel(double speed) {
-        if(IntakePiston.getInstance().isExtended()){
+        if (IntakePiston.getInstance().isExtended()) {
             intakeWheel.set(ControlMode.PercentOutput, speed);
         }
     }
 
-    public void intakeBall(){
-        if(Conveyor.getInstance().getTotalBallCount() < 4){
+    public void intakeBall() {
+        if (Conveyor.getInstance().getTotalBallCount() < 4) {
             moveWheel(Constants.INTAKE_SPEED_FAST);
         } else {
             moveWheel(Constants.INTAKE_SPEED_SLOW);
         }
     }
-    public void outtakeBall(){
+
+    public void outtakeBall() {
         moveWheel(Constants.OUTTAKE_SPEED);
     }
 
-    public void stopWheel(){
+    public void stopWheel() {
         moveWheel(0);
     }
 

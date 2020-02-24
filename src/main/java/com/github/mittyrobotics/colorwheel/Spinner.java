@@ -17,38 +17,33 @@ import java.util.HashMap;
 
 
 public class Spinner extends SubsystemBase implements ISubsystem {
-    //talon for spinner
-    private WPI_TalonSRX spinnerTalon;
-
     //spinner singleton
     private static Spinner instance;
-
     //initialize color sensor
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final ColorMatch colorMatcher = new ColorMatch();
-
     //calibrated
     private final Color blue = ColorMatch.makeColor(Constants.BLUE_R, Constants.BLUE_G, Constants.BLUE_B);
     private final Color green = ColorMatch.makeColor(Constants.GREEN_R, Constants.GREEN_G, Constants.GREEN_B);
     private final Color red = ColorMatch.makeColor(Constants.RED_R, Constants.RED_G, Constants.RED_B);
     private final Color yellow = ColorMatch.makeColor(Constants.YELLOW_R, Constants.YELLOW_G, Constants.YELLOW_B);
     private final Color nullTarget = ColorMatch.makeColor(Constants.NULL_R, Constants.NULL_G, Constants.NULL_B);
-    private final Color alsoNullTarget = ColorMatch.makeColor(Constants.ALSO_NULL_R, Constants.ALSO_NULL_G, Constants.ALSO_NULL_B);
-
-
+    private final Color alsoNullTarget =
+            ColorMatch.makeColor(Constants.ALSO_NULL_R, Constants.ALSO_NULL_G, Constants.ALSO_NULL_B);
+    //talon for spinner
+    private WPI_TalonSRX spinnerTalon;
     private HashMap<WheelColor, WheelColor> map;
+
+    private Spinner() {
+        super();
+        setName("Spinner");
+    }
 
     public static Spinner getInstance() {
         if (instance == null) {
             instance = new Spinner();
         }
         return instance;
-    }
-
-
-    private Spinner() {
-        super();
-        setName("Spinner");
     }
 
     @Override
@@ -88,7 +83,7 @@ public class Spinner extends SubsystemBase implements ISubsystem {
 
     }
 
-    private void setMotorPID(double rpm){ //TODO cleanup setpoint conversion
+    private void setMotorPID(double rpm) { //TODO cleanup setpoint conversion
         double setpoint = (rpm * (4 * Math.PI)) * Constants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
         PIDController controller = new PIDController(Constants.SPINNER_P, Constants.SPINNER_I, Constants.SPINNER_D);
         controller.setSetpoint(setpoint);
@@ -96,9 +91,10 @@ public class Spinner extends SubsystemBase implements ISubsystem {
                 + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
         );
     }
+
     public void setMotorSlow(boolean isReversed) {
         //sets motor to slow velocity
-        if(isReversed){
+        if (isReversed) {
             setMotorPID(-Constants.SLOW_VELOCITY);
         } else {
             setMotorPID(Constants.SLOW_VELOCITY);
@@ -143,15 +139,15 @@ public class Spinner extends SubsystemBase implements ISubsystem {
     public WheelColor getGameMessage() {
         //return target color
         String s = DriverStation.getInstance().getGameSpecificMessage();
-        if(s.length()>0){
-            switch(s.toLowerCase().charAt(0)){
-                case('b'):
+        if (s.length() > 0) {
+            switch (s.toLowerCase().charAt(0)) {
+                case ('b'):
                     return WheelColor.Blue;
-                case('r'):
+                case ('r'):
                     return WheelColor.Red;
-                case('g'):
+                case ('g'):
                     return WheelColor.Green;
-                case('y'):
+                case ('y'):
                     return WheelColor.Yellow;
             }
         }
@@ -159,22 +155,22 @@ public class Spinner extends SubsystemBase implements ISubsystem {
     }
 
     public double getRevolutions() {
-        return spinnerTalon.getSelectedSensorPosition() / (32*Math.PI*Constants.TICKS_PER_INCH);
+        return spinnerTalon.getSelectedSensorPosition() / (32 * Math.PI * Constants.TICKS_PER_INCH);
     }
 
     public void zeroEncoder() {
         spinnerTalon.setSelectedSensorPosition(0);
     }
 
-    public void setSpinnerManual(double percent){
-        if(ColorPiston.getInstance().isPistonUp() && Math.abs(percent) > 0.1){
+    public void setSpinnerManual(double percent) {
+        if (ColorPiston.getInstance().isPistonUp() && Math.abs(percent) > 0.1) {
             spinnerTalon.set(percent);
         } else {
             spinnerTalon.set(0);
         }
     }
 
-    public boolean isSpinnerMoving(){
-        return Math.abs(spinnerTalon.getSelectedSensorVelocity()/(32*Math.PI*Constants.TICKS_PER_INCH)*10) > 5;
+    public boolean isSpinnerMoving() {
+        return Math.abs(spinnerTalon.getSelectedSensorVelocity() / (32 * Math.PI * Constants.TICKS_PER_INCH) * 10) > 5;
     }
 }

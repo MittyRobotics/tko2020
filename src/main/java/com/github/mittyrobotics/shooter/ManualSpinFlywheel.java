@@ -34,12 +34,12 @@ public class ManualSpinFlywheel extends CommandBase {
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getManualSetpoint());
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 }

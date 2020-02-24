@@ -3,7 +3,7 @@ package com.github.mittyrobotics.colorwheel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SpinnerUp extends CommandBase {
-    public SpinnerUp(){
+    public SpinnerUp() {
         addRequirements(ColorPiston.getInstance());
     }
 

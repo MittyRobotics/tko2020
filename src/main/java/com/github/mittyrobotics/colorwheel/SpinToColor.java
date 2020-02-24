@@ -2,10 +2,6 @@ package com.github.mittyrobotics.colorwheel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import java.util.ArrayList;
-
-import static com.github.mittyrobotics.colorwheel.Constants.TICKS_PER_INCH;
-
 public class SpinToColor extends CommandBase {
     private double prevPosition;
     private boolean onColor = false;
@@ -20,23 +16,28 @@ public class SpinToColor extends CommandBase {
 
         addRequirements(Spinner.getInstance());
     }
+
     @Override
-    public void initialize(){
+    public void initialize() {
         System.out.println("Starting");
         ColorPiston.getInstance().up();
         Spinner.getInstance().zeroEncoder();
 
         WheelColor cur = Spinner.getInstance().getColor();
 
-        if((cur == WheelColor.Green && color == WheelColor.Blue)||(cur == WheelColor.Blue && color == WheelColor.Yellow) || (cur == WheelColor.Yellow && color == WheelColor.Red) || (cur == WheelColor.Red && color == WheelColor.Green)) {
+        if ((cur == WheelColor.Green && color == WheelColor.Blue) ||
+                (cur == WheelColor.Blue && color == WheelColor.Yellow) ||
+                (cur == WheelColor.Yellow && color == WheelColor.Red) ||
+                (cur == WheelColor.Red && color == WheelColor.Green)) {
             Spinner.getInstance().setMotorSlow(true);
         } else {
             Spinner.getInstance().setMotorSlow(false);
         }
     }
+
     @Override
-    public void execute(){
-        if(Spinner.getInstance().getColor() == WheelColor.Green){
+    public void execute() {
+        if (Spinner.getInstance().getColor() == WheelColor.Green) {
             green += 1;
         } else {
             green = 0;
@@ -53,18 +54,19 @@ public class SpinToColor extends CommandBase {
         }*/
 
 
-
     }
+
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         //turn off motor
         Spinner.getInstance().setMotorOff();
 
     }
+
     @Override
-    public boolean isFinished(){
-        if(color == WheelColor.Green) {
-            if(green > 3) {
+    public boolean isFinished() {
+        if (color == WheelColor.Green) {
+            if (green > 3) {
                 return true;
             }
         } else {

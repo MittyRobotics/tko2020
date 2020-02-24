@@ -24,9 +24,6 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.testing.AutonTesting;
-import com.github.mittyrobotics.testing.ConveyorTesting;
-import com.github.mittyrobotics.testing.DriveTesting;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Main {

@@ -82,14 +82,14 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
         threshold = MathUtil.clamp(threshold, 0, 1);
         left = MathUtil.clamp(left, -1, 1);
         right = MathUtil.clamp(right, -1, 1);
-        if(Math.abs(left) > threshold){
+        if (Math.abs(left) > threshold) {
             leftDrive[0].set(left * multiplier);
             leftDrive[1].set(left * multiplier);
         } else {
             leftDrive[0].set(0);
             leftDrive[1].set(0);
         }
-        if(Math.abs(right) > 0.1){
+        if (Math.abs(right) > 0.1) {
             rightDrive[0].set(right * multiplier);
             rightDrive[1].set(right * multiplier);
         } else {
@@ -98,7 +98,7 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
         }
     }
 
-    public void tankDrive(double left, double right){
+    public void tankDrive(double left, double right) {
         tankDrive(left, right, 0.2, 1);
     }
 
@@ -172,7 +172,7 @@ public class DriveTrainFalcon extends SubsystemBase implements ISubsystem {
         return latestLeftVelSetpoint;
     }
 
-    public double getAverageVelocity(){
-        return (getLeftEncoderVelocity()+getRightEncoderVelocity())/2;
+    public double getAverageVelocity() {
+        return (getLeftEncoderVelocity() + getRightEncoderVelocity()) / 2;
     }
 }

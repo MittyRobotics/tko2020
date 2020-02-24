@@ -25,6 +25,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.commands.VisionTurretAimCommand;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.buffer.Buffer;
 import com.github.mittyrobotics.buffer.LockBall;
@@ -36,7 +37,6 @@ import com.github.mittyrobotics.conveyor.Conveyor;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.intake.Intake;
 import com.github.mittyrobotics.shooter.Shooter;
-import com.github.mittyrobotics.autonomous.commands.VisionTurretAimCommand;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;

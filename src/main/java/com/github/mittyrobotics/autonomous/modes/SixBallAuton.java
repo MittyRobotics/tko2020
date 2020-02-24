@@ -29,7 +29,6 @@ import com.github.mittyrobotics.autonomous.commands.PathFollowerCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
@@ -44,7 +43,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
  * balls enter the intake straight on, in case the intake's vectoring capabilities break.
  */
 public class SixBallAuton extends SequentialCommandGroup {
-    public SixBallAuton(){
+    public SixBallAuton() {
         //Properties
         double defaultMaxAcceleration = 30;
         double defaultMaxDeceleration = 30;

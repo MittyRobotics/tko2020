@@ -31,7 +31,7 @@ import com.github.mittyrobotics.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class VisionShooterSpeedCommand extends CommandBase {
-    public VisionShooterSpeedCommand(){
+    public VisionShooterSpeedCommand() {
         addRequirements(Shooter.getInstance());
     }
 
@@ -42,7 +42,7 @@ public class VisionShooterSpeedCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(Vision.getInstance().isSafeToUseVision()){
+        if (Vision.getInstance().isSafeToUseVision()) {
             VisionTarget target = Vision.getInstance().getLatestVisionTarget();
 
             Shooter.getInstance().setShooterSpeed(

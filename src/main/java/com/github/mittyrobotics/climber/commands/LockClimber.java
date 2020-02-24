@@ -5,7 +5,7 @@ import com.github.mittyrobotics.climber.WinchLock;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LockClimber extends CommandBase {
-    public LockClimber(){
+    public LockClimber() {
         addRequirements(WinchLock.getInstance(), Hooks.getInstance());
     }
 
@@ -16,7 +16,7 @@ public class LockClimber extends CommandBase {
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return true;
     }
 }

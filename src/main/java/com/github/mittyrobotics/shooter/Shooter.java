@@ -24,8 +24,8 @@
 
 package com.github.mittyrobotics.shooter;
 
-import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.OI;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -119,10 +119,10 @@ public class Shooter extends SubsystemBase implements ISubsystem {
     }
 
     @Override
-    public void periodic(){
-        if(OI.getInstance().getXboxController().getYButtonPressed()){
+    public void periodic() {
+        if (OI.getInstance().getXboxController().getYButtonPressed()) {
             manualSetpoint += 100; //TODO find increment
-        } else if(OI.getInstance().getXboxController().getAButtonPressed()){
+        } else if (OI.getInstance().getXboxController().getAButtonPressed()) {
             manualSetpoint -= 100; //TODO find decrement;
         }
     }
@@ -169,13 +169,14 @@ public class Shooter extends SubsystemBase implements ISubsystem {
         }
         currentSetpoint = setpoint;
     }
-    public void setShooterPercent(double percent){
+
+    public void setShooterPercent(double percent) {
         shooterSparkMaster.set(percent);
         shooterSparkFollower.set(percent);
-        System.out.println((shooterSparkMaster.get()+shooterSparkFollower.get())/2.0);
+        System.out.println((shooterSparkMaster.get() + shooterSparkFollower.get()) / 2.0);
     }
 
-    public double getManualSetpoint(){
+    public double getManualSetpoint() {
         return manualSetpoint;
     }
 }

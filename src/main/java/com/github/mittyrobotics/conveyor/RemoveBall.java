@@ -20,7 +20,7 @@ public class RemoveBall extends CommandBase {
     public void initialize() {
         bufferInitPos = Buffer.getInstance().getBufferPosition();
         isDone = false;
-        d*= Constants.TICKS_PER_ROTATION;
+        d *= Constants.TICKS_PER_ROTATION;
         System.out.println("INIT");
 
     }
@@ -32,7 +32,7 @@ public class RemoveBall extends CommandBase {
             Buffer.getInstance().manualBufferSpeed(0.4);
             Conveyor.getInstance().manualSetConveyorSpeed(1);
             Intake.getInstance().intakeBall();
-        } else{
+        } else {
             isDone = true;
         }
     }

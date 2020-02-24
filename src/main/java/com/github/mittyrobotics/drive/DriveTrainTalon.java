@@ -34,12 +34,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
     private static DriveTrainTalon instance;
-
+    final double kV = .11; //0.11
+    final double kA = 0.0; //0.0
+    final double kP = 0.01; //0.01
     double leftLastMeasured = 0;
     double rightLastMeasured = 0;
     private WPI_TalonSRX[] leftDrive = new WPI_TalonSRX[2];
     private WPI_TalonSRX[] rightDrive = new WPI_TalonSRX[2];
     private double count = 0;
+    private double leftSetpoint;
+    private double rightSetpoint;
 
     public DriveTrainTalon() {
         super();
@@ -122,13 +126,6 @@ public class DriveTrainTalon extends SubsystemBase implements ISubsystem {
         rightDrive[0].set(ControlMode.Velocity, right / 10);
         System.out.println(left + " " + right);
     }
-
-    final double kV = .11; //0.11
-    final double kA = 0.0; //0.0
-    final double kP = 0.01; //0.01
-
-    private double leftSetpoint;
-    private double rightSetpoint;
 
     public void customTankVelocity(double leftVel, double rightVel) {
         double left;

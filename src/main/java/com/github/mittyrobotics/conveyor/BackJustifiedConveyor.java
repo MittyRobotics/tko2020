@@ -7,7 +7,8 @@ public class BackJustifiedConveyor extends CommandBase {
     private double startPos;
     private double setpoint;
     private boolean isDone;
-    public BackJustifiedConveyor(){
+
+    public BackJustifiedConveyor() {
         super();
         addRequirements(Conveyor.getInstance(), Buffer.getInstance());
     }
@@ -15,7 +16,7 @@ public class BackJustifiedConveyor extends CommandBase {
     @Override
     public void initialize() {
         startPos = Conveyor.getInstance().getPosition();
-        switch (Conveyor.getInstance().getTotalBallCount()){
+        switch (Conveyor.getInstance().getTotalBallCount()) {
             case 1:
                 setpoint = 4;
                 break;
@@ -37,14 +38,14 @@ public class BackJustifiedConveyor extends CommandBase {
     }
 
     @Override
-    public void execute(){
-        if(Conveyor.getInstance().getPosition() - startPos > setpoint){
+    public void execute() {
+        if (Conveyor.getInstance().getPosition() - startPos > setpoint) {
             isDone = true;
         }
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         Conveyor.getInstance().setConveyorSpeed(0);
         Buffer.getInstance().manualBufferSpeed(0);
     }

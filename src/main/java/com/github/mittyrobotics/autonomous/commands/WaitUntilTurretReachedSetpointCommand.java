@@ -24,12 +24,11 @@
 
 package com.github.mittyrobotics.autonomous.commands;
 
-import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class WaitUntilTurretReachedSetpointCommand extends WaitUntilCommand {
-    public WaitUntilTurretReachedSetpointCommand(double errorThreshold){
-        super(()-> Math.abs(Turret.getInstance().getError()) < errorThreshold);
+    public WaitUntilTurretReachedSetpointCommand(double errorThreshold) {
+        super(() -> Math.abs(Turret.getInstance().getError()) < errorThreshold);
     }
 }

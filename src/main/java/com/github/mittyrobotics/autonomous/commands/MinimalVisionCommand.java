@@ -47,13 +47,13 @@ public class MinimalVisionCommand extends CommandBase {
     public void execute() {
         VisionTarget target = Vision.getInstance().getLatestVisionTarget();
         double p = 0.10;
-        Turret.getInstance().overrideSetTurretPercent(p * target.getTurretRelativeYaw().getHeading(),true);
-        double rpm = rpmEquation(target.getDistance()/12);
+        Turret.getInstance().overrideSetTurretPercent(p * target.getTurretRelativeYaw().getHeading(), true);
+        double rpm = rpmEquation(target.getDistance() / 12);
         Shooter.getInstance().setShooterSpeed(rpm);
     }
 
     private double rpmEquation(double distance) {
-        return 4700-226*(distance)+15.1*(distance*distance)-0.291*(distance*distance*distance);
+        return 4700 - 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
     }
 
     @Override

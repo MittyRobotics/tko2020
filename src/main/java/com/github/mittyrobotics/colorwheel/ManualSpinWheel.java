@@ -4,7 +4,7 @@ import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ManualSpinWheel extends CommandBase {
-    public ManualSpinWheel(){
+    public ManualSpinWheel() {
         addRequirements(Spinner.getInstance());
     }
 

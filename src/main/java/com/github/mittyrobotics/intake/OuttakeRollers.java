@@ -3,17 +3,17 @@ package com.github.mittyrobotics.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class OuttakeRollers extends CommandBase {
-    public OuttakeRollers(){
+    public OuttakeRollers() {
         addRequirements(Intake.getInstance());
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         Intake.getInstance().outtakeBall();
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return true;
     }
 }

@@ -18,9 +18,10 @@ public class OuttakeBall extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         Conveyor.getInstance().setReverse(false);
     }
+
     @Override
     public boolean isFinished() {
         return false;

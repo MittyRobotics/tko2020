@@ -54,8 +54,9 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
 
     @Override
     public void periodic() {
-        if (!previousEntranceSwitchValue && getEntranceSwitch()) { //no ball before and now ball detected before conveyor
-            if(isReverse){
+        if (!previousEntranceSwitchValue &&
+                getEntranceSwitch()) { //no ball before and now ball detected before conveyor
+            if (isReverse) {
                 updateBallCount(-1);
             } else {
                 CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2.1));
@@ -132,7 +133,7 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
         conveyorTalon.setSelectedSensorPosition(0);
     }
 
-    public void setReverse(boolean value){
+    public void setReverse(boolean value) {
         isReverse = value;
     }
 

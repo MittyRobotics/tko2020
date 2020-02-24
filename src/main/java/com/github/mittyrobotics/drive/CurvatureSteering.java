@@ -5,13 +5,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CurvatureSteering extends CommandBase {
     private boolean isReversed;
-    CurvatureSteering(){
+
+    CurvatureSteering() {
         //addRequirements(DriveTrainTalon.getInstance());
         addRequirements(DriveTrainFalcon.getInstance());
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         isReversed = false;
     }
 
@@ -58,19 +59,19 @@ public class CurvatureSteering extends CommandBase {
             isReversed = false;
         }
 
-        if(isReversed){
+        if (isReversed) {
             joystickSpeed = -joystickSpeed;
             double temp = leftSpeed;
             leftSpeed = rightSpeed;
             rightSpeed = temp;
         }
 
-        if (inThreshold){
+        if (inThreshold) {
             //DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
             DriveTrainFalcon.getInstance().tankDrive(
                     joystickSpeed, joystickSpeed);
         } else if (Math.abs(joystickSpeed) < 0.1) {
-            DriveTrainFalcon.getInstance().tankDrive(turn/350, -turn/350);
+            DriveTrainFalcon.getInstance().tankDrive(turn / 350, -turn / 350);
             //DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
         } else {
             DriveTrainFalcon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
@@ -78,10 +79,12 @@ public class CurvatureSteering extends CommandBase {
         }
 
     }
+
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
 
     }
+
     @Override
     public boolean isFinished() {
         return false;

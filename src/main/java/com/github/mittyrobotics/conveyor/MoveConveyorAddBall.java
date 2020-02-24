@@ -1,7 +1,5 @@
 package com.github.mittyrobotics.conveyor;
 
-import com.github.mittyrobotics.buffer.Buffer;
-import com.github.mittyrobotics.drive.ConstDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveConveyorAddBall extends CommandBase {
@@ -49,7 +47,7 @@ public class MoveConveyorAddBall extends CommandBase {
 //        }
         System.out.println(currentPosition);
         System.out.println(initialPosition);
-        System.out.println((currentPosition-initialPosition)/ Constants.TICKS_PER_BALL_INCH);
+        System.out.println((currentPosition - initialPosition) / Constants.TICKS_PER_BALL_INCH);
     }
 
 

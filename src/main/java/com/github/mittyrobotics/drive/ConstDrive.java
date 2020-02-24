@@ -27,7 +27,7 @@ package com.github.mittyrobotics.drive;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ConstDrive extends InstantCommand {
-    public ConstDrive(double left, double right){
-        super(()-> DriveTrainFalcon.getInstance().customTankVelocity(left, right), DriveTrainFalcon.getInstance());
+    public ConstDrive(double left, double right) {
+        super(() -> DriveTrainFalcon.getInstance().customTankVelocity(left, right), DriveTrainFalcon.getInstance());
     }
 }

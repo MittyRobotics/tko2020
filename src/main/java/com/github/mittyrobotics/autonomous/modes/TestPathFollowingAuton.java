@@ -24,9 +24,9 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
+import com.github.mittyrobotics.autonomous.commands.DebugPrintCommand;
 import com.github.mittyrobotics.autonomous.commands.InitNewPathFollowerCommand;
 import com.github.mittyrobotics.autonomous.commands.PathFollowerCommand;
-import com.github.mittyrobotics.autonomous.commands.DebugPrintCommand;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
@@ -76,7 +76,7 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
         PathFollower followerReversed = new PathFollower(propertiesReversed, purePursuitProperties);
 
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[] {
+                new Transform[]{
                         new Transform(new Position(121.88534545898438, -30.914794921875), new Rotation(180.0)),
                         new Transform(new Position(28.727142333984375, -36.14836883544922), new Rotation(89.0)),
                         new Transform(new Position(28.727142333984375, -36.14836883544922), new Rotation(89.0)),
@@ -84,7 +84,7 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
                         new Transform(new Position(17.854766845703125, 24.730712890625), new Rotation(122.0)),
                         new Transform(new Position(29.935211181640625, 59.945068359375), new Rotation(37.0)),
                 }
-                ));
+        ));
 
 
         addCommands(

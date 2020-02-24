@@ -40,7 +40,7 @@ public class MoveConveyorRemoveBall extends CommandBase {
                 System.out.println("HE");
                 Conveyor.getInstance().manualSetConveyorSpeed(1);
                 Buffer.getInstance().manualBufferSpeed(0);
-            }  else {
+            } else {
                 isDone = true;
             }
         }

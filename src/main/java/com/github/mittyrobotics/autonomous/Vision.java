@@ -94,7 +94,7 @@ public class Vision implements IDashboard {
     private VisionTarget computeVisionTarget(Rotation visionPitch, Rotation visionYaw,
                                              Rotation robotRelativeTurretAngle, Rotation gyro) {
         //Compute distance from camera to target
-        double cameraVisionDistance = computeVisionDistance(visionPitch)/1.246;
+        double cameraVisionDistance = computeVisionDistance(visionPitch) / 1.246;
         //Compute distance from turret to target
         double turretRelativeVisionDistance = computeTurretRelativeVisionDistance(cameraVisionDistance, visionYaw);
 

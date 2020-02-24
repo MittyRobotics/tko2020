@@ -1,6 +1,5 @@
 package com.github.mittyrobotics.conveyor;
 
-import com.github.mittyrobotics.buffer.Buffer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveConveyorAddBallSensorBased extends CommandBase {
@@ -8,6 +7,7 @@ public class MoveConveyorAddBallSensorBased extends CommandBase {
     private double distance, initialPosition, currentPosition;
     private boolean isDone = false;
     private boolean alreadyTriggered = false;
+
     public MoveConveyorAddBallSensorBased(double distance) {
         super();
         this.distance = distance;
@@ -31,7 +31,7 @@ public class MoveConveyorAddBallSensorBased extends CommandBase {
 //            }
 //        }
         Conveyor.getInstance().setConveyorSpeed(1);
-        if(!Conveyor.getInstance().getEntranceSwitch() && !alreadyTriggered){
+        if (!Conveyor.getInstance().getEntranceSwitch() && !alreadyTriggered) {
             alreadyTriggered = true;
             initialPosition = Conveyor.getInstance().getPosition();
         }

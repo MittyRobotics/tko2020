@@ -28,7 +28,7 @@ import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class SetTurretControlLoopMaxPercentCommand extends InstantCommand {
-    public SetTurretControlLoopMaxPercentCommand(double maxPercent){
-        super(()-> Turret.getInstance().setControlLoopMaxPercent(maxPercent));
+    public SetTurretControlLoopMaxPercentCommand(double maxPercent) {
+        super(() -> Turret.getInstance().setControlLoopMaxPercent(maxPercent));
     }
 }

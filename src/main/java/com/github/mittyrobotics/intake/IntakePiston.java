@@ -7,15 +7,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakePiston extends SubsystemBase implements ISubsystem {
     private static IntakePiston instance;
     private DoubleSolenoid intakePiston;
-    public static IntakePiston getInstance(){
-        if(instance == null){
+
+    private IntakePiston() {
+        super();
+        setName("Intake Piston");
+    }
+
+    public static IntakePiston getInstance() {
+        if (instance == null) {
             instance = new IntakePiston();
         }
         return instance;
-    }
-    private IntakePiston(){
-        super();
-        setName("Intake Piston");
     }
 
     @Override
@@ -27,15 +29,16 @@ public class IntakePiston extends SubsystemBase implements ISubsystem {
     public void initHardware() {
         intakePiston = new DoubleSolenoid(Constants.SOLENOID_FORWQRD_CHANNEL, Constants.SOLENOID_REVERSE_CHANNEL);
     }
-    public boolean isExtended(){
+
+    public boolean isExtended() {
         return intakePiston.get() == DoubleSolenoid.Value.kForward;
     }
 
-    public void extendIntake(){
+    public void extendIntake() {
         intakePiston.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void retractIntake(){
+    public void retractIntake() {
         intakePiston.set(DoubleSolenoid.Value.kReverse);
     }
 }

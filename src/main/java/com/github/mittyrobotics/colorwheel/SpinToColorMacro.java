@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class SpinToColorMacro extends SequentialCommandGroup {
-    public SpinToColorMacro(WheelColor color){
+    public SpinToColorMacro(WheelColor color) {
         super();
         addCommands(new SpinnerUp(), new WaitCommand(.5), new ColorWheelDrive(), new SpinToColor(color));
     }

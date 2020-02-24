@@ -26,13 +26,13 @@ package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.turret.Turret;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class VisionScanCommand extends SequentialCommandGroup {
     private static double VISION_SCAN_PERCENT_OUTPUT = .6;
+
     public VisionScanCommand() {
         addRequirements(Turret.getInstance());
         addCommands(
