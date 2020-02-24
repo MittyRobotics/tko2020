@@ -29,16 +29,22 @@ public class Constants {
     public static final int SOLENOID_FOWARD_CHANNEL = 1;
     public static final int SOLENOID_REVERSE_CHANNEL = 0;
 
-    public static final int SPINNER_TALON_ID = 2;
+    public static final int SPINNER_TALON_ID = 0;
     public static final boolean SPINNER_TALON_INVERSION = false;
-    public static final boolean SPINNER_ENCODER_INVERSION = true;
+    public static final boolean SPINNER_ENCODER_INVERSION = false;
+
+    public static final double SPINNER_P = 0.0000001;
+    public static final double SPINNER_I = 0;
+    public static final double SPINNER_D = 0;
+    public static final double SPINNER_FF = 1/6250.0;
+    public static final double REVS = 4;
 
 
     //ticks for one inch of the color wheel
-    public static final int TICKS_PER_INCH = 333;
+    public static final int TICKS_PER_INCH = 326;
     //slow and fast velocity for motor
-    public static final int FAST_VELOCITY = 480;
-    public static final int SLOW_VELOCITY = 184;
+    public static final int FAST_VELOCITY = 5000;
+    public static final int SLOW_VELOCITY = 2000;
 
 
     //rgb for color sensor targets (CALIBRATE THIS)
@@ -65,9 +71,4 @@ public class Constants {
     public static final double ALSO_NULL_R = 0.23;
     public static final double ALSO_NULL_G = 0.50;
     public static final double ALSO_NULL_B = 0.27;
-
-    public static final double SPINNER_FF = 1 / 6250.0;
-    public static final double SPINNER_P = 0.000001;
-    public static final double SPINNER_I = 0;
-    public static final double SPINNER_D = 0;
 }

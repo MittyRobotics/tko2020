@@ -169,4 +169,8 @@ public class Spinner extends SubsystemBase implements ISubsystem {
     public void setSpinnerManual(double percent){
         spinnerTalon.set(percent);
     }
+
+    public boolean isSpinnerMoving(){
+        return Math.abs(spinnerTalon.getSelectedSensorVelocity()/(32*Math.PI*Constants.TICKS_PER_INCH)*10) > 5;
+    }
 }
