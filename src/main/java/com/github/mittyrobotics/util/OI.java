@@ -28,10 +28,7 @@ import com.github.mittyrobotics.colorwheel.*;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.drive.JoystickDrive_CarSteering;
-import com.github.mittyrobotics.intake.ChangeIntakePistonState;
-import com.github.mittyrobotics.intake.IntakeBall;
-import com.github.mittyrobotics.intake.OuttakeBall;
-import com.github.mittyrobotics.intake.StopBall;
+import com.github.mittyrobotics.intake.*;
 import com.github.mittyrobotics.shooter.AutoSpinFlywheel;
 import com.github.mittyrobotics.shooter.ManualSpinFlywheel;
 import com.github.mittyrobotics.shooter.StopFlywheel;
@@ -99,9 +96,9 @@ public class OI {
 		Button intake = new Button(()->getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
 		intake.whenPressed(new IntakeBall());
 		intake.whenReleased(new StopBall());
-		
+
 		Button outtake = new Button(()->getXboxController().getBumper(GenericHID.Hand.kLeft));
-		outtake.whenPressed(new OuttakeBall());
+		outtake.whenPressed(new OuttakeRollers());
 		outtake.whenReleased(new StopBall());
 	}
 

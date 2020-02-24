@@ -17,6 +17,7 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
     private boolean ballCountHasChanged;
     private DigitalInput entranceOpticalSwitch;
     private DigitalInput exitOpticalSwitch;
+    private boolean isReverse;
 
     private Conveyor() {
         super();
@@ -43,6 +44,7 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
         previousExitSwitchValue = false;
         ballCountHasChanged = false;
         totalBallCount = 0;
+        isReverse = false;
     }
 
     @Override
@@ -53,12 +55,12 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
     @Override
     public void periodic() {
         if (!previousEntranceSwitchValue && getEntranceSwitch()) { //no ball before and now ball detected before conveyor
-//            if(totalBallCount < 3){
+            if(isReverse){
+                updateBallCount(-1);
+            } else {
                 CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2.1));
-//            } else if(totalBallCount == 3){
-//                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(2));
-//            }
-            updateBallCount(1);
+                updateBallCount(1);
+            }
             ballCountHasChanged = true;
         } else {
             ballCountHasChanged = false;
@@ -72,31 +74,6 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
             ballCountHasChanged = false;
         }
 
-        System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
-        previousEntranceSwitchValue = getEntranceSwitch();
-        previousExitSwitchValue = getExitSwitch();
-    }
-
-    public void periodic2() {
-        if (!previousEntranceSwitchValue && getEntranceSwitch()) { //no ball before and now ball detected before conveyor
-            if(totalBallCount < 3){
-//                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(7.7));
-            } else if(totalBallCount == 3){
-//                CommandScheduler.getInstance().schedule(new MoveConveyorAddBall(4));
-            }
-            updateBallCount(1);
-            ballCountHasChanged = true;
-        } else {
-            ballCountHasChanged = false;
-        }
-
-
-//        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor
-//            updateBallCount(-1);
-//            ballCountHasChanged = true;
-//        } else {
-//            ballCountHasChanged = false;
-//        }
         System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
         previousEntranceSwitchValue = getEntranceSwitch();
         previousExitSwitchValue = getExitSwitch();
@@ -153,6 +130,10 @@ public class Conveyor extends SubsystemBase implements ISubsystem {
 
     public void resetEncoder() {
         conveyorTalon.setSelectedSensorPosition(0);
+    }
+
+    public void setReverse(boolean value){
+        isReverse = value;
     }
 
 
