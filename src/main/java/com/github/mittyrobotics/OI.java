@@ -24,11 +24,15 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.colorwheel.SpinRevs;
-import com.github.mittyrobotics.colorwheel.SpinToColor;
-import com.github.mittyrobotics.colorwheel.WheelColor;
+import com.github.mittyrobotics.colorwheel.*;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.drive.JoystickDrive_CarSteering;
+import com.github.mittyrobotics.shooter.AutoSpinFlywheel;
+import com.github.mittyrobotics.shooter.ManualSpinFlywheel;
+import com.github.mittyrobotics.shooter.StopFlywheel;
 import com.github.mittyrobotics.util.Constants;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -71,8 +75,21 @@ public class OI {
 		}
 		return joystick2;
 	}
-	public void digitalInputControls(){
-		
+	public void setupControls(){
+		DriveTrainFalcon.getInstance().setDefaultCommand(new JoystickDrive_CarSteering());
+
+		Spinner.getInstance().setDefaultCommand(new ManualSpinWheel());
+
+		Button spinWheel = new Button(()->getJoystick1().getTrigger());
+		spinWheel.whenPressed(new SpinWheel());
+
+		Button autoShoot = new Button(()->getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
+		autoShoot.whenPressed(new AutoSpinFlywheel());
+		autoShoot.whenReleased(new StopFlywheel());
+
+		Button manualShoot = new Button(()->getXboxController().getBumper(GenericHID.Hand.kRight));
+		manualShoot.whenPressed(new ManualSpinFlywheel());
+		manualShoot.whenReleased(new StopFlywheel());
 	}
 	public void passedStage2(){
 		stage3 = true;

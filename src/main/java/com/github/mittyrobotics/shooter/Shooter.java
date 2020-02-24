@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.shooter;
 
+import com.github.mittyrobotics.OI;
 import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,6 +43,8 @@ public class Shooter extends SubsystemBase implements ISubsystem {
      * Shooter setpoint speed
      */
     private double currentSetpoint;
+
+    private double manualSetpoint;
 
     /**
      * Shooter {@link CANSparkMax}s
@@ -105,6 +108,7 @@ public class Shooter extends SubsystemBase implements ISubsystem {
         followerPIDController.setP(Constants.SHOOTER_P);
         followerPIDController.setI(Constants.SHOOTER_I);
         followerPIDController.setD(Constants.SHOOTER_D);
+        manualSetpoint = 3000; //TODO set actual default value
 //      followerEncoder.setInverted(Constants.SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION);
     }
 
@@ -112,6 +116,15 @@ public class Shooter extends SubsystemBase implements ISubsystem {
     public void updateDashboard() {
         SmartDashboard.putNumber("shooter-rpm", getShooterRPM());
         SmartDashboard.putNumber("shooter-rpm-setpoint", getCurrentSetpoint());
+    }
+
+    @Override
+    public void periodic(){
+        if(OI.getInstance().getXboxController().getYButtonPressed()){
+            manualSetpoint += 100; //TODO find increment
+        } else if(OI.getInstance().getXboxController().getAButtonPressed()){
+            manualSetpoint -= 100; //TODO find decrement;
+        }
     }
 
     /**
@@ -160,5 +173,9 @@ public class Shooter extends SubsystemBase implements ISubsystem {
         shooterSparkMaster.set(percent);
         shooterSparkFollower.set(percent);
         System.out.println((shooterSparkMaster.get()+shooterSparkFollower.get())/2.0);
+    }
+
+    public double getManualSetpoint(){
+        return manualSetpoint;
     }
 }

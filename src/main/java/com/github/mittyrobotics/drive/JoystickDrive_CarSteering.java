@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class JoystickDrive_CarSteering extends CommandBase {
 
-    JoystickDrive_CarSteering() {
+    public JoystickDrive_CarSteering() {
         addRequirements(DriveTrainFalcon.getInstance());
     }
 
