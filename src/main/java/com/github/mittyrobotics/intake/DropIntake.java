@@ -7,12 +7,12 @@ public class DropIntake extends CommandBase {
 
     public DropIntake() {
         super();
-        addRequirements(Intake.getInstance());
+        addRequirements(IntakePiston.getInstance());
     }
 
     @Override
     public void initialize() {
-        Intake.getInstance().extendIntake();
+        IntakePiston.getInstance().extendIntake();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.github.mittyrobotics.turret;
 
-import com.github.mittyrobotics.OI;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

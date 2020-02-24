@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase implements ISubsystem {
     private static Intake instance;
     private WPI_TalonSRX intakeWheel;
-    private DoubleSolenoid extendIntake;
-    private boolean isExtended;
 
     private Intake() {
         super();
@@ -30,8 +28,6 @@ public class Intake extends SubsystemBase implements ISubsystem {
         intakeWheel = new WPI_TalonSRX(Constants.INTAKE_WHEEL_ID);
         intakeWheel.setInverted(Constants.INTAKE_WHEEL_INVERSION);
         intakeWheel.configFactoryDefault();
-        extendIntake = new DoubleSolenoid(Constants.SOLENOID_FORWQRD_CHANNEL, Constants.SOLENOID_REVERSE_CHALLENGE);
-        isExtended = false;
     }
 
     @Override
@@ -40,21 +36,11 @@ public class Intake extends SubsystemBase implements ISubsystem {
     }
 
     private void moveWheel(double speed) {
-        if(isExtended){
+        if(IntakePiston.getInstance().isExtended()){
             intakeWheel.set(ControlMode.PercentOutput, speed);
         }
     }
 
-    public void extendIntake() {
-        extendIntake.set(DoubleSolenoid.Value.kForward);
-        isExtended = true;
-    }
-
-    public void retractIntake() {
-        extendIntake.set(DoubleSolenoid.Value.kReverse);
-        stopWheel();
-        isExtended = false;
-    }
     public void intakeBall(){
         if(Conveyor.getInstance().getTotalBallCount() < 4){
             moveWheel(Constants.INTAKE_SPEED_FAST);
@@ -69,4 +55,5 @@ public class Intake extends SubsystemBase implements ISubsystem {
     public void stopWheel(){
         moveWheel(0);
     }
+
 }

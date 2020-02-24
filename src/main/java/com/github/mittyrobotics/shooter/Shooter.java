@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.shooter;
 
-import com.github.mittyrobotics.OI;
+import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

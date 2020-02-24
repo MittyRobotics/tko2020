@@ -26,22 +26,10 @@ package com.github.mittyrobotics.testing;
 
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.util.OdometryManager;
-import com.github.mittyrobotics.buffer.Buffer;
-import com.github.mittyrobotics.climber.Hooks;
-import com.github.mittyrobotics.climber.Winch;
-import com.github.mittyrobotics.colorwheel.ColorPiston;
-import com.github.mittyrobotics.colorwheel.Spinner;
-import com.github.mittyrobotics.conveyor.Conveyor;
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.intake.Intake;
 import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
-import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
-import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class VisionTesting extends TimedRobot {

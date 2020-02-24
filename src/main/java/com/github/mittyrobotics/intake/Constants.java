@@ -7,6 +7,6 @@ public class Constants {
     public static final double INTAKE_SPEED_SLOW = .2;
     public static final double OUTTAKE_SPEED = -.5;
     public static final int SOLENOID_FORWQRD_CHANNEL = 0;
-    public static final int SOLENOID_REVERSE_CHALLENGE = 1;
+    public static final int SOLENOID_REVERSE_CHANNEL = 1;
 
 }
