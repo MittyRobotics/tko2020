@@ -36,7 +36,7 @@ import com.github.mittyrobotics.conveyor.Conveyor;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.intake.Intake;
 import com.github.mittyrobotics.shooter.Shooter;
-import com.github.mittyrobotics.turret.AutoTurret;
+import com.github.mittyrobotics.autonomous.commands.VisionTurretAimCommand;
 import com.github.mittyrobotics.turret.Turret;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Buffer.getInstance().setDefaultCommand(new LockBall());
-        Turret.getInstance().setDefaultCommand(new AutoTurret());
+        Turret.getInstance().setDefaultCommand(new VisionTurretAimCommand());
     }
 
     @Override

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,17 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.turret;
+package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.VisionTarget;
+import com.github.mittyrobotics.shooter.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoTurret extends CommandBase {
-
-    public AutoTurret() {
-        super();
-        addRequirements(Turret.getInstance());
+public class VisionShooterSpeedCommand extends CommandBase {
+    public VisionShooterSpeedCommand(){
+        addRequirements(Shooter.getInstance());
     }
 
     @Override
@@ -43,15 +42,11 @@ public class AutoTurret extends CommandBase {
 
     @Override
     public void execute() {
-        if (Vision.getInstance().isSafeToUseVision()) {
-            //Get latest vision target
+        if(Vision.getInstance().isSafeToUseVision()){
             VisionTarget target = Vision.getInstance().getLatestVisionTarget();
-            //Set automated turret aim
-            AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
-        } else {
-            //If no vision target is detected, lock the target onto the last detected vision target position
-            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(
-                    AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation());
+
+            Shooter.getInstance().setShooterSpeed(
+                    AutomatedTurretSuperstructure.getInstance().computeShooterRPMFromDistance(target.getDistance()));
         }
     }
 

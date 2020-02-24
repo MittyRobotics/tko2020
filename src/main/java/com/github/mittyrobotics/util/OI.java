@@ -29,7 +29,7 @@ import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.drive.DriveTrainFalcon;
 import com.github.mittyrobotics.drive.JoystickDrive_CarSteering;
 import com.github.mittyrobotics.intake.*;
-import com.github.mittyrobotics.shooter.AutoSpinFlywheel;
+import com.github.mittyrobotics.autonomous.commands.VisionShooterSpeedCommand;
 import com.github.mittyrobotics.shooter.ManualSpinFlywheel;
 import com.github.mittyrobotics.shooter.StopFlywheel;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -83,7 +83,7 @@ public class OI {
 		spinWheel.whenPressed(new SpinWheel());
 
 		Button autoShoot = new Button(()->getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
-		autoShoot.whenPressed(new AutoSpinFlywheel());
+		autoShoot.whenPressed(new VisionShooterSpeedCommand());
 		autoShoot.whenReleased(new StopFlywheel());
 
 		Button manualShoot = new Button(()->getXboxController().getBumper(GenericHID.Hand.kRight));

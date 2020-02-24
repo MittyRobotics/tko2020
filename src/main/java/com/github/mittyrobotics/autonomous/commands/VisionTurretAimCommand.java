@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,7 @@
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * SOFTWARE. 
  */
 
 package com.github.mittyrobotics.autonomous.commands;
@@ -27,18 +27,14 @@ package com.github.mittyrobotics.autonomous.commands;
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.VisionTarget;
-import com.github.mittyrobotics.shooter.Shooter;
 import com.github.mittyrobotics.turret.Turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TurretAimbotCommand extends CommandBase {
+public class VisionTurretAimCommand extends CommandBase {
 
-    private double error;
-
-    public TurretAimbotCommand() {
+    public VisionTurretAimCommand() {
         super();
         addRequirements(Turret.getInstance());
-        addRequirements(Shooter.getInstance());
     }
 
     @Override
@@ -53,15 +49,10 @@ public class TurretAimbotCommand extends CommandBase {
             VisionTarget target = Vision.getInstance().getLatestVisionTarget();
             //Set automated turret aim
             AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
-            //Set shooter speed
-            Shooter.getInstance().setShooterSpeed(
-                    AutomatedTurretSuperstructure.getInstance().computeShooterRPMFromDistance(target.getDistance()));
-            this.error = target.getTurretRelativeYaw().getHeading();
         } else {
             //If no vision target is detected, lock the target onto the last detected vision target position
             AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(
                     AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation());
-            this.error = 9999;
         }
     }
 
@@ -73,9 +64,5 @@ public class TurretAimbotCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         return false;
-    }
-
-    public double getError() {
-        return error;
     }
 }
