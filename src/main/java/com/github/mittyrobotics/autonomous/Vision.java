@@ -121,9 +121,20 @@ public class Vision implements IDashboard {
         return Limelight.getInstance().isHasValidTarget();
     }
 
+
     /**
      * Returns if the vision system is locked onto the target.
      *
+     * @return if the vision system is locked onto the target.
+     */
+    public boolean isVisionLocked() {
+        return isVisionLocked(AutonConstants.SAFE_VISION_ANGLE_THRESHOLD);
+    }
+
+    /**
+     * Returns if the vision system is locked onto the target.
+     *
+     * @param angleThreshold the threshold to check if the angle is within.
      * @return if the vision system is locked onto the target.
      */
     public boolean isVisionLocked(double angleThreshold) {
