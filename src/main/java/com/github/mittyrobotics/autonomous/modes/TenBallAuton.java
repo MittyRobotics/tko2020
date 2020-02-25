@@ -24,8 +24,8 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.autonomous.commands.InitNewPathFollowerCommand;
-import com.github.mittyrobotics.autonomous.commands.PathFollowerCommand;
+import com.github.mittyrobotics.commands.InitNewPathFollowerCommand;
+import com.github.mittyrobotics.commands.PathFollowerCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;

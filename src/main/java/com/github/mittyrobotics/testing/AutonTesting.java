@@ -31,7 +31,7 @@ import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
@@ -45,7 +45,7 @@ public class AutonTesting extends TimedRobot {
         OI.getInstance().setupControls();
 
         //Init hardware
-        DriveTrainFalcon.getInstance().initHardware();
+        DriveTrainSubsystem.getInstance().initHardware();
 
         //Setup DifferentialDriveKinematics track width (essential for path following)
         DifferentialDriveKinematics.getInstance().setTrackWidth(AutonConstants.DRIVETRAIN_TRACK_WIDTH);
@@ -53,8 +53,8 @@ public class AutonTesting extends TimedRobot {
         //Set Odometry position to robot starting position and calibrate Odometry
         Gyro.getInstance().calibrate();
         Gyro.getInstance().reset();
-        Odometry.getInstance().calibrateTransformToZero(DriveTrainFalcon.getInstance().getLeftEncoder(),
-                DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
+        Odometry.getInstance().calibrateTransformToZero(DriveTrainSubsystem.getInstance().getLeftEncoder(),
+                DriveTrainSubsystem.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
         Odometry.getInstance().setTransform(
                 new Transform(new Position(121.88534545898438, -30.914794921875), new Rotation(180.0))
                 , Gyro.getInstance().getAngle());
@@ -65,7 +65,7 @@ public class AutonTesting extends TimedRobot {
         OdometryManager.getInstance().run();
         CommandScheduler.getInstance().run();
 
-        DriveTrainFalcon.getInstance().updateDashboard();
+        DriveTrainSubsystem.getInstance().updateDashboard();
         OdometryManager.getInstance().updateDashboard();
     }
 
@@ -90,13 +90,13 @@ public class AutonTesting extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        DriveTrainFalcon.getInstance().customTankVelocity(20, 20);
+        DriveTrainSubsystem.getInstance().tankVelocity(20, 20);
         //OI.getInstance().shooterDebugControl();
     }
 
     @Override
     public void testInit() {
-        Odometry.getInstance().calibrateTransformToZero(DriveTrainFalcon.getInstance().getLeftEncoder(),
-                DriveTrainFalcon.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
+        Odometry.getInstance().calibrateTransformToZero(DriveTrainSubsystem.getInstance().getLeftEncoder(),
+                DriveTrainSubsystem.getInstance().getRightEncoder(), Gyro.getInstance().getAngle());
     }
 }

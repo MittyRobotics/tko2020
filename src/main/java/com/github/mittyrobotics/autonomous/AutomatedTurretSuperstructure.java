@@ -31,7 +31,7 @@ import com.github.mittyrobotics.datatypes.geometry.Line;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.turret.Turret;
+import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 
 /**
@@ -57,7 +57,7 @@ public class AutomatedTurretSuperstructure {
 
     public void run() {
         //Compute turret position and rotations
-        this.robotRelativeRotation = new Rotation(Turret.getInstance().getAngle());
+        this.robotRelativeRotation = new Rotation(TurretSubsystem.getInstance().getAngle());
         this.fieldRelativeRotation = robotToFieldRelativeAngle(Gyro.getInstance().getRotation(),
                 robotRelativeRotation);
         this.fieldRelativePosition = computeFieldRelativePosition(Vision.getInstance().getLatestVisionTarget());
@@ -67,22 +67,22 @@ public class AutomatedTurretSuperstructure {
     }
 
     /**
-     * Maintains the {@link Turret}'s automation. Updates the setpoint based on the {@link TurretAutomationMode} and
+     * Maintains the {@link TurretSubsystem}'s automation. Updates the setpoint based on the {@link TurretAutomationMode} and
      * setpoint {@link Transform}.
      */
     private void maintainAutomation() {
         switch (aimMode) {
             case FIELD_RELATIVE_AIM:
                 maintainFieldRelativeAim(setpoint.getPosition());
-                Turret.getInstance().updateTurretControlLoop();
+                TurretSubsystem.getInstance().updateTurretControlLoop();
                 break;
             case FIELD_RELATIVE_ANGLE:
                 maintainFieldRelativeRotation(setpoint.getRotation());
-                Turret.getInstance().updateTurretControlLoop();
+                TurretSubsystem.getInstance().updateTurretControlLoop();
                 break;
             case ROBOT_RELATIVE_ANGLE:
                 maintainRobotRelativeRotation(setpoint.getRotation());
-                Turret.getInstance().updateTurretControlLoop();
+                TurretSubsystem.getInstance().updateTurretControlLoop();
                 break;
             case NO_AUTOMATION:
                 //Don't do anything! Let someone else move the turret.
@@ -91,7 +91,7 @@ public class AutomatedTurretSuperstructure {
     }
 
     /**
-     * Maintains the {@link Turret}'s field-relative angle by updating it's robot-relative setpoint.
+     * Maintains the {@link TurretSubsystem}'s field-relative angle by updating it's robot-relative setpoint.
      *
      * @param setpoint the field-relative {@link Rotation} setpoint.
      */
@@ -100,16 +100,16 @@ public class AutomatedTurretSuperstructure {
     }
 
     /**
-     * Maintains the {@link Turret}'s robot-relative angle by updating it's robot-relative setpoint.
+     * Maintains the {@link TurretSubsystem}'s robot-relative angle by updating it's robot-relative setpoint.
      *
      * @param setpoint the robot-relative {@link Rotation} setpoint.
      */
     private void maintainRobotRelativeRotation(Rotation setpoint) {
-        Turret.getInstance().setTurretAngle(setpoint.getHeading());
+        TurretSubsystem.getInstance().setTurretAngle(setpoint.getHeading());
     }
 
     /**
-     * Maintains the {@link Turret}'s field-relative aiming position by updating it's field-relative setpoint.
+     * Maintains the {@link TurretSubsystem}'s field-relative aiming position by updating it's field-relative setpoint.
      * <p>
      * The field-relative angle is determined by finding a line intersecting the {@link AutomatedTurretSuperstructure}'s
      * current field-relative {@link Position} and the aiming setpoint {@link Position}. The angle of that line then

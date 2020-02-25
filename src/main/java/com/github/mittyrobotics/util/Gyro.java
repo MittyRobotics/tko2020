@@ -25,7 +25,7 @@
 package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
-import com.github.mittyrobotics.interfaces.IHardware;
+import com.github.mittyrobotics.util.interfaces.IHardware;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Gyro extends ADXRS450_Gyro implements IHardware {

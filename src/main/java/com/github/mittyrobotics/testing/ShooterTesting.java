@@ -26,10 +26,10 @@ package com.github.mittyrobotics.testing;
 
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.commands.MinimalVisionCommand;
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.shooter.Shooter;
-import com.github.mittyrobotics.turret.Turret;
+import com.github.mittyrobotics.commands.MinimalVisionCommand;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.subsystems.ShooterSubsystem;
+import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -37,9 +37,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class ShooterTesting extends TimedRobot {
     @Override
     public void robotInit() {
-        Shooter.getInstance().initHardware();
-        Turret.getInstance().initHardware();
-        DriveTrainFalcon.getInstance().initHardware();
+        ShooterSubsystem.getInstance().initHardware();
+        TurretSubsystem.getInstance().initHardware();
+        DriveTrainSubsystem.getInstance().initHardware();
     }
 
     @Override
@@ -48,8 +48,8 @@ public class ShooterTesting extends TimedRobot {
         AutomatedTurretSuperstructure.getInstance().run();
         CommandScheduler.getInstance().run();
 
-        Shooter.getInstance().updateDashboard();
-        Turret.getInstance().updateDashboard();
+        ShooterSubsystem.getInstance().updateDashboard();
+        TurretSubsystem.getInstance().updateDashboard();
     }
 
     @Override
@@ -72,16 +72,16 @@ public class ShooterTesting extends TimedRobot {
 
     private void shooterDebugControl() {
         if (OI.getInstance().getXboxController().getYButtonPressed()) {
-            Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getCurrentSetpoint() + 50);
+            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.getInstance().getCurrentSetpoint() + 50);
         }
         if (OI.getInstance().getXboxController().getAButtonPressed()) {
-            Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getCurrentSetpoint() - 50);
+            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.getInstance().getCurrentSetpoint() - 50);
         }
         if (OI.getInstance().getXboxController().getBButtonPressed()) {
-            Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getCurrentSetpoint() + 10);
+            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.getInstance().getCurrentSetpoint() + 10);
         }
         if (OI.getInstance().getXboxController().getXButtonPressed()) {
-            Shooter.getInstance().setShooterSpeed(Shooter.getInstance().getCurrentSetpoint() - 10);
+            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.getInstance().getCurrentSetpoint() - 10);
         }
     }
 

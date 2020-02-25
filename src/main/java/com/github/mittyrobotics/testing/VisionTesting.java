@@ -26,8 +26,8 @@ package com.github.mittyrobotics.testing;
 
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.shooter.Shooter;
-import com.github.mittyrobotics.turret.Turret;
+import com.github.mittyrobotics.subsystems.ShooterSubsystem;
+import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -37,8 +37,8 @@ public class VisionTesting extends TimedRobot {
     @Override
     public void robotInit() {
         //Init hardware
-        Shooter.getInstance().initHardware();
-        Turret.getInstance().initHardware();
+        ShooterSubsystem.getInstance().initHardware();
+        TurretSubsystem.getInstance().initHardware();
 
         //Set Odometry position to robot starting position and calibrate Odometry
         Gyro.getInstance().calibrate();
@@ -52,8 +52,8 @@ public class VisionTesting extends TimedRobot {
         CommandScheduler.getInstance().run();
 
         //Update dashboards
-        Shooter.getInstance().updateDashboard();
-        Turret.getInstance().updateDashboard();
+        ShooterSubsystem.getInstance().updateDashboard();
+        TurretSubsystem.getInstance().updateDashboard();
         Vision.getInstance().updateDashboard();
     }
 

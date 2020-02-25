@@ -24,19 +24,20 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.autonomous.commands.VisionShooterSpeedCommand;
-import com.github.mittyrobotics.colorwheel.ManualSpinWheel;
-import com.github.mittyrobotics.colorwheel.SpinWheel;
-import com.github.mittyrobotics.colorwheel.Spinner;
+import com.github.mittyrobotics.commands.VisionShooterSpeedCommand;
+import com.github.mittyrobotics.commands.ManualSpinColorWheelCommand;
+import com.github.mittyrobotics.commands.SpinWheelMacro;
+import com.github.mittyrobotics.constants.OIConstants;
+import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.drive.JoystickDrive_CarSteering;
-import com.github.mittyrobotics.intake.ChangeIntakePistonState;
-import com.github.mittyrobotics.intake.IntakeBall;
-import com.github.mittyrobotics.intake.OuttakeRollers;
-import com.github.mittyrobotics.intake.StopBall;
-import com.github.mittyrobotics.shooter.ManualSpinFlywheel;
-import com.github.mittyrobotics.shooter.StopFlywheel;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.commands.ArcadeDriveCommand;
+import com.github.mittyrobotics.commands.ChangeIntakePistonCommand;
+import com.github.mittyrobotics.commands.IntakeBallCommand;
+import com.github.mittyrobotics.commands.OuttakeRollersCommand;
+import com.github.mittyrobotics.commands.StopBallCommand;
+import com.github.mittyrobotics.commands.ManualSpinFlywheelCommand;
+import com.github.mittyrobotics.commands.StopFlywheelCommand;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -58,58 +59,58 @@ public class OI {
 
     public XboxWheel getXboxWheel() {
         if (xboxWheel == null) {
-            xboxWheel = new XboxWheel(Constants.XBOX_WHEEL_ID);
+            xboxWheel = new XboxWheel(OIConstants.XBOX_WHEEL_ID);
         }
         return xboxWheel;
     }
 
     public XboxController getXboxController() {
         if (xboxController == null) {
-            xboxController = new XboxController(Constants.XBOX_CONTROLLER_ID);
+            xboxController = new XboxController(OIConstants.XBOX_CONTROLLER_ID);
         }
         return xboxController;
     }
 
     public Joystick getJoystick1() {
         if (joystick1 == null) {
-            joystick1 = new Joystick(Constants.JOYSTICK_1_ID);
+            joystick1 = new Joystick(OIConstants.JOYSTICK_1_ID);
         }
         return joystick1;
     }
 
     public Joystick getJoystick2() {
         if (joystick2 == null) {
-            joystick2 = new Joystick(Constants.JOYSTICK_2_ID);
+            joystick2 = new Joystick(OIConstants.JOYSTICK_2_ID);
         }
         return joystick2;
     }
 
     public void setupControls() {
-        DriveTrainFalcon.getInstance().setDefaultCommand(new JoystickDrive_CarSteering());
+        DriveTrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
 
-        Spinner.getInstance().setDefaultCommand(new ManualSpinWheel());
+        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 
         Button spinWheel = new Button(() -> getJoystick1().getTrigger());
-        spinWheel.whenPressed(new SpinWheel());
+        spinWheel.whenPressed(new SpinWheelMacro());
 
         Button autoShoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
         autoShoot.whenPressed(new VisionShooterSpeedCommand());
-        autoShoot.whenReleased(new StopFlywheel());
+        autoShoot.whenReleased(new StopFlywheelCommand());
 
         Button manualShoot = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        manualShoot.whenPressed(new ManualSpinFlywheel());
-        manualShoot.whenReleased(new StopFlywheel());
+        manualShoot.whenPressed(new ManualSpinFlywheelCommand());
+        manualShoot.whenReleased(new StopFlywheelCommand());
 
         Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
-        changeIntakePiston.whenPressed(new ChangeIntakePistonState());
+        changeIntakePiston.whenPressed(new ChangeIntakePistonCommand());
 
         Button intake = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
-        intake.whenPressed(new IntakeBall());
-        intake.whenReleased(new StopBall());
+        intake.whenPressed(new IntakeBallCommand());
+        intake.whenReleased(new StopBallCommand());
 
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
-        outtake.whenPressed(new OuttakeRollers());
-        outtake.whenReleased(new StopBall());
+        outtake.whenPressed(new OuttakeRollersCommand());
+        outtake.whenReleased(new StopBallCommand());
     }
 
 }

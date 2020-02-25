@@ -26,8 +26,8 @@ package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
-import com.github.mittyrobotics.interfaces.IDashboard;
-import com.github.mittyrobotics.turret.Turret;
+import com.github.mittyrobotics.util.interfaces.IDashboard;
+import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.vision.Limelight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,7 +48,7 @@ public class Vision implements IDashboard {
      * Updates the {@link Vision} class.
      * <p>
      * First, it updates the {@link Limelight}'s values from the network. Then, it grabs the pitch and yaw from the
-     * {@link Limelight}. It then grabs the robot-relative turret angle from the {@link Turret}. Lastly, it
+     * {@link Limelight}. It then grabs the robot-relative turret angle from the {@link TurretSubsystem}. Lastly, it
      * grabs the robot's angle from the {@link Gyro} class.
      * <p>
      * After it grabs all of the values, it computes the latest {@link VisionTarget}. If no target is present, it
@@ -63,7 +63,7 @@ public class Vision implements IDashboard {
             //Get vision yaw. Inverse the vision yaw because the Limelight calculates yaw opposite to our coordinate
             //system
             Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget()).inverse();
-            Rotation robotRelativeTurretAngle = new Rotation(Turret.getInstance().getAngle());
+            Rotation robotRelativeTurretAngle = new Rotation(TurretSubsystem.getInstance().getAngle());
             Rotation gyro = Gyro.getInstance().getRotation();
 
             this.latestVisionTarget = computeVisionTarget(visionPitch, visionYaw, robotRelativeTurretAngle, gyro);

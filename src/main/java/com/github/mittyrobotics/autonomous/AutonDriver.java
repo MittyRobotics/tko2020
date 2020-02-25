@@ -26,7 +26,7 @@ package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
@@ -88,13 +88,13 @@ public class AutonDriver {
                 updatePathFollower(deltaTime);
                 this.finishedPath = pathFollower.isFinished(4);
             } else {
-                DriveTrainFalcon.getInstance().tankDrive(0, 0);
+                DriveTrainSubsystem.getInstance().tankDrive(0, 0);
             }
         }
     }
 
     public void disableAutonDriver() {
-        DriveTrainFalcon.getInstance().tankDrive(0, 0);
+        DriveTrainSubsystem.getInstance().tankDrive(0, 0);
         this.pathFollower = null;
         this.finishedPath = true;
         this.disabled = true;
@@ -102,14 +102,14 @@ public class AutonDriver {
 
     private void updatePathFollower(double deltaTime) {
         DrivetrainVelocities currentVelocities = DrivetrainVelocities.calculateFromWheelVelocities(
-                DriveTrainFalcon.getInstance().getLeftEncoderVelocity(),
-                DriveTrainFalcon.getInstance().getRightEncoderVelocity()
+                DriveTrainSubsystem.getInstance().getLeftEncoderVelocity(),
+                DriveTrainSubsystem.getInstance().getRightEncoderVelocity()
         );
 
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getLatestRobotTransform()
                 , currentVelocities, deltaTime);
 
-        DriveTrainFalcon.getInstance().customTankVelocity(output.getLeftVelocity(), output.getRightVelocity());
+        DriveTrainSubsystem.getInstance().tankVelocity(output.getLeftVelocity(), output.getRightVelocity());
     }
 
     public double getRoughDistanceToEnd() {

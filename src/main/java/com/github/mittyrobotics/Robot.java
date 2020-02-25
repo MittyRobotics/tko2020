@@ -25,19 +25,19 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.commands.VisionTurretAimCommand;
+import com.github.mittyrobotics.commands.VisionTurretAimCommand;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
-import com.github.mittyrobotics.buffer.Buffer;
-import com.github.mittyrobotics.buffer.LockBall;
-import com.github.mittyrobotics.climber.Hooks;
-import com.github.mittyrobotics.climber.Winch;
-import com.github.mittyrobotics.colorwheel.ColorPiston;
-import com.github.mittyrobotics.colorwheel.Spinner;
-import com.github.mittyrobotics.conveyor.Conveyor;
-import com.github.mittyrobotics.drive.DriveTrainFalcon;
-import com.github.mittyrobotics.intake.Intake;
-import com.github.mittyrobotics.shooter.Shooter;
-import com.github.mittyrobotics.turret.Turret;
+import com.github.mittyrobotics.subsystems.BufferSubsystem;
+import com.github.mittyrobotics.commands.LockBallCommand;
+import com.github.mittyrobotics.subsystems.HooksSubsystem;
+import com.github.mittyrobotics.subsystems.WinchSubsystem;
+import com.github.mittyrobotics.subsystems.ColorPistonSubsystem;
+import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
+import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.subsystems.IntakeSubsystem;
+import com.github.mittyrobotics.subsystems.ShooterSubsystem;
+import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
@@ -52,16 +52,16 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        DriveTrainFalcon.getInstance().initHardware();
-        Intake.getInstance().initHardware();
-        Conveyor.getInstance().initHardware();
-        Buffer.getInstance().initHardware();
-        Shooter.getInstance().initHardware();
-        Turret.getInstance().initHardware();
-        ColorPiston.getInstance().initHardware();
-        Spinner.getInstance().initHardware();
-        Hooks.getInstance().initHardware();
-        Winch.getInstance().initHardware();
+        DriveTrainSubsystem.getInstance().initHardware();
+        IntakeSubsystem.getInstance().initHardware();
+        ConveyorSubsystem.getInstance().initHardware();
+        BufferSubsystem.getInstance().initHardware();
+        ShooterSubsystem.getInstance().initHardware();
+        TurretSubsystem.getInstance().initHardware();
+        ColorPistonSubsystem.getInstance().initHardware();
+        SpinnerSubsystem.getInstance().initHardware();
+        HooksSubsystem.getInstance().initHardware();
+        WinchSubsystem.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
     }
@@ -71,16 +71,16 @@ public class Robot extends TimedRobot {
         //Run command scheduler
         CommandScheduler.getInstance().run();
         //Update dashboards
-        DriveTrainFalcon.getInstance().updateDashboard();
-        Intake.getInstance().updateDashboard();
-        Conveyor.getInstance().updateDashboard();
-        Buffer.getInstance().updateDashboard();
-        Shooter.getInstance().updateDashboard();
-        Turret.getInstance().updateDashboard();
-        ColorPiston.getInstance().updateDashboard();
-        Spinner.getInstance().updateDashboard();
-        Hooks.getInstance().updateDashboard();
-        Winch.getInstance().updateDashboard();
+        DriveTrainSubsystem.getInstance().updateDashboard();
+        IntakeSubsystem.getInstance().updateDashboard();
+        ConveyorSubsystem.getInstance().updateDashboard();
+        BufferSubsystem.getInstance().updateDashboard();
+        ShooterSubsystem.getInstance().updateDashboard();
+        TurretSubsystem.getInstance().updateDashboard();
+        ColorPistonSubsystem.getInstance().updateDashboard();
+        SpinnerSubsystem.getInstance().updateDashboard();
+        HooksSubsystem.getInstance().updateDashboard();
+        WinchSubsystem.getInstance().updateDashboard();
         Vision.getInstance().updateDashboard();
         OdometryManager.getInstance().updateDashboard();
     }
@@ -92,8 +92,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Buffer.getInstance().setDefaultCommand(new LockBall());
-        Turret.getInstance().setDefaultCommand(new VisionTurretAimCommand());
+        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
+        TurretSubsystem.getInstance().setDefaultCommand(new VisionTurretAimCommand());
     }
 
     @Override
