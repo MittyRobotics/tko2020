@@ -67,8 +67,6 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
         rightDrive[0].setNeutralMode(NeutralMode.Coast);
         leftDrive[1].setNeutralMode(NeutralMode.Coast);
         rightDrive[0].setNeutralMode(NeutralMode.Coast);
-
-        setDefaultCommand(new ArcadeDriveCommand());
     }
 
     @Override

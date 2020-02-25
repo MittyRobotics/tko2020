@@ -24,20 +24,11 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.commands.VisionShooterSpeedCommand;
-import com.github.mittyrobotics.commands.ManualSpinColorWheelCommand;
-import com.github.mittyrobotics.commands.SpinWheelMacro;
+import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.constants.OIConstants;
 import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
-import com.github.mittyrobotics.commands.ArcadeDriveCommand;
-import com.github.mittyrobotics.commands.ChangeIntakePistonCommand;
-import com.github.mittyrobotics.commands.IntakeBallCommand;
-import com.github.mittyrobotics.commands.OuttakeRollersCommand;
-import com.github.mittyrobotics.commands.StopBallCommand;
-import com.github.mittyrobotics.commands.ManualSpinFlywheelCommand;
-import com.github.mittyrobotics.commands.StopFlywheelCommand;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -94,11 +85,11 @@ public class OI {
         spinWheel.whenPressed(new SpinWheelMacro());
 
         Button autoShoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
-        autoShoot.whenPressed(new VisionShooterSpeedCommand());
+        autoShoot.whenPressed(new AutoShootMacro());
         autoShoot.whenReleased(new StopFlywheelCommand());
 
         Button manualShoot = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        manualShoot.whenPressed(new ManualSpinFlywheelCommand());
+        manualShoot.whenPressed(new ManualShootMacro());
         manualShoot.whenReleased(new StopFlywheelCommand());
 
         Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
@@ -111,6 +102,9 @@ public class OI {
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
         outtake.whenPressed(new OuttakeRollersCommand());
         outtake.whenReleased(new StopBallCommand());
+
+        Button manualTurret = new Button(()-> Math.abs(getXboxController().getX(GenericHID.Hand.kRight)) > 0.1);
+        manualTurret.whenPressed(new ManualTurretCommand());
     }
 
 }

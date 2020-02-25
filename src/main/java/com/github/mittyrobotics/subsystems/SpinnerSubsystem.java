@@ -80,18 +80,19 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void setMotorFast() {
-        //sets motor to fast velocity
         setMotorPID(ColorWheelConstants.FAST_VELOCITY);
-
     }
 
     private void setMotorPID(double rpm) { //TODO cleanup setpoint conversion
-        double setpoint = (rpm * (4 * Math.PI)) * ColorWheelConstants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
-        PIDController controller = new PIDController(ColorWheelConstants.SPINNER_P, ColorWheelConstants.SPINNER_I, ColorWheelConstants.SPINNER_D);
-        controller.setSetpoint(setpoint);
-        spinnerTalon.set(ControlMode.PercentOutput, ColorWheelConstants.SPINNER_FF * setpoint
-                + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
-        );
+        if(ColorPistonSubsystem.getInstance().isPistonUp()){
+            double setpoint = (rpm * (4 * Math.PI)) * ColorWheelConstants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
+            PIDController controller = new PIDController(ColorWheelConstants.SPINNER_P, ColorWheelConstants.SPINNER_I,
+                    ColorWheelConstants.SPINNER_D);
+            controller.setSetpoint(setpoint);
+            spinnerTalon.set(ControlMode.PercentOutput, ColorWheelConstants.SPINNER_FF * setpoint
+                    + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
+            );
+        }
     }
 
     public void setMotorSlow(boolean isReversed) {
@@ -144,13 +145,13 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
         if (s.length() > 0) {
             switch (s.toLowerCase().charAt(0)) {
                 case ('b'):
-                    return WheelColor.Blue;
+                    return map.get(WheelColor.Blue);
                 case ('r'):
-                    return WheelColor.Red;
+                    return map.get(WheelColor.Red);
                 case ('g'):
-                    return WheelColor.Green;
+                    return map.get(WheelColor.Green);
                 case ('y'):
-                    return WheelColor.Yellow;
+                    return map.get(WheelColor.Yellow);
             }
         }
         return WheelColor.None;

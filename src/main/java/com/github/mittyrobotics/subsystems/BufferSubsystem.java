@@ -30,7 +30,6 @@ public class BufferSubsystem extends SubsystemBase implements ISubsystem {
         bufferWheel.setInverted(BufferConstants.BUFFER_WHEEL_INVERSION);
         bufferWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         bufferWheel.setSensorPhase(BufferConstants.BUFFER_WHEEL_ENCODER_INVERSION);
-        setDefaultCommand(new LockBallCommand());
     }
 
     public void resetEncoder() {
