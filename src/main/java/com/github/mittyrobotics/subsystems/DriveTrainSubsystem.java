@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.github.mittyrobotics.commands.ArcadeDriveCommand;
 import com.github.mittyrobotics.constants.DriveConstants;
-import com.github.mittyrobotics.util.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;

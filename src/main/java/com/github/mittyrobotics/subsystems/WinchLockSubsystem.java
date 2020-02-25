@@ -1,7 +1,7 @@
 package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.constants.ClimberConstants;
-import com.github.mittyrobotics.util.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 

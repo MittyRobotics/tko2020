@@ -29,7 +29,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
-import com.github.mittyrobotics.util.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.github.mittyrobotics.constants.TurretConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;

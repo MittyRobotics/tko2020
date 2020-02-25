@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.subsystems;
 
-import com.github.mittyrobotics.util.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.github.mittyrobotics.constants.ShooterConstants;
 import com.github.mittyrobotics.util.OI;
 import com.revrobotics.*;

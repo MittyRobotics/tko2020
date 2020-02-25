@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
 import com.github.mittyrobotics.constants.ConveyorConstants;
-import com.github.mittyrobotics.util.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;

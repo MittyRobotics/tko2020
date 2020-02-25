@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.util.interfaces;
+package com.github.mittyrobotics.interfaces;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

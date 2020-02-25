@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.constants.BufferConstants;
 import com.github.mittyrobotics.commands.LockBallCommand;
-import com.github.mittyrobotics.util.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BufferSubsystem extends SubsystemBase implements ISubsystem {

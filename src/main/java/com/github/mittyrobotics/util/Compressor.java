@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.util.interfaces.IHardware;
+
+import com.github.mittyrobotics.interfaces.IHardware;
 
 public class Compressor extends edu.wpi.first.wpilibj.Compressor implements IHardware {
     private static Compressor instance;
