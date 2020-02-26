@@ -26,10 +26,10 @@ package com.github.mittyrobotics.constants;
 
 public class ColorWheelConstants {
     //channels for hardware
-    public static final int SOLENOID_FOWARD_CHANNEL = 1;
-    public static final int SOLENOID_REVERSE_CHANNEL = 0;
+    public static final int SOLENOID_FOWARD_CHANNEL = 0;
+    public static final int SOLENOID_REVERSE_CHANNEL = 7;
 
-    public static final int SPINNER_TALON_ID = 0;
+    public static final int SPINNER_TALON_ID = 20;
     public static final boolean SPINNER_TALON_INVERSION = false;
     public static final boolean SPINNER_ENCODER_INVERSION = false;
 

@@ -20,6 +20,6 @@ public class Compressor extends edu.wpi.first.wpilibj.Compressor implements IHar
     @Override
     public void initHardware() {
         start();
-        setClosedLoopControl(true);
+//        setClosedLoopControl(true);
     }
 }

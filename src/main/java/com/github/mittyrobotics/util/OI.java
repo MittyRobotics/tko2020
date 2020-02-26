@@ -40,6 +40,7 @@ public class OI {
     private XboxController xboxController;
     private Joystick joystick1;
     private Joystick joystick2;
+    private XboxController controller2;
 
     public static OI getInstance() {
         if (instance == null) {
@@ -53,6 +54,13 @@ public class OI {
             xboxWheel = new XboxWheel(OIConstants.XBOX_WHEEL_ID);
         }
         return xboxWheel;
+    }
+
+    public XboxController getController2(){
+        if(controller2 == null){
+            controller2 = new XboxController(0);
+        }
+        return controller2;
     }
 
     public XboxController getXboxController() {
@@ -77,7 +85,7 @@ public class OI {
     }
 
     public void setupControls() {
-        DriveTrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
+        DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDrive());
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 

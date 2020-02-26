@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,27 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.constants;
+package com.github.mittyrobotics.commands;
 
-public class ShooterConstants {
-    //Shooter
-    public static final double SHOOTER_F = 1.0 / 5211;
-    public static final double SHOOTER_P = 0;
-    public static final double SHOOTER_I = 0;
-    public static final double SHOOTER_D = 0;
-    public static final int SHOOTER_SPARK_MASTER_ID = 31;
-    public static final int SHOOTER_SPARK_FOLLOWER_ID = 32;
-    public static final boolean SHOOTER_SPARK_MASTER_INVERSION = true;
-    public static final boolean SHOOTER_SPARK_FOLLOWER_INVERSION = false;
-    public static final boolean SHOOTER_SPARK_MASTER_ENCODER_INVERSION = false;
-    public static final boolean SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION = false;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class TankDrive extends CommandBase {
+
+    public TankDrive(){
+        addRequirements(DriveTrainSubsystem.getInstance());
+    }
+
+    @Override
+    public void execute(){
+        DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getController2().getY(GenericHID.Hand.kLeft),
+                OI.getInstance().getController2().getY(GenericHID.Hand.kRight));
+    }
+
+    @Override
+    public boolean isFinished(){
+        return false;
+    }
 }
