@@ -55,7 +55,7 @@ public class CurvatureSteering extends CommandBase {
 
         if (OI.getInstance().getJoystick1().getRawButtonPressed(2)) {
             isReversed = true;
-        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(1)) { //change button based on kito's preference
+        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(3)) { //change button based on kito's preference
             isReversed = false;
         }
 

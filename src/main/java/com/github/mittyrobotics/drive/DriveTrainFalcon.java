@@ -69,7 +69,7 @@ public class DriveTrainFalcon extends SubsystemBase {
         leftDrive[1].setSensorPhase(false);
         rightDrive[0].setSensorPhase(false);
 
-        setDefaultCommand(new CurvatureSteering());
+        setDefaultCommand(new JoystickDrive_CarSteering());
     }
 
     public void tankDrive(double left, double right){
@@ -179,5 +179,13 @@ public class DriveTrainFalcon extends SubsystemBase {
 
     public double getLeftVelSetpoint(){
         return latestLeftVelSetpoint;
+    }
+
+    public void setNeutralMode(NeutralMode mode){
+        leftDrive[0].setNeutralMode(mode);
+        leftDrive[1].setNeutralMode(mode);
+        rightDrive[0].setNeutralMode(mode);
+        rightDrive[1].setNeutralMode(mode);
+
     }
 }
