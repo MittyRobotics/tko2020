@@ -42,6 +42,6 @@ public class ManualTurretCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight)) < 0.1;
+        return false;
     }
 }

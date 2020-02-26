@@ -112,7 +112,7 @@ public class OI {
         outtake.whenReleased(new StopBallCommand());
 
         Button manualTurret = new Button(() -> Math.abs(getXboxController().getX(GenericHID.Hand.kRight)) > 0.1);
-        manualTurret.whenPressed(new ManualTurretCommand());
+        manualTurret.whenHeld(new ManualTurretCommand());
     }
 
 }
