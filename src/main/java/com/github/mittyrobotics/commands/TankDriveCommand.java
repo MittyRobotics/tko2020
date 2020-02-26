@@ -29,20 +29,20 @@ import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TankDrive extends CommandBase {
+public class TankDriveCommand extends CommandBase {
 
-    public TankDrive(){
+    public TankDriveCommand() {
         addRequirements(DriveTrainSubsystem.getInstance());
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getController2().getY(GenericHID.Hand.kLeft),
                 OI.getInstance().getController2().getY(GenericHID.Hand.kRight));
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 }

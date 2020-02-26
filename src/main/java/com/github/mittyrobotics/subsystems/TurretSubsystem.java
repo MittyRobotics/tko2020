@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
-import com.github.mittyrobotics.interfaces.ISubsystem;
 import com.github.mittyrobotics.constants.TurretConstants;
+import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -97,7 +97,8 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
         turretTalon.setSensorPhase(TurretConstants.TURRET_ENCODER_INVERSION);
 
         //Initialize PIDController
-        turretController = new PIDController(TurretConstants.TURRET_P, TurretConstants.TURRET_I, TurretConstants.TURRET_D);
+        turretController =
+                new PIDController(TurretConstants.TURRET_P, TurretConstants.TURRET_I, TurretConstants.TURRET_D);
         turretController.enableContinuousInput(0, TurretConstants.REVOLUTION_TICKS - 1);
 
     }

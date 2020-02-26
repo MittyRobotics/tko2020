@@ -26,9 +26,9 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.constants.OIConstants;
-import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -56,8 +56,8 @@ public class OI {
         return xboxWheel;
     }
 
-    public XboxController getController2(){
-        if(controller2 == null){
+    public XboxController getController2() {
+        if (controller2 == null) {
             controller2 = new XboxController(0);
         }
         return controller2;
@@ -85,7 +85,7 @@ public class OI {
     }
 
     public void setupControls() {
-        DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDrive());
+        DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 
@@ -111,7 +111,7 @@ public class OI {
         outtake.whenPressed(new OuttakeRollersCommand());
         outtake.whenReleased(new StopBallCommand());
 
-        Button manualTurret = new Button(()-> Math.abs(getXboxController().getX(GenericHID.Hand.kRight)) > 0.1);
+        Button manualTurret = new Button(() -> Math.abs(getXboxController().getX(GenericHID.Hand.kRight)) > 0.1);
         manualTurret.whenPressed(new ManualTurretCommand());
     }
 

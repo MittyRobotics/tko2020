@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,11 +26,11 @@ package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 public class AutonDriver {

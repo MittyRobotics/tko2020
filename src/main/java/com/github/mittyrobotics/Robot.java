@@ -24,25 +24,10 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.commands.TankDrive;
-import com.github.mittyrobotics.commands.VisionTurretAimCommand;
-import com.github.mittyrobotics.autonomous.util.OdometryManager;
-import com.github.mittyrobotics.subsystems.BufferSubsystem;
-import com.github.mittyrobotics.commands.LockBallCommand;
-import com.github.mittyrobotics.subsystems.HooksSubsystem;
-import com.github.mittyrobotics.subsystems.WinchSubsystem;
-import com.github.mittyrobotics.subsystems.ColorPistonSubsystem;
-import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
-import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
-import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
-import com.github.mittyrobotics.subsystems.IntakeSubsystem;
-import com.github.mittyrobotics.subsystems.ShooterSubsystem;
-import com.github.mittyrobotics.subsystems.TurretSubsystem;
+import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -114,10 +99,10 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
 //        SpinnerSubsystem.getInstance().setSpinnerManual(OI.getInstance().getController2().getTriggerAxis(
 //                GenericHID.Hand.kLeft));
-        if(OI.getInstance().getController2().getBButtonPressed()){
+        if (OI.getInstance().getController2().getBButtonPressed()) {
             ColorPistonSubsystem.getInstance().up();
         }
-        if(OI.getInstance().getController2().getYButtonPressed()){
+        if (OI.getInstance().getController2().getYButtonPressed()) {
             ColorPistonSubsystem.getInstance().down();
         }
 //        TurretSubsystem.getInstance().overrideSetTurretPercent(OI.getInstance().getController2().getX(GenericHID.Hand.kLeft), true);
