@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class AutomateShooterAimMacro extends SequentialCommandGroup {
     public AutomateShooterAimMacro() {
         addCommands(
-                new VisionScanCommand(),
+                new VisionScanMacro(),
                 parallel(
                         new VisionTurretAimCommand(),
                         new VisionShooterSpeedCommand()
