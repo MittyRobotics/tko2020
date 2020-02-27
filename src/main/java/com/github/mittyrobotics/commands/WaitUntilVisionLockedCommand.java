@@ -31,4 +31,8 @@ public class WaitUntilVisionLockedCommand extends WaitUntilCommand {
     public WaitUntilVisionLockedCommand(double angleThreshold) {
         super(() -> Vision.getInstance().isVisionLocked(angleThreshold));
     }
+
+    public WaitUntilVisionLockedCommand() {
+        super(() -> Vision.getInstance().isVisionLocked());
+    }
 }

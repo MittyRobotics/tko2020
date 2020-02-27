@@ -31,14 +31,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class UnloadConveyorCommand extends CommandBase {
     public UnloadConveyorCommand() {
-        addRequirements(ConveyorSubsystem.getInstance(), BufferSubsystem.getInstance(), ShooterSubsystem.getInstance());
+        addRequirements(ConveyorSubsystem.getInstance(), BufferSubsystem.getInstance());
     }
 
     @Override
     public void execute() {
         ConveyorSubsystem.getInstance().manualSetConveyorSpeed(.4);
         BufferSubsystem.getInstance().manualBufferSpeed(.4);
-        ShooterSubsystem.getInstance().setShooterPercent(.25);
 //        Intake.getInstance().intakeBall();
     }
 
@@ -46,7 +45,6 @@ public class UnloadConveyorCommand extends CommandBase {
     public void end(boolean interrupted) {
         ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
         BufferSubsystem.getInstance().manualBufferSpeed(0);
-        ShooterSubsystem.getInstance().setShooterPercent(0);
     }
 
     @Override

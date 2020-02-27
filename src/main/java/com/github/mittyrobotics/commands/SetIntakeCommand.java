@@ -27,8 +27,8 @@ package com.github.mittyrobotics.commands;
 import com.github.mittyrobotics.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SetBallIntakeCommand extends InstantCommand {
-    public SetBallIntakeCommand() {
+public class SetIntakeCommand extends InstantCommand {
+    public SetIntakeCommand() {
         super(() -> IntakeSubsystem.getInstance().setIntaking(), IntakeSubsystem.getInstance());
     }
 }

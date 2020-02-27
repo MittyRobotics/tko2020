@@ -124,7 +124,7 @@ public class OI {
         changeIntakePiston.whenPressed(new ChangeIntakePistonCommand());
 
         Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
-        intake.whenPressed(new SetBallIntakeCommand());
+        intake.whenPressed(new SetIntakeCommand());
         intake.whenReleased(new SetBallStopCommand());
 
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
