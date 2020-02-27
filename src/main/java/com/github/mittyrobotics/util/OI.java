@@ -92,8 +92,6 @@ public class OI {
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 
-        IntakeSubsystem.getInstance().setDefaultCommand(new StopRollersCommand());
-
         Button spinWheel = new Button(() -> getJoystick1().getTrigger());
         spinWheel.whenPressed(new SpinWheelMacro());
 

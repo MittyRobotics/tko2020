@@ -24,18 +24,22 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.util.AutonSelector;
+import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.commands.LockBallCommand;
 import com.github.mittyrobotics.commands.SetShooterRpmCommand;
-import com.github.mittyrobotics.commands.VisionTurretAimCommand;
+import com.github.mittyrobotics.commands.StopRollersCommand;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-
+    Command autonCommandGroup;
     Robot() {
         super(0.02);
     }
@@ -52,6 +56,7 @@ public class Robot extends TimedRobot {
         SpinnerSubsystem.getInstance().initHardware();
 //        HooksSubsystem.getInstance().initHardware();
 //        WinchSubsystem.getInstance().initHardware();
+//        WinchLockSubsystem.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
     }
@@ -61,18 +66,19 @@ public class Robot extends TimedRobot {
         //Run command scheduler
         CommandScheduler.getInstance().run();
         //Update dashboards
-//        DriveTrainSubsystem.getInstance().updateDashboard();
+        DriveTrainSubsystem.getInstance().updateDashboard();
 //        IntakeSubsystem.getInstance().updateDashboard();
-//        ConveyorSubsystem.getInstance().updateDashboard();
-//        BufferSubsystem.getInstance().updateDashboard();
-//        ShooterSubsystem.getInstance().updateDashboard();
-//        TurretSubsystem.getInstance().updateDashboard();
-//        ColorPistonSubsystem.getInstance().updateDashboard();
-//        SpinnerSubsystem.getInstance().updateDashboard();
+        ConveyorSubsystem.getInstance().updateDashboard();
+        BufferSubsystem.getInstance().updateDashboard();
+        ShooterSubsystem.getInstance().updateDashboard();
+        TurretSubsystem.getInstance().updateDashboard();
+        ColorPistonSubsystem.getInstance().updateDashboard();
+        SpinnerSubsystem.getInstance().updateDashboard();
 //        HooksSubsystem.getInstance().updateDashboard();
 //        WinchSubsystem.getInstance().updateDashboard();
-//        Vision.getInstance().updateDashboard();
-//        OdometryManager.getInstance().updateDashboard();
+//        WinchLockSubsystem.getInstance().updateDashboard();
+        Vision.getInstance().updateDashboard();
+        OdometryManager.getInstance().updateDashboard();
     }
 
     @Override
@@ -83,8 +89,10 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-        TurretSubsystem.getInstance().setDefaultCommand(new VisionTurretAimCommand());
         ShooterSubsystem.getInstance().setDefaultCommand(new SetShooterRpmCommand(0));
+        IntakeSubsystem.getInstance().setDefaultCommand(new StopRollersCommand());
+        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
+        CommandScheduler.getInstance().schedule(autonCommandGroup);
     }
 
     @Override
@@ -94,22 +102,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-//        OI.getInstance().setupControls();
-        CommandScheduler.getInstance().cancelAll();
-//        CommandScheduler.getInstance().schedule(new TankDrive());
+        CommandScheduler.getInstance().cancel(autonCommandGroup);
+        OI.getInstance().setupControls();
     }
 
     @Override
     public void teleopPeriodic() {
-//        SpinnerSubsystem.getInstance().setSpinnerManual(OI.getInstance().getController2().getTriggerAxis(
-//                GenericHID.Hand.kLeft));
-        if (OI.getInstance().getController2().getBButtonPressed()) {
-            ColorPistonSubsystem.getInstance().up();
-        }
-        if (OI.getInstance().getController2().getYButtonPressed()) {
-            ColorPistonSubsystem.getInstance().down();
-        }
-//        TurretSubsystem.getInstance().overrideSetTurretPercent(OI.getInstance().getController2().getX(GenericHID.Hand.kLeft), true);
+        
     }
 
     @Override
