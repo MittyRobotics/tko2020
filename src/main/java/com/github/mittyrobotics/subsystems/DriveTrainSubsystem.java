@@ -199,7 +199,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
         return (getLeftEncoderVelocity() + getRightEncoderVelocity()) / 2;
     }
 
-    public void setNeutralMode(NeutralMode neutralMode){
+    public void setNeutralMode(NeutralMode neutralMode) {
         leftDrive[0].setNeutralMode(neutralMode);
         leftDrive[1].setNeutralMode(neutralMode);
         rightDrive[0].setNeutralMode(neutralMode);

@@ -27,7 +27,6 @@ package com.github.mittyrobotics.commands;
 import com.github.mittyrobotics.subsystems.BufferSubsystem;
 import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class UnloadConveyorCommand extends CommandBase {
@@ -44,7 +43,14 @@ public class UnloadConveyorCommand extends CommandBase {
     }
 
     @Override
+    public void end(boolean interrupted) {
+        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
+        BufferSubsystem.getInstance().manualBufferSpeed(0);
+        ShooterSubsystem.getInstance().setShooterPercent(0);
+    }
+
+    @Override
     public boolean isFinished() {
-        return DriverStation.getInstance().isDisabled();
+        return false;
     }
 }

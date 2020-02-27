@@ -26,7 +26,6 @@ package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.constants.ShooterConstants;
 import com.github.mittyrobotics.interfaces.ISubsystem;
-import com.github.mittyrobotics.util.OI;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -166,11 +165,11 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
         shooterSparkFollower.set(percent);
     }
 
-    public void setManualRPMSetpoint(double manualRPMSetpoint) {
-        this.manualRPMSetpoint = manualRPMSetpoint;
-    }
-
     public double getManualRPMSetpoint() {
         return manualRPMSetpoint;
+    }
+
+    public void setManualRPMSetpoint(double manualRPMSetpoint) {
+        this.manualRPMSetpoint = manualRPMSetpoint;
     }
 }

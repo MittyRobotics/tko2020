@@ -24,11 +24,14 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class SetShooterRpmCommand extends InstantCommand {
-    public SetShooterRpmCommand(double rpm) {
-        super(() -> ShooterSubsystem.getInstance().setShooterRpm(rpm));
+public class RunVisionMacro extends SequentialCommandGroup {
+    public RunVisionMacro() {
+        addCommands(
+                new VisionScanCommand(),
+                new VisionTurretAimCommand(),
+                new VisionShooterSpeedCommand()
+        );
     }
 }

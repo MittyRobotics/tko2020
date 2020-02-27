@@ -6,12 +6,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CurvatureDriveCommand extends CommandBase {
     private boolean isReversed;
-    CurvatureDriveCommand(){
+
+    CurvatureDriveCommand() {
         addRequirements(DriveTrainSubsystem.getInstance());
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         isReversed = false;
     }
 
@@ -57,7 +58,7 @@ public class CurvatureDriveCommand extends CommandBase {
             isReversed = false;
         }
 
-        if(isReversed) {
+        if (isReversed) {
             joystickSpeed = -joystickSpeed;
             double temp = leftSpeed;
             leftSpeed = rightSpeed;
@@ -68,7 +69,7 @@ public class CurvatureDriveCommand extends CommandBase {
             DriveTrainSubsystem.getInstance().tankDrive(
                     joystickSpeed, joystickSpeed);
         } else if (Math.abs(joystickSpeed) < 0.1) {
-            DriveTrainSubsystem.getInstance().tankDrive(turn/350, -turn/350);
+            DriveTrainSubsystem.getInstance().tankDrive(turn / 350, -turn / 350);
         } else {
             DriveTrainSubsystem.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
         }

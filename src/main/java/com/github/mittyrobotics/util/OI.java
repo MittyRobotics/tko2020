@@ -97,12 +97,18 @@ public class OI {
         Button spinWheel = new Button(() -> getJoystick1().getTrigger());
         spinWheel.whenPressed(new SpinWheelMacro());
 
-        Button autoShoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && autoShootMode);
-        autoShoot.whenPressed(new AutoShootMacro());
-        autoShoot.whenReleased(new StopFlywheelCommand());
+        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
+        autoTurret.whenHeld(new RunVisionMacro());
+        autoTurret.whenPressed(new InstantCommand(() -> autoShootMode = true));
+        autoTurret.whenReleased(new InstantCommand(() -> autoShootMode = false));
 
-        Button manualShoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && !autoShootMode);
-        manualShoot.whenPressed(new ManualShootMacro());
+        Button autoShoot =
+                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && autoShootMode);
+        autoShoot.whenHeld(new AutoShootMacro());
+
+        Button manualShoot =
+                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && !autoShootMode);
+        manualShoot.whenHeld(new ManualShootMacro());
         manualShoot.whenReleased(new StopFlywheelCommand());
 
         Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
@@ -115,11 +121,6 @@ public class OI {
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
         outtake.whenPressed(new OuttakeRollersCommand());
         outtake.whenReleased(new StopBallCommand());
-
-        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
-        autoTurret.whenHeld(new VisionTurretAimCommand());
-        autoTurret.whenPressed(new InstantCommand(()->autoShootMode = true));
-        autoTurret.whenReleased(new InstantCommand(()-> autoShootMode = false));
 
         Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
