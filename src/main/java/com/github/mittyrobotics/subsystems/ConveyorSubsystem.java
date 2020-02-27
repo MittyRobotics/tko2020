@@ -80,7 +80,7 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void periodic() {
-        if(conveyorTalon.getMotorOutputPercent() != 0){
+        if (conveyorTalon.getMotorOutputPercent() != 0) {
             isReverse = conveyorTalon.getMotorOutputPercent() < 0;
         }
         if (!previousEntranceSwitchValue &&

@@ -173,7 +173,7 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
         this.manualRPMSetpoint = manualRPMSetpoint;
     }
 
-    public void changeManualRPMSetpoint(double rpm){
-        setManualRPMSetpoint(getManualRPMSetpoint()+rpm);
+    public void changeManualRPMSetpoint(double rpm) {
+        setManualRPMSetpoint(getManualRPMSetpoint() + rpm);
     }
 }

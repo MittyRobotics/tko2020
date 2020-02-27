@@ -58,26 +58,26 @@ public class IntakeSubsystem extends SubsystemBase implements ISubsystem {
 
     }
 
-    private void moveWheel(double speed) {
+    private void setPercentOutput(double percent) {
         if (IntakePiston.getInstance().isExtended()) {
-            intakeWheel.set(ControlMode.PercentOutput, speed);
+            intakeWheel.set(ControlMode.PercentOutput, percent);
         }
     }
 
-    public void intakeBall() {
+    public void setIntaking() {
         if (ConveyorSubsystem.getInstance().getTotalBallCount() < 4) {
-            moveWheel(IntakeConstants.INTAKE_SPEED_FAST);
+            setPercentOutput(IntakeConstants.INTAKE_SPEED_FAST);
         } else {
-            moveWheel(IntakeConstants.INTAKE_SPEED_SLOW);
+            setPercentOutput(IntakeConstants.INTAKE_SPEED_SLOW);
         }
     }
 
-    public void outtakeBall() {
-        moveWheel(IntakeConstants.OUTTAKE_SPEED);
+    public void setOuttaking() {
+        setPercentOutput(IntakeConstants.OUTTAKE_SPEED);
     }
 
-    public void stopWheel() {
-        moveWheel(0);
+    public void stopIntake() {
+        setPercentOutput(0);
     }
 
 }

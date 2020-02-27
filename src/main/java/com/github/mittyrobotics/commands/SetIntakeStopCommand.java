@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,30 +24,11 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import com.github.mittyrobotics.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SetOuttakingBallCommand extends CommandBase {
-
-    public SetOuttakingBallCommand() {
-        super();
-        addRequirements(IntakeSubsystem.getInstance(), ConveyorSubsystem.getInstance());
+public class SetIntakeStopCommand extends InstantCommand {
+    public SetIntakeStopCommand() {
+        super(() -> IntakeSubsystem.getInstance().stopIntake(), IntakeSubsystem.getInstance());
     }
-
-    @Override
-    public void initialize() {
-        IntakeSubsystem.getInstance().outtakeBall();
-        ConveyorSubsystem.getInstance().setConveyorSpeed(.2); //TODO find speed
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
 }
