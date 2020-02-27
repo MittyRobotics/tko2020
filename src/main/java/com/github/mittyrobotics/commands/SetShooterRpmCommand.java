@@ -25,22 +25,10 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ManualSpinFlywheelCommand extends CommandBase {
-
-    public ManualSpinFlywheelCommand() {
-        super();
-        addRequirements(ShooterSubsystem.getInstance());
-    }
-
-    @Override
-    public void execute() {
-        ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getManualRPMSetpoint());
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
+public class SetShooterRpmCommand extends InstantCommand {
+    public SetShooterRpmCommand(double rpm){
+        super(()->ShooterSubsystem.getInstance().setShooterRpm(rpm));
     }
 }

@@ -49,7 +49,7 @@ public class MinimalVisionCommand extends CommandBase {
         double p = 0.10;
         TurretSubsystem.getInstance().overrideSetTurretPercent(p * target.getTurretRelativeYaw().getHeading(), true);
         double rpm = rpmEquation(target.getDistance() / 12);
-        ShooterSubsystem.getInstance().setShooterSpeed(rpm);
+        ShooterSubsystem.getInstance().setShooterRpm(rpm);
     }
 
     private double rpmEquation(double distance) {

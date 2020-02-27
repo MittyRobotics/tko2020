@@ -72,16 +72,16 @@ public class ShooterTesting extends TimedRobot {
 
     private void shooterDebugControl() {
         if (OI.getInstance().getXboxController().getYButtonPressed()) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.getInstance().getCurrentSetpoint() + 50);
+            ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getCurrentSetpoint() + 50);
         }
         if (OI.getInstance().getXboxController().getAButtonPressed()) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.getInstance().getCurrentSetpoint() - 50);
+            ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getCurrentSetpoint() - 50);
         }
         if (OI.getInstance().getXboxController().getBButtonPressed()) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.getInstance().getCurrentSetpoint() + 10);
+            ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getCurrentSetpoint() + 10);
         }
         if (OI.getInstance().getXboxController().getXButtonPressed()) {
-            ShooterSubsystem.getInstance().setShooterSpeed(ShooterSubsystem.getInstance().getCurrentSetpoint() - 10);
+            ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getCurrentSetpoint() - 10);
         }
     }
 

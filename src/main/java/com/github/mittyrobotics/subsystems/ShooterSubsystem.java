@@ -45,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
      */
     private double currentSetpoint;
 
-    private double manualSetpoint;
+    private double manualRPMSetpoint;
 
     /**
      * Shooter {@link CANSparkMax}s
@@ -109,7 +109,6 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
         followerPIDController.setP(ShooterConstants.SHOOTER_P);
         followerPIDController.setI(ShooterConstants.SHOOTER_I);
         followerPIDController.setD(ShooterConstants.SHOOTER_D);
-        manualSetpoint = 3000; //TODO set actual default value
 //      followerEncoder.setInverted(Constants.SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION);
     }
 
@@ -117,15 +116,6 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
     public void updateDashboard() {
         SmartDashboard.putNumber("shooter-rpm", getShooterRPM());
         SmartDashboard.putNumber("shooter-rpm-setpoint", getCurrentSetpoint());
-    }
-
-    @Override
-    public void periodic() {
-        if (OI.getInstance().getXboxController().getYButtonPressed()) {
-            manualSetpoint += 100; //TODO find increment
-        } else if (OI.getInstance().getXboxController().getAButtonPressed()) {
-            manualSetpoint -= 100; //TODO find decrement;
-        }
     }
 
     /**
@@ -156,28 +146,31 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     /**
-     * Sets the shooter speed using velocity PID
+     * Sets the shooter RPM using velocity PID
      *
-     * @param setpoint the speed to set the shooter at
+     * @param rpmSetpoint the RPM to set the shooter to
      */
-    public void setShooterSpeed(double setpoint) { //in rpm of the motors
-        if (setpoint != 0) {
-            masterPIDController.setReference(setpoint, ControlType.kVelocity);
-            followerPIDController.setReference(setpoint, ControlType.kVelocity);
+    public void setShooterRpm(double rpmSetpoint) { //in rpm of the motors
+        if (rpmSetpoint != 0) {
+            masterPIDController.setReference(rpmSetpoint, ControlType.kVelocity);
+            followerPIDController.setReference(rpmSetpoint, ControlType.kVelocity);
         } else {
             shooterSparkMaster.set(0);
             shooterSparkFollower.set(0);
         }
-        currentSetpoint = setpoint;
+        currentSetpoint = rpmSetpoint;
     }
 
     public void setShooterPercent(double percent) {
         shooterSparkMaster.set(percent);
         shooterSparkFollower.set(percent);
-        System.out.println((shooterSparkMaster.get() + shooterSparkFollower.get()) / 2.0);
     }
 
-    public double getManualSetpoint() {
-        return manualSetpoint;
+    public void setManualRPMSetpoint(double manualRPMSetpoint) {
+        this.manualRPMSetpoint = manualRPMSetpoint;
+    }
+
+    public double getManualRPMSetpoint() {
+        return manualRPMSetpoint;
     }
 }
