@@ -27,10 +27,7 @@ package com.github.mittyrobotics.util;
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.constants.OIConstants;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
-import com.github.mittyrobotics.subsystems.ShooterSubsystem;
-import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
-import com.github.mittyrobotics.subsystems.TurretSubsystem;
+import com.github.mittyrobotics.subsystems.*;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -95,6 +92,8 @@ public class OI {
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 
+        IntakeSubsystem.getInstance().setDefaultCommand(new StopRollersCommand());
+
         Button spinWheel = new Button(() -> getJoystick1().getTrigger());
         spinWheel.whenPressed(new SpinWheelMacro());
 
@@ -123,12 +122,10 @@ public class OI {
         changeIntakePiston.whenPressed(new ChangeIntakePistonCommand());
 
         Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
-        intake.whenPressed(new IntakeBallCommand());
-        intake.whenReleased(new StopRollersCommand());
+        intake.whenHeld(new IntakeBallCommand());
 
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        outtake.whenPressed(new OuttakeRollersCommand());
-        outtake.whenReleased(new StopRollersCommand());
+        outtake.whenHeld(new OuttakeRollersCommand());
 
         Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
