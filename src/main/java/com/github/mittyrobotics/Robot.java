@@ -24,6 +24,9 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.commands.LockBallCommand;
+import com.github.mittyrobotics.commands.SetShooterRpmCommand;
+import com.github.mittyrobotics.commands.VisionTurretAimCommand;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
@@ -79,8 +82,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-//        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-//        TurretSubsystem.getInstance().setDefaultCommand(new VisionTurretAimCommand());
+        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
+        TurretSubsystem.getInstance().setDefaultCommand(new VisionTurretAimCommand());
+        ShooterSubsystem.getInstance().setDefaultCommand(new SetShooterRpmCommand(0));
     }
 
     @Override

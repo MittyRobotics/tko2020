@@ -30,10 +30,10 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class VisionScanCommand extends SequentialCommandGroup {
+public class VisionScanMacro extends SequentialCommandGroup {
     private static double VISION_SCAN_PERCENT_OUTPUT = .6;
 
-    public VisionScanCommand() {
+    public VisionScanMacro() {
         addRequirements(TurretSubsystem.getInstance());
         addCommands(
                 new ParallelRaceGroup(

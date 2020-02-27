@@ -110,7 +110,6 @@ public class OI {
         Button manualShoot =
                 new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && !autoShootMode);
         manualShoot.whenHeld(new ManualShootMacro());
-        manualShoot.whenReleased(new StopFlywheelCommand());
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
@@ -124,12 +123,12 @@ public class OI {
         changeIntakePiston.whenPressed(new ChangeIntakePistonCommand());
 
         Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
-        intake.whenPressed(new SetIntakeCommand());
-        intake.whenReleased(new SetBallStopCommand());
+        intake.whenPressed(new IntakeBallCommand());
+        intake.whenReleased(new StopRollersCommand());
 
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        outtake.whenPressed(new SetRollersOuttakeCommand());
-        outtake.whenReleased(new SetBallStopCommand());
+        outtake.whenPressed(new OuttakeRollersCommand());
+        outtake.whenReleased(new StopRollersCommand());
 
         Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());

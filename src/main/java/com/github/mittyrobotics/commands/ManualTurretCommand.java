@@ -27,21 +27,11 @@ package com.github.mittyrobotics.commands;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class ManualTurretCommand extends CommandBase {
+public class ManualTurretCommand extends RunCommand {
     public ManualTurretCommand() {
-        addRequirements(TurretSubsystem.getInstance());
-    }
-
-    @Override
-    public void execute() {
-        TurretSubsystem.getInstance()
-                .setTurretPercent(OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight));
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
+        super(()->TurretSubsystem.getInstance().setTurretPercent(OI.getInstance().getXboxController()
+                .getX(GenericHID.Hand.kRight)), TurretSubsystem.getInstance());
     }
 }

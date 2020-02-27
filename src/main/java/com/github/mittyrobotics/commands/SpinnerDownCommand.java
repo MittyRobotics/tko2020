@@ -25,20 +25,10 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.subsystems.ColorPistonSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SpinnerDownCommand extends CommandBase {
+public class SpinnerDownCommand extends InstantCommand {
     public SpinnerDownCommand() {
-        addRequirements(ColorPistonSubsystem.getInstance());
-    }
-
-    @Override
-    public void initialize() {
-        ColorPistonSubsystem.getInstance().down();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
+        super(() -> ColorPistonSubsystem.getInstance().down(), ColorPistonSubsystem.getInstance());
     }
 }

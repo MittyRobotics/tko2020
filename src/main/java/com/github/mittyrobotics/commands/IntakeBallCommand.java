@@ -24,16 +24,11 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import com.github.mittyrobotics.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SetBallStopCommand extends InstantCommand {
-    public SetBallStopCommand() {
-        super(() -> {
-                    IntakeSubsystem.getInstance().stopIntake();
-                    ConveyorSubsystem.getInstance().setConveyorSpeed(0);
-                },
-                IntakeSubsystem.getInstance(), ConveyorSubsystem.getInstance());
+public class IntakeBallCommand extends InstantCommand {
+    public IntakeBallCommand() {
+        super(() -> IntakeSubsystem.getInstance().setIntaking(), IntakeSubsystem.getInstance());
     }
 }

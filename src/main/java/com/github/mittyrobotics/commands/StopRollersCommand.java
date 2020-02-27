@@ -24,21 +24,11 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.github.mittyrobotics.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class StopFlywheelCommand extends CommandBase {
-    public StopFlywheelCommand() {
-        addRequirements(ShooterSubsystem.getInstance());
-    }
-
-    @Override
-    public void initialize() {
-        ShooterSubsystem.getInstance().setShooterPercent(0);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return true;
+public class StopRollersCommand extends InstantCommand {
+    public StopRollersCommand() {
+        super(() -> IntakeSubsystem.getInstance().stopIntake(), IntakeSubsystem.getInstance());
     }
 }

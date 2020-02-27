@@ -27,8 +27,8 @@ package com.github.mittyrobotics.commands;
 import com.github.mittyrobotics.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SetRollersOuttakeCommand extends InstantCommand {
-    public SetRollersOuttakeCommand() {
+public class OuttakeRollersCommand extends InstantCommand {
+    public OuttakeRollersCommand() {
         super(() -> IntakeSubsystem.getInstance().setOuttaking(), IntakeSubsystem.getInstance());
     }
 }

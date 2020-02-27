@@ -179,7 +179,7 @@ public class SixBallAuton extends SequentialCommandGroup {
                                         new WaitCommand(2) //TODO: Placeholder, replace with detect balls exit command
                                 ),
                                 //Start intaking
-                                new SetIntakeCommand(),
+                                new IntakeBallCommand(),
                                 //Drive first path
                                 new InitNewPathFollowerCommand(followerReversed),
                                 new PathFollowerCommand(path1),

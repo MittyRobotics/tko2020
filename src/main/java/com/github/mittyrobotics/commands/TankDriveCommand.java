@@ -28,21 +28,13 @@ import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class TankDriveCommand extends CommandBase {
+public class TankDriveCommand extends RunCommand {
 
     public TankDriveCommand() {
-        addRequirements(DriveTrainSubsystem.getInstance());
-    }
-
-    @Override
-    public void execute() {
-        DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getController2().getY(GenericHID.Hand.kLeft),
-                OI.getInstance().getController2().getY(GenericHID.Hand.kRight));
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
+        super(() -> DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getController2()
+                .getY(GenericHID.Hand.kLeft), OI.getInstance().getController2().getY(GenericHID.Hand.kRight)),
+                DriveTrainSubsystem.getInstance());
     }
 }

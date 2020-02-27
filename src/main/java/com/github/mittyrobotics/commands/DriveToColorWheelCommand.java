@@ -39,7 +39,6 @@ public class DriveToColorWheelCommand extends CommandBase {
     @Override
     public void initialize() {
         atSpeed = false;
-        System.out.println("Starting");
         DriveTrainSubsystem.getInstance().tankDrive(0, 0);
     }
 
@@ -56,7 +55,6 @@ public class DriveToColorWheelCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         DriveTrainSubsystem.getInstance().tankVelocity(0.05, 0.05);
-        System.out.println("END");
     }
 
     @Override

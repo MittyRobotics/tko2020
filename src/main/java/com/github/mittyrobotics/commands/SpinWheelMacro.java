@@ -34,7 +34,7 @@ public class SpinWheelMacro extends SequentialCommandGroup {
         if (SpinnerSubsystem.getInstance().getGameMessage() == WheelColor.None) {
             addCommands(new SpinRevsMacro());
         } else {
-            addCommands(new SpinToColorCommand(SpinnerSubsystem.getInstance().getGameMessage()));
+            addCommands(new SpinToColorMacro(SpinnerSubsystem.getInstance().getGameMessage()));
         }
     }
 }
