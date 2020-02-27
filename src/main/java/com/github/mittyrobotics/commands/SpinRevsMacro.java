@@ -31,6 +31,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class SpinRevsMacro extends SequentialCommandGroup {
     public SpinRevsMacro() {
         super();
-        addCommands(new SpinnerUpCommand(), new WaitCommand(.5), new DriveToColorWheelCommand(), new SpinRevsCommand());
+        addCommands(new SpinnerUpCommand(), new DriveToColorWheelCommand(), new SpinRevsCommand());
     }
 }

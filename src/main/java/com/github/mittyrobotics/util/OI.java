@@ -121,9 +121,9 @@ public class OI {
         autoTurret.whenPressed(new InstantCommand(()->autoShootMode = true));
         autoTurret.whenReleased(new InstantCommand(()-> autoShootMode = false));
 
-        Button colorPistonUp = new Button(() -> getJoystick1().getRawButton(6));
+        Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
-        Button colorPistonDown = new Button(() -> getJoystick1().getRawButton(7));
+        Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
         colorPistonDown.whenPressed(new SpinnerDownCommand());
     }
 

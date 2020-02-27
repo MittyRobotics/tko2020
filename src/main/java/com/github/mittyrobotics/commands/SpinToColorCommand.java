@@ -25,14 +25,11 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.constants.WheelColor;
-import com.github.mittyrobotics.subsystems.ColorPistonSubsystem;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SpinToColorCommand extends CommandBase {
-    private double prevPosition;
-    private boolean onColor = false;
-    private boolean finished = false;
     private int green = 0;
     private WheelColor color;
 
@@ -40,16 +37,15 @@ public class SpinToColorCommand extends CommandBase {
     public SpinToColorCommand(WheelColor color) {
         super();
         this.color = color;
-
+        addRequirements(DriveTrainSubsystem.getInstance());
         addRequirements(SpinnerSubsystem.getInstance());
     }
 
     @Override
     public void initialize() {
         System.out.println("Starting");
-        ColorPistonSubsystem.getInstance().up();
         SpinnerSubsystem.getInstance().zeroEncoder();
-
+        DriveTrainSubsystem.getInstance().tankVelocity(0.1, 0.1); //TODO find values
         WheelColor cur = SpinnerSubsystem.getInstance().getColor();
 
         if ((cur == WheelColor.Green && color == WheelColor.Blue) ||
@@ -93,12 +89,9 @@ public class SpinToColorCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if (color == WheelColor.Green) {
-            if (green > 3) {
-                return true;
-            }
+            return green > 3;
         } else {
             return SpinnerSubsystem.getInstance().getColor() == color;
         }
-        return false;
     }
 }
