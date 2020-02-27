@@ -26,12 +26,12 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.constants.OIConstants;
-import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
@@ -40,6 +40,8 @@ public class OI {
     private XboxController xboxController;
     private Joystick joystick1;
     private Joystick joystick2;
+    private XboxController controller2;
+    private boolean autoShootMode = false;
 
     public static OI getInstance() {
         if (instance == null) {
@@ -53,6 +55,13 @@ public class OI {
             xboxWheel = new XboxWheel(OIConstants.XBOX_WHEEL_ID);
         }
         return xboxWheel;
+    }
+
+    public XboxController getController2() {
+        if (controller2 == null) {
+            controller2 = new XboxController(0);
+        }
+        return controller2;
     }
 
     public XboxController getXboxController() {
@@ -77,31 +86,44 @@ public class OI {
     }
 
     public void setupControls() {
-        DriveTrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
+        DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
+
+        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 
         Button spinWheel = new Button(() -> getJoystick1().getTrigger());
         spinWheel.whenPressed(new SpinWheelMacro());
 
-        Button autoShoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
-        autoShoot.whenPressed(new VisionShooterSpeedCommand());
+        Button autoShoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && autoShootMode);
+        autoShoot.whenPressed(new AutoShootMacro());
         autoShoot.whenReleased(new StopFlywheelCommand());
 
-        Button manualShoot = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        manualShoot.whenPressed(new ManualSpinFlywheelCommand());
+        Button manualShoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && !autoShootMode);
+        manualShoot.whenPressed(new ManualShootMacro());
         manualShoot.whenReleased(new StopFlywheelCommand());
 
         Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
         changeIntakePiston.whenPressed(new ChangeIntakePistonCommand());
 
-        Button intake = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
+        Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
         intake.whenPressed(new IntakeBallCommand());
         intake.whenReleased(new StopBallCommand());
 
-        Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
+        Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
         outtake.whenPressed(new OuttakeRollersCommand());
         outtake.whenReleased(new StopBallCommand());
+
+        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
+        autoTurret.whenHeld(new VisionTurretAimCommand());
+        autoTurret.whenPressed(new InstantCommand(()->autoShootMode = true));
+        autoTurret.whenReleased(new InstantCommand(()-> autoShootMode = false));
+
+        Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
+        colorPistonUp.whenPressed(new SpinnerUpCommand());
+        Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
+        colorPistonDown.whenPressed(new SpinnerDownCommand());
     }
+
 
 }

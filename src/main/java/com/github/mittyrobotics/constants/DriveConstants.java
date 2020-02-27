@@ -31,15 +31,15 @@ public class DriveConstants {
     public static final double TICKS_PER_INCH_RIGHT = 169.76;
     public static final double TICKS_PER_INCH_FALCON = 642.83;
 
-    public static final int LEFT_TALON_1 = 20;
-    public static final int LEFT_TALON_2 = 21;
-    public static final int RIGHT_TALON_1 = 23;
-    public static final int RIGHT_TALON_2 = 22;
+    public static final int LEFT_TALON_1 = 10;
+    public static final int LEFT_TALON_2 = 11;
+    public static final int RIGHT_TALON_1 = 12;
+    public static final int RIGHT_TALON_2 = 13;
 
-    public static final int LEFT_FALCON_1 = 0;
-    public static final int LEFT_FALCON_2 = 1;
-    public static final int RIGHT_FALCON_1 = 2;
-    public static final int RIGHT_FALCON_2 = 3;
+    public static final int LEFT_FALCON_1 = 10;
+    public static final int LEFT_FALCON_2 = 11;
+    public static final int RIGHT_FALCON_1 = 12;
+    public static final int RIGHT_FALCON_2 = 13;
 
     public static final double MAX_FALCON_SPEED = 21600.0;
     public static final double MAX_TALON_SPEED = 3075.0;

@@ -22,49 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.subsystems;
+package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.constants.ClimberConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
-import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.github.mittyrobotics.subsystems.ColorPistonSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class WinchLockSubsystem extends SubsystemBase implements ISubsystem {
-    private static WinchLockSubsystem instance;
-
-    private PWM linearActuatorLeft, linearActuatorRight;
-
-    public WinchLockSubsystem() {
-        super();
-        setName("Winch Lock");
-    }
-
-    public static WinchLockSubsystem getInstance() {
-        if (instance == null) {
-            instance = new WinchLockSubsystem();
-        }
-        return instance;
+public class SpinnerDownCommand extends CommandBase {
+    public SpinnerDownCommand() {
+        addRequirements(ColorPistonSubsystem.getInstance());
     }
 
     @Override
-    public void initHardware() {
-        linearActuatorLeft = new PWM(ClimberConstants.LEFT_ACTUATOR_ID);
-        linearActuatorRight = new PWM(ClimberConstants.RIGHT_ACTATOR_ID);
+    public void initialize() {
+        ColorPistonSubsystem.getInstance().down();
     }
-
 
     @Override
-    public void updateDashboard() {
-
-    }
-
-    public void unlockWinch() {
-        linearActuatorLeft.setPosition(1);
-        linearActuatorRight.setPosition(1);
-    }
-
-    public void lockWinch() {
-        linearActuatorLeft.setPosition(0);
-        linearActuatorRight.setPosition(0);
+    public boolean isFinished() {
+        return true;
     }
 }

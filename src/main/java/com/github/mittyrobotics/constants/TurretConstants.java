@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ package com.github.mittyrobotics.constants;
 
 public class TurretConstants {
     //Spin
-    public static final int Turret_Talon_ID = 23;
+    public static final int Turret_Talon_ID = 30;
     public static final boolean TURRET_TALON_INVERSION = false;
     public static final boolean TURRET_ENCODER_INVERSION = false;
     public static final double TURRET_P = .003;

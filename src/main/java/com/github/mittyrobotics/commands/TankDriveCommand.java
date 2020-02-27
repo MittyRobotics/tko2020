@@ -22,49 +22,27 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.subsystems;
+package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.constants.ClimberConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
-import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class WinchLockSubsystem extends SubsystemBase implements ISubsystem {
-    private static WinchLockSubsystem instance;
+public class TankDriveCommand extends CommandBase {
 
-    private PWM linearActuatorLeft, linearActuatorRight;
-
-    public WinchLockSubsystem() {
-        super();
-        setName("Winch Lock");
-    }
-
-    public static WinchLockSubsystem getInstance() {
-        if (instance == null) {
-            instance = new WinchLockSubsystem();
-        }
-        return instance;
+    public TankDriveCommand() {
+        addRequirements(DriveTrainSubsystem.getInstance());
     }
 
     @Override
-    public void initHardware() {
-        linearActuatorLeft = new PWM(ClimberConstants.LEFT_ACTUATOR_ID);
-        linearActuatorRight = new PWM(ClimberConstants.RIGHT_ACTATOR_ID);
+    public void execute() {
+        DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getController2().getY(GenericHID.Hand.kLeft),
+                OI.getInstance().getController2().getY(GenericHID.Hand.kRight));
     }
-
 
     @Override
-    public void updateDashboard() {
-
-    }
-
-    public void unlockWinch() {
-        linearActuatorLeft.setPosition(1);
-        linearActuatorRight.setPosition(1);
-    }
-
-    public void lockWinch() {
-        linearActuatorLeft.setPosition(0);
-        linearActuatorRight.setPosition(0);
+    public boolean isFinished() {
+        return false;
     }
 }

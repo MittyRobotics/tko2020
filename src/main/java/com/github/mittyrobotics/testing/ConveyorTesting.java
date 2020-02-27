@@ -24,10 +24,10 @@
 
 package com.github.mittyrobotics.testing;
 
-import com.github.mittyrobotics.subsystems.BufferSubsystem;
-import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
 import com.github.mittyrobotics.commands.UnloadConveyorCommand;
+import com.github.mittyrobotics.subsystems.BufferSubsystem;
+import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;

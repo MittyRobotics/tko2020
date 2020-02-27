@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.interfaces;
+package com.github.mittyrobotics.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-public interface IDashboard {
-    /**
-     * Updates the {@link SmartDashboard} values associated with the class
-     */
-    void updateDashboard();
+public class ManualShootMacro extends ParallelCommandGroup {
+    public ManualShootMacro() {
+        addCommands(new ManualSpinFlywheelCommand(), new UnloadConveyorCommand());
+    }
 }

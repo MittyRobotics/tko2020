@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.github.mittyrobotics.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -25,13 +49,19 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final ColorMatch colorMatcher = new ColorMatch();
     //calibrated
-    private final Color blue = ColorMatch.makeColor(ColorWheelConstants.BLUE_R, ColorWheelConstants.BLUE_G, ColorWheelConstants.BLUE_B);
-    private final Color green = ColorMatch.makeColor(ColorWheelConstants.GREEN_R, ColorWheelConstants.GREEN_G, ColorWheelConstants.GREEN_B);
-    private final Color red = ColorMatch.makeColor(ColorWheelConstants.RED_R, ColorWheelConstants.RED_G, ColorWheelConstants.RED_B);
-    private final Color yellow = ColorMatch.makeColor(ColorWheelConstants.YELLOW_R, ColorWheelConstants.YELLOW_G, ColorWheelConstants.YELLOW_B);
-    private final Color nullTarget = ColorMatch.makeColor(ColorWheelConstants.NULL_R, ColorWheelConstants.NULL_G, ColorWheelConstants.NULL_B);
+    private final Color blue =
+            ColorMatch.makeColor(ColorWheelConstants.BLUE_R, ColorWheelConstants.BLUE_G, ColorWheelConstants.BLUE_B);
+    private final Color green =
+            ColorMatch.makeColor(ColorWheelConstants.GREEN_R, ColorWheelConstants.GREEN_G, ColorWheelConstants.GREEN_B);
+    private final Color red =
+            ColorMatch.makeColor(ColorWheelConstants.RED_R, ColorWheelConstants.RED_G, ColorWheelConstants.RED_B);
+    private final Color yellow = ColorMatch
+            .makeColor(ColorWheelConstants.YELLOW_R, ColorWheelConstants.YELLOW_G, ColorWheelConstants.YELLOW_B);
+    private final Color nullTarget =
+            ColorMatch.makeColor(ColorWheelConstants.NULL_R, ColorWheelConstants.NULL_G, ColorWheelConstants.NULL_B);
     private final Color alsoNullTarget =
-            ColorMatch.makeColor(ColorWheelConstants.ALSO_NULL_R, ColorWheelConstants.ALSO_NULL_G, ColorWheelConstants.ALSO_NULL_B);
+            ColorMatch.makeColor(ColorWheelConstants.ALSO_NULL_R, ColorWheelConstants.ALSO_NULL_G,
+                    ColorWheelConstants.ALSO_NULL_B);
     //talon for spinner
     private WPI_TalonSRX spinnerTalon;
     private HashMap<WheelColor, WheelColor> map;
@@ -80,18 +110,19 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void setMotorFast() {
-        //sets motor to fast velocity
         setMotorPID(ColorWheelConstants.FAST_VELOCITY);
-
     }
 
     private void setMotorPID(double rpm) { //TODO cleanup setpoint conversion
-        double setpoint = (rpm * (4 * Math.PI)) * ColorWheelConstants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
-        PIDController controller = new PIDController(ColorWheelConstants.SPINNER_P, ColorWheelConstants.SPINNER_I, ColorWheelConstants.SPINNER_D);
-        controller.setSetpoint(setpoint);
-        spinnerTalon.set(ControlMode.PercentOutput, ColorWheelConstants.SPINNER_FF * setpoint
-                + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
-        );
+        if (ColorPistonSubsystem.getInstance().isPistonUp()) {
+            double setpoint = (rpm * (4 * Math.PI)) * ColorWheelConstants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
+            PIDController controller = new PIDController(ColorWheelConstants.SPINNER_P, ColorWheelConstants.SPINNER_I,
+                    ColorWheelConstants.SPINNER_D);
+            controller.setSetpoint(setpoint);
+            spinnerTalon.set(ControlMode.PercentOutput, ColorWheelConstants.SPINNER_FF * setpoint
+                    + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
+            );
+        }
     }
 
     public void setMotorSlow(boolean isReversed) {
@@ -144,13 +175,13 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
         if (s.length() > 0) {
             switch (s.toLowerCase().charAt(0)) {
                 case ('b'):
-                    return WheelColor.Blue;
+                    return map.get(WheelColor.Blue);
                 case ('r'):
-                    return WheelColor.Red;
+                    return map.get(WheelColor.Red);
                 case ('g'):
-                    return WheelColor.Green;
+                    return map.get(WheelColor.Green);
                 case ('y'):
-                    return WheelColor.Yellow;
+                    return map.get(WheelColor.Yellow);
             }
         }
         return WheelColor.None;
@@ -165,14 +196,15 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void setSpinnerManual(double percent) {
-        if (ColorPistonSubsystem.getInstance().isPistonUp() && Math.abs(percent) > 0.1) {
-            spinnerTalon.set(percent);
-        } else {
-            spinnerTalon.set(0);
-        }
+//        if (ColorPistonSubsystem.getInstance().isPistonUp() && Math.abs(percent) > 0.1) {
+        spinnerTalon.set(percent);
+//        } else {
+//            spinnerTalon.set(0);
+//        }
     }
 
     public boolean isSpinnerMoving() {
-        return Math.abs(spinnerTalon.getSelectedSensorVelocity() / (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) * 10) > 5;
+        return Math.abs(spinnerTalon.getSelectedSensorVelocity() / (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) *
+                10) > 5;
     }
 }

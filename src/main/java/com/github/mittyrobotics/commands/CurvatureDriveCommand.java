@@ -6,14 +6,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CurvatureDriveCommand extends CommandBase {
     private boolean isReversed;
-
-    CurvatureDriveCommand() {
-        //addRequirements(DriveTrainTalon.getInstance());
+    CurvatureDriveCommand(){
         addRequirements(DriveTrainSubsystem.getInstance());
     }
 
     @Override
-    public void initialize() {
+    public void initialize(){
         isReversed = false;
     }
 
@@ -32,7 +30,6 @@ public class CurvatureDriveCommand extends CommandBase {
         double threshold = 10;
         boolean inThreshold = Math.abs(turn) < threshold;
         double turnScale = 1;
-        //testing for 10 degrees to the left
         if (turn >= threshold) {
             leftSpeed = (radius + halfWidthRobot) * (2 * Math.PI);
             rightSpeed = (radius - halfWidthRobot) * (2 * Math.PI);
@@ -56,11 +53,11 @@ public class CurvatureDriveCommand extends CommandBase {
 
         if (OI.getInstance().getJoystick1().getRawButtonPressed(2)) {
             isReversed = true;
-        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(1)) { //change button based on kito's preference
+        } else if (OI.getInstance().getJoystick1().getRawButtonPressed(3)) { //change button based on kito's preference
             isReversed = false;
         }
 
-        if (isReversed) {
+        if(isReversed) {
             joystickSpeed = -joystickSpeed;
             double temp = leftSpeed;
             leftSpeed = rightSpeed;
@@ -68,15 +65,12 @@ public class CurvatureDriveCommand extends CommandBase {
         }
 
         if (inThreshold) {
-            //DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
             DriveTrainSubsystem.getInstance().tankDrive(
                     joystickSpeed, joystickSpeed);
         } else if (Math.abs(joystickSpeed) < 0.1) {
-            DriveTrainSubsystem.getInstance().tankDrive(turn / 350, -turn / 350);
-            //DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
+            DriveTrainSubsystem.getInstance().tankDrive(turn/350, -turn/350);
         } else {
             DriveTrainSubsystem.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
-            //DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
         }
 
     }
