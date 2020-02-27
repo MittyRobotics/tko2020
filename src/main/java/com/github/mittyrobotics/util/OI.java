@@ -99,7 +99,7 @@ public class OI {
         spinWheel.whenPressed(new SpinWheelMacro());
 
         Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
-        autoTurret.whenHeld(new RunVisionMacro());
+        autoTurret.whenHeld(new AutomateShooterAimMacro());
         autoTurret.whenPressed(new InstantCommand(() -> autoShootMode = true));
         autoTurret.whenReleased(new InstantCommand(() -> autoShootMode = false));
 

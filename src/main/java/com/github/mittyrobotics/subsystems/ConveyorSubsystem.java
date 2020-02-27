@@ -80,6 +80,9 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void periodic() {
+        if(conveyorTalon.getMotorOutputPercent() != 0){
+            isReverse = conveyorTalon.getMotorOutputPercent() < 0;
+        }
         if (!previousEntranceSwitchValue &&
                 getEntranceSwitch()) { //no ball before and now ball detected before conveyor
             if (isReverse) {
@@ -158,10 +161,4 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
     public void resetEncoder() {
         conveyorTalon.setSelectedSensorPosition(0);
     }
-
-    public void setReverse(boolean value) {
-        isReverse = value;
-    }
-
-
 }
