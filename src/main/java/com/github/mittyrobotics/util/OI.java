@@ -28,6 +28,7 @@ import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.constants.OIConstants;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.subsystems.ShooterSubsystem;
 import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -111,6 +112,12 @@ public class OI {
         manualShoot.whenHeld(new ManualShootMacro());
         manualShoot.whenReleased(new StopFlywheelCommand());
 
+        Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
+        manualShootSpeedUp.whenPressed(new InstantCommand(()-> ShooterSubsystem.getInstance().changeManalRPMSetpoint(100)));
+
+        Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
+        manualShootSpeedDown.whenPressed(new InstantCommand(()-> ShooterSubsystem.getInstance().changeManalRPMSetpoint(-100)));
+        
         Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
         changeIntakePiston.whenPressed(new ChangeIntakePistonCommand());
 
