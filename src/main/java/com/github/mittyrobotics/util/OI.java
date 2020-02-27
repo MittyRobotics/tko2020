@@ -113,10 +113,10 @@ public class OI {
         manualShoot.whenReleased(new StopFlywheelCommand());
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
-        manualShootSpeedUp.whenPressed(new InstantCommand(()-> ShooterSubsystem.getInstance().changeManalRPMSetpoint(100)));
+        manualShootSpeedUp.whenPressed(new InstantCommand(()-> ShooterSubsystem.getInstance().changeManualRPMSetpoint(100)));
 
         Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
-        manualShootSpeedDown.whenPressed(new InstantCommand(()-> ShooterSubsystem.getInstance().changeManalRPMSetpoint(-100)));
+        manualShootSpeedDown.whenPressed(new InstantCommand(()-> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
         
         Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
         changeIntakePiston.whenPressed(new ChangeIntakePistonCommand());
