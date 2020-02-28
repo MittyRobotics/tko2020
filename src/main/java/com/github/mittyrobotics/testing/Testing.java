@@ -24,9 +24,6 @@
 
 package com.github.mittyrobotics.testing;
 
-import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.util.AutonSelector;
-import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
