@@ -24,13 +24,13 @@ public class CurvatureSteering extends CommandBase {
         boolean brake = OI.getInstance().getJoystick1().getTrigger(); //brake
         final double radiusE = 5;
         double radius = Math.abs(450 / turn * radiusE); //radius of imaginary circle
-        double halfWidthRobot = 12.625; //12.5 for falcon
+        double halfWidthRobot = 12.5;
 
         double leftSpeed = 0;
         double rightSpeed = 0;
         double threshold = 10;
         boolean inThreshold = Math.abs(turn) < threshold;
-        double turnScale = 1;
+        double turnScale = 2;
         //testing for 10 degrees to the left
         if (turn >= threshold) {
             leftSpeed = (radius + halfWidthRobot) * (2 * Math.PI);
@@ -68,13 +68,12 @@ public class CurvatureSteering extends CommandBase {
         
         if (inThreshold){
             //DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
-            DriveTrainFalcon.getInstance().tankDrive(
-                    joystickSpeed, joystickSpeed);
+            DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
         } else if (Math.abs(joystickSpeed) < 0.1) {
             DriveTrainFalcon.getInstance().tankDrive(turn/350, -turn/350);
             //DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
         } else {
-            DriveTrainFalcon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
+            DriveTrainFalcon.getInstance().tankDrive(leftSpeed*joystickSpeed/3, rightSpeed*joystickSpeed/3);
             //DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
         }
 
