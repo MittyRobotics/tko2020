@@ -24,11 +24,13 @@
 
 package com.github.mittyrobotics.commands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-public class AutoShootMacro extends SequentialCommandGroup {
+public class AutoShootMacro extends ParallelCommandGroup {
     public AutoShootMacro() {
-        addCommands(
+        addCommands(new VisionShooterSpeedCommand());
+        sequence(
+                new WaitUntilShooterSpeedCommand(50),
                 new UnloadConveyorCommand()
         );
     }

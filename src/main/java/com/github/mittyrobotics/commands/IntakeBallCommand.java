@@ -31,4 +31,9 @@ public class IntakeBallCommand extends RunCommand {
     public IntakeBallCommand() {
         super(() -> IntakeSubsystem.getInstance().setIntaking(), IntakeSubsystem.getInstance());
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        IntakeSubsystem.getInstance().stopIntake();
+    }
 }

@@ -103,7 +103,7 @@ public class Testing extends TimedRobot {
 //        CommandScheduler.getInstance().cancel(autonCommandGroup);
 //        OI.getInstance().setupControls();
         DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
-        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
+//        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
         BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
         OI.getInstance().testButtons();

@@ -136,21 +136,58 @@ public class OI {
     }
 
     public void testButtons(){
-        Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
-        colorPistonUp.whenPressed(new SpinnerUpCommand());
-        Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
-        colorPistonDown.whenPressed(new SpinnerDownCommand());
-        Button setShooterRPM = new Button(()->getController2().getAButton());
-        setShooterRPM.whenHeld(new ManualShootMacro());
-        setShooterRPM.whenReleased(new StopShooter());
-        Button colorWheelMacro = new Button(()->getController2().getBButton());
-        colorWheelMacro.whenPressed(new SpinRevsCommand());
-        Button index = new Button(()->getController2().getYButton());
-        index.whenPressed(new FourBallConveyorIndexCommand(2.1));
-        Button otherWheel = new Button(()->getController2().getXButton());
-        otherWheel.whenPressed(new SpinToColorCommand());
+        //Drive
         Button brake = new Button(()->getController2().getBumper(GenericHID.Hand.kLeft));
         brake.whenHeld(new BrakeDrivetrainCommand());
+
+        //Color Wheel
+        Button colorPistonUp = new Button(() -> getController2().getPOV() == 0);
+        colorPistonUp.whenPressed(new SpinnerUpCommand());
+
+        Button colorPistonDown = new Button(() -> getController2().getPOV() == 180);
+        colorPistonDown.whenPressed(new SpinnerDownCommand());
+
+        Button colorWheelSpinRevs = new Button(()->getController2().getBButton());
+        colorWheelSpinRevs.whenPressed(new SpinWheelMacro());
+
+        //Intaking
+        Button intake = new Button(()->getController2().getBumper(GenericHID.Hand.kRight));
+        intake.whenHeld(new IntakeBallCommand());
+
+        Button outtake = new Button(()->getController2().getBumper(GenericHID.Hand.kLeft));
+        outtake.whenPressed(new OuttakeRollersCommand());
+        outtake.whenReleased(new StopRollersCommand());
+
+        //Shooting
+        Button spinManual = new Button(()-> getController2().getXButton());
+        spinManual.whenPressed(new ManualSpinnerButtonCommand(.5));
+        spinManual.whenReleased(new ManualSpinnerButtonCommand(0));
+
+        Button setupShooter = new Button(()->getController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
+        setupShooter.whenHeld(new VisionShooterSpeedCommand());
+        setupShooter.whenHeld(new VisionTurretAimCommand());
+
+        Button shoot = new Button(()->getController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
+        shoot.whenHeld(new ShootMacro());
+        shoot.whenReleased(new StopShooter());
+
+        Button manualShootSpeedUp = new Button(() -> getController2().getYButton());
+        manualShootSpeedUp
+                .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(100)));
+
+        Button manualShootSpeedDown = new Button(() -> getController2().getAButton());
+        manualShootSpeedDown
+                .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
+
+        //Turret
+        Button manualTurretLeft = new Button(()-> getController2().getPOV() == 270);
+        manualTurretLeft.whenPressed(new ManualTurretButtonCommand(0.2));
+        manualTurretLeft.whenReleased(new ManualTurretButtonCommand(0));
+
+        Button manualTurretRight = new Button(()-> getController2().getPOV() == 90);
+        manualTurretRight.whenPressed(new ManualTurretButtonCommand(-0.2));
+        manualTurretRight.whenReleased(new ManualTurretButtonCommand(0));
+
     }
 
 

@@ -109,6 +109,7 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
         followerPIDController.setI(ShooterConstants.SHOOTER_I);
         followerPIDController.setD(ShooterConstants.SHOOTER_D);
 //      followerEncoder.setInverted(Constants.SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION);
+        manualRPMSetpoint = 3000;
     }
 
     @Override

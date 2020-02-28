@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 public class ManualShootMacro extends ParallelCommandGroup {
     public ManualShootMacro() {
         addCommands(
-                new SetShooterRpmCommand(4000),
+                new ManualSpinFlywheelCommand(),
                 sequence(
                         new WaitUntilShooterSpeedCommand(50),
                         new UnloadConveyorCommand()
