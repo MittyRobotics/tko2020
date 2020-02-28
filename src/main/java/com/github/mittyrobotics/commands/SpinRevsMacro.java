@@ -24,12 +24,11 @@
 
 package com.github.mittyrobotics.commands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 
-public class SpinRevsMacro extends SequentialCommandGroup {
+public class SpinRevsMacro extends ParallelDeadlineGroup {
     public SpinRevsMacro() {
-        super();
-        addCommands(new SpinnerUpCommand(), new DriveToColorWheelCommand(), new SpinRevsCommand());
+        super(new SpinRevsCommand(), new ConstDriveCommand(0.125, 0.125), new SpinnerUpCommand());
     }
 }

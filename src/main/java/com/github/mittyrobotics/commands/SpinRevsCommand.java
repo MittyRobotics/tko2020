@@ -24,8 +24,6 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.ColorPistonSubsystem;
-import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -38,32 +36,20 @@ public class SpinRevsCommand extends CommandBase {
 
     public SpinRevsCommand() {
         super();
-        addRequirements(SpinnerSubsystem.getInstance(),
-                ColorPistonSubsystem.getInstance(), DriveTrainSubsystem.getInstance());
+        addRequirements(SpinnerSubsystem.getInstance());
     }
 
     @Override
     public void initialize() {
-        //sets motor to fast velocity
-//        Spinner.getInstance().zeroEncoder();
-        ColorPistonSubsystem.getInstance().up();
-        SpinnerSubsystem.getInstance().resetEncoder();
-        DriveTrainSubsystem.getInstance().tankDrive(0.125, 0.125);
+        initPos = SpinnerSubsystem.getInstance().getRevolutions();
         done = false;
-//        initPos = SpinnerSubsystem.getInstance().getRevolutions();
-
     }
 
     @Override
     public void execute() {
-        System.out.println(SpinnerSubsystem.getInstance().getRevolutions());
-        //System.out.println(Spinner.getInstance().getEncoder());
-//        System.out.println("Motor REVS: " + (SpinnerSubsystem.getInstance().getRevolutions() - initPos));
         SpinnerSubsystem.getInstance().setMotorFast();
-
-        if (Math.abs(SpinnerSubsystem.getInstance().getRevolutions())> REVS) {
+        if (Math.abs(SpinnerSubsystem.getInstance().getRevolutions()-initPos)> REVS) {
             done = true;
-            SpinnerSubsystem.getInstance().setMotorOff();
         }
     }
 
@@ -71,9 +57,6 @@ public class SpinRevsCommand extends CommandBase {
     public void end(boolean interrupted) {
         //turns off motor, updates status
         SpinnerSubsystem.getInstance().setMotorOff();
-//        ColorPistonSubsystem.getInstance().down();
-        DriveTrainSubsystem.getInstance().tankDrive(0, 0);
-        //OI.getInstance().passedStage2();
     }
 
     @Override

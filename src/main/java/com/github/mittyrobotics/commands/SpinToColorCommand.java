@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.constants.WheelColor;
-import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import com.github.mittyrobotics.subsystems.SpinnerSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -33,30 +32,25 @@ public class SpinToColorCommand extends CommandBase {
     private int green = 0;
     private WheelColor color;
 
-
-    public SpinToColorCommand(WheelColor color) {
+    public SpinToColorCommand(){
         super();
-        this.color = color;
-        addRequirements(DriveTrainSubsystem.getInstance());
         addRequirements(SpinnerSubsystem.getInstance());
     }
 
     @Override
     public void initialize() {
-        System.out.println("Starting");
-        SpinnerSubsystem.getInstance().zeroEncoder();
-        DriveTrainSubsystem.getInstance().tankDrive(0.1, 0.1);
+        color = SpinnerSubsystem.getInstance().getGameMessage();
         WheelColor cur = SpinnerSubsystem.getInstance().getColor();
         System.out.println(cur);
 
-//        if ((cur == WheelColor.Green && color == WheelColor.Blue) ||
-//                (cur == WheelColor.Blue && color == WheelColor.Yellow) ||
-//                (cur == WheelColor.Yellow && color == WheelColor.Red) ||
-//                (cur == WheelColor.Red && color == WheelColor.Green)) {
-//            SpinnerSubsystem.getInstance().setMotorSlow(true);
-//        } else {
+        if ((cur == WheelColor.Green && color == WheelColor.Blue) ||
+                (cur == WheelColor.Blue && color == WheelColor.Yellow) ||
+                (cur == WheelColor.Yellow && color == WheelColor.Red) ||
+                (cur == WheelColor.Red && color == WheelColor.Green)) {
+            SpinnerSubsystem.getInstance().setMotorSlow(true);
+        } else {
             SpinnerSubsystem.getInstance().setMotorSlow(false);
-//        }
+        }
     }
 
     @Override
@@ -66,16 +60,6 @@ public class SpinToColorCommand extends CommandBase {
         } else {
             green = 0;
         }
-        /*if(Spinner.getInstance().matching()){
-            //prevPosition = Spinner.getInstance().getRevolutions();
-            //onColor = true;
-            finished = true;
-        }
-/*        if(onColor){
-            if(Spinner.getInstance().getRevolutions() - prevPosition > 1.0/16.0) {
-                finished = true;
-            }
-        }*/
 
 
     }
@@ -92,7 +76,7 @@ public class SpinToColorCommand extends CommandBase {
         if (color == WheelColor.Green) {
             return green > 3;
         } else {
-            return SpinnerSubsystem.getInstance().getColor() == color;
+            return SpinnerSubsystem.getInstance().getColor() == color || color == WheelColor.None;
         }
     }
 }

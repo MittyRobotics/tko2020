@@ -93,8 +93,11 @@ public class OI {
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 
-        Button spinWheel = new Button(() -> getJoystick1().getTrigger());
-        spinWheel.whenPressed(new SpinWheelMacro());
+        Button spinWheelRevs = new Button(() -> getJoystick1().getTrigger() && SpinnerSubsystem.getInstance().getGameMessage() == WheelColor.None);
+        spinWheelRevs.whenPressed(new SpinRevsMacro());
+
+        Button spinWheelColor = new Button(()-> getJoystick1().getTrigger() && SpinnerSubsystem.getInstance().getGameMessage() != WheelColor.None);
+        spinWheelColor.whenPressed(new SpinToColorMacro());
 
         Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
         autoTurret.whenHeld(new AutomateShooterAimMacro());
@@ -138,8 +141,6 @@ public class OI {
         Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
         colorPistonDown.whenPressed(new SpinnerDownCommand());
         Button setShooterRPM = new Button(()->getController2().getAButton());
-//        setShooterRPM.whenHeld(new SetShooterRpmCommand(3000));
-//        Button unloadConveyor = new Button(()->getController2().getBButton());
         setShooterRPM.whenHeld(new ManualShootMacro());
         setShooterRPM.whenReleased(new StopShooter());
         Button colorWheelMacro = new Button(()->getController2().getBButton());
@@ -147,7 +148,9 @@ public class OI {
         Button index = new Button(()->getController2().getYButton());
         index.whenPressed(new FourBallConveyorIndexCommand(2.1));
         Button otherWheel = new Button(()->getController2().getXButton());
-        otherWheel.whenPressed(new SpinToColorCommand(WheelColor.Green));
+        otherWheel.whenPressed(new SpinToColorCommand());
+        Button brake = new Button(()->getController2().getBumper(GenericHID.Hand.kLeft));
+        brake.whenHeld(new BrakeDrivetrainCommand());
     }
 
 
