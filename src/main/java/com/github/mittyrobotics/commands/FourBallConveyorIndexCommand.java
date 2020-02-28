@@ -41,6 +41,7 @@ public class FourBallConveyorIndexCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        System.out.println("Hit command");
         //ConveyorSubsystem.getInstance().moveConveyor(distance);
         initialPosition = ConveyorSubsystem.getInstance().getPosition();
         currentPosition = initialPosition;

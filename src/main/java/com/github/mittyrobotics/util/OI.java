@@ -26,6 +26,7 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.constants.OIConstants;
+import com.github.mittyrobotics.constants.WheelColor;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.subsystems.*;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -129,6 +130,24 @@ public class OI {
         colorPistonUp.whenPressed(new SpinnerUpCommand());
         Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
         colorPistonDown.whenPressed(new SpinnerDownCommand());
+    }
+
+    public void testButtons(){
+        Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
+        colorPistonUp.whenPressed(new SpinnerUpCommand());
+        Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
+        colorPistonDown.whenPressed(new SpinnerDownCommand());
+        Button setShooterRPM = new Button(()->getController2().getAButton());
+//        setShooterRPM.whenHeld(new SetShooterRpmCommand(3000));
+//        Button unloadConveyor = new Button(()->getController2().getBButton());
+        setShooterRPM.whenHeld(new ManualShootMacro());
+        setShooterRPM.whenReleased(new StopShooter());
+        Button colorWheelMacro = new Button(()->getController2().getBButton());
+        colorWheelMacro.whenPressed(new SpinRevsCommand());
+        Button index = new Button(()->getController2().getYButton());
+        index.whenPressed(new FourBallConveyorIndexCommand(2.1));
+        Button otherWheel = new Button(()->getController2().getXButton());
+        otherWheel.whenPressed(new SpinToColorCommand(WheelColor.Green));
     }
 
 

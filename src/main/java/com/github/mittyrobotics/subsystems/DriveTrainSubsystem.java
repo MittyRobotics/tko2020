@@ -86,10 +86,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
 //        rightDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
 //        rightDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
 
-        leftDrive[0].setNeutralMode(NeutralMode.Coast);
-        rightDrive[0].setNeutralMode(NeutralMode.Coast);
-        leftDrive[1].setNeutralMode(NeutralMode.Coast);
-        rightDrive[0].setNeutralMode(NeutralMode.Coast);
+        setNeutralMode(NeutralMode.Brake);
     }
 
     @Override

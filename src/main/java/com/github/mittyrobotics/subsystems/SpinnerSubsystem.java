@@ -109,12 +109,15 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
 
     }
 
+    public void resetEncoder(){
+        spinnerTalon.setSelectedSensorPosition(0);
+    }
+
     public void setMotorFast() {
         setMotorPID(ColorWheelConstants.FAST_VELOCITY);
     }
 
     private void setMotorPID(double rpm) { //TODO cleanup setpoint conversion
-        if (ColorPistonSubsystem.getInstance().isPistonUp()) {
             double setpoint = (rpm * (4 * Math.PI)) * ColorWheelConstants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
             PIDController controller = new PIDController(ColorWheelConstants.SPINNER_P, ColorWheelConstants.SPINNER_I,
                     ColorWheelConstants.SPINNER_D);
@@ -122,16 +125,16 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
             spinnerTalon.set(ControlMode.PercentOutput, ColorWheelConstants.SPINNER_FF * setpoint
                     + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
             );
-        }
     }
 
     public void setMotorSlow(boolean isReversed) {
         //sets motor to slow velocity
-        if (isReversed) {
-            setMotorPID(-ColorWheelConstants.SLOW_VELOCITY);
-        } else {
-            setMotorPID(ColorWheelConstants.SLOW_VELOCITY);
-        }
+//        if (isReversed) {
+//            setMotorPID(-ColorWheelConstants.SLOW_VELOCITY);
+//        } else {
+//            setMotorPID(ColorWheelConstants.SLOW_VELOCITY);
+//        }
+        spinnerTalon.set(ControlMode.PercentOutput, 0.2);
     }
 
     public void setMotorOff() {

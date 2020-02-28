@@ -45,17 +45,18 @@ public class SpinToColorCommand extends CommandBase {
     public void initialize() {
         System.out.println("Starting");
         SpinnerSubsystem.getInstance().zeroEncoder();
-        DriveTrainSubsystem.getInstance().tankVelocity(0.1, 0.1); //TODO find values
+        DriveTrainSubsystem.getInstance().tankDrive(0.1, 0.1);
         WheelColor cur = SpinnerSubsystem.getInstance().getColor();
+        System.out.println(cur);
 
-        if ((cur == WheelColor.Green && color == WheelColor.Blue) ||
-                (cur == WheelColor.Blue && color == WheelColor.Yellow) ||
-                (cur == WheelColor.Yellow && color == WheelColor.Red) ||
-                (cur == WheelColor.Red && color == WheelColor.Green)) {
-            SpinnerSubsystem.getInstance().setMotorSlow(true);
-        } else {
+//        if ((cur == WheelColor.Green && color == WheelColor.Blue) ||
+//                (cur == WheelColor.Blue && color == WheelColor.Yellow) ||
+//                (cur == WheelColor.Yellow && color == WheelColor.Red) ||
+//                (cur == WheelColor.Red && color == WheelColor.Green)) {
+//            SpinnerSubsystem.getInstance().setMotorSlow(true);
+//        } else {
             SpinnerSubsystem.getInstance().setMotorSlow(false);
-        }
+//        }
     }
 
     @Override

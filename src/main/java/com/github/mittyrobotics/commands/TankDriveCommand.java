@@ -34,7 +34,7 @@ public class TankDriveCommand extends RunCommand {
 
     public TankDriveCommand() {
         super(() -> DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getController2()
-                .getY(GenericHID.Hand.kLeft), OI.getInstance().getController2().getY(GenericHID.Hand.kRight)),
+                .getY(GenericHID.Hand.kRight), OI.getInstance().getController2().getY(GenericHID.Hand.kLeft)),
                 DriveTrainSubsystem.getInstance());
     }
 }

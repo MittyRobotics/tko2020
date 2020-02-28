@@ -80,15 +80,15 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void periodic() {
-        if (conveyorTalon.getMotorOutputPercent() != 0) {
-            isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-        }
+//        if (conveyorTalon.getMotorOutputPercent() != 0) {
+//            isReverse = conveyorTalon.getMotorOutputPercent() < 0;
+//        }
         if (!previousEntranceSwitchValue &&
                 getEntranceSwitch()) { //no ball before and now ball detected before conveyor
             if (isReverse) {
                 updateBallCount(-1);
             } else {
-                CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(2.1));
+                CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(2.3));
                 updateBallCount(1);
             }
             ballCountHasChanged = true;
@@ -97,12 +97,12 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
         }
 
 
-        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor
-            updateBallCount(-1);
-            ballCountHasChanged = true;
-        } else {
-            ballCountHasChanged = false;
-        }
+//        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor
+//            updateBallCount(-1);
+//            ballCountHasChanged = true;
+//        } else {
+//            ballCountHasChanged = false;
+//        }
 
         System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
         previousEntranceSwitchValue = getEntranceSwitch();

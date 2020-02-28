@@ -36,8 +36,12 @@ public class UnloadConveyorCommand extends CommandBase {
 
     @Override
     public void execute() {
-        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(.4);
-        BufferSubsystem.getInstance().manualBufferSpeed(.4);
+//        if(ShooterSubsystem.getInstance().getRPMError() > 100){
+//            BufferSubsystem.getInstance().manualBufferSpeed(-.2);
+//            ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
+//        }
+        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(1);
+        BufferSubsystem.getInstance().manualBufferSpeed(1);
 //        Intake.getInstance().intakeBall();
     }
 

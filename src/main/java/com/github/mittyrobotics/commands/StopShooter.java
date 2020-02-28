@@ -24,14 +24,12 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.BufferSubsystem;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import com.github.mittyrobotics.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
-public class LockBallCommand extends RunCommand {
-
-    public LockBallCommand() {
-        super(() -> BufferSubsystem.getInstance().bufferLock(),
-                BufferSubsystem.getInstance());
+public class StopShooter extends RunCommand {
+    public StopShooter() {
+        super(()->ShooterSubsystem.getInstance().setShooterPercent(0), ShooterSubsystem.getInstance());
     }
 }

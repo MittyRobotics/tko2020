@@ -29,6 +29,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class SetShooterRpmCommand extends InstantCommand {
     public SetShooterRpmCommand(double rpm) {
-        super(() -> ShooterSubsystem.getInstance().setShooterRpm(rpm));
+        super(() -> ShooterSubsystem.getInstance().setShooterRpm(rpm), ShooterSubsystem.getInstance());
     }
 }
