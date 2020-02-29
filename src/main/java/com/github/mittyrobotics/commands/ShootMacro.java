@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
 public class ShootMacro extends ConditionalCommand {
     public ShootMacro(){
-        super(new AutoShootMacro(), new ManualShootMacro(), ()->OI.getInstance().getController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
+        super(new AutoMacroStuff(), new ManualShootMacro(),
+                ()->OI.getInstance().getController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
     }
 }

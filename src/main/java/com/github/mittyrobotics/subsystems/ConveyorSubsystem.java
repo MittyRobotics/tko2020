@@ -91,15 +91,19 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
         isReverse = conveyorTalon.getMotorOutputPercent() < 0;
 //        }
         if (getEntranceSwitch() && !isReverse) {
-            if(!previousEntranceSwitchValue){
-                updateBallCount(1);
-            }
             count++;
         } else {
             count = 0;//no ball before and now ball detected before conveyor
         }
-        if(!isReverse && count == 3){
-            CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(10));
+        if(count == 3){
+            totalBallCount++;
+        }
+        if(!isReverse && count == 3 && totalBallCount < 5){
+            if(totalBallCount == 4){
+                CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(4));
+            } else {
+                CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(11));
+            }
         }
 
         if(isReverse && !getEntranceSwitch() && previousEntranceSwitchValue){
@@ -127,6 +131,7 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 
     public void updateBallCount(int count) {
         totalBallCount += count;
+        totalBallCount = Math.max(totalBallCount, 0);
     }
 
     public void resetBallCount() {

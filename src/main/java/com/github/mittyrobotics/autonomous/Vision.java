@@ -37,9 +37,12 @@ public class Vision implements IDashboard {
             visionDistance = visionToTurretDistance(visionDistance, visionYaw);
             visionYaw = visionToTurretYaw(visionDistance, visionDistance, visionYaw);
 
-            Transform turretTransform = computeTurretTransform(visionDistance, visionYaw, Gyro.getInstance().getRotation());
+            //Transform turretTransform = computeTurretTransform(visionDistance, visionYaw,
+//                    Gyro.getInstance().getRotation());
 
-            turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
+//            Transform turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
+
+            Transform turretTransform = new Transform();
 
             latestVisionTarget = new VisionTarget(turretTransform, visionYaw, visionDistance);
         }

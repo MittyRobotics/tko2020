@@ -32,7 +32,10 @@ public class ManualShootMacro extends ParallelCommandGroup {
                 new ManualSpinFlywheelCommand(),
                 sequence(
                         new WaitUntilShooterSpeedCommand(50),
-                        new UnloadConveyorCommand()
+                        parallel(
+                        new UnloadConveyorCommand(),
+                        new IntakeBallShootingCommand()
+                        )
                 )
         );
     }

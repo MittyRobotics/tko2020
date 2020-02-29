@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.commands;
 
+import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -33,5 +34,10 @@ public class ManualSpinFlywheelCommand extends RunCommand {
     public ManualSpinFlywheelCommand() {
         super(() -> ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance()
                 .getManualRPMSetpoint()), ShooterSubsystem.getInstance());
+    }
+
+    @Override
+    public void end(boolean inte){
+        ConveyorSubsystem.getInstance().resetBallCount();
     }
 }

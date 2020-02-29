@@ -62,9 +62,11 @@ public class IntakePistonSubsystem extends SubsystemBase implements ISubsystem {
 
     public void extendIntake() {
         intakePiston.set(DoubleSolenoid.Value.kForward);
+        ConveyorSubsystem.getInstance().resetBallCount();
     }
 
     public void retractIntake() {
         intakePiston.set(DoubleSolenoid.Value.kReverse);
+        ConveyorSubsystem.getInstance().resetBallCount();
     }
 }

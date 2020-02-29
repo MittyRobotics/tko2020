@@ -24,6 +24,8 @@
 
 package com.github.mittyrobotics.testing;
 
+import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
+import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
@@ -62,10 +64,13 @@ public class Testing extends TimedRobot {
     public void robotPeriodic() {
         //Run command scheduler
         CommandScheduler.getInstance().run();
+        Vision.getInstance().run();
+        //AutomatedTurretSuperstructure.getInstance().run();
         //Update dashboards
 //        DriveTrainSubsystem.getInstance().updateDashboard();
 ////        IntakeSubsystem.getInstance().updateDashboard();
-//        ConveyorSubsystem.getInstance().updateDashboard();
+        ConveyorSubsystem.getInstance().updateDashboard();
+        ShooterSubsystem.getInstance().updateDashboard();
 //        BufferSubsystem.getInstance().updateDashboard();
 //        ShooterSubsystem.getInstance().updateDashboard();
 //        TurretSubsystem.getInstance().updateDashboard();
@@ -102,11 +107,12 @@ public class Testing extends TimedRobot {
 //        IntakePistonSubsystem.getInstance().retractIntake();
 //        CommandScheduler.getInstance().cancel(autonCommandGroup);
 //        OI.getInstance().setupControls();
-        DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
-//        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
-        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
-        OI.getInstance().testButtons();
+//        ConveyorSubsystem.getInstance().resetBallCount();
+//        DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
+////        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
+//        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
+//        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
+        OI.getInstance().prospectControls();
     }
 
     @Override
@@ -121,6 +127,7 @@ public class Testing extends TimedRobot {
 
     @Override
     public void testPeriodic() {
+//        ShooterSubsystem.getInstance().setShooterPercent(1);
 //        if(OI.getInstance().getController2().getBButton()){
 //            IntakePistonSubsystem.getInstance().retractIntake();
 //        } else if(OI.getInstance().getController2().getAButton()){

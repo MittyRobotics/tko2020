@@ -23,7 +23,7 @@ public class ManualTurretButtonCommand extends CommandBase {
 
    @Override
    public boolean isFinished(){
-       return false;
+       return true;
    }
 
 }

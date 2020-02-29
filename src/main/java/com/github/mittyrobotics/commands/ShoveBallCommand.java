@@ -24,18 +24,25 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.TurretSubsystem;
-import com.github.mittyrobotics.util.OI;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ManualTurretCommand extends RunCommand {
-    public ManualTurretCommand() {
-        super(
-//                OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight) > 0.1?
-                ()->TurretSubsystem.getInstance().setTurretPercent(OI.getInstance().getXboxController()
-                        .getX(GenericHID.Hand.kRight)),
-//                ()->TurretSubsystem.getInstance().setTurretPercent(0),
-                TurretSubsystem.getInstance());
+public class ShoveBallCommand extends CommandBase {
+    public ShoveBallCommand(){
+        addRequirements(ConveyorSubsystem.getInstance());
+    }
+    @Override
+    public void initialize(){
+        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(.8);
+    }
+
+    @Override
+    public void end(boolean i){
+        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
+    }
+
+    @Override
+    public boolean isFinished(){
+        return false;
     }
 }

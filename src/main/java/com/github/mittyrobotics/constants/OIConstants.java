@@ -25,8 +25,8 @@
 package com.github.mittyrobotics.constants;
 
 public class OIConstants {
-    public static final int XBOX_CONTROLLER_ID = 2;
+    public static final int XBOX_CONTROLLER_ID = 0;
     public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 4;
-    public static final int XBOX_WHEEL_ID = 5;
+    public static final int JOYSTICK_2_ID = 2;
+    public static final int XBOX_WHEEL_ID = 3;
 }

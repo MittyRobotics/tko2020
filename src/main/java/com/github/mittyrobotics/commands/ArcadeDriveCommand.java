@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ArcadeDriveCommand extends CommandBase {
     private boolean isReversed;
 
-    ArcadeDriveCommand() {
+    public ArcadeDriveCommand() {
         addRequirements(DriveTrainSubsystem.getInstance());
     }
 
@@ -19,9 +19,9 @@ public class ArcadeDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (OI.getInstance().getJoystick2().getRawButtonPressed(2)) {
+        if (OI.getInstance().getJoystick2().getRawButtonPressed(3)) {
             isReversed = true;
-        } else if (OI.getInstance().getJoystick2().getRawButtonPressed(3)) {
+        } else if (OI.getInstance().getJoystick2().getRawButtonPressed(2)) {
             isReversed = false;
         }
         double turn = OI.getInstance().getXboxWheel().getX() * 450 / 120;

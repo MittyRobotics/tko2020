@@ -24,18 +24,15 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.TurretSubsystem;
-import com.github.mittyrobotics.util.OI;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class ManualTurretCommand extends RunCommand {
-    public ManualTurretCommand() {
-        super(
-//                OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight) > 0.1?
-                ()->TurretSubsystem.getInstance().setTurretPercent(OI.getInstance().getXboxController()
-                        .getX(GenericHID.Hand.kRight)),
-//                ()->TurretSubsystem.getInstance().setTurretPercent(0),
-                TurretSubsystem.getInstance());
+public class AutoMacroStuff extends SequentialCommandGroup {
+    public AutoMacroStuff(){
+        addCommands(
+                new WaitUntilShooterSpeedCommand(50),
+                parallel(
+                new UnloadConveyorCommand(), new IntakeBallShootingCommand()
+                )
+        );
     }
 }
