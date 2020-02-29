@@ -28,6 +28,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.github.mittyrobotics.constants.DriveConstants;
 import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
@@ -91,10 +92,11 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("drive-vel-left", getLeftEncoderVelocity());
-        SmartDashboard.putNumber("drive-vel-right", getRightEncoderVelocity());
-        SmartDashboard.putNumber("drive-vel-left-setpoint", getLeftVelSetpoint());
-        SmartDashboard.putNumber("drive-vel-right-setpoint", getRightVelSetpoint());
+        SmartDashboard.putNumber("Drive Velocity Left", getLeftEncoderVelocity());
+        SmartDashboard.putNumber("Drive Velocity Right", getRightEncoderVelocity());
+        SmartDashboard.putNumber("Drive Velocity Left Setpoint", getLeftVelSetpoint());
+        SmartDashboard.putNumber("Drive Velocity Right Setpoint", getRightVelSetpoint());
+        SmartDashboard.putNumber("Gyro Angle", Gyro.getInstance().getAngle360());
     }
 
     public void tankDrive(double left, double right, double threshold, double multiplier) {

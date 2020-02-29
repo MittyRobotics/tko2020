@@ -31,7 +31,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class ManualTurretCommand extends RunCommand {
     public ManualTurretCommand() {
-        super(()->TurretSubsystem.getInstance().setTurretPercent(OI.getInstance().getXboxController()
-                .getX(GenericHID.Hand.kRight)), TurretSubsystem.getInstance());
+        super(OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight) > 0.1?
+                ()->TurretSubsystem.getInstance().setTurretPercent(OI.getInstance().getXboxController()
+                        .getX(GenericHID.Hand.kRight)):
+                ()->TurretSubsystem.getInstance().setTurretPercent(0),
+                TurretSubsystem.getInstance());
     }
 }

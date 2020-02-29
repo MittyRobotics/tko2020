@@ -81,7 +81,8 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Count", count);
+        SmartDashboard.putNumber("Total Ball Count", totalBallCount);
+        SmartDashboard.putBoolean("Is Ball Detected", getEntranceSwitch());
     }
 
     @Override
@@ -89,7 +90,10 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 //        if (conveyorTalon.getMotorOutputPercent() != 0) {
         isReverse = conveyorTalon.getMotorOutputPercent() < 0;
 //        }
-        if (getEntranceSwitch()) {
+        if (getEntranceSwitch() && !isReverse) {
+            if(!previousEntranceSwitchValue){
+                updateBallCount(1);
+            }
             count++;
         } else {
             count = 0;//no ball before and now ball detected before conveyor
@@ -97,6 +101,11 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
         if(!isReverse && count == 3){
             CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(10));
         }
+
+        if(isReverse && !getEntranceSwitch() && previousEntranceSwitchValue){
+            updateBallCount(-1);
+        }
+
 
 
 

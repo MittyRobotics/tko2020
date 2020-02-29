@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         DriveTrainSubsystem.getInstance().initHardware();
-//        IntakeSubsystem.getInstance().initHardware();
+        IntakeSubsystem.getInstance().initHardware();
         ConveyorSubsystem.getInstance().initHardware();
         BufferSubsystem.getInstance().initHardware();
         ShooterSubsystem.getInstance().initHardware();
@@ -68,7 +68,8 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         //Update dashboards
         DriveTrainSubsystem.getInstance().updateDashboard();
-//        IntakeSubsystem.getInstance().updateDashboard();
+        IntakeSubsystem.getInstance().updateDashboard();
+        IntakePistonSubsystem.getInstance().updateDashboard();
         ConveyorSubsystem.getInstance().updateDashboard();
         BufferSubsystem.getInstance().updateDashboard();
         ShooterSubsystem.getInstance().updateDashboard();
@@ -89,9 +90,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-        ShooterSubsystem.getInstance().setDefaultCommand(new SetShooterRpmCommand(0));
-        IntakeSubsystem.getInstance().setDefaultCommand(new StopRollersCommand());
         autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
         CommandScheduler.getInstance().schedule(autonCommandGroup);
     }
@@ -105,7 +103,6 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().cancel(autonCommandGroup);
         OI.getInstance().setupControls();
-        Compressor.getInstance().start();
     }
 
     @Override

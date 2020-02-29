@@ -49,6 +49,7 @@ public class UnloadConveyorCommand extends CommandBase {
     public void end(boolean interrupted) {
         ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
         BufferSubsystem.getInstance().manualBufferSpeed(0);
+        ConveyorSubsystem.getInstance().resetBallCount();
     }
 
     @Override

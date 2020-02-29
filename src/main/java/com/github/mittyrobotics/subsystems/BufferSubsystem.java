@@ -29,6 +29,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.constants.BufferConstants;
 import com.github.mittyrobotics.interfaces.ISubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BufferSubsystem extends SubsystemBase implements ISubsystem {
@@ -61,7 +62,7 @@ public class BufferSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putBoolean("Buffer Locking", bufferWheel.get() > 0);
     }
 
     private void moveWheel(double speed) {

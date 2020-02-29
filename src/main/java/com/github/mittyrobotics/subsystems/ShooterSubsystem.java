@@ -118,8 +118,9 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
     }
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("shooter-rpm", getShooterRPM());
-        SmartDashboard.putNumber("shooter-rpm-setpoint", getCurrentSetpoint());
+        SmartDashboard.putNumber("Current Shooter RPM", getShooterRPM());
+        SmartDashboard.putNumber("Shooter RPM Setpoint", getCurrentSetpoint());
+        SmartDashboard.putNumber("Manual Shooter RPM Setpoint", getManualRPMSetpoint());
     }
 
     /**

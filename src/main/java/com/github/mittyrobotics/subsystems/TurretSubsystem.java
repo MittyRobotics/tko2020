@@ -108,14 +108,14 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("turret-encoder", TurretSubsystem.getInstance().getEncoderPosition());
-        SmartDashboard.putNumber("turret-robot-relative-angle",
+        SmartDashboard.putNumber("Turret Encoder", TurretSubsystem.getInstance().getEncoderPosition());
+        SmartDashboard.putNumber("Turret Robot Relative Angle",
                 AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
-        SmartDashboard.putNumber("turret-field-relative-angle",
+        SmartDashboard.putNumber("Turret Field Relative Angle",
                 AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
-        SmartDashboard.putNumber("turret-field-relative-position-x",
+        SmartDashboard.putNumber("Turret Field Relative Position X",
                 AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getX());
-        SmartDashboard.putNumber("turret-field-relative-position-y",
+        SmartDashboard.putNumber("Turret Field Relative Position Y",
                 AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getY());
     }
 

@@ -27,12 +27,12 @@ package com.github.mittyrobotics.subsystems;
 import com.github.mittyrobotics.constants.IntakeConstants;
 import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakePistonSubsystem extends SubsystemBase implements ISubsystem {
     private static IntakePistonSubsystem instance;
     private DoubleSolenoid intakePiston;
-    private boolean isOut;
     private IntakePistonSubsystem() {
         super();
         setName("Intake Piston");
@@ -47,27 +47,24 @@ public class IntakePistonSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putBoolean("Is Intake Extended", isExtended());
     }
 
     @Override
     public void initHardware() {
         intakePiston =
                 new DoubleSolenoid(IntakeConstants.SOLENOID_FORWQRD_CHANNEL, IntakeConstants.SOLENOID_REVERSE_CHANNEL);
-        isOut = false;
     }
 
     public boolean isExtended() {
-        return intakePiston.get() == DoubleSolenoid.Value.kForward || intakePiston.get() == DoubleSolenoid.Value.kOff;
+        return intakePiston.get() != DoubleSolenoid.Value.kReverse;
     }
 
     public void extendIntake() {
-        isOut = true;
         intakePiston.set(DoubleSolenoid.Value.kForward);
     }
 
     public void retractIntake() {
-        isOut = false;
         intakePiston.set(DoubleSolenoid.Value.kReverse);
     }
 }

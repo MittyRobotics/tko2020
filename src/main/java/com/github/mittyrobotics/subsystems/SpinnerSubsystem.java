@@ -36,6 +36,7 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -106,7 +107,9 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putString("Color", getColor().toString());
+        SmartDashboard.putString("Color Target", getGameMessage() == WheelColor.None ? "Spin 3 - 5 times": getGameMessage().toString());
+        SmartDashboard.putNumber("Spinner RPM", getRPM());
     }
 
     public void resetEncoder(){
@@ -118,13 +121,13 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     private void setMotorPID(double rpm) { //TODO cleanup setpoint conversion
-            double setpoint = (rpm * (4 * Math.PI)) * ColorWheelConstants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
-            PIDController controller = new PIDController(ColorWheelConstants.SPINNER_P, ColorWheelConstants.SPINNER_I,
-                    ColorWheelConstants.SPINNER_D);
-            controller.setSetpoint(setpoint);
-            spinnerTalon.set(ControlMode.PercentOutput, ColorWheelConstants.SPINNER_FF * setpoint
-                    + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
-            );
+        double setpoint = (rpm * (4 * Math.PI)) * ColorWheelConstants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
+        PIDController controller = new PIDController(ColorWheelConstants.SPINNER_P, ColorWheelConstants.SPINNER_I,
+                ColorWheelConstants.SPINNER_D);
+        controller.setSetpoint(setpoint);
+        setSpinnerManual(ColorWheelConstants.SPINNER_FF * setpoint
+                + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
+        );
     }
 
     public void setMotorSlow(boolean isReversed) {
@@ -199,15 +202,18 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void setSpinnerManual(double percent) {
-//        if (ColorPistonSubsystem.getInstance().isPistonUp() && Math.abs(percent) > 0.1) {
+        if (ColorPistonSubsystem.getInstance().isPistonUp()) {
         spinnerTalon.set(percent);
-//        } else {
-//            spinnerTalon.set(0);
-//        }
+        } else {
+            spinnerTalon.set(0);
+        }
     }
 
     public boolean isSpinnerMoving() {
         return Math.abs(spinnerTalon.getSelectedSensorVelocity() / (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) *
                 10) > 5;
+    }
+    private double getRPM(){
+        return spinnerTalon.getSelectedSensorVelocity()/ (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) * 600;
     }
 }
