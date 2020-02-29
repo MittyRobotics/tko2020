@@ -24,12 +24,18 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.LinearActuator.LinearActuator;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
+
+    Joystick js = new Joystick(0);
+    boolean toggle = false;
+
     @Override
     public void robotInit() {
-
+        LinearActuator.getInstance().initHardware();
     }
 
     @Override
@@ -44,7 +50,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-
     }
 
     @Override
@@ -54,7 +59,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-
     }
 
     @Override
@@ -64,12 +68,22 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-
     }
 
     @Override
     public void teleopPeriodic() {
 
+        if (js.getRawButton(3)) {
+            LinearActuator.getInstance().set(0.5);
+        } else if(js.getRawButton(2)) {
+            LinearActuator.getInstance().set(0);
+        } else if(js.getRawButtonPressed(4)) {
+            toggle = !toggle;
+        }
+
+        if(toggle) {
+            LinearActuator.getInstance().set(1-((js.getY() + 1) / 2));
+        }
     }
 
     @Override
