@@ -119,7 +119,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void tankDrive(double left, double right) {
-        tankDrive(left, right, 0.2, 1);
+        tankDrive(left, right, 0.1, 1);
     }
 
     public double getLeftEncoder() {

@@ -28,6 +28,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 public class SpinToColorMacro extends ParallelDeadlineGroup {
     public SpinToColorMacro() {
-        super(new SpinToColorCommand(), new ConstDriveCommand(0.125, 0.125), new SpinnerUpCommand());
+        super(new SpinToColorCommand(), new ConstDriveCommand(0.07, 0.07), new SpinnerUpCommand());
     }
 }

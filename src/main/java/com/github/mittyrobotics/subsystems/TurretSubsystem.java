@@ -207,7 +207,7 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      * @param iKnowWhatImDoing do you know what you are doing?
      */
     public void overrideSetTurretPercent(double percent, boolean iKnowWhatImDoing) {
-        if (iKnowWhatImDoing && Math.abs(percent) > 0.2) {
+        if (iKnowWhatImDoing && Math.abs(percent) > 0.15) {
             turretTalon.set(ControlMode.PercentOutput, percent);
         } else {
             turretTalon.set(ControlMode.PercentOutput, 0);

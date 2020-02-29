@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
@@ -137,8 +138,9 @@ public class OI {
 
     public void testButtons(){
         //Drive
-        Button brake = new Button(()->getController2().getBumper(GenericHID.Hand.kLeft));
+        Button brake = new Button(()->getController2().getStickButton(GenericHID.Hand.kLeft));
         brake.whenHeld(new BrakeDrivetrainCommand());
+//        brake.whenReleased(new TankDriveCommand());
 
         //Color Wheel
         Button colorPistonUp = new Button(() -> getController2().getPOV() == 0);
@@ -153,15 +155,19 @@ public class OI {
         //Intaking
         Button intake = new Button(()->getController2().getBumper(GenericHID.Hand.kRight));
         intake.whenHeld(new IntakeBallCommand());
+//        intake.whenHeld(new ConveyorFullEnter());
+//        intake.whenHeld(new LockBallCommand());
 
         Button outtake = new Button(()->getController2().getBumper(GenericHID.Hand.kLeft));
-        outtake.whenPressed(new OuttakeRollersCommand());
-        outtake.whenReleased(new StopRollersCommand());
+        outtake.whenHeld(new OuttakeRollersCommand());
+//        outtake.whenReleased(new StopRollersCommand());
+        outtake.whenHeld(new ReverseConveyor());
 
+        Button changeIntakeState = new Button(()->getController2().getXButton());
+        changeIntakeState.whenPressed(new ChangeIntakePistonState());
         //Shooting
         Button spinManual = new Button(()-> getController2().getXButton());
-        spinManual.whenPressed(new ManualSpinnerButtonCommand(.5));
-        spinManual.whenReleased(new ManualSpinnerButtonCommand(0));
+        spinManual.whenHeld(new ManualSpinnerButtonCommand(.5));
 
         Button setupShooter = new Button(()->getController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
         setupShooter.whenHeld(new VisionShooterSpeedCommand());
@@ -181,12 +187,10 @@ public class OI {
 
         //Turret
         Button manualTurretLeft = new Button(()-> getController2().getPOV() == 270);
-        manualTurretLeft.whenPressed(new ManualTurretButtonCommand(0.2));
-        manualTurretLeft.whenReleased(new ManualTurretButtonCommand(0));
+        manualTurretLeft.whenHeld(new ManualTurretButtonCommand(-0.2));
 
         Button manualTurretRight = new Button(()-> getController2().getPOV() == 90);
-        manualTurretRight.whenPressed(new ManualTurretButtonCommand(-0.2));
-        manualTurretRight.whenReleased(new ManualTurretButtonCommand(0));
+        manualTurretRight.whenHeld(new ManualTurretButtonCommand(0.2));
 
     }
 

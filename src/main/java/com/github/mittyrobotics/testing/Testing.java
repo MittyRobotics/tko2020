@@ -35,6 +35,7 @@ import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 public class Testing extends TimedRobot {
     Command autonCommandGroup;
@@ -45,13 +46,14 @@ public class Testing extends TimedRobot {
     @Override
     public void robotInit() {
         DriveTrainSubsystem.getInstance().initHardware();
-//        IntakeSubsystem.getInstance().initHardware();
+        IntakeSubsystem.getInstance().initHardware();
         ConveyorSubsystem.getInstance().initHardware();
         BufferSubsystem.getInstance().initHardware();
         ShooterSubsystem.getInstance().initHardware();
         TurretSubsystem.getInstance().initHardware();
         ColorPistonSubsystem.getInstance().initHardware();
         SpinnerSubsystem.getInstance().initHardware();
+        IntakePistonSubsystem.getInstance().initHardware();
 //        HooksSubsystem.getInstance().initHardware();
 //        WinchSubsystem.getInstance().initHardware();
 //        WinchLockSubsystem.getInstance().initHardware();
@@ -100,6 +102,7 @@ public class Testing extends TimedRobot {
 
     @Override
     public void teleopInit() {
+//        IntakePistonSubsystem.getInstance().retractIntake();
 //        CommandScheduler.getInstance().cancel(autonCommandGroup);
 //        OI.getInstance().setupControls();
         DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
@@ -116,11 +119,16 @@ public class Testing extends TimedRobot {
 
     @Override
     public void testInit() {
-
+        Compressor.getInstance().start();
     }
 
     @Override
     public void testPeriodic() {
+//        if(OI.getInstance().getController2().getBButton()){
+//            IntakePistonSubsystem.getInstance().retractIntake();
+//        } else if(OI.getInstance().getController2().getAButton()){
+//            IntakePistonSubsystem.getInstance().extendIntake();
+//        }
 //        System.out.println(SpinnerSubsystem.getInstance().getColor());
 
     }

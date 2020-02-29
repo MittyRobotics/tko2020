@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
         TurretSubsystem.getInstance().initHardware();
         ColorPistonSubsystem.getInstance().initHardware();
         SpinnerSubsystem.getInstance().initHardware();
+        IntakePistonSubsystem.getInstance().initHardware();
 //        HooksSubsystem.getInstance().initHardware();
 //        WinchSubsystem.getInstance().initHardware();
 //        WinchLockSubsystem.getInstance().initHardware();
@@ -104,6 +105,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().cancel(autonCommandGroup);
         OI.getInstance().setupControls();
+        Compressor.getInstance().start();
     }
 
     @Override

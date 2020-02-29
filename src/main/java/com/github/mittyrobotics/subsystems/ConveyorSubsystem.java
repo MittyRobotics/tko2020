@@ -26,12 +26,17 @@ package com.github.mittyrobotics.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
+import com.github.mittyrobotics.commands.LockBallCommand;
 import com.github.mittyrobotics.constants.ConveyorConstants;
 import com.github.mittyrobotics.interfaces.ISubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
@@ -44,7 +49,7 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
     private DigitalInput entranceOpticalSwitch;
     private DigitalInput exitOpticalSwitch;
     private boolean isReverse;
-
+    private int count;
     private ConveyorSubsystem() {
         super();
         setName("Conveyor");
@@ -65,36 +70,34 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
         conveyorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         entranceOpticalSwitch = new DigitalInput(ConveyorConstants.ENTRANCE_OPTICAL_SWITCH);
         exitOpticalSwitch = new DigitalInput(ConveyorConstants.EXIT_OPTICAL_SWITCH);
-
+        conveyorTalon.setNeutralMode(NeutralMode.Brake);
         previousEntranceSwitchValue = false;
         previousExitSwitchValue = false;
         ballCountHasChanged = false;
         totalBallCount = 0;
         isReverse = false;
+        count = 0;
     }
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putNumber("Count", count);
     }
 
     @Override
     public void periodic() {
 //        if (conveyorTalon.getMotorOutputPercent() != 0) {
-//            isReverse = conveyorTalon.getMotorOutputPercent() < 0;
+        isReverse = conveyorTalon.getMotorOutputPercent() < 0;
 //        }
-        if (!previousEntranceSwitchValue &&
-                getEntranceSwitch()) { //no ball before and now ball detected before conveyor
-            if (isReverse) {
-                updateBallCount(-1);
-            } else {
-                CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(2.3));
-                updateBallCount(1);
-            }
-            ballCountHasChanged = true;
+        if (getEntranceSwitch()) {
+            count++;
         } else {
-            ballCountHasChanged = false;
+            count = 0;//no ball before and now ball detected before conveyor
         }
+        if(!isReverse && count == 3){
+            CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(10));
+        }
+
 
 
 //        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor

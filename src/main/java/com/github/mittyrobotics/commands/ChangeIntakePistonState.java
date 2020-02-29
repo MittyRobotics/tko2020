@@ -22,15 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.constants;
+package com.github.mittyrobotics.commands;
 
-public class IntakeConstants {
-    public static final int INTAKE_WHEEL_ID = 40;
-    public static final boolean INTAKE_WHEEL_INVERSION = false;
-    public static final double INTAKE_SPEED_FAST = .45;
-    public static final double INTAKE_SPEED_SLOW = .225;
-    public static final double OUTTAKE_SPEED = -.5;
-    public static final int SOLENOID_FORWQRD_CHANNEL = 3;
-    public static final int SOLENOID_REVERSE_CHANNEL = 4;
+import com.github.mittyrobotics.subsystems.IntakePistonSubsystem;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
+public class ChangeIntakePistonState extends ConditionalCommand {
+    public ChangeIntakePistonState(){
+        super(new InstantCommand(()-> IntakePistonSubsystem.getInstance().retractIntake()),
+                new InstantCommand(()-> IntakePistonSubsystem.getInstance().extendIntake()),
+                ()->IntakePistonSubsystem.getInstance().isExtended());
+    }
 }

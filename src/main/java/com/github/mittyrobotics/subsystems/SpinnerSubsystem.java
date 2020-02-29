@@ -129,12 +129,12 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
 
     public void setMotorSlow(boolean isReversed) {
         //sets motor to slow velocity
-//        if (isReversed) {
-//            setMotorPID(-ColorWheelConstants.SLOW_VELOCITY);
-//        } else {
-//            setMotorPID(ColorWheelConstants.SLOW_VELOCITY);
-//        }
-        spinnerTalon.set(ControlMode.PercentOutput, 0.2);
+        if (isReversed) {
+            setMotorPID(-ColorWheelConstants.SLOW_VELOCITY);
+        } else {
+            setMotorPID(ColorWheelConstants.SLOW_VELOCITY);
+        }
+//        spinnerTalon.set(ControlMode.PercentOutput, 0.2);
     }
 
     public void setMotorOff() {

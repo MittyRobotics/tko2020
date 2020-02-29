@@ -29,6 +29,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 public class SpinRevsMacro extends ParallelDeadlineGroup {
     public SpinRevsMacro() {
-        super(new SpinRevsCommand(), new ConstDriveCommand(0.125, 0.125), new SpinnerUpCommand());
+        super(new SpinRevsCommand(), new ConstDriveCommand(0.07, 0.07), new SpinnerUpCommand());
     }
 }

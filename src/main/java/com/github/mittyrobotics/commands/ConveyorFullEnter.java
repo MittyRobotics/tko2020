@@ -22,49 +22,27 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.subsystems;
+package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.constants.IntakeConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakePiston extends SubsystemBase implements ISubsystem {
-    private static IntakePiston instance;
-    private DoubleSolenoid intakePiston;
-
-    private IntakePiston() {
-        super();
-        setName("Intake Piston");
+public class ConveyorFullEnter extends CommandBase {
+    public ConveyorFullEnter(){
+        addRequirements(ConveyorSubsystem.getInstance());
     }
-
-    public static IntakePiston getInstance() {
-        if (instance == null) {
-            instance = new IntakePiston();
-        }
-        return instance;
+    @Override
+    public void initialize(){
+        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(.8);
     }
 
     @Override
-    public void updateDashboard() {
-
+    public void end(boolean initialize){
+        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
     }
 
     @Override
-    public void initHardware() {
-        intakePiston =
-                new DoubleSolenoid(IntakeConstants.SOLENOID_FORWQRD_CHANNEL, IntakeConstants.SOLENOID_REVERSE_CHANNEL);
-    }
-
-    public boolean isExtended() {
-        return intakePiston.get() == DoubleSolenoid.Value.kForward;
-    }
-
-    public void extendIntake() {
-        intakePiston.set(DoubleSolenoid.Value.kForward);
-    }
-
-    public void retractIntake() {
-        intakePiston.set(DoubleSolenoid.Value.kReverse);
+    public boolean isFinished(){
+        return false;
     }
 }

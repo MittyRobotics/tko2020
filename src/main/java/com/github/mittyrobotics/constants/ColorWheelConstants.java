@@ -43,8 +43,8 @@ public class ColorWheelConstants {
     //ticks for one inch of the color wheel
     public static final int TICKS_PER_INCH = 326;
     //slow and fast velocity for motor
-    public static final int FAST_VELOCITY = 5000;
-    public static final int SLOW_VELOCITY = 1000;
+    public static final int FAST_VELOCITY = 480;
+    public static final int SLOW_VELOCITY = 23*8;
 
 
     //rgb for color sensor targets (CALIBRATE THIS)

@@ -34,4 +34,8 @@ public class LockBallCommand extends RunCommand {
         super(() -> BufferSubsystem.getInstance().bufferLock(),
                 BufferSubsystem.getInstance());
     }
+    @Override
+    public void end(boolean inte){
+        BufferSubsystem.getInstance().manualBufferSpeed(0);
+    }
 }
