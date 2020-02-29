@@ -24,6 +24,8 @@
 
 package com.github.mittyrobotics.autonomous.constants;
 
+import com.github.mittyrobotics.datatypes.positioning.Position;
+
 public class AutonConstants {
     //Field
     public static double HIGH_TARGET_HEIGHT = (6.836 + 9.438) / 2.0 * 12; /*(6.836 + 9.438) / 2.0;*/ //ft //TODO:
@@ -39,7 +41,8 @@ public class AutonConstants {
     //Robot
     public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
     public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
-    public static double CAMERA_TURRET_OFFSET = 0; //Inches //TODO: Find this value
+    public static double CAMERA_TURRET_OFFSET = 5; //Inches //TODO: Find this value
+    public static Position turretPositionRelativeToRobotCenter = new Position(24,0); //Inches //Todo: Find this value
 
     //Shooter //TODO: Tune these
     //TODO: Convert real distances into vision distance

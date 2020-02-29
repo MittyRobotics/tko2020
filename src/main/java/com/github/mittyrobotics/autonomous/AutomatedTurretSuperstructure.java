@@ -27,12 +27,15 @@ package com.github.mittyrobotics.autonomous;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
+import com.github.mittyrobotics.datatypes.CircularTimestampedList;
+import com.github.mittyrobotics.datatypes.TimestampedElement;
 import com.github.mittyrobotics.datatypes.geometry.Line;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * {@link AutomatedTurretSuperstructure} class. Manages the turret's position relative to the field and relative to vision targets.
@@ -51,6 +54,8 @@ public class AutomatedTurretSuperstructure {
     private TurretAutomationMode aimMode = TurretAutomationMode.NO_AUTOMATION;
     private Transform setpoint;
 
+    private CircularTimestampedList<Rotation> turretRobotRelativeRotations = new CircularTimestampedList<>(50);
+
     public static AutomatedTurretSuperstructure getInstance() {
         return instance;
     }
@@ -60,7 +65,9 @@ public class AutomatedTurretSuperstructure {
         this.robotRelativeRotation = new Rotation(TurretSubsystem.getInstance().getAngle());
         this.fieldRelativeRotation = robotToFieldRelativeAngle(Gyro.getInstance().getRotation(),
                 robotRelativeRotation);
-        this.fieldRelativePosition = computeFieldRelativePosition(Vision.getInstance().getLatestVisionTarget());
+        this.fieldRelativePosition = Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
+
+        turretRobotRelativeRotations.addFront(new TimestampedElement<>(robotRelativeRotation, Timer.getFPGATimestamp()));
 
         //Maintain the automated turret control
         maintainAutomation();
@@ -159,7 +166,7 @@ public class AutomatedTurretSuperstructure {
      * @param target the {@link VisionTarget} to aim at.
      */
     public void setVisionAim(VisionTarget target) {
-        setFieldRelativeAimRotation(target.getFieldRelativeYaw());
+        setFieldRelativeAimRotation(target.getObserverTransform().getRotation());
     }
 
     /**
@@ -170,26 +177,8 @@ public class AutomatedTurretSuperstructure {
         this.aimMode = TurretAutomationMode.NO_AUTOMATION;
     }
 
-    /**
-     * Computes the field-relative {@link Position} of the turret given parameters from the vision system.
-     *
-     * @param target the {@link VisionTarget} to get the field-relative position from
-     * @return the {@link Position} that makes up the turret's position relative to the field.
-     */
-    private Position computeFieldRelativePosition(VisionTarget target) {
-        if (target.getDistance() == -1000) {
-            return new Position();
-        }
-
-        //Target relative position
-        Position turretPosition = new Position(
-                -target.getDistance() * target.getFieldRelativeYaw().cos(),
-                -target.getDistance() * target.getFieldRelativeYaw().sin());
-
-        //Add scoring target to get field-relative position
-        turretPosition = turretPosition.add(AutonCoordinates.SCORING_TARGET);
-
-        return turretPosition;
+    public Rotation turretToRobotRelativeAngle(Rotation turretRotation, Rotation turretRelativeRotation){
+        return turretRelativeRotation.add(turretRotation);
     }
 
     /**
@@ -214,6 +203,10 @@ public class AutomatedTurretSuperstructure {
      */
     public Rotation fieldToRobotRelativeAngle(Rotation gyro, Rotation fieldRelativeRotation) {
         return fieldRelativeRotation.subtract(gyro);
+    }
+
+    public Position robotToTurretPosition(Transform robotTransform){
+        return AutonConstants.turretPositionRelativeToRobotCenter.rotateBy(robotTransform.getRotation()).add(robotTransform.getPosition());
     }
 
     /**
@@ -262,5 +255,9 @@ public class AutomatedTurretSuperstructure {
 
     public Position getFieldRelativePosition() {
         return fieldRelativePosition;
+    }
+
+    public CircularTimestampedList<Rotation> getTurretRobotRelativeRotations() {
+        return turretRobotRelativeRotations;
     }
 }

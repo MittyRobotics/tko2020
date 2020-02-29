@@ -28,11 +28,12 @@ import com.github.mittyrobotics.autonomous.Vision;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class WaitUntilVisionLockedCommand extends WaitUntilCommand {
-    public WaitUntilVisionLockedCommand(double angleThreshold) {
-        super(() -> Vision.getInstance().isVisionLocked(angleThreshold));
+
+    public WaitUntilVisionLockedCommand(double time) {
+        super(() -> Vision.getInstance().isVisionLocked(time));
     }
 
     public WaitUntilVisionLockedCommand() {
-        super(() -> Vision.getInstance().isVisionLocked());
+        super(() -> Vision.getInstance().isVisionLocked(0.1));
     }
 }

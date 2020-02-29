@@ -1,79 +1,40 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
+import com.github.mittyrobotics.datatypes.positioning.Transform;
 
-/**
- * Represents a detected vision target containing a turret-relative yaw, a field-relative yaw, and a distance
- */
 public class VisionTarget {
-    private Rotation turretRelativeYaw;
-    private Rotation fieldRelativeYaw;
-    private double distance;
+    private Transform observerTransform;
+    private Rotation observerYawToTarget;
+    private double observerDistanceToTarget;
 
-    public VisionTarget() {
-        this(new Rotation(), new Rotation(), 0);
+    public VisionTarget(Transform observerTransform, Rotation observerYawToTarget, double observerDistanceToTarget){
+        this.observerTransform = observerTransform;
+        this.observerYawToTarget = observerYawToTarget;
+        this.observerDistanceToTarget = observerDistanceToTarget;
     }
 
-    public VisionTarget(Rotation turretRelativeYaw, Rotation fieldRelativeYaw, double distance) {
-        this.turretRelativeYaw = turretRelativeYaw;
-        this.fieldRelativeYaw = fieldRelativeYaw;
-        this.distance = distance;
+    public Transform getObserverTransform() {
+        return observerTransform;
     }
 
-    public Rotation getTurretRelativeYaw() {
-        return turretRelativeYaw;
+    public void setObserverTransform(Transform observerTransform) {
+        this.observerTransform = observerTransform;
     }
 
-    public void setTurretRelativeYaw(Rotation turretRelativeYaw) {
-        this.turretRelativeYaw = turretRelativeYaw;
+    public Rotation getObserverYawToTarget() {
+        return observerYawToTarget;
     }
 
-    public Rotation getFieldRelativeYaw() {
-        return fieldRelativeYaw;
+    public void setObserverYawToTarget(Rotation observerYawToTarget) {
+        this.observerYawToTarget = observerYawToTarget;
     }
 
-    public void setFieldRelativeYaw(Rotation fieldRelativeYaw) {
-        this.fieldRelativeYaw = fieldRelativeYaw;
+    public double getObserverDistanceToTarget() {
+        return observerDistanceToTarget;
     }
 
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
-
-    @Override
-    public String toString() {
-        return "VisionTarget{" +
-                "turretRelativeYaw=" + turretRelativeYaw +
-                ", fieldRelativeYaw=" + fieldRelativeYaw +
-                ", distance=" + distance +
-                '}';
+    public void setObserverDistanceToTarget(double observerDistanceToTarget) {
+        this.observerDistanceToTarget = observerDistanceToTarget;
     }
 }
