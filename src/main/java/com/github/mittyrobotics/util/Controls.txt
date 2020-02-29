@@ -1,0 +1,14 @@
+Driver
+
+Operator
+    Xbox
+        Intake - Left Bumper
+        Outtake - Right Bumper
+        Setup Shooter - Left Trigger (> 0.5)
+        Shoot Balls - Right Trigger (> 0.5)
+        Manual Speed UP - Y Button
+        Manual Speed Down - A Button
+        Manual Turret - Right joystick (X axis)
+    Joystick
+        Trigger - Color Wheel Macro
+        

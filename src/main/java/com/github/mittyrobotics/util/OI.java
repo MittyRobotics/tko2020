@@ -212,12 +212,12 @@ public class OI {
         colorWheelSpinRevs.whenPressed(new SpinWheelMacro());
 
         //Intaking
-        Button intake = new Button(()->getXboxController().getBumper(GenericHID.Hand.kRight));
+        Button intake = new Button(()->getXboxController().getBumper(GenericHID.Hand.kLeft));
         intake.whenHeld(new IntakeBallCommand());
 //        intake.whenHeld(new ConveyorFullEnter());
 //        intake.whenHeld(new LockBallCommand());
 
-        Button outtake = new Button(()->getXboxController().getBumper(GenericHID.Hand.kLeft));
+        Button outtake = new Button(()->getXboxController().getBumper(GenericHID.Hand.kRight));
         outtake.whenHeld(new OuttakeRollersCommand());
 //        outtake.whenReleased(new StopRollersCommand());
         outtake.whenHeld(new ReverseConveyor());
