@@ -1,5 +1,6 @@
 package com.github.mittyrobotics.drive;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.drive.DriveTrainTalon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -28,9 +29,9 @@ public class CurvatureSteering extends CommandBase {
 
         double leftSpeed = 0;
         double rightSpeed = 0;
-        double threshold = 10;
+        double threshold = 3;
         boolean inThreshold = Math.abs(turn) < threshold;
-        double turnScale = 2;
+        double turnScale = 3;
         //testing for 10 degrees to the left
         if (turn >= threshold) {
             leftSpeed = (radius + halfWidthRobot) * (2 * Math.PI);
@@ -51,6 +52,9 @@ public class CurvatureSteering extends CommandBase {
             leftSpeed = 0;
             rightSpeed = 0;
             joystickSpeed = 0;
+            DriveTrainFalcon.getInstance().setNeutralMode(NeutralMode.Brake);
+        } else {
+            DriveTrainFalcon.getInstance().setNeutralMode(NeutralMode.Coast);
         }
 
         if (OI.getInstance().getJoystick1().getRawButtonPressed(2)) {
@@ -68,12 +72,12 @@ public class CurvatureSteering extends CommandBase {
         
         if (inThreshold){
             //DriveTrainTalon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
-            DriveTrainFalcon.getInstance().tankDrive(joystickSpeed/3, joystickSpeed/3);
-        } else if (Math.abs(joystickSpeed) < 0.1) {
+            DriveTrainFalcon.getInstance().tankDrive(joystickSpeed, joystickSpeed);
+        } else if (Math.abs(joystickSpeed) < 0.05) {
             DriveTrainFalcon.getInstance().tankDrive(turn/350, -turn/350);
             //DriveTrainTalon.getInstance().tankDrive(turn/350, -turn/350);
         } else {
-            DriveTrainFalcon.getInstance().tankDrive(leftSpeed*joystickSpeed/3, rightSpeed*joystickSpeed/3);
+            DriveTrainFalcon.getInstance().tankDrive(leftSpeed*joystickSpeed, rightSpeed*joystickSpeed);
             //DriveTrainTalon.getInstance().tankDrive(leftSpeed * joystickSpeed, rightSpeed * joystickSpeed);
         }
 
