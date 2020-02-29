@@ -33,7 +33,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class OI {
@@ -43,7 +42,6 @@ public class OI {
     private Joystick joystick1;
     private Joystick joystick2;
     private XboxController controller2;
-    private boolean autoShootMode = false;
 
     public static OI getInstance() {
         if (instance == null) {
@@ -94,24 +92,16 @@ public class OI {
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 
-        Button spinWheelRevs = new Button(() -> getJoystick1().getTrigger() && SpinnerSubsystem.getInstance().getGameMessage() == WheelColor.None);
-        spinWheelRevs.whenPressed(new SpinRevsMacro());
-
         Button spinWheelColor = new Button(()-> getJoystick1().getTrigger() && SpinnerSubsystem.getInstance().getGameMessage() != WheelColor.None);
-        spinWheelColor.whenPressed(new SpinToColorMacro());
+        spinWheelColor.whenPressed(new SpinWheelMacro());
 
         Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
         autoTurret.whenHeld(new AutomateShooterAimMacro());
-        autoTurret.whenPressed(new InstantCommand(() -> autoShootMode = true));
-        autoTurret.whenReleased(new InstantCommand(() -> autoShootMode = false));
 
         Button autoShoot =
-                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && autoShootMode);
-        autoShoot.whenHeld(new AutoShootMacro());
+                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
+        autoShoot.whenHeld(new ShootMacro());
 
-        Button manualShoot =
-                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5 && !autoShootMode);
-        manualShoot.whenHeld(new ManualShootMacro());
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
@@ -129,6 +119,7 @@ public class OI {
 
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
         outtake.whenHeld(new OuttakeRollersCommand());
+        outtake.whenHeld(new ReverseConveyor());
 
         Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
@@ -140,7 +131,6 @@ public class OI {
         //Drive
         Button brake = new Button(()->getController2().getStickButton(GenericHID.Hand.kLeft));
         brake.whenHeld(new BrakeDrivetrainCommand());
-//        brake.whenReleased(new TankDriveCommand());
 
         //Color Wheel
         Button colorPistonUp = new Button(() -> getController2().getPOV() == 0);
