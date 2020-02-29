@@ -28,6 +28,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.commands.AltIndexerCommand;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
 import com.github.mittyrobotics.commands.LockBallCommand;
 import com.github.mittyrobotics.constants.ConveyorConstants;
@@ -90,6 +91,24 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 //        if (conveyorTalon.getMotorOutputPercent() != 0) {
         isReverse = conveyorTalon.getMotorOutputPercent() < 0;
 //        }
+        temp2(isReverse);
+
+
+
+
+//        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor
+//            updateBallCount(-1);
+//            ballCountHasChanged = true;
+//        } else {
+//            ballCountHasChanged = false;
+//        }
+
+        System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
+        previousEntranceSwitchValue = getEntranceSwitch();
+        previousExitSwitchValue = getExitSwitch();
+    }
+
+    public void temp1(boolean isReverse){
         if (getEntranceSwitch() && !isReverse) {
             count++;
         } else {
@@ -109,22 +128,18 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
         if(isReverse && !getEntranceSwitch() && previousEntranceSwitchValue){
             updateBallCount(-1);
         }
-
-
-
-
-//        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor
-//            updateBallCount(-1);
-//            ballCountHasChanged = true;
-//        } else {
-//            ballCountHasChanged = false;
-//        }
-
-        System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
-        previousEntranceSwitchValue = getEntranceSwitch();
-        previousExitSwitchValue = getExitSwitch();
     }
 
+    public void temp2(boolean isReverse){
+        if(getEntranceSwitch() && !previousEntranceSwitchValue && !isReverse){
+            CommandScheduler.getInstance().schedule(new AltIndexerCommand());
+            updateBallCount(1);
+        }
+        if(isReverse && !getEntranceSwitch() && previousEntranceSwitchValue){
+            updateBallCount(-1);
+        }
+        previousEntranceSwitchValue = getEntranceSwitch();
+    }
     public int getTotalBallCount() {
         return totalBallCount;
     }

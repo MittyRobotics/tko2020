@@ -105,7 +105,7 @@ public class Testing extends TimedRobot {
     @Override
     public void teleopInit() {
 //        IntakePistonSubsystem.getInstance().retractIntake();
-//        CommandScheduler.getInstance().cancel(autonCommandGroup);
+//        CommandScheduler.getInstance().cancel(autonCommandGroup\;
 //        OI.getInstance().setupControls();
 //        ConveyorSubsystem.getInstance().resetBallCount();
 //        DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
