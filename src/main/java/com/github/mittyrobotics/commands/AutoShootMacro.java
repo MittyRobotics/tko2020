@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,17 @@
 
 package com.github.mittyrobotics.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class AutoShootMacro extends ParallelCommandGroup {
+public class AutoShootMacro extends SequentialCommandGroup {
     public AutoShootMacro() {
-        addCommands(new VisionShooterSpeedCommand());
-        sequence(
-                new WaitUntilShooterSpeedCommand(50),
-                new UnloadConveyorCommand()
+        addCommands(
+                new ParallelRaceGroup(new WaitUntilShooterSpeedCommand(50), new WaitCommand(2)),
+                parallel(
+                        new UnloadConveyorCommand(), new IntakeBallShootingCommand()
+                )
         );
     }
 }

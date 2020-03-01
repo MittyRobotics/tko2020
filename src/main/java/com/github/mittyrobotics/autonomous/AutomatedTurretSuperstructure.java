@@ -46,7 +46,7 @@ import edu.wpi.first.wpilibj.Timer;
  * the rotation of the turret offset from the turret's default location.
  */
 public class AutomatedTurretSuperstructure {
-    public static AutomatedTurretSuperstructure instance = new AutomatedTurretSuperstructure();
+    public static AutomatedTurretSuperstructure instance;
     private Rotation robotRelativeRotation;
     private Rotation fieldRelativeRotation;
     private Position fieldRelativePosition;
@@ -56,6 +56,9 @@ public class AutomatedTurretSuperstructure {
     private CircularTimestampedList<Rotation> turretRobotRelativeRotations = new CircularTimestampedList<>(50);
 
     public static AutomatedTurretSuperstructure getInstance() {
+        if(instance == null){
+            instance = new AutomatedTurretSuperstructure();
+        }
         return instance;
     }
 

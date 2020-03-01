@@ -57,6 +57,6 @@ public class UnloadConveyorCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return OI.getInstance().getController2().getTriggerAxis(GenericHID.Hand.kRight) < 0.5;
+        return !OI.getInstance().isTryingToShoot();
     }
 }

@@ -24,12 +24,18 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
+import com.github.mittyrobotics.autonomous.modes.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 
 public class AutonSelector {
-    private static AutonSelector instance = new AutonSelector();
+    private static AutonSelector instance;
 
     public static AutonSelector getInstance() {
+        if(instance == null){
+            instance = new AutonSelector();
+        }
         return instance;
     }
 
@@ -41,7 +47,17 @@ public class AutonSelector {
      * @return the autonomous command group to be run during the autonomous period of the match.
      */
     public CommandGroupBase getSelectedAutonomousMode() {
-        //TODO: Implement this
-        return null;
+        return (CommandGroupBase) SmartDashboard.getData("Auton Mode");
+    }
+
+    public void setupAutonChooser() {
+        SendableChooser<CommandGroupBase> chooser = new SendableChooser<>();
+        chooser.setDefaultOption("Shoot 3 Balls", new ShootAuto());
+        chooser.addOption("Drive off line", new DriveOffLineAuto());
+        chooser.addOption("Drive and Shoot", new DriveAndShootAuto());
+        chooser.addOption("Six Ball Auton", new SixBallAuton());
+        chooser.addOption("Ten Ball Auton", new TenBallAuton());
+        chooser.addOption("Thirteen Ball Auton", new ThirteenBallAuton());
+        SmartDashboard.putData("Auton Mode", chooser);
     }
 }

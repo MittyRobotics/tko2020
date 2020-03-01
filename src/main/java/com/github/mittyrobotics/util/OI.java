@@ -28,6 +28,7 @@ import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.constants.OIConstants;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.subsystems.*;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -40,7 +41,8 @@ public class OI {
     private XboxController xboxController;
     private Joystick joystick1;
     private Joystick joystick2;
-    private XboxController controller2;
+    private boolean inAutoShootMode = false;
+    private boolean tryingToShoot = false;
 
     public static OI getInstance() {
         if (instance == null) {
@@ -54,13 +56,6 @@ public class OI {
             xboxWheel = new XboxWheel(OIConstants.XBOX_WHEEL_ID);
         }
         return xboxWheel;
-    }
-
-    public XboxController getController2() {
-        if (controller2 == null) {
-            controller2 = new XboxController(0);
-        }
-        return controller2;
     }
 
     public XboxController getXboxController() {
@@ -128,71 +123,71 @@ public class OI {
 
     public void testButtons() {
         //Drive
-        Button brake = new Button(() -> getController2().getStickButton(GenericHID.Hand.kLeft));
+        Button brake = new Button(() -> getXboxController().getStickButton(GenericHID.Hand.kLeft));
         brake.whenHeld(new BrakeDrivetrainCommand());
 
         ConveyorSubsystem.getInstance().setDefaultCommand(new ManualConveyorCommandTemp());
 
         //Color Wheel
-        Button colorPistonUp = new Button(() -> getController2().getPOV() == 0);
+        Button colorPistonUp = new Button(() -> getXboxController().getPOV() == 0);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
 
-        Button colorPistonDown = new Button(() -> getController2().getPOV() == 180);
+        Button colorPistonDown = new Button(() -> getXboxController().getPOV() == 180);
         colorPistonDown.whenPressed(new SpinnerDownCommand());
 
-        Button colorWheelSpinRevs = new Button(() -> getController2().getBButton());
+        Button colorWheelSpinRevs = new Button(() -> getXboxController().getBButton());
         colorWheelSpinRevs.whenPressed(new SpinWheelMacro());
 
         //Intaking
-        Button intake = new Button(() -> getController2().getBumper(GenericHID.Hand.kRight));
+        Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
         intake.whenHeld(new IntakeBallCommand());
 //        intake.whenHeld(new ConveyorFullEnter());
 //        intake.whenHeld(new LockBallCommand());
 
-        Button outtake = new Button(() -> getController2().getBumper(GenericHID.Hand.kLeft));
+        Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
         outtake.whenHeld(new OuttakeRollersCommand());
 //        outtake.whenReleased(new StopRollersCommand());
 //        outtake.whenHeld(new ReverseConveyor());
 //        outtake.whenReleased(new UnloadConveyorCommand());
 
-        Button changeIntakeState = new Button(() -> getController2().getXButton());
+        Button changeIntakeState = new Button(() -> getXboxController().getXButton());
         changeIntakeState.whenPressed(new ChangeIntakePistonState());
         //Shooting
-        Button spinManual = new Button(() -> getController2().getXButton());
+        Button spinManual = new Button(() -> getXboxController().getXButton());
         spinManual.whenHeld(new ManualSpinnerButtonCommand(.5));
 
-        Button setupShooter = new Button(() -> getController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
+        Button setupShooter = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
         setupShooter.whenHeld(new MinimalVisionCommand());
         setupShooter.whenReleased(new StopShooter());
         setupShooter.whenReleased(new ManualTurretButtonCommand(0));
 
-        Button shoot = new Button(() -> getController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
+        Button shoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
         shoot.whenHeld(new ShootMacro());
         shoot.whenReleased(new StopShooter());
 
-        Button manualShootSpeedUp = new Button(() -> getController2().getYButton());
+        Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
                 .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(100)));
 
-        Button manualShootSpeedDown = new Button(() -> getController2().getAButton());
+        Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
         manualShootSpeedDown
                 .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
 
         //Turret
-        Button manualTurretLeft = new Button(() -> getController2().getPOV() == 270);
+        Button manualTurretLeft = new Button(() -> getXboxController().getPOV() == 270);
         manualTurretLeft.whenHeld(new ManualTurretButtonCommand(-0.2));
 
-        Button manualTurretRight = new Button(() -> getController2().getPOV() == 90);
+        Button manualTurretRight = new Button(() -> getXboxController().getPOV() == 90);
         manualTurretRight.whenHeld(new ManualTurretButtonCommand(0.2));
 
-        Button addBallCount = new Button(() -> getController2().getStartButton());
+        Button addBallCount = new Button(() -> getXboxController().getStartButton());
         addBallCount.whenPressed(new InstantCommand(
                 () -> ConveyorSubsystem.getInstance().updateBallCount(1)));
 
-        Button subBallCount = new Button(() -> getController2().getBackButton());
+        Button subBallCount = new Button(() -> getXboxController().getBackButton());
         subBallCount.whenPressed(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(-1)));
 
-        Button forceIn = new Button(() -> getController2().getStickButton(GenericHID.Hand.kRight));
+        Button forceIn = new Button(() -> getXboxController().getStickButton(GenericHID.Hand.kRight));
         forceIn.whenHeld(new ShoveBallCommand());
 
     }
@@ -213,7 +208,7 @@ public class OI {
         Button colorPistonDown = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonDown.whenPressed(new SpinnerDownCommand());
 
-        Button colorWheelSpinRevs = new Button(() -> getJoystick1().getRawButton(1));
+        Button colorWheelSpinRevs = new Button(() -> getJoystick1().getTrigger());
         colorWheelSpinRevs.whenPressed(new SpinRevsMacro());
 
         //Intaking
@@ -239,10 +234,14 @@ public class OI {
         setupShooter.whenHeld(new MinimalVisionCommand());
         setupShooter.whenReleased(new StopShooter());
         setupShooter.whenReleased(new ManualTurretButtonCommand(0));
+        setupShooter.whenPressed(new InstantCommand(()->inAutoShootMode = true));
+        setupShooter.whenReleased(new InstantCommand(()->inAutoShootMode = false));
 
         Button shoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
         shoot.whenHeld(new ShootMacro());
         shoot.whenReleased(new StopShooter());
+        shoot.whenPressed(new InstantCommand(()->tryingToShoot = true));
+        shoot.whenReleased(new InstantCommand(()->tryingToShoot = false));
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
@@ -254,15 +253,22 @@ public class OI {
 
         //Turret
 
-        Button addBallCount = new Button(() -> getController2().getStartButton());
+        Button addBallCount = new Button(() -> getXboxController().getStartButton());
         addBallCount.whenPressed(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(1)));
 
-        Button subBallCount = new Button(() -> getController2().getBackButton());
+        Button subBallCount = new Button(() -> getXboxController().getBackButton());
         subBallCount.whenPressed(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(-1)));
 
-        Button forceIn = new Button(() -> getController2().getBButton());
+        Button forceIn = new Button(() -> getXboxController().getBButton());
         forceIn.whenHeld(new ShoveBallCommand());
     }
 
+    public boolean inAutoShootMode(){
+        return inAutoShootMode || DriverStation.getInstance().isAutonomous();
+    }
+
+    public boolean isTryingToShoot(){
+        return tryingToShoot || DriverStation.getInstance().isAutonomous();
+    }
 
 }
