@@ -43,6 +43,7 @@ public class SpinRevsCommand extends CommandBase {
     public void initialize() {
         initPos = SpinnerSubsystem.getInstance().getRevolutions();
         done = false;
+        System.out.println("Init");
     }
 
     @Override

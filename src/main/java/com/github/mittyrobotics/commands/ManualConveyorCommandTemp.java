@@ -24,17 +24,14 @@
 
 package com.github.mittyrobotics.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class AutoMacroStuff extends SequentialCommandGroup {
-    public AutoMacroStuff(){
-        addCommands(
-                new ParallelRaceGroup(new WaitUntilShooterSpeedCommand(50), new WaitCommand(2)),
-                parallel(
-                new UnloadConveyorCommand(), new IntakeBallShootingCommand()
-                )
-        );
+public class ManualConveyorCommandTemp extends RunCommand {
+    public ManualConveyorCommandTemp(){
+        super(()-> ConveyorSubsystem.getInstance().manualSetConveyorSpeed(OI.getInstance().getController2().getY(
+                GenericHID.Hand.kLeft)), ConveyorSubsystem.getInstance());
     }
 }

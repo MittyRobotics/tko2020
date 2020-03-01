@@ -21,7 +21,7 @@ public class AltIndexerCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(10));
+        CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(6));
     }
 
     @Override

@@ -29,6 +29,6 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class WaitUntilShooterSpeedCommand extends WaitUntilCommand {
     public WaitUntilShooterSpeedCommand(double rpmThreshold) {
-        super(() -> Math.abs(ShooterSubsystem.getInstance().getRPMError()) < rpmThreshold);
+        super(() -> Math.abs(ShooterSubsystem.getInstance().getRPMError()) < rpmThreshold) ;
     }
 }

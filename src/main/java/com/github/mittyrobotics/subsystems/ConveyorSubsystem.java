@@ -91,7 +91,10 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 //        if (conveyorTalon.getMotorOutputPercent() != 0) {
         isReverse = conveyorTalon.getMotorOutputPercent() < 0;
 //        }
-        temp2(isReverse);
+        if(!IntakePistonSubsystem.getInstance().isExtended()){
+//            temp2(isReverse);
+
+        }
 
 
 
@@ -103,7 +106,7 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 //            ballCountHasChanged = false;
 //        }
 
-        System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
+ //       System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
         previousEntranceSwitchValue = getEntranceSwitch();
         previousExitSwitchValue = getExitSwitch();
     }
@@ -138,7 +141,7 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
         if(isReverse && !getEntranceSwitch() && previousEntranceSwitchValue){
             updateBallCount(-1);
         }
-        previousEntranceSwitchValue = getEntranceSwitch();
+//        previousEntranceSwitchValue = getEntranceSwitch();
     }
     public int getTotalBallCount() {
         return totalBallCount;
@@ -161,7 +164,7 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void manualSetConveyorSpeed(double speed) {
-        if (Math.abs(speed) > 0.1) {
+        if (Math.abs(speed) > 0.2) {
             conveyorTalon.set(ControlMode.PercentOutput, speed);
             System.out.println("Conveyor Percent Output: " + speed);
         } else {

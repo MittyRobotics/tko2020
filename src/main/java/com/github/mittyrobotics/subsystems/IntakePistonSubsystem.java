@@ -57,7 +57,7 @@ public class IntakePistonSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public boolean isExtended() {
-        return intakePiston.get() != DoubleSolenoid.Value.kReverse;
+        return intakePiston.get() == DoubleSolenoid.Value.kForward;
     }
 
     public void extendIntake() {

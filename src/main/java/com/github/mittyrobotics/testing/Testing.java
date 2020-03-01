@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.testing;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.commands.*;
@@ -31,10 +32,12 @@ import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 
 public class Testing extends TimedRobot {
     Command autonCommandGroup;
@@ -58,6 +61,11 @@ public class Testing extends TimedRobot {
 //        WinchLockSubsystem.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
+    }
+
+    @Override
+    public void disabledPeriodic() {
+       DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
@@ -85,11 +93,14 @@ public class Testing extends TimedRobot {
 
     @Override
     public void disabledInit() {
-
+        DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
     public void autonomousInit() {
+        DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
+//        new MinimalVisionCommand().schedule();
+//        new ShootMacro().schedule();
 //        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
 //        ShooterSubsystem.getInstance().setDefaultCommand(new SetShooterRpmCommand(0));
 //        IntakeSubsystem.getInstance().setDefaultCommand(new StopRollersCommand());
@@ -104,6 +115,9 @@ public class Testing extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        CommandScheduler.getInstance().cancelAll();
+
+        DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
 //        IntakePistonSubsystem.getInstance().retractIntake();
 //        CommandScheduler.getInstance().cancel(autonCommandGroup\;
 //        OI.getInstance().setupControls();
@@ -123,10 +137,12 @@ public class Testing extends TimedRobot {
     @Override
     public void testInit() {
         Compressor.getInstance().start();
+
     }
 
     @Override
     public void testPeriodic() {
+        DriveTrainSubsystem.getInstance().tankDrive(0,  OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //        ShooterSubsystem.getInstance().setShooterPercent(1);
 //        if(OI.getInstance().getController2().getBButton()){
 //            IntakePistonSubsystem.getInstance().retractIntake();

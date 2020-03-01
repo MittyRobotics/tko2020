@@ -60,14 +60,14 @@ public class ColorPistonSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void up() {
-        piston.set(DoubleSolenoid.Value.kForward);
-    }
-
-    public void down() {
         piston.set(DoubleSolenoid.Value.kReverse);
     }
 
+    public void down() {
+        piston.set(DoubleSolenoid.Value.kForward);
+    }
+
     public boolean isPistonUp() {
-        return piston.get() != DoubleSolenoid.Value.kReverse;
+        return piston.get() != DoubleSolenoid.Value.kForward;
     }
 }

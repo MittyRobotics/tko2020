@@ -132,6 +132,8 @@ public class OI {
         Button brake = new Button(()->getController2().getStickButton(GenericHID.Hand.kLeft));
         brake.whenHeld(new BrakeDrivetrainCommand());
 
+        ConveyorSubsystem.getInstance().setDefaultCommand(new ManualConveyorCommandTemp());
+
         //Color Wheel
         Button colorPistonUp = new Button(() -> getController2().getPOV() == 0);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
@@ -151,8 +153,8 @@ public class OI {
         Button outtake = new Button(()->getController2().getBumper(GenericHID.Hand.kLeft));
         outtake.whenHeld(new OuttakeRollersCommand());
 //        outtake.whenReleased(new StopRollersCommand());
-        outtake.whenHeld(new ReverseConveyor());
-        outtake.whenReleased(new UnloadConveyorCommand());
+//        outtake.whenHeld(new ReverseConveyor());
+//        outtake.whenReleased(new UnloadConveyorCommand());
 
         Button changeIntakeState = new Button(()->getController2().getXButton());
         changeIntakeState.whenPressed(new ChangeIntakePistonState());
@@ -185,7 +187,8 @@ public class OI {
         manualTurretRight.whenHeld(new ManualTurretButtonCommand(0.2));
 
         Button addBallCount = new Button(()->getController2().getStartButton());
-        addBallCount.whenPressed(new InstantCommand(()->ConveyorSubsystem.getInstance().updateBallCount(1)));
+        addBallCount.whenPressed(new InstantCommand(
+                ()->ConveyorSubsystem.getInstance().updateBallCount(1)));
 
         Button subBallCount = new Button(()->getController2().getBackButton());
         subBallCount.whenPressed(new InstantCommand(()->ConveyorSubsystem.getInstance().updateBallCount(-1)));
@@ -201,21 +204,25 @@ public class OI {
         TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
+
+        ConveyorSubsystem.getInstance().setDefaultCommand(new ManualConveyorCommandTemp());
+
         //Color Wheel
-        Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
+        Button colorPistonUp = new Button(() -> getJoystick1().getY() < -0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
 
-        Button colorPistonDown = new Button(() -> getJoystick1().getY() < - 0.5);
+        Button colorPistonDown = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonDown.whenPressed(new SpinnerDownCommand());
 
-        Button colorWheelSpinRevs = new Button(()->getJoystick1().getTrigger());
-        colorWheelSpinRevs.whenPressed(new SpinWheelMacro());
+        Button colorWheelSpinRevs = new Button(()->getJoystick1().getRawButton(1));
+        colorWheelSpinRevs.whenPressed(new SpinRevsMacro());
 
         //Intaking
         Button intake = new Button(()->getXboxController().getBumper(GenericHID.Hand.kLeft));
         intake.whenHeld(new IntakeBallCommand());
 //        intake.whenHeld(new ConveyorFullEnter());
 //        intake.whenHeld(new LockBallCommand());
+
 
         Button outtake = new Button(()->getXboxController().getBumper(GenericHID.Hand.kRight));
         outtake.whenHeld(new OuttakeRollersCommand());
