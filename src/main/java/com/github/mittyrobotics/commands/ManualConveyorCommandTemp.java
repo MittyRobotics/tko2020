@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class ManualConveyorCommandTemp extends RunCommand {
     public ManualConveyorCommandTemp() {
-        super(() -> ConveyorSubsystem.getInstance().manualSetConveyorSpeed(OI.getInstance().getController2().getY(
+        super(() -> ConveyorSubsystem.getInstance().manualSetConveyorSpeed(OI.getInstance().getXboxController().getY(
                 GenericHID.Hand.kLeft)), ConveyorSubsystem.getInstance());
     }
 }

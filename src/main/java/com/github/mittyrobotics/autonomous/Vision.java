@@ -14,13 +14,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision implements IDashboard {
 
-    private static Vision instance = new Vision();
+    private static Vision instance;
     private double visionAlignedTimer;
     private double visionAlignedTimerStart;
     private double latestVisionLatency;
     private VisionTarget latestVisionTarget;
 
     public static Vision getInstance() {
+        if(instance == null){
+            instance = new Vision();
+        }
         return instance;
     }
     

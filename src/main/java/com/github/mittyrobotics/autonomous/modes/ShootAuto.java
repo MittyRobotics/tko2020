@@ -24,8 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.commands.MinimalVisionCommand;
-import com.github.mittyrobotics.commands.WaitUntilShooterSpeedCommand;
+import com.github.mittyrobotics.commands.*;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ShootAuto extends SequentialCommandGroup {
@@ -35,7 +34,7 @@ public class ShootAuto extends SequentialCommandGroup {
                         new MinimalVisionCommand(),
                         sequence(
                                 new WaitUntilShooterSpeedCommand(100),
-                                new ShootAuto()
+                                new AutoShootMacro()
                         )
                 )
         );

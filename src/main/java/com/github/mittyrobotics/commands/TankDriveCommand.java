@@ -32,8 +32,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class TankDriveCommand extends RunCommand {
 
     public TankDriveCommand() {
-        super(() -> DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getController2()
-                        .getY(GenericHID.Hand.kRight), OI.getInstance().getController2().getY(GenericHID.Hand.kLeft)),
+        super(() -> DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getXboxController()
+                        .getY(GenericHID.Hand.kRight), OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft)),
                 DriveTrainSubsystem.getInstance());
     }
 }
