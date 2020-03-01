@@ -51,7 +51,6 @@ public class MinimalVisionCommand extends CommandBase {
     public void execute() {
         if(!(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5)) {
             VisionTarget target = Vision.getInstance().getLatestVisionTarget();
-            //VisionTarget target = new VisionTarget(new Transform(), new Rotation(), 15 * 12);
             System.out.println(target.getObserverYawToTarget().getHeading());
             double p = 0.10;
             TurretSubsystem.getInstance()
