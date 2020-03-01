@@ -44,7 +44,7 @@ public class AutonDriver {
         this.finishedPath = true;
         this.previousTime = 0;
     }
-
+    
     public static AutonDriver getInstance() {
         return instance;
     }

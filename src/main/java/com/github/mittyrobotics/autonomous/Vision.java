@@ -23,7 +23,7 @@ public class Vision implements IDashboard {
     public static Vision getInstance() {
         return instance;
     }
-
+    
     public void run() {
         Limelight.getInstance().updateLimelightValues();
         latestVisionLatency = Limelight.getInstance().getLimelightLatency();
@@ -118,15 +118,19 @@ public class Vision implements IDashboard {
         Rotation turretRotationAtLatency = AutomatedTurretSuperstructure.getInstance().getTurretRobotRelativeRotations()
                 .getElementFromTimestamp(timestampAtLatency);
         Rotation currentTurretRotation = AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation();
-        Transform turretTransformAtLatency = new Transform(
-                AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(robotTransformAtLatency),
-                turretRotationAtLatency);
-        Transform currentTurretTransform =
-                new Transform(AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(currentRobotTransform),
-                        currentTurretRotation);
-        Transform difference = currentTurretTransform.subtract(turretTransformAtLatency);
+        //Check if previous robot transform and turret rotations exist from their circular timestamped lists
+        if(robotTransformAtLatency != null && turretRotationAtLatency != null){
+            Transform turretTransformAtLatency = new Transform(
+                    AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(robotTransformAtLatency),
+                    turretRotationAtLatency);
+            Transform currentTurretTransform =
+                    new Transform(AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(currentRobotTransform),
+                            currentTurretRotation);
+            Transform difference = currentTurretTransform.subtract(turretTransformAtLatency);
 
-        return turretTransform.subtract(difference);
+            return turretTransform.subtract(difference);
+        }
+        return turretTransform;
     }
 
     public VisionTarget getLatestVisionTarget() {
