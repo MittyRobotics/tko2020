@@ -5,22 +5,23 @@ import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class BrakeDrivetrainCommand extends CommandBase {
-    public BrakeDrivetrainCommand(){
+    public BrakeDrivetrainCommand() {
         addRequirements(DriveTrainSubsystem.getInstance());
     }
+
     @Override
-    public void initialize(){
+    public void initialize() {
         DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
         DriveTrainSubsystem.getInstance().tankDrive(0, 0);
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 }

@@ -46,7 +46,8 @@ public class VisionShooterSpeedCommand extends CommandBase {
             VisionTarget target = Vision.getInstance().getLatestVisionTarget();
 
             ShooterSubsystem.getInstance().setShooterRpm(
-                    AutomatedTurretSuperstructure.getInstance().computeShooterRPMFromDistance(target.getObserverDistanceToTarget()));
+                    AutomatedTurretSuperstructure.getInstance()
+                            .computeShooterRPMFromDistance(target.getObserverDistanceToTarget()));
         }
     }
 

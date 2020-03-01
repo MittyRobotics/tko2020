@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
 import com.github.mittyrobotics.datatypes.CircularTimestampedList;
 import com.github.mittyrobotics.datatypes.TimestampedElement;
@@ -67,7 +66,8 @@ public class AutomatedTurretSuperstructure {
                 robotRelativeRotation);
         this.fieldRelativePosition = Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
 
-        turretRobotRelativeRotations.addFront(new TimestampedElement<>(robotRelativeRotation, Timer.getFPGATimestamp()));
+        turretRobotRelativeRotations
+                .addFront(new TimestampedElement<>(robotRelativeRotation, Timer.getFPGATimestamp()));
 
         //Maintain the automated turret control
         maintainAutomation();
@@ -177,7 +177,7 @@ public class AutomatedTurretSuperstructure {
         this.aimMode = TurretAutomationMode.NO_AUTOMATION;
     }
 
-    public Rotation turretToRobotRelativeAngle(Rotation turretRotation, Rotation turretRelativeRotation){
+    public Rotation turretToRobotRelativeAngle(Rotation turretRotation, Rotation turretRelativeRotation) {
         return turretRelativeRotation.add(turretRotation);
     }
 
@@ -205,8 +205,9 @@ public class AutomatedTurretSuperstructure {
         return fieldRelativeRotation.subtract(gyro);
     }
 
-    public Position robotToTurretPosition(Transform robotTransform){
-        return AutonConstants.turretPositionRelativeToRobotCenter.rotateBy(robotTransform.getRotation()).add(robotTransform.getPosition());
+    public Position robotToTurretPosition(Transform robotTransform) {
+        return AutonConstants.turretPositionRelativeToRobotCenter.rotateBy(robotTransform.getRotation())
+                .add(robotTransform.getPosition());
     }
 
     /**

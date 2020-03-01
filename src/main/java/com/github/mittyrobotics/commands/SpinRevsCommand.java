@@ -49,7 +49,7 @@ public class SpinRevsCommand extends CommandBase {
     @Override
     public void execute() {
         SpinnerSubsystem.getInstance().setMotorFast();
-        if (Math.abs(SpinnerSubsystem.getInstance().getRevolutions()-initPos)> REVS) {
+        if (Math.abs(SpinnerSubsystem.getInstance().getRevolutions() - initPos) > REVS) {
             done = true;
         }
     }

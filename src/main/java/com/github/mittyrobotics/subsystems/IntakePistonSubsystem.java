@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakePistonSubsystem extends SubsystemBase implements ISubsystem {
     private static IntakePistonSubsystem instance;
     private DoubleSolenoid intakePiston;
+
     private IntakePistonSubsystem() {
         super();
         setName("Intake Piston");

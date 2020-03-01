@@ -29,11 +29,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class AutoMacroStuff extends SequentialCommandGroup {
-    public AutoMacroStuff(){
+    public AutoMacroStuff() {
         addCommands(
                 new ParallelRaceGroup(new WaitUntilShooterSpeedCommand(50), new WaitCommand(2)),
                 parallel(
-                new UnloadConveyorCommand(), new IntakeBallShootingCommand()
+                        new UnloadConveyorCommand(), new IntakeBallShootingCommand()
                 )
         );
     }

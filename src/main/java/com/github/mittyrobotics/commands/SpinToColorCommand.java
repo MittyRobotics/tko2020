@@ -32,7 +32,7 @@ public class SpinToColorCommand extends CommandBase {
     private int green = 0;
     private WheelColor color;
 
-    public SpinToColorCommand(){
+    public SpinToColorCommand() {
         super();
         addRequirements(SpinnerSubsystem.getInstance());
     }

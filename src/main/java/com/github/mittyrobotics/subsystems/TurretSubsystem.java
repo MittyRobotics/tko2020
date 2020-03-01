@@ -128,7 +128,7 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
 //        if ((getLeftLimitSwitch() && percent < 0) || (getRightLimitSwitch() && percent >0)) {
 //            turretTalon.set(0);
 //        } else {
-            turretTalon.set(percent);
+        turretTalon.set(percent);
 //        }
     }
 

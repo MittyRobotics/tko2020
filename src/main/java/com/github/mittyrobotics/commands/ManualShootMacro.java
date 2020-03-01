@@ -33,8 +33,8 @@ public class ManualShootMacro extends ParallelCommandGroup {
                 sequence(
                         new WaitUntilShooterSpeedCommand(50),
                         parallel(
-                        new UnloadConveyorCommand(),
-                        new IntakeBallShootingCommand()
+                                new UnloadConveyorCommand(),
+                                new IntakeBallShootingCommand()
                         )
                 )
         );

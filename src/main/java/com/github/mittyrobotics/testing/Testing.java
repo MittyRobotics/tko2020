@@ -25,9 +25,7 @@
 package com.github.mittyrobotics.testing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
@@ -36,11 +34,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 
 public class Testing extends TimedRobot {
     Command autonCommandGroup;
+
     public Testing() {
         super(0.02);
     }
@@ -65,7 +62,7 @@ public class Testing extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-       DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
+        DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
@@ -142,7 +139,8 @@ public class Testing extends TimedRobot {
 
     @Override
     public void testPeriodic() {
-        DriveTrainSubsystem.getInstance().tankDrive(0,  OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+        DriveTrainSubsystem.getInstance()
+                .tankDrive(0, OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //        ShooterSubsystem.getInstance().setShooterPercent(1);
 //        if(OI.getInstance().getController2().getBButton()){
 //            IntakePistonSubsystem.getInstance().retractIntake();

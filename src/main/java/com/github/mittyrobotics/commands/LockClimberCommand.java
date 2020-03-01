@@ -26,7 +26,6 @@ package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.subsystems.HooksSubsystem;
 import com.github.mittyrobotics.subsystems.WinchLockSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class LockClimberCommand extends InstantCommand {

@@ -28,12 +28,12 @@ import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class ReverseConveyor extends RunCommand {
-    public ReverseConveyor(){
-        super(()->ConveyorSubsystem.getInstance().manualSetConveyorSpeed(-1), ConveyorSubsystem.getInstance());
+    public ReverseConveyor() {
+        super(() -> ConveyorSubsystem.getInstance().manualSetConveyorSpeed(-1), ConveyorSubsystem.getInstance());
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
     }
 }

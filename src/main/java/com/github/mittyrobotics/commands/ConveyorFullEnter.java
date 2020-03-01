@@ -28,21 +28,22 @@ import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ConveyorFullEnter extends CommandBase {
-    public ConveyorFullEnter(){
+    public ConveyorFullEnter() {
         addRequirements(ConveyorSubsystem.getInstance());
     }
+
     @Override
-    public void initialize(){
+    public void initialize() {
         ConveyorSubsystem.getInstance().manualSetConveyorSpeed(.8);
     }
 
     @Override
-    public void end(boolean initialize){
+    public void end(boolean initialize) {
         ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 }

@@ -15,17 +15,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Vision implements IDashboard {
 
     private static Vision instance = new Vision();
-
-    public static Vision getInstance(){
-        return instance;
-    }
-
     private double visionAlignedTimer;
     private double visionAlignedTimerStart;
-
     private double latestVisionLatency;
-
     private VisionTarget latestVisionTarget;
+
+    public static Vision getInstance() {
+        return instance;
+    }
 
     public void run() {
         Limelight.getInstance().updateLimelightValues();
@@ -37,12 +34,9 @@ public class Vision implements IDashboard {
             visionDistance = visionToTurretDistance(visionDistance, visionYaw);
             visionYaw = visionToTurretYaw(visionDistance, visionDistance, visionYaw);
 
-            //Transform turretTransform = computeTurretTransform(visionDistance, visionYaw,
-//                    Gyro.getInstance().getRotation());
-
-//            Transform turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
-
-            Transform turretTransform = new Transform();
+            Transform turretTransform = computeTurretTransform(visionDistance, visionYaw,
+                    Gyro.getInstance().getRotation());
+            turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
 
             latestVisionTarget = new VisionTarget(turretTransform, visionYaw, visionDistance);
         }
@@ -67,9 +61,12 @@ public class Vision implements IDashboard {
     @Override
     public void updateDashboard() {
         SmartDashboard.putNumber("vision-turret-yaw", latestVisionTarget.getObserverYawToTarget().getHeading());
-        SmartDashboard.putNumber("vision-field-yaw", latestVisionTarget.getObserverTransform().getRotation().getHeading());
-        SmartDashboard.putNumber("vision-localization-x", latestVisionTarget.getObserverTransform().getPosition().getX());
-        SmartDashboard.putNumber("vision-localization-y", latestVisionTarget.getObserverTransform().getPosition().getY());
+        SmartDashboard
+                .putNumber("vision-field-yaw", latestVisionTarget.getObserverTransform().getRotation().getHeading());
+        SmartDashboard
+                .putNumber("vision-localization-x", latestVisionTarget.getObserverTransform().getPosition().getX());
+        SmartDashboard
+                .putNumber("vision-localization-y", latestVisionTarget.getObserverTransform().getPosition().getY());
         SmartDashboard.putNumber("vision-distance", latestVisionTarget.getObserverDistanceToTarget());
         SmartDashboard.putNumber("vision-latency", latestVisionLatency);
     }
@@ -118,10 +115,15 @@ public class Vision implements IDashboard {
         //Get the robot transform at the estimated time of vision capture
         Transform robotTransformAtLatency = Odometry.getInstance().getRobotTransformAtTimestamp(timestampAtLatency);
         Transform currentRobotTransform = Odometry.getInstance().getLatestRobotTransform();
-        Rotation turretRotationAtLatency = AutomatedTurretSuperstructure.getInstance().getTurretRobotRelativeRotations().getElementFromTimestamp(timestampAtLatency);
+        Rotation turretRotationAtLatency = AutomatedTurretSuperstructure.getInstance().getTurretRobotRelativeRotations()
+                .getElementFromTimestamp(timestampAtLatency);
         Rotation currentTurretRotation = AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation();
-        Transform turretTransformAtLatency = new Transform(AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(robotTransformAtLatency), turretRotationAtLatency);
-        Transform currentTurretTransform = new Transform(AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(currentRobotTransform), currentTurretRotation);
+        Transform turretTransformAtLatency = new Transform(
+                AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(robotTransformAtLatency),
+                turretRotationAtLatency);
+        Transform currentTurretTransform =
+                new Transform(AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(currentRobotTransform),
+                        currentTurretRotation);
         Transform difference = currentTurretTransform.subtract(turretTransformAtLatency);
 
         return turretTransform.subtract(difference);

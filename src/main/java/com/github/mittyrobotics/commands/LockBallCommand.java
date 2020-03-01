@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.subsystems.BufferSubsystem;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class LockBallCommand extends RunCommand {
@@ -34,8 +33,9 @@ public class LockBallCommand extends RunCommand {
         super(() -> BufferSubsystem.getInstance().bufferLock(),
                 BufferSubsystem.getInstance());
     }
+
     @Override
-    public void end(boolean inte){
+    public void end(boolean inte) {
         BufferSubsystem.getInstance().manualBufferSpeed(0);
     }
 }

@@ -28,21 +28,22 @@ import com.github.mittyrobotics.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeBallShootingCommand extends CommandBase {
-    public IntakeBallShootingCommand(){
+    public IntakeBallShootingCommand() {
         addRequirements(IntakeSubsystem.getInstance());
     }
+
     @Override
-    public void initialize(){
+    public void initialize() {
         IntakeSubsystem.getInstance().setIntakingShooting();
     }
 
     @Override
-    public void end(boolean inte){
+    public void end(boolean inte) {
         IntakeSubsystem.getInstance().stopIntake();
     }
 
     @Override
-    public boolean isFinished(){
-        return  false;
+    public boolean isFinished() {
+        return false;
     }
 }

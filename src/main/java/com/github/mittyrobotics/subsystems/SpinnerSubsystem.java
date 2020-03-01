@@ -108,11 +108,12 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
     @Override
     public void updateDashboard() {
         SmartDashboard.putString("Color", getColor().toString());
-        SmartDashboard.putString("Color Target", getGameMessage() == WheelColor.None ? "Spin 3 - 5 times": getGameMessage().toString());
+        SmartDashboard.putString("Color Target",
+                getGameMessage() == WheelColor.None ? "Spin 3 - 5 times" : getGameMessage().toString());
         SmartDashboard.putNumber("Spinner RPM", getRPM());
     }
 
-    public void resetEncoder(){
+    public void resetEncoder() {
         spinnerTalon.setSelectedSensorPosition(0);
     }
 
@@ -203,7 +204,7 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
 
     public void setSpinnerManual(double percent) {
         if (ColorPistonSubsystem.getInstance().isPistonUp()) {
-        spinnerTalon.set(percent);
+            spinnerTalon.set(percent);
         } else {
             spinnerTalon.set(0);
         }
@@ -213,7 +214,8 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
         return Math.abs(spinnerTalon.getSelectedSensorVelocity() / (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) *
                 10) > 5;
     }
-    private double getRPM(){
-        return spinnerTalon.getSelectedSensorVelocity()/ (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) * 600;
+
+    private double getRPM() {
+        return spinnerTalon.getSelectedSensorVelocity() / (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) * 600;
     }
 }

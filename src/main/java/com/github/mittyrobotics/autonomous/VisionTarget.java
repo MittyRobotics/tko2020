@@ -8,7 +8,7 @@ public class VisionTarget {
     private Rotation observerYawToTarget;
     private double observerDistanceToTarget;
 
-    public VisionTarget(Transform observerTransform, Rotation observerYawToTarget, double observerDistanceToTarget){
+    public VisionTarget(Transform observerTransform, Rotation observerYawToTarget, double observerDistanceToTarget) {
         this.observerTransform = observerTransform;
         this.observerYawToTarget = observerYawToTarget;
         this.observerDistanceToTarget = observerDistanceToTarget;

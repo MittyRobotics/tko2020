@@ -26,8 +26,6 @@ package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.VisionTarget;
-import com.github.mittyrobotics.datatypes.positioning.Rotation;
-import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
@@ -49,7 +47,7 @@ public class MinimalVisionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(!(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5)) {
+        if (!(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5)) {
             VisionTarget target = Vision.getInstance().getLatestVisionTarget();
             System.out.println(target.getObserverYawToTarget().getHeading());
             double p = 0.10;
@@ -61,7 +59,7 @@ public class MinimalVisionCommand extends CommandBase {
     }
 
     private double rpmEquation(double distance) {
-        return 4800- 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
+        return 4800 - 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
     }
 
     @Override

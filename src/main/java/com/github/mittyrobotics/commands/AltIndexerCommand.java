@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class AltIndexerCommand extends CommandBase {
-    public AltIndexerCommand(){
+    public AltIndexerCommand() {
         addRequirements(ConveyorSubsystem.getInstance());
     }
 

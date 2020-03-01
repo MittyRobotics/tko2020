@@ -61,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase implements ISubsystem {
 
     private void setPercentOutput(double percent) {
 //        if (IntakePistonSubsystem.getInstance().isExtended()) {
-            intakeWheel.set(ControlMode.PercentOutput, percent);
+        intakeWheel.set(ControlMode.PercentOutput, percent);
 //        } else {
 //            intakeWheel.set(ControlMode.PercentOutput, 0);
 //        }
@@ -69,7 +69,7 @@ public class IntakeSubsystem extends SubsystemBase implements ISubsystem {
 
     public void setIntaking() {
 //        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
-        if(!ConveyorSubsystem.getInstance().getEntranceSwitch()){
+        if (!ConveyorSubsystem.getInstance().getEntranceSwitch()) {
             setPercentOutput(IntakeConstants.INTAKE_SPEED_FAST);
         } else {
             setPercentOutput(IntakeConstants.INTAKE_SPEED_SLOW);
@@ -78,7 +78,8 @@ public class IntakeSubsystem extends SubsystemBase implements ISubsystem {
 //            setPercentOutput(0);
 //        }
     }
-    public void setIntakingShooting(){
+
+    public void setIntakingShooting() {
         setPercentOutput(IntakeConstants.INTAKE_SPEED_SLOW);
     }
 
@@ -90,7 +91,7 @@ public class IntakeSubsystem extends SubsystemBase implements ISubsystem {
         setPercentOutput(0);
     }
 
-    public void setManual(double percent){
+    public void setManual(double percent) {
         intakeWheel.set(percent);
     }
 
