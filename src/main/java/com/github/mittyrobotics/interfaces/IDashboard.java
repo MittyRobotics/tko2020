@@ -26,6 +26,9 @@ package com.github.mittyrobotics.interfaces;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Interface for any class that needs to upload information to smartDashboard
+ */
 public interface IDashboard {
     /**
      * Updates the {@link SmartDashboard} values associated with the class

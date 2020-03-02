@@ -24,6 +24,9 @@
 
 package com.github.mittyrobotics.interfaces;
 
+/**
+ * Interface for any class that needs to initialize hardware
+ */
 public interface IHardware {
     /**
      * Initializes all hardware associated with the class

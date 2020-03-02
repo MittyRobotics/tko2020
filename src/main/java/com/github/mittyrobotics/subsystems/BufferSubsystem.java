@@ -66,11 +66,6 @@ public class BufferSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     @Override
-    public void stopMotor() {
-        setMotor(0);
-    }
-
-    @Override
     public void setMotor(double percent) {
         bufferWheel.set(percent);
     }

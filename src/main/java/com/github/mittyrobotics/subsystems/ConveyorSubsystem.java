@@ -177,11 +177,6 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     @Override
-    public void setMotor(double percent) {
-        conveyorTalon.set(percent);
-    }
-
-    @Override
     public double getPosition() {
         return conveyorTalon.getSelectedSensorPosition();
     }

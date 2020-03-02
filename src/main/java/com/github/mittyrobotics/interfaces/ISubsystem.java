@@ -24,5 +24,8 @@
 
 package com.github.mittyrobotics.interfaces;
 
+/**
+ * Interface for all subsystem classes
+ */
 public interface ISubsystem extends IHardware, IDashboard {
 }
