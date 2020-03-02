@@ -172,8 +172,8 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     @Override
-    public void stopMotor() {
-        setMotor(0);
+    public void setMotor(double percent) {
+
     }
 
     @Override
