@@ -114,9 +114,9 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
         SmartDashboard.putNumber("Turret Field Relative Angle",
                 AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
         SmartDashboard.putNumber("Turret Field Relative Position X",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getX());
+                AutomatedTurretSuperstructure.getInstance().getLatestAccurateFieldRelativePosition().getX());
         SmartDashboard.putNumber("Turret Field Relative Position Y",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativePosition().getY());
+                AutomatedTurretSuperstructure.getInstance().getLatestAccurateFieldRelativePosition().getY());
     }
 
     /**

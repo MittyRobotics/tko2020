@@ -32,6 +32,7 @@ import com.github.mittyrobotics.datatypes.geometry.Line;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -49,7 +50,8 @@ public class AutomatedTurretSuperstructure {
     public static AutomatedTurretSuperstructure instance;
     private Rotation robotRelativeRotation;
     private Rotation fieldRelativeRotation;
-    private Position fieldRelativePosition;
+    private Position latestAccurateFieldRelativePosition;
+    private Position trackedFieldRelativePosition;
     private TurretAutomationMode aimMode = TurretAutomationMode.NO_AUTOMATION;
     private Transform setpoint;
 
@@ -67,11 +69,20 @@ public class AutomatedTurretSuperstructure {
         this.robotRelativeRotation = new Rotation(TurretSubsystem.getInstance().getAngle());
         this.fieldRelativeRotation = robotToFieldRelativeAngle(Gyro.getInstance().getRotation(),
                 robotRelativeRotation);
-        this.fieldRelativePosition = Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
-
-        turretRobotRelativeRotations
+        this.turretRobotRelativeRotations
                 .addFront(new TimestampedElement<>(robotRelativeRotation, Timer.getFPGATimestamp()));
 
+        //If vision is safe to use, update the latest accurate field-relative position and calibrate the odometry
+        if(Vision.getInstance().isSafeToUseVision()){
+            this.latestAccurateFieldRelativePosition = Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
+            this.trackedFieldRelativePosition = latestAccurateFieldRelativePosition;
+            Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
+                    Gyro.getInstance().getRotation()));
+        }
+        else{
+            //If vision is not safe to use, capture turret position from odometry
+            this.trackedFieldRelativePosition = robotToTurretPosition(Odometry.getInstance().getLatestRobotTransform());
+        }
         //Maintain the automated turret control
         maintainAutomation();
     }
@@ -129,7 +140,7 @@ public class AutomatedTurretSuperstructure {
      */
     private void maintainFieldRelativeAim(Position setpoint) {
         Rotation rotationSetpoint =
-                new Line(fieldRelativePosition, setpoint).getLineAngle();
+                new Line(latestAccurateFieldRelativePosition, setpoint).getLineAngle();
         maintainFieldRelativeRotation(rotationSetpoint);
     }
 
@@ -213,6 +224,10 @@ public class AutomatedTurretSuperstructure {
                 .add(robotTransform.getPosition());
     }
 
+    public Position turretToRobotPosition(Position turretPosition, Rotation gyro) {
+        return turretPosition.subtract(AutonConstants.turretPositionRelativeToRobotCenter.rotateBy(gyro));
+    }
+
     /**
      * Compensates the angle based on the robot's movement. This works with either robot-relative angles or
      * field-relative angles.
@@ -257,11 +272,15 @@ public class AutomatedTurretSuperstructure {
         return aimMode;
     }
 
-    public Position getFieldRelativePosition() {
-        return fieldRelativePosition;
+    public Position getLatestAccurateFieldRelativePosition() {
+        return latestAccurateFieldRelativePosition;
     }
 
     public CircularTimestampedList<Rotation> getTurretRobotRelativeRotations() {
         return turretRobotRelativeRotations;
+    }
+
+    public Position getTrackedFieldRelativePosition() {
+        return trackedFieldRelativePosition;
     }
 }
