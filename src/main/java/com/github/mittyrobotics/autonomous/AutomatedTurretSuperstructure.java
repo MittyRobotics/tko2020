@@ -35,6 +35,8 @@ import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
+import edu.wpi.first.wpilibj.LinearFilter;
+import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -83,6 +85,7 @@ public class AutomatedTurretSuperstructure {
             //If vision is not safe to use, capture turret position from odometry
             this.trackedFieldRelativePosition = robotToTurretPosition(Odometry.getInstance().getLatestRobotTransform());
         }
+
         //Maintain the automated turret control
         maintainAutomation();
     }

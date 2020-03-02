@@ -9,6 +9,7 @@ import com.github.mittyrobotics.interfaces.IDashboard;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.vision.Limelight;
+import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,14 +20,17 @@ public class Vision implements IDashboard {
     private double visionAlignedTimerStart;
     private double latestVisionLatency;
     private VisionTarget latestVisionTarget;
+    private MedianFilter yawFilter = new MedianFilter(10);
+    private MedianFilter pitchFilter = new MedianFilter(10);
+    private MedianFilter distanceFilter = new MedianFilter(10);
 
     public static Vision getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new Vision();
         }
         return instance;
     }
-    
+
     public void run() {
         Limelight.getInstance().updateLimelightValues();
         latestVisionLatency = Limelight.getInstance().getLimelightLatency();
@@ -34,33 +38,70 @@ public class Vision implements IDashboard {
             Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
             Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
             double visionDistance = computeVisionDistance(visionPitch);
+
+            //Update rotations from median filter
+            visionYaw = new Rotation(yawFilter.calculate(visionYaw.getHeading()));
+            visionPitch = new Rotation(pitchFilter.calculate(visionPitch.getHeading()));
+            visionDistance = distanceFilter.calculate(visionDistance);
+
+            //Get distance and angle from turret's center of rotation to the target instead of camera to the target
             visionDistance = visionToTurretDistance(visionDistance, visionYaw);
             visionYaw = visionToTurretYaw(visionDistance, visionDistance, visionYaw);
 
+            //Compute the turret transforms
             Transform turretTransform = computeTurretTransform(visionDistance, visionYaw,
                     Gyro.getInstance().getRotation());
+            //Compensate transform based on latency
             turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
 
+            //Update the latest vision target
             latestVisionTarget = new VisionTarget(turretTransform, visionYaw, visionDistance);
+        } else {
+            //Reset filters
+            yawFilter.reset();
+            pitchFilter.reset();
+            distanceFilter.reset();
         }
+
+        //Update vision alignment timer
         visionAlignedTimer = Timer.getFPGATimestamp() - visionAlignedTimerStart;
         if (!isVisionAligned()) {
+            //Reset vision alignment timer
             visionAlignedTimerStart = Timer.getFPGATimestamp();
         }
     }
 
+    /**
+     * Returns if the vision system is safe to use.
+     *
+     * @return if the vision system is safe to use.
+     */
     public boolean isSafeToUseVision() {
         return Limelight.getInstance().isHasValidTarget();
     }
 
+    /**
+     * Returns if the vision system is aligned.
+     *
+     * @return if the vision system is aligned.
+     */
     public boolean isVisionAligned() {
         return Limelight.getInstance().getYawToTarget() < AutonConstants.SAFE_VISION_ANGLE_THRESHOLD;
     }
 
+    /**
+     * Returns if the vision system is locked.
+     *
+     * @param lockedTime the time in seconds that the vision system is locked on the target.
+     * @return if the vision system is locked.
+     */
     public boolean isVisionLocked(double lockedTime) {
         return visionAlignedTimer >= lockedTime;
     }
 
+    /**
+     * Updates the {@link SmartDashboard} values associated with the class
+     */
     @Override
     public void updateDashboard() {
         SmartDashboard.putNumber("vision-turret-yaw", latestVisionTarget.getObserverYawToTarget().getHeading());
@@ -74,6 +115,14 @@ public class Vision implements IDashboard {
         SmartDashboard.putNumber("vision-latency", latestVisionLatency);
     }
 
+    /**
+     * Computes the field-relative turret {@link Transform} based on the vision values and robot gyro value
+     *
+     * @param visionDistance the distance from the turret's center to the vision target
+     * @param visionYaw      the yaw angle from the turret's center to the vision target
+     * @param gyro           the robot's gyro value
+     * @return the field-relative turret {@link Transform}
+     */
     private Transform computeTurretTransform(double visionDistance, Rotation visionYaw, Rotation gyro) {
         Position turretPosition = computeTurretPosition(visionDistance, visionYaw);
         Rotation robotrelativeAngle = AutomatedTurretSuperstructure.getInstance().turretToRobotRelativeAngle(
@@ -84,6 +133,13 @@ public class Vision implements IDashboard {
         return new Transform(turretPosition, fieldRelativeAngle);
     }
 
+    /**
+     * Computes the field-relative turret {@link Position} based on the vision values.
+     *
+     * @param visionDistance the distance from the turret's center to the vision target
+     * @param visionYaw      the yaw angle from the turret's center to the vision target
+     * @return the field-relative turret {@link Position}
+     */
     private Position computeTurretPosition(double visionDistance, Rotation visionYaw) {
         //Target relative position
         Position turretPosition = new Position(
@@ -122,12 +178,13 @@ public class Vision implements IDashboard {
                 .getElementFromTimestamp(timestampAtLatency);
         Rotation currentTurretRotation = AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation();
         //Check if previous robot transform and turret rotations exist from their circular timestamped lists
-        if(robotTransformAtLatency != null && turretRotationAtLatency != null){
+        if (robotTransformAtLatency != null && turretRotationAtLatency != null) {
             Transform turretTransformAtLatency = new Transform(
                     AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(robotTransformAtLatency),
                     turretRotationAtLatency);
             Transform currentTurretTransform =
-                    new Transform(AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(currentRobotTransform),
+                    new Transform(
+                            AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(currentRobotTransform),
                             currentTurretRotation);
             Transform difference = currentTurretTransform.subtract(turretTransformAtLatency);
 
