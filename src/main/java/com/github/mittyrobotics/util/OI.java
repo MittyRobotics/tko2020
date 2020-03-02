@@ -158,12 +158,12 @@ public class OI {
 
         Button setupShooter = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
         setupShooter.whenHeld(new MinimalVisionCommand());
-        setupShooter.whenReleased(new StopShooter());
+        setupShooter.whenReleased(new StopShooterCommand());
         setupShooter.whenReleased(new ManualTurretButtonCommand(0));
 
         Button shoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
         shoot.whenHeld(new ShootMacro());
-        shoot.whenReleased(new StopShooter());
+        shoot.whenReleased(new StopShooterCommand());
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
@@ -232,14 +232,14 @@ public class OI {
 
         Button setupShooter = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
         setupShooter.whenHeld(new MinimalVisionCommand());
-        setupShooter.whenReleased(new StopShooter());
+        setupShooter.whenReleased(new StopShooterCommand());
         setupShooter.whenReleased(new ManualTurretButtonCommand(0));
         setupShooter.whenPressed(new InstantCommand(()->inAutoShootMode = true));
         setupShooter.whenReleased(new InstantCommand(()->inAutoShootMode = false));
 
         Button shoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
         shoot.whenHeld(new ShootMacro());
-        shoot.whenReleased(new StopShooter());
+        shoot.whenReleased(new StopShooterCommand());
         shoot.whenPressed(new InstantCommand(()->tryingToShoot = true));
         shoot.whenReleased(new InstantCommand(()->tryingToShoot = false));
 

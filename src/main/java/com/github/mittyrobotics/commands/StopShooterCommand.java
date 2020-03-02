@@ -22,58 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.testing;
+package com.github.mittyrobotics.commands;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import com.github.mittyrobotics.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class ClimberTesting extends TimedRobot {
-    @Override
-    public void robotInit() {
-
-    }
-
-    @Override
-    public void disabledInit() {
-
-    }
-
-    @Override
-    public void autonomousInit() {
-
-    }
-
-    @Override
-    public void teleopInit() {
-
-    }
-
-    @Override
-    public void testInit() {
-
-    }
-
-    @Override
-    public void robotPeriodic() {
-
-    }
-
-    @Override
-    public void disabledPeriodic() {
-
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-
-    }
-
-    @Override
-    public void teleopPeriodic() {
-
-    }
-
-    @Override
-    public void testPeriodic() {
-
+public class StopShooterCommand extends RunCommand {
+    public StopShooterCommand() {
+        super(() -> ShooterSubsystem.getInstance().setShooterPercent(0), ShooterSubsystem.getInstance());
     }
 }

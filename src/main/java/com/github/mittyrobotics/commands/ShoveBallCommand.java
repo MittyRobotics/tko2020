@@ -34,12 +34,12 @@ public class ShoveBallCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(.8);
+        ConveyorSubsystem.getInstance().setMotor(.8);
     }
 
     @Override
     public void end(boolean i) {
-        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
+        ConveyorSubsystem.getInstance().stopMotor();
     }
 
     @Override

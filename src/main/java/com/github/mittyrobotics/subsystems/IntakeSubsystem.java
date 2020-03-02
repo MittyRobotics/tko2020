@@ -69,7 +69,7 @@ public class IntakeSubsystem extends SubsystemBase implements ISubsystem {
 
     public void setIntaking() {
 //        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
-        if (!ConveyorSubsystem.getInstance().getEntranceSwitch()) {
+        if (!ConveyorSubsystem.getInstance().getSwitch()) {
             setPercentOutput(IntakeConstants.INTAKE_SPEED_FAST);
         } else {
             setPercentOutput(IntakeConstants.INTAKE_SPEED_SLOW);

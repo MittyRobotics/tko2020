@@ -36,6 +36,6 @@ public class LockBallCommand extends RunCommand {
 
     @Override
     public void end(boolean inte) {
-        BufferSubsystem.getInstance().manualBufferSpeed(0);
+        BufferSubsystem.getInstance().stopMotor();
     }
 }

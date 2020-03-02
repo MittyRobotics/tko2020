@@ -32,7 +32,7 @@ public class SetBallOuttakeCommand extends InstantCommand {
     public SetBallOuttakeCommand() {
         super(() -> {
                     IntakeSubsystem.getInstance().setOuttaking();
-                    ConveyorSubsystem.getInstance().setConveyorSpeed(.2); //TODO find speed
+                    ConveyorSubsystem.getInstance().setMotor(.2); //TODO find speed
                 },
                 IntakeSubsystem.getInstance(), ConveyorSubsystem.getInstance());
     }

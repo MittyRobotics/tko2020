@@ -46,7 +46,7 @@ public class FourBallConveyorIndexCommand extends CommandBase {
         initialPosition = ConveyorSubsystem.getInstance().getPosition();
         currentPosition = initialPosition;
         isDone = false;
-        ConveyorSubsystem.getInstance().setConveyorSpeed(1);
+        ConveyorSubsystem.getInstance().setMotor(1);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class FourBallConveyorIndexCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        ConveyorSubsystem.getInstance().setConveyorSpeed(0);
+        ConveyorSubsystem.getInstance().stopMotor();
 //        Buffer.getInstance().manualBufferSpeed(0);
         System.out.println("end");
     }

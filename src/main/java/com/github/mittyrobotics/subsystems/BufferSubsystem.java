@@ -24,15 +24,14 @@
 
 package com.github.mittyrobotics.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.constants.BufferConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class BufferSubsystem extends SubsystemBase implements ISubsystem {
+public class BufferSubsystem extends SubsystemBase implements IMotorSubsystem {
     private static BufferSubsystem instance;
     private WPI_TalonSRX bufferWheel;
 
@@ -56,8 +55,9 @@ public class BufferSubsystem extends SubsystemBase implements ISubsystem {
         bufferWheel.setSensorPhase(BufferConstants.BUFFER_WHEEL_ENCODER_INVERSION);
     }
 
-    public void resetEncoder() {
-        bufferWheel.setSelectedSensorPosition(0);
+    @Override
+    public double getVelocity() {
+        return bufferWheel.getSelectedSensorVelocity();
     }
 
     @Override
@@ -65,30 +65,22 @@ public class BufferSubsystem extends SubsystemBase implements ISubsystem {
         SmartDashboard.putBoolean("Buffer Locking", bufferWheel.get() > 0);
     }
 
-    private void moveWheel(double speed) {
-        bufferWheel.set(ControlMode.PercentOutput, speed);
-
+    @Override
+    public void stopMotor() {
+        setMotor(0);
     }
 
-    public void manualBufferSpeed(double speed) {
-        if (Math.abs(speed) > 0.1) {
-            bufferWheel.set(ControlMode.PercentOutput, speed);
-//            System.out.println("Buffer Percent Output: " + speed);
-        } else {
-            bufferWheel.set(ControlMode.PercentOutput, 0);
-        }
-
-    }
-
-    public double getBufferPosition() {
-        return bufferWheel.getSelectedSensorPosition();
+    @Override
+    public void setMotor(double percent) {
+        bufferWheel.set(percent);
     }
 
     public void bufferLock() {
-        moveWheel(BufferConstants.LOCK_SPEED);
+        setMotor(BufferConstants.LOCK_SPEED);
     }
 
     public void bufferRelease() {
-        moveWheel(BufferConstants.RELEASE_SPEED);
+        setMotor(BufferConstants.RELEASE_SPEED);
     }
+
 }

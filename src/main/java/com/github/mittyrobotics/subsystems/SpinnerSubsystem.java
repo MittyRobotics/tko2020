@@ -203,7 +203,7 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void setSpinnerManual(double percent) {
-        if (ColorPistonSubsystem.getInstance().isPistonUp()) {
+        if (ColorPistonSubsystem.getInstance().isPistonExtended()) {
             spinnerTalon.set(percent);
         } else {
             spinnerTalon.set(0);

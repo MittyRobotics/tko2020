@@ -11,7 +11,7 @@ public class AltIndexerCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        ConveyorSubsystem.getInstance().manualSetConveyorSpeed(1);
+        ConveyorSubsystem.getInstance().setMotor(1);
     }
 
     @Override
@@ -26,6 +26,6 @@ public class AltIndexerCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return !ConveyorSubsystem.getInstance().getEntranceSwitch();
+        return !ConveyorSubsystem.getInstance().getSwitch();
     }
 }

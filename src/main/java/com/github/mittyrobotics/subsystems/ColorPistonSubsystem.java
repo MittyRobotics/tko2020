@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.subsystems;
 
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.IPistonSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static com.github.mittyrobotics.constants.ColorWheelConstants.SOLENOID_FOWARD_CHANNEL;
 import static com.github.mittyrobotics.constants.ColorWheelConstants.SOLENOID_REVERSE_CHANNEL;
 
-public class ColorPistonSubsystem extends SubsystemBase implements ISubsystem {
+public class ColorPistonSubsystem extends SubsystemBase implements IPistonSubsystem {
 
     private static ColorPistonSubsystem instance;
     private DoubleSolenoid piston;
@@ -56,18 +56,21 @@ public class ColorPistonSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putBoolean("Piston Up", isPistonUp());
+        SmartDashboard.putBoolean("Piston Up", isPistonExtended());
     }
 
+    @Override
     public void up() {
         piston.set(DoubleSolenoid.Value.kReverse);
     }
 
+    @Override
     public void down() {
         piston.set(DoubleSolenoid.Value.kForward);
     }
 
-    public boolean isPistonUp() {
+    @Override
+    public boolean isPistonExtended() {
         return piston.get() != DoubleSolenoid.Value.kForward;
     }
 }

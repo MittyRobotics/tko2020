@@ -24,31 +24,27 @@
 
 package com.github.mittyrobotics.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.commands.AltIndexerCommand;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
+import com.github.mittyrobotics.commands.IncreaseConveyorSetpoint;
 import com.github.mittyrobotics.constants.ConveyorConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
+public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem {
     private static ConveyorSubsystem instance;
     private WPI_TalonSRX conveyorTalon;
-    private int totalBallCount = 0;
+    private int totalBallCount;
     private boolean previousEntranceSwitchValue;
-    private boolean previousExitSwitchValue;
-    private boolean ballCountHasChanged;
     private DigitalInput entranceOpticalSwitch;
-    private DigitalInput exitOpticalSwitch;
-    private boolean isReverse;
     private int count;
-
+    private double currentConveyorSetpoint;
     private ConveyorSubsystem() {
         super();
         setName("Conveyor");
@@ -63,55 +59,37 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void initHardware() {
-
         conveyorTalon = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_TALON_ID);
         conveyorTalon.configFactoryDefault();
         conveyorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         entranceOpticalSwitch = new DigitalInput(ConveyorConstants.ENTRANCE_OPTICAL_SWITCH);
-        exitOpticalSwitch = new DigitalInput(ConveyorConstants.EXIT_OPTICAL_SWITCH);
         conveyorTalon.setNeutralMode(NeutralMode.Brake);
         previousEntranceSwitchValue = false;
-        previousExitSwitchValue = false;
-        ballCountHasChanged = false;
         totalBallCount = 0;
-        isReverse = false;
         count = 0;
     }
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Total Ball Count", totalBallCount);
-        SmartDashboard.putBoolean("Is Ball Detected", getEntranceSwitch());
+        SmartDashboard.putNumber("Total Ball Count", getTotalBallCount());
+        SmartDashboard.putBoolean("Is Ball Detected", getSwitch());
     }
 
     @Override
     public void periodic() {
-//        if (conveyorTalon.getMotorOutputPercent() != 0) {
-        isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-//        }
+        boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
         if (!IntakePistonSubsystem.getInstance().isExtended()) {
-//            temp2(isReverse);
+            index3(isReverse);
 
         }
-
-
-//        if (previousExitSwitchValue && !getExitSwitch()) { //no ball before and now ball detected before conveyor
-//            updateBallCount(-1);
-//            ballCountHasChanged = true;
-//        } else {
-//            ballCountHasChanged = false;
-//        }
-
-        //       System.out.println("Current: " + getEntranceSwitch() + " prev: " + previousEntranceSwitchValue);
-        previousEntranceSwitchValue = getEntranceSwitch();
-        previousExitSwitchValue = getExitSwitch();
+        previousEntranceSwitchValue = getSwitch();
     }
 
-    public void temp1(boolean isReverse) {
-        if (getEntranceSwitch() && !isReverse) {
+    public void indexPosition(boolean isReverse) {
+        if (getSwitch() && !isReverse) {
             count++;
         } else {
-            count = 0;//no ball before and now ball detected before conveyor
+            count = 0;
         }
         if (count == 3) {
             totalBallCount++;
@@ -124,20 +102,29 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
             }
         }
 
-        if (isReverse && !getEntranceSwitch() && previousEntranceSwitchValue) {
+        if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
             updateBallCount(-1);
         }
     }
 
-    public void temp2(boolean isReverse) {
-        if (getEntranceSwitch() && !previousEntranceSwitchValue && !isReverse) {
+    public void indexSensor(boolean isReverse) {
+        if (getSwitch() && !previousEntranceSwitchValue && !isReverse) {
             CommandScheduler.getInstance().schedule(new AltIndexerCommand());
             updateBallCount(1);
         }
-        if (isReverse && !getEntranceSwitch() && previousEntranceSwitchValue) {
+        if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
             updateBallCount(-1);
         }
-//        previousEntranceSwitchValue = getEntranceSwitch();
+    }
+
+    public void index3(boolean isReverse){
+        if (getSwitch() && !previousEntranceSwitchValue && !isReverse) {
+            CommandScheduler.getInstance().schedule(new IncreaseConveyorSetpoint());
+            updateBallCount(1);
+        }
+        if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
+            updateBallCount(-1);
+        }
     }
 
     public int getTotalBallCount() {
@@ -145,51 +132,61 @@ public class ConveyorSubsystem extends SubsystemBase implements ISubsystem {
     }
 
     public void updateBallCount(int count) {
-        totalBallCount += count;
-        totalBallCount = Math.max(totalBallCount, 0);
+        totalBallCount = Math.max(totalBallCount + count, 0);
+        if(!IntakePistonSubsystem.getInstance().isExtended()){
+            resetBallCount();
+        }
     }
 
     public void resetBallCount() {
         totalBallCount = 0;
     }
 
-    public void setConveyorSpeed(double speed) {
-
-        conveyorTalon.set(ControlMode.PercentOutput, speed);
-//        conveyorWheel2.set(ControlMode.PercentOutput, speed);
-
-    }
-
-    public void manualSetConveyorSpeed(double speed) {
-        if (Math.abs(speed) > 0.2) {
-            conveyorTalon.set(ControlMode.PercentOutput, speed);
-            System.out.println("Conveyor Percent Output: " + speed);
+    public void indexBall(){
+        if(currentConveyorSetpoint > getPosition()){
+            setMotor(1);
         } else {
-            conveyorTalon.set(ControlMode.PercentOutput, 0);
+            stopMotor();
         }
     }
 
-    public boolean hasBallCountChanged() {
-        return ballCountHasChanged;
+    public void increaseSetpoint(double value){
+        currentConveyorSetpoint += value;
     }
 
-    public void moveConveyor(double distance) {
-        conveyorTalon.set(ControlMode.Position,
-                conveyorTalon.getSelectedSensorPosition() + distance * ConveyorConstants.TICKS_PER_INCH);
+    public void increaseSetpoint(){
+        increaseSetpoint(10);
     }
 
-    public boolean getEntranceSwitch() {
+    public void manualSetConveyorSpeed(double speed) { //TODO remove when done testing
+        if (Math.abs(speed) > 0.2) {
+            setMotor(speed);
+        } else {
+            stopMotor();
+        }
+    }
+
+    @Override
+    public boolean getSwitch() {
         return !entranceOpticalSwitch.get();
     }
 
-    public boolean getExitSwitch() {
-        return !exitOpticalSwitch.get();
+    @Override
+    public void stopMotor() {
+        setMotor(0);
     }
 
+    @Override
+    public void setMotor(double percent) {
+        conveyorTalon.set(percent);
+    }
+
+    @Override
     public double getPosition() {
         return conveyorTalon.getSelectedSensorPosition();
     }
 
+    @Override
     public void resetEncoder() {
         conveyorTalon.setSelectedSensorPosition(0);
     }

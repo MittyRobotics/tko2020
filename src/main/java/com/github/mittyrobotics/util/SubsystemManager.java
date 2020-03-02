@@ -26,15 +26,11 @@ public class SubsystemManager implements ISubsystem {
 
     @Override
     public void initHardware() {
-        for (ISubsystem subsystem : subsystems) {
-            subsystem.initHardware();
-        }
+        subsystems.forEach(ISubsystem::initHardware);
     }
 
     @Override
     public void updateDashboard() {
-        for (ISubsystem subsystem : subsystems) {
-            subsystem.updateDashboard();
-        }
+        subsystems.forEach(ISubsystem::updateDashboard);
     }
 }
