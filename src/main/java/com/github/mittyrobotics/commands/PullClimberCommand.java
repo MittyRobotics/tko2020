@@ -24,15 +24,41 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.ClimberPistonSubsystem;
 import com.github.mittyrobotics.subsystems.WinchLockSubsystem;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import com.github.mittyrobotics.subsystems.WinchSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class LockClimberCommand extends InstantCommand {
-    public LockClimberCommand() {
-        super(() -> {
-            WinchLockSubsystem.getInstance().retractPiston();
-            ClimberPistonSubsystem.getInstance().retractPiston();
-        }, WinchLockSubsystem.getInstance(), ClimberPistonSubsystem.getInstance());
+public class PullClimberCommand extends CommandBase {
+
+    private double setpoint;
+    private double difference;
+    private double error;
+
+
+    public PullClimberCommand(double setpoint, double difference) {
+        this.setpoint = setpoint;
+        this.difference = difference;
+        addRequirements(WinchSubsystem.getInstance(), WinchLockSubsystem.getInstance());
+    }
+
+    @Override
+    public void initialize() {
+        WinchLockSubsystem.getInstance().extendPiston();
+    }
+
+    @Override
+    public void execute() {
+        WinchSubsystem.getInstance().setWinchPosition(setpoint, difference);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        WinchSubsystem.getInstance().stopMotor();
+        WinchLockSubsystem.getInstance().retractPiston();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return Math.abs(WinchSubsystem.getInstance().getError()) < 10;
     }
 }

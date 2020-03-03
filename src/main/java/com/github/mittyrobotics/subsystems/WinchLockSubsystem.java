@@ -25,11 +25,12 @@
 package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.constants.ClimberConstants;
-import com.github.mittyrobotics.util.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.IPistonSubsystem;
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class WinchLockSubsystem extends SubsystemBase implements ISubsystem {
+public class WinchLockSubsystem extends SubsystemBase implements IPistonSubsystem {
     private static WinchLockSubsystem instance;
 
     private PWM linearActuatorLeft, linearActuatorRight;
@@ -55,16 +56,24 @@ public class WinchLockSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putBoolean("Is Winch Locked", isPistonExtended());
     }
 
-    public void unlockWinch() {
+    @Override
+    public void extendPiston() {
         linearActuatorLeft.setPosition(1);
         linearActuatorRight.setPosition(1);
     }
 
-    public void lockWinch() {
+    @Override
+    public void retractPiston() {
         linearActuatorLeft.setPosition(0);
         linearActuatorRight.setPosition(0);
     }
+
+    @Override
+    public boolean isPistonExtended() {
+        return linearActuatorLeft.getPosition() == 0 && linearActuatorRight.getPosition() == 0;
+    }
+
 }
