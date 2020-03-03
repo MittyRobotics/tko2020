@@ -52,7 +52,7 @@ public class MinimalVisionCommand extends CommandBase {
             System.out.println(target.getObserverYawToTarget().getHeading());
             double p = 0.10;
             TurretSubsystem.getInstance()
-                    .setMotor(p * target.getObserverYawToTarget().getHeading(), true);
+                    .setMotor(p * target.getObserverYawToTarget().getHeading());
             double rpm = rpmEquation(target.getObserverDistanceToTarget() / 12);
             ShooterSubsystem.getInstance().setShooterRpm(rpm);
         }

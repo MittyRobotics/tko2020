@@ -76,17 +76,6 @@ public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubs
         rightDrive[0].setInverted(true);
         rightDrive[1].setInverted(true);
 
-//        leftDrive[1].set(TalonFXControlMode.Follower, leftDrive[0].getDeviceID());
-//        rightDrive[1].set(TalonFXControlMode.Follower, rightDrive[0].getDeviceID());
-
-
-//        leftDrive[0].config_kP(0, Constants.DRIVE_VELOCITY_PID[0]);
-//        leftDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
-//        leftDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
-//        rightDrive[0].config_kP(0, Constants.DRIVE_VELOCITY_PID[0]);
-//        rightDrive[0].config_kI(0, Constants.DRIVE_VELOCITY_PID[1]);
-//        rightDrive[0].config_kD(0, Constants.DRIVE_VELOCITY_PID[2]);
-
         setNeutralMode(NeutralMode.Coast);
     }
 

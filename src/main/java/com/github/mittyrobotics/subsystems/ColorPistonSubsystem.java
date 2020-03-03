@@ -24,13 +24,11 @@
 
 package com.github.mittyrobotics.subsystems;
 
+import com.github.mittyrobotics.constants.ColorWheelConstants;
 import com.github.mittyrobotics.util.interfaces.IPistonSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import static com.github.mittyrobotics.constants.ColorWheelConstants.SOLENOID_FOWARD_CHANNEL;
-import static com.github.mittyrobotics.constants.ColorWheelConstants.SOLENOID_REVERSE_CHANNEL;
 
 public class ColorPistonSubsystem extends SubsystemBase implements IPistonSubsystem {
 
@@ -51,7 +49,7 @@ public class ColorPistonSubsystem extends SubsystemBase implements IPistonSubsys
 
     @Override
     public void initHardware() {
-        piston = new DoubleSolenoid(SOLENOID_FOWARD_CHANNEL, SOLENOID_REVERSE_CHANNEL);
+        piston = new DoubleSolenoid(ColorWheelConstants.SOLENOID_FOWARD_CHANNEL, ColorWheelConstants.SOLENOID_REVERSE_CHANNEL);
     }
 
     @Override

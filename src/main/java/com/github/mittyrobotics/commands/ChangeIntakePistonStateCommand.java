@@ -25,16 +25,13 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.subsystems.IntakePistonSubsystem;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ChangeIntakePistonCommand extends InstantCommand {
-    public ChangeIntakePistonCommand() {
-        super(() -> {
-            if (IntakePistonSubsystem.getInstance().isExtended()) {
-                IntakePistonSubsystem.getInstance().retractIntake();
-            } else {
-                IntakePistonSubsystem.getInstance().extendIntake();
-            }
-        }, IntakePistonSubsystem.getInstance());
+public class ChangeIntakePistonStateCommand extends ConditionalCommand {
+    public ChangeIntakePistonStateCommand() {
+        super(new InstantCommand(() -> IntakePistonSubsystem.getInstance().retractPiston()),
+                new InstantCommand(() -> IntakePistonSubsystem.getInstance().extendPiston()),
+                () -> IntakePistonSubsystem.getInstance().isPistonExtended());
     }
 }

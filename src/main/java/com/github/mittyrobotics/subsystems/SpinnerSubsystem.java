@@ -195,10 +195,15 @@ public class SpinnerSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     public void setMotor(double percent) {
         if (ColorPistonSubsystem.getInstance().isPistonExtended()) {
-            spinnerTalon.set(percent);
+            overrideSetMotor(percent);
         } else {
-            spinnerTalon.set(0);
+            overrideSetMotor(0);
         }
+    }
+
+    @Override
+    public void overrideSetMotor(double percent) {
+        spinnerTalon.set(percent);
     }
 
     @Override
