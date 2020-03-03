@@ -164,7 +164,7 @@ public class ShooterSubsystem extends SubsystemBase implements IMotorSubsystem {
         currentSetpoint = rpmSetpoint;
     }
 
-    public void setMotor(double percent) {
+    public void overrideSetMotor(double percent) {
         shooterSparkMaster.set(percent);
         shooterSparkFollower.set(percent);
     }

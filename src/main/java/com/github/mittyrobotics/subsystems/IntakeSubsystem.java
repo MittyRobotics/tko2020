@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.constants.IntakeConstants;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
@@ -61,10 +60,15 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     public void setMotor(double percent) {
         if(IntakePistonSubsystem.getInstance().isPistonExtended()){
-            intakeWheel.set(ControlMode.PercentOutput, percent);
+            overrideSetMotor(percent);
         } else {
-            intakeWheel.set(0);
+            overrideSetMotor(0);
         }
+    }
+
+    @Override
+    public void overrideSetMotor(double percent) {
+        intakeWheel.set(percent);
     }
 
     public void setIntaking() {

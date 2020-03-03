@@ -123,12 +123,12 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      *
      * @param percent the turret motor percent output.
      */
-    public void setTurretPercent(double percent) {
-//        if ((getLeftLimitSwitch() && percent < 0) || (getRightLimitSwitch() && percent >0)) {
-//            turretTalon.set(0);
-//        } else {
+    public void setMotor(double percent) {
+        if ((getLeftSwitch() && percent < 0) || (getRightSwitch() && percent >0)) {
+            turretTalon.set(0);
+        } else {
         turretTalon.set(percent);
-//        }
+        }
     }
 
     /**
@@ -169,7 +169,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * This should be called periodically whenever the turret is automated.
      */
     public void updateTurretControlLoop() {
-        setTurretPercent(MathUtil.clamp(turretController.calculate(getPosition()), -maxPercent, maxPercent));
+        setMotor(MathUtil.clamp(turretController.calculate(getPosition()), -maxPercent, maxPercent));
     }
 
     /**
@@ -187,13 +187,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         return angle;
     }
 
-    /**
-     * Set the turret's percent output. Overrides limit switches (NOT RECOMMENDED!).
-     *
-     * @param percent          the turret motor percent output.
-     */
     @Override
-    public void setMotor(double percent) {
+    public void overrideSetMotor(double percent) {
         turretTalon.set(percent);
     }
 

@@ -15,8 +15,12 @@ public interface IMotorSubsystem extends ISubsystem {
      * Sets the motor to run at a certain percent (using duty cylce)
      * @param percent the percentage to run the motor at
      */
-    void setMotor(double percent);
+    default void setMotor(double percent){
+        overrideSetMotor(percent);
+    }
 
+
+    void overrideSetMotor(double percent);
     /**
      * Resets an encoder position
      */

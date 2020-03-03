@@ -78,7 +78,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     @Override
     public void periodic() {
         boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-        if (!IntakePistonSubsystem.getInstance().isExtended()) {
+        if (!IntakePistonSubsystem.getInstance().isPistonExtended()) {
             index3(isReverse);
 
         }
@@ -133,7 +133,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
 
     public void updateBallCount(int count) {
         totalBallCount = Math.max(totalBallCount + count, 0);
-        if(!IntakePistonSubsystem.getInstance().isExtended()){
+        if(!IntakePistonSubsystem.getInstance().isPistonExtended()){
             resetBallCount();
         }
     }
@@ -172,8 +172,8 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     @Override
-    public void setMotor(double percent) {
-
+    public void overrideSetMotor(double percent) {
+        conveyorTalon.set(percent);
     }
 
     @Override
