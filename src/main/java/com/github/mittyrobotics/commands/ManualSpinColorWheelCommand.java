@@ -32,7 +32,7 @@ public class ManualSpinColorWheelCommand extends RunCommand {
     public ManualSpinColorWheelCommand() {
         super(
 //                Math.abs(OI.getInstance().getJoystick1().getX()) > 0.1 ?
-                () -> SpinnerSubsystem.getInstance().setSpinnerManual(OI.getInstance().getJoystick1().getX()),
+                () -> SpinnerSubsystem.getInstance().setMotor(OI.getInstance().getJoystick1().getX()),
 //                        ()->SpinnerSubsystem.getInstance().setSpinnerManual(0),
                 SpinnerSubsystem.getInstance());
     }

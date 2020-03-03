@@ -27,13 +27,13 @@ package com.github.mittyrobotics.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.github.mittyrobotics.constants.DriveConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.IDualMotorSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
-public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
+public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubsystem {
     private static DriveTrainSubsystem instance;
     private WPI_TalonFX[] leftDrive = new WPI_TalonFX[2];
     private WPI_TalonFX[] rightDrive = new WPI_TalonFX[2];
@@ -92,8 +92,8 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Drive Velocity Left", getLeftEncoderVelocity());
-        SmartDashboard.putNumber("Drive Velocity Right", getRightEncoderVelocity());
+        SmartDashboard.putNumber("Drive Velocity Left", getLeftVelocity());
+        SmartDashboard.putNumber("Drive Velocity Right", getRightVelocity());
         SmartDashboard.putNumber("Drive Velocity Left Setpoint", getLeftVelSetpoint());
         SmartDashboard.putNumber("Drive Velocity Right Setpoint", getRightVelSetpoint());
         SmartDashboard.putNumber("Gyro Angle", Gyro.getInstance().getAngle360());
@@ -124,22 +124,35 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
         tankDrive(left, right, 0.1, 1);
     }
 
-    public double getLeftEncoder() {
+    @Override
+    public double getLeftPosition() {
         return leftDrive[0].getSelectedSensorPosition() / DriveConstants.TICKS_PER_INCH_FALCON;
     }
 
-    public double getRightEncoder() {
+    @Override
+    public double getRightPosition() {
         return rightDrive[0].getSelectedSensorPosition() / DriveConstants.TICKS_PER_INCH_FALCON;
     }
 
-    public double getLeftEncoderVelocity() {
+    @Override
+    public double getLeftVelocity() {
         return (leftDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH_FALCON * 10);
     }
 
-    public double getRightEncoderVelocity() {
+    @Override
+    public double getRightVelocity() {
         return (rightDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH_FALCON * 10);
     }
 
+    @Override
+    public void setMotor(double leftPercent, double rightPercent) {
+        leftDrive[0].set(leftPercent);
+        leftDrive[1].set(leftPercent);
+        rightDrive[0].set(rightPercent);
+        rightDrive[1].set(rightPercent);
+    }
+
+    @Override
     public void resetEncoder() {
         leftDrive[0].setSelectedSensorPosition(0);
         rightDrive[0].setSelectedSensorPosition(0);
@@ -154,7 +167,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
 
         double MAX_SPEED = 12;
 
-        double measuredLeft = getLeftEncoderVelocity();
+        double measuredLeft = getLeftVelocity();
         //0.06
         //0.0
         double kA = 0.0;
@@ -166,7 +179,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
         left = (FFLeft + FBLeft);
         left = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, left));
 
-        double measuredRight = getRightEncoderVelocity();
+        double measuredRight = getRightVelocity();
 
         double FFRight = DriveConstants.DRIVE_FALCON_FF * rightVel + kA * ((measuredRight - rightLastMeasured) / .02);
 
@@ -192,10 +205,6 @@ public class DriveTrainSubsystem extends SubsystemBase implements ISubsystem {
 
     public double getLeftVelSetpoint() {
         return latestLeftVelSetpoint;
-    }
-
-    public double getAverageVelocity() {
-        return (getLeftEncoderVelocity() + getRightEncoderVelocity()) / 2;
     }
 
     public void setNeutralMode(NeutralMode neutralMode) {

@@ -22,16 +22,14 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.interfaces;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+package com.github.mittyrobotics.util.interfaces;
 
 /**
- * Interface for any class that needs to upload information to smartDashboard
+ * Interface for any class that needs to initialize hardware
  */
-public interface IDashboard {
+public interface IHardware {
     /**
-     * Updates the {@link SmartDashboard} values associated with the class
+     * Initializes all hardware associated with the class
      */
-    void updateDashboard();
+    void initHardware();
 }

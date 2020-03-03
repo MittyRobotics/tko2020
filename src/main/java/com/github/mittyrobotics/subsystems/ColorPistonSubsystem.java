@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.subsystems;
 
-import com.github.mittyrobotics.interfaces.IPistonSubsystem;
+import com.github.mittyrobotics.util.interfaces.IPistonSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -60,12 +60,12 @@ public class ColorPistonSubsystem extends SubsystemBase implements IPistonSubsys
     }
 
     @Override
-    public void up() {
+    public void extendPiston() {
         piston.set(DoubleSolenoid.Value.kReverse);
     }
 
     @Override
-    public void down() {
+    public void retractPiston() {
         piston.set(DoubleSolenoid.Value.kForward);
     }
 

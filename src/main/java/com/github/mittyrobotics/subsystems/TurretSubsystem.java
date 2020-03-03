@@ -25,19 +25,18 @@
 package com.github.mittyrobotics.subsystems;
 
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.constants.TurretConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
-public class TurretSubsystem extends SubsystemBase implements ISubsystem {
+public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
     /**
      * {@link TurretSubsystem} instance.
      */
@@ -91,8 +90,8 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
         turretTalon.config_kP(0, TurretConstants.TURRET_P);
         turretTalon.config_kI(0, TurretConstants.TURRET_I);
         turretTalon.config_kD(0, TurretConstants.TURRET_D);
-//      limitSwitchLeft = new DigitalInput(TurretConstants.TURRET_SWITCH_ID);
-//      limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
+      limitSwitchLeft = new DigitalInput(TurretConstants.TURRET_SWITCH_ID);
+      limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
         turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         turretTalon.setSensorPhase(TurretConstants.TURRET_ENCODER_INVERSION);
 
@@ -108,7 +107,7 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Turret Encoder", TurretSubsystem.getInstance().getEncoderPosition());
+        SmartDashboard.putNumber("Turret Encoder", TurretSubsystem.getInstance().getPosition());
         SmartDashboard.putNumber("Turret Robot Relative Angle",
                 AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
         SmartDashboard.putNumber("Turret Field Relative Angle",
@@ -170,7 +169,7 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      * This should be called periodically whenever the turret is automated.
      */
     public void updateTurretControlLoop() {
-        setTurretPercent(MathUtil.clamp(turretController.calculate(getEncoderPosition()), -maxPercent, maxPercent));
+        setTurretPercent(MathUtil.clamp(turretController.calculate(getPosition()), -maxPercent, maxPercent));
     }
 
     /**
@@ -192,14 +191,10 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      * Set the turret's percent output. Overrides limit switches (NOT RECOMMENDED!).
      *
      * @param percent          the turret motor percent output.
-     * @param iKnowWhatImDoing do you know what you are doing?
      */
-    public void overrideSetTurretPercent(double percent, boolean iKnowWhatImDoing) {
-        if (iKnowWhatImDoing && Math.abs(percent) > 0.15) {
-            turretTalon.set(ControlMode.PercentOutput, percent);
-        } else {
-            turretTalon.set(ControlMode.PercentOutput, 0);
-        }
+    @Override
+    public void setMotor(double percent) {
+        turretTalon.set(percent);
     }
 
     /**
@@ -207,7 +202,8 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      *
      * @return the turret's encoder position in ticks.
      */
-    public double getEncoderPosition() {
+    @Override
+    public double getPosition() {
         return turretTalon.getSelectedSensorPosition();
     }
 
@@ -216,7 +212,8 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      *
      * @return the left limit switch's value.
      */
-    public boolean getLeftLimitSwitch() {
+    @Override
+    public boolean getLeftSwitch() {
         return limitSwitchLeft.get();
     }
 
@@ -225,7 +222,8 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      *
      * @return the right limit switch's value.
      */
-    public boolean getRightLimitSwitch() {
+    @Override
+    public boolean getRightSwitch() {
         return limitSwitchRight.get();
     }
 
@@ -267,5 +265,13 @@ public class TurretSubsystem extends SubsystemBase implements ISubsystem {
      */
     public double getMaxPercent() {
         return maxPercent;
+    }
+
+    public void manualTurret(double x){
+        if(Math.abs(x) > 0.1){
+            setMotor(x);
+        } else {
+            setMotor(0);
+        }
     }
 }

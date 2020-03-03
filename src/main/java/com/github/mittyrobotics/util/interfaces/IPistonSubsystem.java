@@ -1,10 +1,10 @@
-package com.github.mittyrobotics.interfaces;
+package com.github.mittyrobotics.util.interfaces;
 
 /**
  * Interface for all Piston based Subsystem classes
  */
 public interface IPistonSubsystem extends ISubsystem{
     boolean isPistonExtended();
-    void up();
-    void down();
+    void extendPiston();
+    void retractPiston();
 }

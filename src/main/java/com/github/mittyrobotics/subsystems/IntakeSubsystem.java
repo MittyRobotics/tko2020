@@ -27,11 +27,11 @@ package com.github.mittyrobotics.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.constants.IntakeConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class IntakeSubsystem extends SubsystemBase implements ISubsystem {
+public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     private static IntakeSubsystem instance;
     private WPI_TalonSRX intakeWheel;
 
@@ -59,40 +59,32 @@ public class IntakeSubsystem extends SubsystemBase implements ISubsystem {
         SmartDashboard.putBoolean("Is Intaking", intakeWheel.get() > 0);
     }
 
-    private void setPercentOutput(double percent) {
-//        if (IntakePistonSubsystem.getInstance().isExtended()) {
-        intakeWheel.set(ControlMode.PercentOutput, percent);
-//        } else {
-//            intakeWheel.set(ControlMode.PercentOutput, 0);
-//        }
+    public void setMotor(double percent) {
+        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
+            intakeWheel.set(ControlMode.PercentOutput, percent);
+        } else {
+            intakeWheel.set(0);
+        }
     }
 
     public void setIntaking() {
-//        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
-        if (!ConveyorSubsystem.getInstance().getSwitch()) {
-            setPercentOutput(IntakeConstants.INTAKE_SPEED_FAST);
+        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
+            if (!ConveyorSubsystem.getInstance().getSwitch()) {
+                setMotor(IntakeConstants.INTAKE_SPEED_FAST);
+            } else {
+                setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
+            }
         } else {
-            setPercentOutput(IntakeConstants.INTAKE_SPEED_SLOW);
+            stopMotor();
         }
-//        } else {
-//            setPercentOutput(0);
-//        }
     }
 
     public void setIntakingShooting() {
-        setPercentOutput(IntakeConstants.INTAKE_SPEED_SLOW);
+        setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
     }
 
     public void setOuttaking() {
-        setPercentOutput(IntakeConstants.OUTTAKE_SPEED);
-    }
-
-    public void stopIntake() {
-        setPercentOutput(0);
-    }
-
-    public void setManual(double percent) {
-        intakeWheel.set(percent);
+        setMotor(IntakeConstants.OUTTAKE_SPEED);
     }
 
 }

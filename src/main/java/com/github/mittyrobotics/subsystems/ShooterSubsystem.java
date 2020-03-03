@@ -25,7 +25,7 @@
 package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.constants.ShooterConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /**
  * Shooter subsystem to shoot balls
  */
-public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
+public class ShooterSubsystem extends SubsystemBase implements IMotorSubsystem {
     /**
      * {@link ShooterSubsystem} instance
      */
@@ -96,7 +96,6 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
         masterPIDController.setP(ShooterConstants.SHOOTER_P);
         masterPIDController.setI(ShooterConstants.SHOOTER_I);
         masterPIDController.setD(ShooterConstants.SHOOTER_D);
-//      masterEncoder.setInverted(Constants.SHOOTER_SPARK_MASTER_ENCODER_INVERSION);
 
         shooterSparkFollower =
                 new CANSparkMax(ShooterConstants.SHOOTER_SPARK_FOLLOWER_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -108,8 +107,7 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
         followerPIDController.setP(ShooterConstants.SHOOTER_P);
         followerPIDController.setI(ShooterConstants.SHOOTER_I);
         followerPIDController.setD(ShooterConstants.SHOOTER_D);
-//      followerEncoder.setInverted(Constants.SHOOTER_SPARK_FOLLOWER_ENCODER_INVERSION);
-        manualRPMSetpoint = 3000;
+        manualRPMSetpoint = 3800;
     }
 
     @Override
@@ -119,7 +117,7 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Current Shooter RPM", getShooterRPM());
+        SmartDashboard.putNumber("Current Shooter RPM", getVelocity());
         SmartDashboard.putNumber("Shooter RPM Setpoint", getCurrentSetpoint());
         SmartDashboard.putNumber("Manual Shooter RPM Setpoint", getManualRPMSetpoint());
     }
@@ -129,7 +127,7 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
      *
      * @return the shooter RPM
      */
-    public double getShooterRPM() {
+    public double getVelocity() {
         return (masterEncoder.getVelocity() + followerEncoder.getVelocity()) / 2;
     }
 
@@ -148,7 +146,7 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
      * @return the RPM error
      */
     public double getRPMError() {
-        return getCurrentSetpoint() - getShooterRPM();
+        return getCurrentSetpoint() - getVelocity();
     }
 
     /**
@@ -161,13 +159,12 @@ public class ShooterSubsystem extends SubsystemBase implements ISubsystem {
             masterPIDController.setReference(rpmSetpoint, ControlType.kVelocity);
             followerPIDController.setReference(rpmSetpoint, ControlType.kVelocity);
         } else {
-            shooterSparkMaster.set(0);
-            shooterSparkFollower.set(0);
+            stopMotor();
         }
         currentSetpoint = rpmSetpoint;
     }
 
-    public void setShooterPercent(double percent) {
+    public void setMotor(double percent) {
         shooterSparkMaster.set(percent);
         shooterSparkFollower.set(percent);
     }

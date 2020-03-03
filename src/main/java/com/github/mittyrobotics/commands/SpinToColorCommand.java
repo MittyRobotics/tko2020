@@ -67,7 +67,7 @@ public class SpinToColorCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         //turn off motor
-        SpinnerSubsystem.getInstance().setMotorOff();
+        SpinnerSubsystem.getInstance().stopMotor();
 
     }
 

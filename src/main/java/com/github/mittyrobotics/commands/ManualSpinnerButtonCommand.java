@@ -13,12 +13,12 @@ public class ManualSpinnerButtonCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        SpinnerSubsystem.getInstance().setSpinnerManual(speed);
+        SpinnerSubsystem.getInstance().setMotor(speed);
     }
 
     @Override
     public void end(boolean initialize) {
-        SpinnerSubsystem.getInstance().setSpinnerManual(0);
+        SpinnerSubsystem.getInstance().setMotor(0);
     }
 
     @Override

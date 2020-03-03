@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.interfaces;
+package com.github.mittyrobotics.util.interfaces;
 
 /**
  * Interface for all motor based subsystem classes
@@ -45,6 +45,14 @@ public interface IMotorSubsystem extends ISubsystem {
      * @return if a limit switch is being pressed
      */
     default boolean getSwitch(){
+        return false;
+    }
+
+    default boolean getLeftSwitch(){
+        return false;
+    }
+
+    default boolean getRightSwitch(){
         return false;
     }
 

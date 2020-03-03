@@ -26,7 +26,7 @@ package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.constants.ClimberConstants;
 import com.github.mittyrobotics.constants.RobotSide;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.ISubsystem;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;

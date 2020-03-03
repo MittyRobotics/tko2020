@@ -25,12 +25,12 @@
 package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.constants.IntakeConstants;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.IPistonSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class IntakePistonSubsystem extends SubsystemBase implements ISubsystem {
+public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsystem {
     private static IntakePistonSubsystem instance;
     private DoubleSolenoid intakePiston;
 
@@ -48,7 +48,7 @@ public class IntakePistonSubsystem extends SubsystemBase implements ISubsystem {
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putBoolean("Is Intake Extended", isExtended());
+        SmartDashboard.putBoolean("Is Intake Extended", isPistonExtended());
     }
 
     @Override
@@ -57,16 +57,19 @@ public class IntakePistonSubsystem extends SubsystemBase implements ISubsystem {
                 new DoubleSolenoid(IntakeConstants.SOLENOID_FORWQRD_CHANNEL, IntakeConstants.SOLENOID_REVERSE_CHANNEL);
     }
 
-    public boolean isExtended() {
+    @Override
+    public boolean isPistonExtended() {
         return intakePiston.get() == DoubleSolenoid.Value.kForward;
     }
 
-    public void extendIntake() {
+    @Override
+    public void extendPiston() {
         intakePiston.set(DoubleSolenoid.Value.kForward);
         ConveyorSubsystem.getInstance().resetBallCount();
     }
 
-    public void retractIntake() {
+    @Override
+    public void retractPiston() {
         intakePiston.set(DoubleSolenoid.Value.kReverse);
         ConveyorSubsystem.getInstance().resetBallCount();
     }

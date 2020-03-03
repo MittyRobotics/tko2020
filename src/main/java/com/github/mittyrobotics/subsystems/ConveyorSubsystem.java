@@ -31,7 +31,7 @@ import com.github.mittyrobotics.commands.AltIndexerCommand;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
 import com.github.mittyrobotics.commands.IncreaseConveyorSetpoint;
 import com.github.mittyrobotics.constants.ConveyorConstants;
-import com.github.mittyrobotics.interfaces.IMotorSubsystem;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
