@@ -54,7 +54,6 @@ public class PullClimberCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         WinchSubsystem.getInstance().stopMotor();
-        WinchLockSubsystem.getInstance().retractPiston();
     }
 
     @Override

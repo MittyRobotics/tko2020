@@ -59,7 +59,7 @@ public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsy
 
     @Override
     public boolean isPistonExtended() {
-        return intakePiston.get() == DoubleSolenoid.Value.kForward;
+        return intakePiston.get() != DoubleSolenoid.Value.kReverse;
     }
 
     @Override

@@ -16,16 +16,18 @@ public class AltIndexerCommand extends CommandBase {
 
     @Override
     public void execute() {
-
+        if(!ConveyorSubsystem.getInstance().getSwitch()){
+            CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(3));
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
-        CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(6));
+        ConveyorSubsystem.getInstance().stopMotor();
     }
 
     @Override
     public boolean isFinished() {
-        return !ConveyorSubsystem.getInstance().getSwitch();
+        return false;
     }
 }

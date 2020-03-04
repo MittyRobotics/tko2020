@@ -73,14 +73,14 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     public void updateDashboard() {
         SmartDashboard.putNumber("Total Ball Count", getTotalBallCount());
         SmartDashboard.putBoolean("Is Ball Detected", getSwitch());
+        SmartDashboard.putBoolean("Prev switch value", previousEntranceSwitchValue);
     }
 
     @Override
     public void periodic() {
         boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-        if (!IntakePistonSubsystem.getInstance().isPistonExtended()) {
-            index3(isReverse);
-
+        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+            indexSensor(isReverse);
         }
         previousEntranceSwitchValue = getSwitch();
     }
@@ -108,11 +108,12 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     public void indexSensor(boolean isReverse) {
-        if (getSwitch() && !previousEntranceSwitchValue && !isReverse) {
+        if (getSwitch() && !previousEntranceSwitchValue && !isReverse && getTotalBallCount() < 4) {
+            System.out.println("HERE");
             CommandScheduler.getInstance().schedule(new AltIndexerCommand());
             updateBallCount(1);
         }
-        if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
+        else if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
             updateBallCount(-1);
         }
     }

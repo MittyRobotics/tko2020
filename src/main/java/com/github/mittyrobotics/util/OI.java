@@ -123,10 +123,10 @@ public class OI {
 
     public void testButtons() {
         //Drive
-        Button brake = new Button(() -> getXboxController().getStickButton(GenericHID.Hand.kLeft));
-        brake.whenHeld(new BrakeDrivetrainCommand());
+//        Button brake = new Button(() -> getXboxController().getStickButton(GenericHID.Hand.kLeft));
+//        brake.whenPressed(new BrakeDrivetrainCommand());
 
-        ConveyorSubsystem.getInstance().setDefaultCommand(new ManualConveyorCommandTemp());
+//        ConveyorSubsystem.getInstance().setDefaultCommand(new ManualConveyorCommandTemp());
 
         //Color Wheel
         Button colorPistonUp = new Button(() -> getXboxController().getPOV() == 0);
@@ -147,7 +147,7 @@ public class OI {
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
         outtake.whenHeld(new OuttakeRollersCommand());
 //        outtake.whenReleased(new StopRollersCommand());
-//        outtake.whenHeld(new ReverseConveyor());
+        outtake.whenHeld(new ReverseConveyor());
 //        outtake.whenReleased(new UnloadConveyorCommand());
 
         Button changeIntakeState = new Button(() -> getXboxController().getXButton());

@@ -56,6 +56,6 @@ public class UnloadConveyorCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return !OI.getInstance().isTryingToShoot();
+        return false;
     }
 }

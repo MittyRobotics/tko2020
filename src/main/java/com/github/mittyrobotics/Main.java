@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.testing.Testing;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Main {
@@ -33,6 +34,6 @@ public final class Main {
 
     //DO NOT PUSH ANY CHANGES FROM MAIN
     public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+        RobotBase.startRobot(Testing::new); //Replace Robot with whatever class you are using
     }
 }
