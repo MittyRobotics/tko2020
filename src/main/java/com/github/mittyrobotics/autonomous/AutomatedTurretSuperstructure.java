@@ -35,8 +35,6 @@ import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
-import edu.wpi.first.wpilibj.LinearFilter;
-import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -60,7 +58,7 @@ public class AutomatedTurretSuperstructure {
     private CircularTimestampedList<Rotation> turretRobotRelativeRotations = new CircularTimestampedList<>(50);
 
     public static AutomatedTurretSuperstructure getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new AutomatedTurretSuperstructure();
         }
         return instance;
@@ -75,13 +73,13 @@ public class AutomatedTurretSuperstructure {
                 .addFront(new TimestampedElement<>(robotRelativeRotation, Timer.getFPGATimestamp()));
 
         //If vision is safe to use, update the latest accurate field-relative position and calibrate the odometry
-        if(Vision.getInstance().isSafeToUseVision()){
-            this.latestAccurateFieldRelativePosition = Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
+        if (Vision.getInstance().isSafeToUseVision()) {
+            this.latestAccurateFieldRelativePosition =
+                    Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
             this.trackedFieldRelativePosition = latestAccurateFieldRelativePosition;
             Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
                     Gyro.getInstance().getRotation()));
-        }
-        else{
+        } else {
             //If vision is not safe to use, capture turret position from odometry
             this.trackedFieldRelativePosition = robotToTurretPosition(Odometry.getInstance().getLatestRobotTransform());
         }

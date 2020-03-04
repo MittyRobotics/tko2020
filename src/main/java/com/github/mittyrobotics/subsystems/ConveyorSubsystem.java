@@ -45,6 +45,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     private DigitalInput entranceOpticalSwitch;
     private int count;
     private double currentConveyorSetpoint;
+
     private ConveyorSubsystem() {
         super();
         setName("Conveyor");
@@ -117,7 +118,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
         }
     }
 
-    public void index3(boolean isReverse){
+    public void index3(boolean isReverse) {
         if (getSwitch() && !previousEntranceSwitchValue && !isReverse) {
             CommandScheduler.getInstance().schedule(new IncreaseConveyorSetpoint());
             updateBallCount(1);
@@ -133,7 +134,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
 
     public void updateBallCount(int count) {
         totalBallCount = Math.max(totalBallCount + count, 0);
-        if(!IntakePistonSubsystem.getInstance().isExtended()){
+        if (!IntakePistonSubsystem.getInstance().isExtended()) {
             resetBallCount();
         }
     }
@@ -142,19 +143,19 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
         totalBallCount = 0;
     }
 
-    public void indexBall(){
-        if(currentConveyorSetpoint > getPosition()){
+    public void indexBall() {
+        if (currentConveyorSetpoint > getPosition()) {
             setMotor(1);
         } else {
             stopMotor();
         }
     }
 
-    public void increaseSetpoint(double value){
+    public void increaseSetpoint(double value) {
         currentConveyorSetpoint += value;
     }
 
-    public void increaseSetpoint(){
+    public void increaseSetpoint() {
         increaseSetpoint(10);
     }
 

@@ -33,7 +33,7 @@ public class AutonSelector {
     private static AutonSelector instance;
 
     public static AutonSelector getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new AutonSelector();
         }
         return instance;

@@ -36,7 +36,7 @@ public class OdometryManager implements IDashboard {
     private static OdometryManager instance;
 
     public static OdometryManager getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new OdometryManager();
         }
         return instance;

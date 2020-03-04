@@ -234,14 +234,14 @@ public class OI {
         setupShooter.whenHeld(new MinimalVisionCommand());
         setupShooter.whenReleased(new StopShooterCommand());
         setupShooter.whenReleased(new ManualTurretButtonCommand(0));
-        setupShooter.whenPressed(new InstantCommand(()->inAutoShootMode = true));
-        setupShooter.whenReleased(new InstantCommand(()->inAutoShootMode = false));
+        setupShooter.whenPressed(new InstantCommand(() -> inAutoShootMode = true));
+        setupShooter.whenReleased(new InstantCommand(() -> inAutoShootMode = false));
 
         Button shoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
         shoot.whenHeld(new ShootMacro());
         shoot.whenReleased(new StopShooterCommand());
-        shoot.whenPressed(new InstantCommand(()->tryingToShoot = true));
-        shoot.whenReleased(new InstantCommand(()->tryingToShoot = false));
+        shoot.whenPressed(new InstantCommand(() -> tryingToShoot = true));
+        shoot.whenReleased(new InstantCommand(() -> tryingToShoot = false));
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
@@ -263,11 +263,11 @@ public class OI {
         forceIn.whenHeld(new ShoveBallCommand());
     }
 
-    public boolean inAutoShootMode(){
+    public boolean inAutoShootMode() {
         return inAutoShootMode || DriverStation.getInstance().isAutonomous();
     }
 
-    public boolean isTryingToShoot(){
+    public boolean isTryingToShoot() {
         return tryingToShoot || DriverStation.getInstance().isAutonomous();
     }
 
