@@ -24,40 +24,11 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.VisionTarget;
-import com.github.mittyrobotics.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class VisionShooterSpeedCommand extends CommandBase {
-    public VisionShooterSpeedCommand() {
-        addRequirements(ShooterSubsystem.getInstance());
-    }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void execute() {
-        if (Vision.getInstance().isVisionDetected()) {
-            VisionTarget target = Vision.getInstance().getLatestVisionTarget();
-
-            ShooterSubsystem.getInstance().setShooterRpm(
-                    AutomatedTurretSuperstructure.getInstance()
-                            .computeShooterRPMFromDistance(target.getObserverDistanceToTarget()));
-        }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
+public class WaitUntilVisionSafeCommand extends WaitUntilCommand {
+    public WaitUntilVisionSafeCommand(double seconds) {
+        super(() -> Vision.getInstance().isSafeToUseVision(seconds));
     }
 }

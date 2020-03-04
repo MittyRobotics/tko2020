@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.commands;
 
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -31,7 +32,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class VisionScanMacro extends SequentialCommandGroup {
-    private static double VISION_SCAN_PERCENT_OUTPUT = .6;
 
     public VisionScanMacro() {
         addRequirements(TurretSubsystem.getInstance());
@@ -43,7 +43,7 @@ public class VisionScanMacro extends SequentialCommandGroup {
                                 new SetTurretControlLoopMaxPercentCommand(1),
                                 new SetAutomatedTurretRobotRelativeAngleCommand(new Rotation(-90)),
                                 new WaitUntilTurretReachedSetpointCommand(1),
-                                new SetTurretControlLoopMaxPercentCommand(VISION_SCAN_PERCENT_OUTPUT),
+                                new SetTurretControlLoopMaxPercentCommand(AutonConstants.VISION_SCAN_PERCENT_OUTPUT),
                                 new SetAutomatedTurretRobotRelativeAngleCommand(new Rotation(90)),
                                 new WaitUntilTurretReachedSetpointCommand(1)
                         )

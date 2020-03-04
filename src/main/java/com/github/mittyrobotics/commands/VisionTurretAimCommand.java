@@ -44,7 +44,7 @@ public class VisionTurretAimCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (Vision.getInstance().isSafeToUseVision()) {
+        if (Vision.getInstance().isVisionDetected()) {
             //Get latest vision target
             VisionTarget target = Vision.getInstance().getLatestVisionTarget();
             //Set automated turret aim

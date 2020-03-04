@@ -170,8 +170,8 @@ public class SixBallAuton extends SequentialCommandGroup {
                                 //vision is detected, waiting until vision is locked, and waiting until turret has
                                 //reached its setpoint
                                 new WaitUntilShooterSpeedCommand(50),
-                                new WaitUntilVisionDetectedCommand(),
-                                new WaitUntilVisionLockedCommand(),
+                                new WaitUntilVisionSafeCommand(.1),
+                                new WaitUntilVisionAlignedCommand(),
                                 new WaitUntilTurretReachedSetpointCommand(2 * TurretConstants.TICKS_PER_ANGLE),
                                 //Shoot 3 balls
                                 new ParallelRaceGroup(
@@ -192,8 +192,8 @@ public class SixBallAuton extends SequentialCommandGroup {
                                 //vision is detected, waiting until vision is locked, and waiting until turret has
                                 //reached its setpoint
                                 new WaitUntilShooterSpeedCommand(50),
-                                new WaitUntilVisionDetectedCommand(),
-                                new WaitUntilVisionLockedCommand(),
+                                new WaitUntilVisionSafeCommand(.1),
+                                new WaitUntilVisionAlignedCommand(),
                                 new WaitUntilTurretReachedSetpointCommand(2 * TurretConstants.TICKS_PER_ANGLE),
                                 //Shoot 3 balls
                                 new ParallelRaceGroup(

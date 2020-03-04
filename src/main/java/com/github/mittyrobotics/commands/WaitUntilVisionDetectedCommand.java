@@ -25,10 +25,10 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.autonomous.Vision;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class WaitUntilVisionDetectedCommand extends WaitUntilCommand {
-    public WaitUntilVisionDetectedCommand() {
-        super(() -> Vision.getInstance().isSafeToUseVision());
+public class WaitUntilVisionDetectedCommand extends InstantCommand {
+    public WaitUntilVisionDetectedCommand(){
+        super(()-> Vision.getInstance().isVisionDetected());
     }
 }

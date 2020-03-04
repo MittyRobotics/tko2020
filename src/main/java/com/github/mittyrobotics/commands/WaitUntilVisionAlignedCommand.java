@@ -27,13 +27,8 @@ package com.github.mittyrobotics.commands;
 import com.github.mittyrobotics.autonomous.Vision;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class WaitUntilVisionLockedCommand extends WaitUntilCommand {
-
-    public WaitUntilVisionLockedCommand(double time) {
-        super(() -> Vision.getInstance().isVisionLocked(time));
-    }
-
-    public WaitUntilVisionLockedCommand() {
-        super(() -> Vision.getInstance().isVisionLocked(0.1));
+public class WaitUntilVisionAlignedCommand extends WaitUntilCommand {
+    public WaitUntilVisionAlignedCommand() {
+        super(() -> Vision.getInstance().isVisionAligned());
     }
 }

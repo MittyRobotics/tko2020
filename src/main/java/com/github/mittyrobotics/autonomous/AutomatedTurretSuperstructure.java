@@ -73,7 +73,7 @@ public class AutomatedTurretSuperstructure {
                 .addFront(new TimestampedElement<>(robotRelativeRotation, Timer.getFPGATimestamp()));
 
         //If vision is safe to use, update the latest accurate field-relative position and calibrate the odometry
-        if (Vision.getInstance().isSafeToUseVision()) {
+        if (Vision.getInstance().isSafeToUseVision(1)) {
             this.latestAccurateFieldRelativePosition =
                     Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
             this.trackedFieldRelativePosition = latestAccurateFieldRelativePosition;

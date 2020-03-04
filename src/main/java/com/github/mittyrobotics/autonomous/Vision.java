@@ -30,6 +30,7 @@ import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.following.util.Odometry;
+import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
 import com.github.mittyrobotics.vision.Limelight;
@@ -39,8 +40,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision implements IDashboard {
     private static Vision instance;
-    private double visionAlignedTimer;
-    private double visionAlignedTimerStart;
+    private double visibleTimer;
+    private double visibleTimerStart;
     private double latestVisionLatency;
     private VisionTarget latestVisionTarget;
     private MedianFilter yawFilter = new MedianFilter(10);
@@ -57,7 +58,7 @@ public class Vision implements IDashboard {
     public void run() {
         Limelight.getInstance().updateLimelightValues();
         latestVisionLatency = Limelight.getInstance().getLimelightLatency();
-        if (isSafeToUseVision()) {
+        if (isSafeToUseVision(.3)) {
             Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
             Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
             double visionDistance = computeVisionDistance(visionPitch);
@@ -86,21 +87,26 @@ public class Vision implements IDashboard {
             distanceFilter.reset();
         }
 
-        //Update vision alignment timer
-        visionAlignedTimer = Timer.getFPGATimestamp() - visionAlignedTimerStart;
-        if (!isVisionAligned()) {
-            //Reset vision alignment timer
-            visionAlignedTimerStart = Timer.getFPGATimestamp();
+        //Update vision visible timer
+        visibleTimer = Timer.getFPGATimestamp() - visibleTimerStart;
+        if (!isVisionDetected()) {
+            //Reset vision visible timer
+            visibleTimerStart = Timer.getFPGATimestamp();
         }
+    }
+
+    public boolean isVisionDetected(){
+        return Limelight.getInstance().isHasValidTarget();
     }
 
     /**
      * Returns if the vision system is safe to use.
      *
+     * @param seconds the seconds for the target to be visible
      * @return if the vision system is safe to use.
      */
-    public boolean isSafeToUseVision() {
-        return Limelight.getInstance().isHasValidTarget();
+    public boolean isSafeToUseVision(double seconds) {
+        return visibleTimer >= seconds;
     }
 
     /**
@@ -109,17 +115,7 @@ public class Vision implements IDashboard {
      * @return if the vision system is aligned.
      */
     public boolean isVisionAligned() {
-        return Limelight.getInstance().getYawToTarget() < AutonConstants.SAFE_VISION_ANGLE_THRESHOLD;
-    }
-
-    /**
-     * Returns if the vision system is locked.
-     *
-     * @param lockedTime the time in seconds that the vision system is locked on the target.
-     * @return if the vision system is locked.
-     */
-    public boolean isVisionLocked(double lockedTime) {
-        return visionAlignedTimer >= lockedTime;
+        return Math.abs(TurretSubsystem.getInstance().getError()) < AutonConstants.SAFE_VISION_ANGLE_THRESHOLD;
     }
 
     /**

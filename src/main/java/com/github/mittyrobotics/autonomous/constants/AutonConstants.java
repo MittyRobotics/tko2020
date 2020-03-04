@@ -37,6 +37,7 @@ public class AutonConstants {
     public static double LIMELIGHT_HEIGHT = 22; //TODO: Find this value
     public static double LIMELIGHT_PITCH = 25; //TODO: Find this value
     public static double SAFE_VISION_ANGLE_THRESHOLD = 2; //TODO: Find this value
+    public static double VISION_SCAN_PERCENT_OUTPUT = .5;
 
     //Robot
     public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
