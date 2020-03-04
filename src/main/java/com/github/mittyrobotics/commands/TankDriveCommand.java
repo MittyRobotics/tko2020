@@ -29,7 +29,6 @@ import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class TankDriveCommand extends CommandBase {
 
@@ -44,12 +43,14 @@ public class TankDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(OI.getInstance().getXboxController().getStickButton(GenericHID.Hand.kLeft)){
+        if (OI.getInstance().getXboxController().getStickButton(GenericHID.Hand.kLeft)) {
             DriveTrainSubsystem.getInstance().tankDrive(0, 0);
             DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
         } else {
             DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
-            DriveTrainSubsystem.getInstance().tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), 0.1, 0.5);
+            DriveTrainSubsystem.getInstance()
+                    .tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight),
+                            OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), 0.1, 0.5);
         }
     }
 

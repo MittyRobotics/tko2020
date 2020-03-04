@@ -49,7 +49,8 @@ public class ColorPistonSubsystem extends SubsystemBase implements IPistonSubsys
 
     @Override
     public void initHardware() {
-        piston = new DoubleSolenoid(ColorWheelConstants.SOLENOID_FOWARD_CHANNEL, ColorWheelConstants.SOLENOID_REVERSE_CHANNEL);
+        piston = new DoubleSolenoid(ColorWheelConstants.SOLENOID_FOWARD_CHANNEL,
+                ColorWheelConstants.SOLENOID_REVERSE_CHANNEL);
     }
 
     @Override

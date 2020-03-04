@@ -26,7 +26,6 @@ package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.subsystems.BufferSubsystem;
 import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
-import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class UnloadConveyorCommand extends CommandBase {

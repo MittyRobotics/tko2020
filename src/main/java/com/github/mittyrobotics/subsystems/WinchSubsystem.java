@@ -85,22 +85,22 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
     }
 
     @Override
-    public void resetEncoder(){
+    public void resetEncoder() {
         leftWinchEncoder.setPosition(0);
         rightWinchEncoder.setPosition(0);
     }
 
     @Override
-    public double getLeftPosition(){
+    public double getLeftPosition() {
         return leftWinchEncoder.getPosition();
     }
 
     @Override
-    public double getRightPosition(){
+    public double getRightPosition() {
         return rightWinchEncoder.getPosition();
     }
 
-    public void setWinchPosition(double setpoint, double difference){
+    public void setWinchPosition(double setpoint, double difference) {
         double lSpeed = leftController.calculate(getLeftPosition(), setpoint);
         double rSpeed = rightController.calculate(getRightPosition(), setpoint);
         double auxSpeed = auxController.calculate(getLeftPosition() - getRightPosition(), difference);
@@ -108,7 +108,7 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
         this.setpoint = setpoint;
     }
 
-    public double getError(){
+    public double getError() {
         return setpoint - getAveragePosition();
     }
 }

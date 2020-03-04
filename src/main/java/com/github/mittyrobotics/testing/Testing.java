@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.testing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.commands.LockBallCommand;
 import com.github.mittyrobotics.commands.TankDriveCommand;
 import com.github.mittyrobotics.subsystems.*;

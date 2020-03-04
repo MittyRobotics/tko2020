@@ -113,8 +113,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
             System.out.println("HERE");
             CommandScheduler.getInstance().schedule(new AltIndexerCommand());
             updateBallCount(1);
-        }
-        else if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
+        } else if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
             updateBallCount(-1);
         }
     }
@@ -135,7 +134,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
 
     public void updateBallCount(int count) {
         totalBallCount = Math.max(totalBallCount + count, 0);
-        if(!IntakePistonSubsystem.getInstance().isPistonExtended()){
+        if (!IntakePistonSubsystem.getInstance().isPistonExtended()) {
             resetBallCount();
         }
     }

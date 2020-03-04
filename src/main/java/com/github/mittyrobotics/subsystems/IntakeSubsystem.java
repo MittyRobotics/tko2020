@@ -59,7 +59,7 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     public void setMotor(double percent) {
-        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
+        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
             overrideSetMotor(percent);
         } else {
             overrideSetMotor(0);
@@ -73,11 +73,11 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     public void setIntaking() {
 //        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
-            if (!ConveyorSubsystem.getInstance().getSwitch()) {
-                setMotor(IntakeConstants.INTAKE_SPEED_FAST);
-            } else {
-                setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
-            }
+        if (!ConveyorSubsystem.getInstance().getSwitch()) {
+            setMotor(IntakeConstants.INTAKE_SPEED_FAST);
+        } else {
+            setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
+        }
 //        } else {
 //            stopMotor();
 //        }

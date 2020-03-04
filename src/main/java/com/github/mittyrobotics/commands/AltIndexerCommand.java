@@ -40,7 +40,7 @@ public class AltIndexerCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(!ConveyorSubsystem.getInstance().getSwitch()){
+        if (!ConveyorSubsystem.getInstance().getSwitch()) {
             CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(3));
         }
     }
