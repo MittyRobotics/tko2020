@@ -102,8 +102,8 @@ public class AutonDriver {
 
     private void updatePathFollower(double deltaTime) {
         DrivetrainVelocities currentVelocities = DrivetrainVelocities.calculateFromWheelVelocities(
-                DriveTrainSubsystem.getInstance().getLeftEncoderVelocity(),
-                DriveTrainSubsystem.getInstance().getRightEncoderVelocity()
+                DriveTrainSubsystem.getInstance().getLeftVelocity(),
+                DriveTrainSubsystem.getInstance().getRightVelocity()
         );
 
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getLatestRobotTransform()

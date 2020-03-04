@@ -29,7 +29,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.constants.ColorWheelConstants;
 import com.github.mittyrobotics.constants.WheelColor;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
@@ -43,7 +43,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.HashMap;
 
 
-public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
+public class SpinnerSubsystem extends SubsystemBase implements IMotorSubsystem {
     //spinner singleton
     private static SpinnerSubsystem instance;
     //initialize color sensor
@@ -110,9 +110,10 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
         SmartDashboard.putString("Color", getColor().toString());
         SmartDashboard.putString("Color Target",
                 getGameMessage() == WheelColor.None ? "Spin 3 - 5 times" : getGameMessage().toString());
-        SmartDashboard.putNumber("Spinner RPM", getRPM());
+        SmartDashboard.putNumber("Spinner RPM", getVelocity());
     }
 
+    @Override
     public void resetEncoder() {
         spinnerTalon.setSelectedSensorPosition(0);
     }
@@ -121,12 +122,12 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
         setMotorPID(ColorWheelConstants.FAST_VELOCITY);
     }
 
-    private void setMotorPID(double rpm) { //TODO cleanup setpoint conversion
+    private void setMotorPID(double rpm) {
         double setpoint = (rpm * (4 * Math.PI)) * ColorWheelConstants.TICKS_PER_INCH / 600.0; //Ticks per 100ms
         PIDController controller = new PIDController(ColorWheelConstants.SPINNER_P, ColorWheelConstants.SPINNER_I,
                 ColorWheelConstants.SPINNER_D);
         controller.setSetpoint(setpoint);
-        setSpinnerManual(ColorWheelConstants.SPINNER_FF * setpoint
+        setMotor(ColorWheelConstants.SPINNER_FF * setpoint
                 + controller.calculate(spinnerTalon.getSelectedSensorVelocity())
         );
     }
@@ -138,12 +139,6 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
         } else {
             setMotorPID(ColorWheelConstants.SLOW_VELOCITY);
         }
-//        spinnerTalon.set(ControlMode.PercentOutput, 0.2);
-    }
-
-    public void setMotorOff() {
-        //turn off motor
-        spinnerTalon.set(ControlMode.PercentOutput, 0);
     }
 
     public WheelColor getColor() {
@@ -194,28 +189,25 @@ public class SpinnerSubsystem extends SubsystemBase implements ISubsystem {
         return WheelColor.None;
     }
 
-    public double getRevolutions() {
+    public double getPosition() {
         return spinnerTalon.getSelectedSensorPosition() / (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH);
     }
 
-    public void zeroEncoder() {
-        spinnerTalon.setSelectedSensorPosition(0);
-    }
-
-    public void setSpinnerManual(double percent) {
+    public void setMotor(double percent) {
         if (ColorPistonSubsystem.getInstance().isPistonExtended()) {
-            spinnerTalon.set(percent);
+            overrideSetMotor(percent);
         } else {
-            spinnerTalon.set(0);
+            overrideSetMotor(0);
         }
     }
 
-    public boolean isSpinnerMoving() {
-        return Math.abs(spinnerTalon.getSelectedSensorVelocity() / (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) *
-                10) > 5;
+    @Override
+    public void overrideSetMotor(double percent) {
+        spinnerTalon.set(percent);
     }
 
-    private double getRPM() {
+    @Override
+    public double getVelocity() {
         return spinnerTalon.getSelectedSensorVelocity() / (32 * Math.PI * ColorWheelConstants.TICKS_PER_INCH) * 600;
     }
 }

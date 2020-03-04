@@ -22,15 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.interfaces;
+package com.github.mittyrobotics.commands;
 
-/**
- * Interface for all Piston based Subsystem classes
- */
-public interface IPistonSubsystem extends ISubsystem {
-    boolean isPistonExtended();
+import com.github.mittyrobotics.subsystems.IntakePistonSubsystem;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-    void up();
-
-    void down();
+public class ChangeIntakePistonStateCommand extends ConditionalCommand {
+    public ChangeIntakePistonStateCommand() {
+        super(new InstantCommand(() -> IntakePistonSubsystem.getInstance().retractPiston()),
+                new InstantCommand(() -> IntakePistonSubsystem.getInstance().extendPiston()),
+                () -> IntakePistonSubsystem.getInstance().isPistonExtended());
+    }
 }

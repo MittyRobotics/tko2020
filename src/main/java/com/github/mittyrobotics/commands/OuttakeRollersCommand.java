@@ -39,7 +39,7 @@ public class OuttakeRollersCommand extends CommandBase {
 
     @Override
     public void end(boolean interrputed) {
-        IntakeSubsystem.getInstance().stopIntake();
+        IntakeSubsystem.getInstance().stopMotor();
     }
 
     @Override

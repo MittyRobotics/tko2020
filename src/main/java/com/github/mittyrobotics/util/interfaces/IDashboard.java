@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.commands;
+package com.github.mittyrobotics.util.interfaces;
 
-import com.github.mittyrobotics.subsystems.IntakePistonSubsystem;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ChangeIntakePistonState extends ConditionalCommand {
-    public ChangeIntakePistonState() {
-        super(new InstantCommand(() -> IntakePistonSubsystem.getInstance().retractIntake()),
-                new InstantCommand(() -> IntakePistonSubsystem.getInstance().extendIntake()),
-                () -> IntakePistonSubsystem.getInstance().isExtended());
-    }
+/**
+ * Interface for any class that needs to upload information to smartDashboard
+ */
+public interface IDashboard {
+    /**
+     * Updates the {@link SmartDashboard} values associated with the class
+     */
+    void updateDashboard();
 }

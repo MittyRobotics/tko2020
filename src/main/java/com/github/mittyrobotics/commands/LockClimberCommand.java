@@ -24,15 +24,15 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.HooksSubsystem;
+import com.github.mittyrobotics.subsystems.ClimberPistonSubsystem;
 import com.github.mittyrobotics.subsystems.WinchLockSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class LockClimberCommand extends InstantCommand {
     public LockClimberCommand() {
         super(() -> {
-            WinchLockSubsystem.getInstance().lockWinch();
-            HooksSubsystem.getInstance().pullHooks();
-        }, WinchLockSubsystem.getInstance(), HooksSubsystem.getInstance());
+            WinchLockSubsystem.getInstance().retractPiston();
+            ClimberPistonSubsystem.getInstance().retractPiston();
+        }, WinchLockSubsystem.getInstance(), ClimberPistonSubsystem.getInstance());
     }
 }

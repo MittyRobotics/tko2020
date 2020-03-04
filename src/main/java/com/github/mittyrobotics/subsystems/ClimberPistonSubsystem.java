@@ -26,19 +26,19 @@ package com.github.mittyrobotics.subsystems;
 
 import com.github.mittyrobotics.constants.ClimberConstants;
 import com.github.mittyrobotics.constants.RobotSide;
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.IPistonSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class HooksSubsystem extends SubsystemBase implements ISubsystem {
-    private static HooksSubsystem ourInstance = new HooksSubsystem();
+public class ClimberPistonSubsystem extends SubsystemBase implements IPistonSubsystem {
+    private static ClimberPistonSubsystem ourInstance = new ClimberPistonSubsystem();
     private DoubleSolenoid leftPiston, rightPiston;
 
-    private HooksSubsystem() {
+    private ClimberPistonSubsystem() {
         super();
     }
 
-    public static HooksSubsystem getInstance() {
+    public static ClimberPistonSubsystem getInstance() {
         return ourInstance;
     }
 
@@ -55,35 +55,20 @@ public class HooksSubsystem extends SubsystemBase implements ISubsystem {
 
     }
 
-    public void pushHooks(RobotSide side) {
-        if (side == RobotSide.LEFT) {
-            leftPiston.set(DoubleSolenoid.Value.kForward);
-        } else {
-            rightPiston.set(DoubleSolenoid.Value.kForward);
-        }
+    @Override
+    public void extendPiston() {
+        leftPiston.set(DoubleSolenoid.Value.kForward);
+        rightPiston.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void pushHooks() {
-        pushHooks(RobotSide.LEFT);
-        pushHooks(RobotSide.RIGHT);
+    @Override
+    public void retractPiston() {
+        leftPiston.set(DoubleSolenoid.Value.kReverse);
+        rightPiston.set(DoubleSolenoid.Value.kReverse);
     }
 
-    public void pullHooks(RobotSide side) {
-        if (side == RobotSide.LEFT) {
-            leftPiston.set(DoubleSolenoid.Value.kReverse);
-        } else {
-            rightPiston.set(DoubleSolenoid.Value.kReverse);
-        }
+    @Override
+    public boolean isPistonExtended() {
+        return leftPiston.get() == DoubleSolenoid.Value.kForward && rightPiston.get() == DoubleSolenoid.Value.kForward;
     }
-
-    public void pullHooks() {
-        pullHooks(RobotSide.LEFT);
-        pullHooks(RobotSide.RIGHT);
-    }
-
-    public DoubleSolenoid.Value getSolenoidValue() {
-        return leftPiston.get();
-    }
-
-
 }

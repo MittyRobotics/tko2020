@@ -29,6 +29,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class StopShooterCommand extends RunCommand {
     public StopShooterCommand() {
-        super(() -> ShooterSubsystem.getInstance().setShooterPercent(0), ShooterSubsystem.getInstance());
+        super(() -> ShooterSubsystem.getInstance().setMotor(0), ShooterSubsystem.getInstance());
     }
 }

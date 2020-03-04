@@ -22,19 +22,14 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.commands;
+package com.github.mittyrobotics.util.interfaces;
 
-import com.github.mittyrobotics.subsystems.IntakePistonSubsystem;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-
-public class ChangeIntakePistonCommand extends InstantCommand {
-    public ChangeIntakePistonCommand() {
-        super(() -> {
-            if (IntakePistonSubsystem.getInstance().isExtended()) {
-                IntakePistonSubsystem.getInstance().retractIntake();
-            } else {
-                IntakePistonSubsystem.getInstance().extendIntake();
-            }
-        }, IntakePistonSubsystem.getInstance());
-    }
+/**
+ * Interface for any class that needs to initialize hardware
+ */
+public interface IHardware {
+    /**
+     * Initializes all hardware associated with the class
+     */
+    void initHardware();
 }

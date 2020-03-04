@@ -39,7 +39,7 @@ public class IntakeBallShootingCommand extends CommandBase {
 
     @Override
     public void end(boolean inte) {
-        IntakeSubsystem.getInstance().stopIntake();
+        IntakeSubsystem.getInstance().stopMotor();
     }
 
     @Override

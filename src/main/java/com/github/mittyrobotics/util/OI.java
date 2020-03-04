@@ -106,7 +106,7 @@ public class OI {
                 .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
 
         Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
-        changeIntakePiston.whenPressed(new ChangeIntakePistonCommand());
+        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 
         Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
         intake.whenHeld(new IntakeBallCommand());
@@ -123,10 +123,10 @@ public class OI {
 
     public void testButtons() {
         //Drive
-        Button brake = new Button(() -> getXboxController().getStickButton(GenericHID.Hand.kLeft));
-        brake.whenHeld(new BrakeDrivetrainCommand());
+//        Button brake = new Button(() -> getXboxController().getStickButton(GenericHID.Hand.kLeft));
+//        brake.whenPressed(new BrakeDrivetrainCommand());
 
-        ConveyorSubsystem.getInstance().setDefaultCommand(new ManualConveyorCommandTemp());
+//        ConveyorSubsystem.getInstance().setDefaultCommand(new ManualConveyorCommandTemp());
 
         //Color Wheel
         Button colorPistonUp = new Button(() -> getXboxController().getPOV() == 0);
@@ -147,11 +147,11 @@ public class OI {
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
         outtake.whenHeld(new OuttakeRollersCommand());
 //        outtake.whenReleased(new StopRollersCommand());
-//        outtake.whenHeld(new ReverseConveyor());
+        outtake.whenHeld(new ReverseConveyor());
 //        outtake.whenReleased(new UnloadConveyorCommand());
 
         Button changeIntakeState = new Button(() -> getXboxController().getXButton());
-        changeIntakeState.whenPressed(new ChangeIntakePistonState());
+        changeIntakeState.whenPressed(new ChangeIntakePistonStateCommand());
         //Shooting
         Button spinManual = new Button(() -> getXboxController().getXButton());
         spinManual.whenHeld(new ManualSpinnerButtonCommand(.5));
@@ -227,7 +227,7 @@ public class OI {
         outtake.whenReleased(new SetShooterRpmCommand(0));
 
         Button changeIntakeState = new Button(() -> getXboxController().getXButton());
-        changeIntakeState.whenPressed(new ChangeIntakePistonState());
+        changeIntakeState.whenPressed(new ChangeIntakePistonStateCommand());
         //Shooting
 
         Button setupShooter = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);

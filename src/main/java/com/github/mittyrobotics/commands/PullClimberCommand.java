@@ -22,58 +22,42 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.interfaces;
+package com.github.mittyrobotics.commands;
 
-/**
- * Interface for all motor based subsystem classes
- */
-public interface IMotorSubsystem extends ISubsystem {
-    /**
-     * Stops the motor from moving
-     */
-    default void stopMotor() {
-        setMotor(0);
+import com.github.mittyrobotics.subsystems.WinchLockSubsystem;
+import com.github.mittyrobotics.subsystems.WinchSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class PullClimberCommand extends CommandBase {
+
+    private double setpoint;
+    private double difference;
+    private double error;
+
+
+    public PullClimberCommand(double setpoint, double difference) {
+        this.setpoint = setpoint;
+        this.difference = difference;
+        addRequirements(WinchSubsystem.getInstance(), WinchLockSubsystem.getInstance());
     }
 
-    /**
-     * Sets the motor to run at a certain percent (using duty cylce)
-     *
-     * @param percent the percentage to run the motor at
-     */
-    void setMotor(double percent);
-
-    /**
-     * Resets an encoder position
-     */
-    default void resetEncoder() {
-
+    @Override
+    public void initialize() {
+        WinchLockSubsystem.getInstance().extendPiston();
     }
 
-    /**
-     * Gets an encoder position
-     *
-     * @return an encoder position
-     */
-    default double getPosition() {
-        return 0;
+    @Override
+    public void execute() {
+        WinchSubsystem.getInstance().setWinchPosition(setpoint, difference);
     }
 
-    /**
-     * Gets an encoder velocity
-     *
-     * @return an encoder velocity
-     */
-    default double getVelocity() {
-        return 0;
+    @Override
+    public void end(boolean interrupted) {
+        WinchSubsystem.getInstance().stopMotor();
     }
 
-    /**
-     * Gets if a limit switch
-     *
-     * @return if a limit switch is being pressed
-     */
-    default boolean getSwitch() {
-        return false;
+    @Override
+    public boolean isFinished() {
+        return Math.abs(WinchSubsystem.getInstance().getError()) < 10;
     }
-
 }

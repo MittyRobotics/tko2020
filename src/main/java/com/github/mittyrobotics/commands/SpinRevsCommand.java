@@ -41,7 +41,7 @@ public class SpinRevsCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        initPos = SpinnerSubsystem.getInstance().getRevolutions();
+        initPos = SpinnerSubsystem.getInstance().getPosition();
         done = false;
         System.out.println("Init");
     }
@@ -49,7 +49,7 @@ public class SpinRevsCommand extends CommandBase {
     @Override
     public void execute() {
         SpinnerSubsystem.getInstance().setMotorFast();
-        if (Math.abs(SpinnerSubsystem.getInstance().getRevolutions() - initPos) > REVS) {
+        if (Math.abs(SpinnerSubsystem.getInstance().getPosition() - initPos) > REVS) {
             done = true;
         }
     }
@@ -57,7 +57,7 @@ public class SpinRevsCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         //turns off motor, updates status
-        SpinnerSubsystem.getInstance().setMotorOff();
+        SpinnerSubsystem.getInstance().stopMotor();
     }
 
     @Override

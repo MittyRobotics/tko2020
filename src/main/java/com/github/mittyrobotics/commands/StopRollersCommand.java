@@ -29,6 +29,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class StopRollersCommand extends InstantCommand {
     public StopRollersCommand() {
-        super(() -> IntakeSubsystem.getInstance().stopIntake(), IntakeSubsystem.getInstance());
+        super(() -> IntakeSubsystem.getInstance().stopMotor(), IntakeSubsystem.getInstance());
     }
 }

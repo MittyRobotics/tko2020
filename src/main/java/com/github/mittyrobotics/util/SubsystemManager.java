@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.interfaces.ISubsystem;
+import com.github.mittyrobotics.util.interfaces.ISubsystem;
 
 import java.util.ArrayList;
 import java.util.Arrays;

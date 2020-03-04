@@ -34,6 +34,6 @@ public class IntakeBallCommand extends RunCommand {
 
     @Override
     public void end(boolean interrupted) {
-        IntakeSubsystem.getInstance().stopIntake();
+        IntakeSubsystem.getInstance().stopMotor();
     }
 }

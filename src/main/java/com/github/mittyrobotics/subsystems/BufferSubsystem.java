@@ -27,7 +27,7 @@ package com.github.mittyrobotics.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.constants.BufferConstants;
-import com.github.mittyrobotics.interfaces.IMotorSubsystem;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -66,7 +66,7 @@ public class BufferSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     @Override
-    public void setMotor(double percent) {
+    public void overrideSetMotor(double percent) {
         bufferWheel.set(percent);
     }
 

@@ -29,6 +29,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class SpinnerDownCommand extends InstantCommand {
     public SpinnerDownCommand() {
-        super(() -> ColorPistonSubsystem.getInstance().down(), ColorPistonSubsystem.getInstance());
+        super(() -> ColorPistonSubsystem.getInstance().retractPiston(), ColorPistonSubsystem.getInstance());
     }
 }

@@ -45,7 +45,7 @@ public class DriveToColorWheelCommand extends CommandBase {
     @Override
     public void execute() {
         DriveTrainSubsystem.getInstance().tankVelocity(0.2, 0.2);
-        if (DriveTrainSubsystem.getInstance().getLeftEncoderVelocity() < -5) {
+        if (DriveTrainSubsystem.getInstance().getLeftVelocity() < -5) {
             DriveTrainSubsystem.getInstance().tankVelocity(0.1, 0.1);
             atSpeed = true;
         }
@@ -60,6 +60,6 @@ public class DriveToColorWheelCommand extends CommandBase {
     @Override
 
     public boolean isFinished() {
-        return atSpeed && DriveTrainSubsystem.getInstance().getLeftEncoderVelocity() > -0.05;
+        return atSpeed && DriveTrainSubsystem.getInstance().getLeftVelocity() > -0.05;
     }
 }

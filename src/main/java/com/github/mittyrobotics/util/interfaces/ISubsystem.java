@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.interfaces;
+package com.github.mittyrobotics.util.interfaces;
 
 /**
  * Interface for all subsystem classes

@@ -37,17 +37,17 @@ public class ManualTurretButtonCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        TurretSubsystem.getInstance().overrideSetTurretPercent(speed, true);
+        TurretSubsystem.getInstance().setMotor(speed);
     }
 
     @Override
     public void end(boolean initialize) {
-        TurretSubsystem.getInstance().overrideSetTurretPercent(0, false);
+        TurretSubsystem.getInstance().stopMotor();
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 
 }

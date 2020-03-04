@@ -26,6 +26,8 @@ package com.github.mittyrobotics.testing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.commands.LockBallCommand;
+import com.github.mittyrobotics.commands.TankDriveCommand;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
@@ -69,7 +71,7 @@ public class Testing extends TimedRobot {
     public void robotPeriodic() {
         //Run command scheduler
         CommandScheduler.getInstance().run();
-        Vision.getInstance().run();
+//        Vision.getInstance().run();
         //AutomatedTurretSuperstructure.getInstance().run();
         //Update dashboards
 //        DriveTrainSubsystem.getInstance().updateDashboard();
@@ -98,7 +100,7 @@ public class Testing extends TimedRobot {
         DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
 //        new MinimalVisionCommand().schedule();
 //        new ShootMacro().schedule();
-//        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
+        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
 //        ShooterSubsystem.getInstance().setDefaultCommand(new SetShooterRpmCommand(0));
 //        IntakeSubsystem.getInstance().setDefaultCommand(new StopRollersCommand());
 //        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
@@ -115,6 +117,7 @@ public class Testing extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
 
         DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
+        CommandScheduler.getInstance().schedule(new TankDriveCommand());
 //        IntakePistonSubsystem.getInstance().retractIntake();
 //        CommandScheduler.getInstance().cancel(autonCommandGroup\;
 //        OI.getInstance().setupControls();
@@ -123,7 +126,8 @@ public class Testing extends TimedRobot {
 ////        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 //        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
 //        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
-        OI.getInstance().prospectControls();
+        ConveyorSubsystem.getInstance().resetBallCount();
+        OI.getInstance().testButtons();
     }
 
     @Override

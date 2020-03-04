@@ -31,7 +31,7 @@ import com.github.mittyrobotics.commands.AltIndexerCommand;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
 import com.github.mittyrobotics.commands.IncreaseConveyorSetpoint;
 import com.github.mittyrobotics.constants.ConveyorConstants;
-import com.github.mittyrobotics.interfaces.IMotorSubsystem;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -74,14 +74,14 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     public void updateDashboard() {
         SmartDashboard.putNumber("Total Ball Count", getTotalBallCount());
         SmartDashboard.putBoolean("Is Ball Detected", getSwitch());
+        SmartDashboard.putBoolean("Prev switch value", previousEntranceSwitchValue);
     }
 
     @Override
     public void periodic() {
         boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-        if (!IntakePistonSubsystem.getInstance().isExtended()) {
-            index3(isReverse);
-
+        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+            indexSensor(isReverse);
         }
         previousEntranceSwitchValue = getSwitch();
     }
@@ -109,11 +109,12 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     public void indexSensor(boolean isReverse) {
-        if (getSwitch() && !previousEntranceSwitchValue && !isReverse) {
+        if (getSwitch() && !previousEntranceSwitchValue && !isReverse && getTotalBallCount() < 4) {
+            System.out.println("HERE");
             CommandScheduler.getInstance().schedule(new AltIndexerCommand());
             updateBallCount(1);
         }
-        if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
+        else if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
             updateBallCount(-1);
         }
     }
@@ -134,7 +135,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
 
     public void updateBallCount(int count) {
         totalBallCount = Math.max(totalBallCount + count, 0);
-        if (!IntakePistonSubsystem.getInstance().isExtended()) {
+        if(!IntakePistonSubsystem.getInstance().isPistonExtended()){
             resetBallCount();
         }
     }
@@ -173,8 +174,8 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     @Override
-    public void setMotor(double percent) {
-
+    public void overrideSetMotor(double percent) {
+        conveyorTalon.set(percent);
     }
 
     @Override

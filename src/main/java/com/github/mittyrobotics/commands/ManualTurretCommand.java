@@ -33,7 +33,7 @@ public class ManualTurretCommand extends RunCommand {
     public ManualTurretCommand() {
         super(
 //                OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight) > 0.1?
-                () -> TurretSubsystem.getInstance().setTurretPercent(OI.getInstance().getXboxController()
+                () -> TurretSubsystem.getInstance().setMotor(OI.getInstance().getXboxController()
                         .getX(GenericHID.Hand.kRight)),
 //                ()->TurretSubsystem.getInstance().setTurretPercent(0),
                 TurretSubsystem.getInstance());
