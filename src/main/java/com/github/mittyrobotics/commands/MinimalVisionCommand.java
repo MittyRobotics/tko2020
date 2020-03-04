@@ -28,8 +28,6 @@ import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.VisionTarget;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
-import com.github.mittyrobotics.util.OI;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MinimalVisionCommand extends CommandBase {
@@ -47,15 +45,13 @@ public class MinimalVisionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (!(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5)) {
-            VisionTarget target = Vision.getInstance().getLatestVisionTarget();
-            System.out.println(target.getObserverYawToTarget().getHeading());
-            double p = 0.10;
-            TurretSubsystem.getInstance()
-                    .setMotor(p * target.getObserverYawToTarget().getHeading());
-            double rpm = rpmEquation(target.getObserverDistanceToTarget() / 12);
-            ShooterSubsystem.getInstance().setShooterRpm(rpm);
-        }
+        VisionTarget target = Vision.getInstance().getLatestVisionTarget();
+        System.out.println(target.getObserverYawToTarget().getHeading());
+        double p = 0.10;
+        TurretSubsystem.getInstance()
+                .setMotor(p * target.getObserverYawToTarget().getHeading());
+        double rpm = rpmEquation(target.getObserverDistanceToTarget() / 12);
+        ShooterSubsystem.getInstance().setShooterRpm(rpm);
     }
 
     private double rpmEquation(double distance) {
