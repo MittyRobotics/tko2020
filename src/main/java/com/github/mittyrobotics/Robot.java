@@ -25,10 +25,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.util.AutonSelector;
-import com.github.mittyrobotics.commands.IndexBallCommand;
-import com.github.mittyrobotics.commands.LockBallCommand;
-import com.github.mittyrobotics.commands.StopRollersCommand;
-import com.github.mittyrobotics.commands.StopShooterCommand;
+import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
@@ -82,12 +79,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        ShooterSubsystem.getInstance().setDefaultCommand(new StopShooterCommand());
-        IntakeSubsystem.getInstance().setDefaultCommand(new StopRollersCommand());
-        ConveyorSubsystem.getInstance().setDefaultCommand(new IndexBallCommand());
         BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
-        CommandScheduler.getInstance().schedule(autonCommandGroup);
+//        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
+//        CommandScheduler.getInstance().schedule(autonCommandGroup);
     }
 
     @Override
@@ -97,8 +91,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        CommandScheduler.getInstance().cancel(autonCommandGroup);
-        OI.getInstance().setupControls();
+//        CommandScheduler.getInstance().cancel(autonCommandGroup);
+        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
+        OI.getInstance().testButtons();
+        CommandScheduler.getInstance().schedule(new TankDriveCommand());
     }
 
     @Override

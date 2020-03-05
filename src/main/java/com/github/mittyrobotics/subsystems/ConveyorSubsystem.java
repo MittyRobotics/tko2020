@@ -31,8 +31,10 @@ import com.github.mittyrobotics.commands.AltIndexerCommand;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
 import com.github.mittyrobotics.commands.IncreaseConveyorSetpoint;
 import com.github.mittyrobotics.constants.ConveyorConstants;
+import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -80,7 +82,10 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     @Override
     public void periodic() {
         boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+        if (IntakePistonSubsystem.getInstance().isPistonExtended()
+//                && ShooterSubsystem.getInstance().getVelocity() == 0
+                && OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.5
+        ) {
             indexSensor(isReverse);
         }
         previousEntranceSwitchValue = getSwitch();
@@ -109,7 +114,9 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     public void indexSensor(boolean isReverse) {
-        if (getSwitch() && !previousEntranceSwitchValue && !isReverse && getTotalBallCount() < 4) {
+        if (getSwitch() && !previousEntranceSwitchValue && !isReverse
+                && getTotalBallCount() < 4
+        ) {
             System.out.println("HERE");
             CommandScheduler.getInstance().schedule(new AltIndexerCommand());
             updateBallCount(1);

@@ -55,13 +55,13 @@ public class Vision implements IDashboard {
         return instance;
     }
 
-    public void run() {
+    public void run(boolean withTurretSuperStructure) {
         Limelight.getInstance().updateLimelightValues();
         latestVisionLatency = Limelight.getInstance().getLimelightLatency();
         if (isSafeToUseVision(.3)) {
             Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
             Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
-            double visionDistance = computeVisionDistance(visionPitch);
+            double visionDistance = computeVisionDistance(visionPitch) * 120/135.0;
 
             //Update rotations from median filter
             visionYaw = new Rotation(yawFilter.calculate(visionYaw.getHeading()));
@@ -72,14 +72,18 @@ public class Vision implements IDashboard {
             visionDistance = visionToTurretDistance(visionDistance, visionYaw);
             visionYaw = visionToTurretYaw(visionDistance, visionDistance, visionYaw);
 
-            //Compute the turret transforms
-            Transform turretTransform = computeTurretTransform(visionDistance, visionYaw,
-                    Gyro.getInstance().getRotation());
-            //Compensate transform based on latency
-            turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
 
+            Transform turretTransform;
             //Update the latest vision target
-            latestVisionTarget = new VisionTarget(turretTransform, visionYaw, visionDistance);
+            if(!withTurretSuperStructure){
+                latestVisionTarget = new VisionTarget(new Transform(), visionYaw, visionDistance);
+            } else {
+                //Compute the turret transforms
+                turretTransform = computeTurretTransform(visionDistance, visionYaw,
+                        Gyro.getInstance().getRotation());
+//            Compensate transform based on latency
+                turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
+            }
         } else {
             //Reset filters
             yawFilter.reset();

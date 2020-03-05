@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.testing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.commands.LockBallCommand;
 import com.github.mittyrobotics.commands.TankDriveCommand;
 import com.github.mittyrobotics.subsystems.*;
@@ -70,7 +71,7 @@ public class Testing extends TimedRobot {
     public void robotPeriodic() {
         //Run command scheduler
         CommandScheduler.getInstance().run();
-//        Vision.getInstance().run();
+        Vision.getInstance().run(false);
         //AutomatedTurretSuperstructure.getInstance().run();
         //Update dashboards
 //        DriveTrainSubsystem.getInstance().updateDashboard();
@@ -131,7 +132,7 @@ public class Testing extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-
+//        System.out.println(Vision.getInstance().getLatestVisionTarget().getObserverDistanceToTarget());
     }
 
     @Override

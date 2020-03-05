@@ -28,13 +28,14 @@ import com.github.mittyrobotics.datatypes.positioning.Position;
 
 public class AutonConstants {
     //Field
-    public static double HIGH_TARGET_HEIGHT = (6.836 + 9.438) / 2.0 * 12; /*(6.836 + 9.438) / 2.0;*/ //ft //TODO:
+    public static double HIGH_TARGET_HEIGHT = 91;
+            //(6.836 + 9.438) / 2.0 * 12; /*(6.836 + 9.438) / 2.0;*/ //ft //TODO:
     // Calibrate to field
     public static double HIGH_TARGET_MIN_HEIGHT = 6.938 + (7.0 / 12.0 / 2.0); //ft
     public static double HIGH_TARGET_MAX_HEIGHT = 9.438 - (7.0 / 12.0 / 2.0); //ft
 
     //Vision
-    public static double LIMELIGHT_HEIGHT = 22; //TODO: Find this value
+    public static double LIMELIGHT_HEIGHT = 21; //TODO: Find this value
     public static double LIMELIGHT_PITCH = 25; //TODO: Find this value
     public static double SAFE_VISION_ANGLE_THRESHOLD = 2; //TODO: Find this value
     public static double VISION_SCAN_PERCENT_OUTPUT = .5;
@@ -42,7 +43,7 @@ public class AutonConstants {
     //Robot
     public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
     public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
-    public static double CAMERA_TURRET_OFFSET = 5; //Inches //TODO: Find this value
+    public static double CAMERA_TURRET_OFFSET = 7.5; //Inches //TODO: Find this value
     public static Position turretPositionRelativeToRobotCenter = new Position(24, 0); //Inches //Todo: Find this value
 
     //Shooter //TODO: Tune these
@@ -53,7 +54,7 @@ public class AutonConstants {
      * Elements are in the format {distance, RPM}
      */
     public static double[][] SHOOTER_RPM_TABLE = {
-            {10, 3748},
+            {12, 4200},
             {12, 3748},
             {14, 3785},
             {16, 3880},

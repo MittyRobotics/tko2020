@@ -153,8 +153,8 @@ public class OI {
         Button changeIntakeState = new Button(() -> getXboxController().getXButton());
         changeIntakeState.whenPressed(new ChangeIntakePistonStateCommand());
         //Shooting
-        Button spinManual = new Button(() -> getXboxController().getXButton());
-        spinManual.whenHeld(new ManualSpinnerButtonCommand(.5));
+//        Button spinManual = new Button(() -> getXboxController().getXButton());
+//        spinManual.whenHeld(new ManualSpinnerButtonCommand(.5));
 
         Button setupShooter = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
         setupShooter.whenHeld(new MinimalVisionCommand());
@@ -167,11 +167,11 @@ public class OI {
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
-                .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(100)));
+                .whenHeld(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(100)));
 
         Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
         manualShootSpeedDown
-                .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
+                .whenHeld(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
 
         //Turret
         Button manualTurretLeft = new Button(() -> getXboxController().getPOV() == 270);
@@ -181,11 +181,11 @@ public class OI {
         manualTurretRight.whenHeld(new ManualTurretButtonCommand(0.2));
 
         Button addBallCount = new Button(() -> getXboxController().getStartButton());
-        addBallCount.whenPressed(new InstantCommand(
+        addBallCount.whenHeld(new InstantCommand(
                 () -> ConveyorSubsystem.getInstance().updateBallCount(1)));
 
         Button subBallCount = new Button(() -> getXboxController().getBackButton());
-        subBallCount.whenPressed(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(-1)));
+        subBallCount.whenHeld(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(-1)));
 
         Button forceIn = new Button(() -> getXboxController().getStickButton(GenericHID.Hand.kRight));
         forceIn.whenHeld(new ShoveBallCommand());
@@ -245,19 +245,19 @@ public class OI {
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
-                .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(100)));
+                .whenHeld(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(100)));
 
         Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
         manualShootSpeedDown
-                .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
+                .whenHeld(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
 
         //Turret
 
         Button addBallCount = new Button(() -> getXboxController().getStartButton());
-        addBallCount.whenPressed(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(1)));
+        addBallCount.whenHeld(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(1)));
 
         Button subBallCount = new Button(() -> getXboxController().getBackButton());
-        subBallCount.whenPressed(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(-1)));
+        subBallCount.whenHeld(new InstantCommand(() -> ConveyorSubsystem.getInstance().updateBallCount(-1)));
 
         Button forceIn = new Button(() -> getXboxController().getBButton());
         forceIn.whenHeld(new ShoveBallCommand());

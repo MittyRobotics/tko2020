@@ -37,6 +37,7 @@ public class ManualSpinFlywheelCommand extends RunCommand {
 
     @Override
     public void end(boolean inte) {
+        System.out.println("END SHOOTER COMMAND");
         ConveyorSubsystem.getInstance().resetBallCount();
     }
 }

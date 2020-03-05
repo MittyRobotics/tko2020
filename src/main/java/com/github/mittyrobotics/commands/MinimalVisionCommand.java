@@ -47,7 +47,7 @@ public class MinimalVisionCommand extends CommandBase {
     public void execute() {
         VisionTarget target = Vision.getInstance().getLatestVisionTarget();
         System.out.println(target.getObserverYawToTarget().getHeading());
-        double p = 0.10;
+        double p = 0.02;
         TurretSubsystem.getInstance()
                 .setMotor(p * target.getObserverYawToTarget().getHeading());
         double rpm = rpmEquation(target.getObserverDistanceToTarget() / 12);
@@ -55,7 +55,7 @@ public class MinimalVisionCommand extends CommandBase {
     }
 
     private double rpmEquation(double distance) {
-        return 4800 - 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
+        return 5000 - 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
     }
 
     @Override

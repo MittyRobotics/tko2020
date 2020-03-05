@@ -59,11 +59,11 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     public void setMotor(double percent) {
-        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+//        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
             overrideSetMotor(percent);
-        } else {
-            overrideSetMotor(0);
-        }
+//        } else {
+//            overrideSetMotor(0);
+//        }
     }
 
     @Override
