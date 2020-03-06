@@ -24,19 +24,11 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.util.AutonSelector;
-import com.github.mittyrobotics.commands.*;
-import com.github.mittyrobotics.subsystems.*;
-import com.github.mittyrobotics.util.Compressor;
-import com.github.mittyrobotics.util.Gyro;
-import com.github.mittyrobotics.util.OI;
-import com.github.mittyrobotics.util.SubsystemManager;
+import com.github.mittyrobotics.conveyor2.Conveyor2Subsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-    Command autonCommandGroup;
 
     public Robot() {
         super(0.02);
@@ -44,32 +36,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        SubsystemManager.getInstance().addSubsystems(
-                BufferSubsystem.getInstance(),
-                ColorPistonSubsystem.getInstance(),
-                ConveyorSubsystem.getInstance(),
-                DriveTrainSubsystem.getInstance(),
-//                HooksSubsystem.getInstance(),
-                IntakePistonSubsystem.getInstance(),
-                IntakeSubsystem.getInstance(),
-                ShooterSubsystem.getInstance(),
-                SpinnerSubsystem.getInstance(),
-                TurretSubsystem.getInstance()
-//                WinchLockSubsystem.getInstance(),
-//                WinchSubsystem.getInstance()
-        );
-        SubsystemManager.getInstance().initHardware();
-        Gyro.getInstance().initHardware();
-        Compressor.getInstance().initHardware();
-        AutonSelector.getInstance().setupAutonChooser();
+        Conveyor2Subsystem.getInstance().initHardware();
     }
 
     @Override
     public void robotPeriodic() {
-        //Run command scheduler
         CommandScheduler.getInstance().run();
-        //Update dashboards
-        SubsystemManager.getInstance().updateDashboard();
+        Conveyor2Subsystem.getInstance().updateDashboard();
     }
 
     @Override
@@ -79,9 +52,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-//        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
-//        CommandScheduler.getInstance().schedule(autonCommandGroup);
+
     }
 
     @Override
@@ -91,10 +62,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-//        CommandScheduler.getInstance().cancel(autonCommandGroup);
-        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-        OI.getInstance().testButtons();
-        CommandScheduler.getInstance().schedule(new TankDriveCommand());
+//
     }
 
     @Override
