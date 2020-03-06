@@ -82,7 +82,7 @@ public class OI {
             }
         };
 
-        test.whenPressed(new ColorWheelDrive());
+//        test.whenPressed(new ColorWheelDrive());
     }
 
     public boolean passedStage2() {

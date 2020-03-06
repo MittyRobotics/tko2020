@@ -37,6 +37,11 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0] = new WPI_TalonFX(Constants.RIGHT_FALCON_1);
         rightDrive[1] = new WPI_TalonFX(Constants.RIGHT_FALCON_2);
 
+        leftDrive[0].configFactoryDefault();
+        leftDrive[1].configFactoryDefault();
+        rightDrive[0].configFactoryDefault();
+        rightDrive[1].configFactoryDefault();
+
         leftDrive[0].setInverted(false);
         leftDrive[1].setInverted(false);
 
@@ -63,25 +68,25 @@ public class DriveTrainFalcon extends SubsystemBase {
         rightDrive[0].setSensorPhase(false);
         leftDrive[1].setSensorPhase(false);
         rightDrive[0].setSensorPhase(false);
+
+        setDefaultCommand(new JoystickDrive_CarSteering());
     }
 
     public void tankDrive(double left, double right){
-        leftDrive[0].set(TalonFXControlMode.PercentOutput, left);
-        leftDrive[1].set(TalonFXControlMode.PercentOutput, left);
-        rightDrive[0].set(TalonFXControlMode.PercentOutput, right);
-        rightDrive[1].set(TalonFXControlMode.PercentOutput, right);
-//        if(Math.abs(left) > 0.1) {
-//
-//        } else {
-//            leftDrive[0].set(TalonFXControlMode.PercentOutput, 0);
-//            leftDrive[1].set(TalonFXControlMode.PercentOutput, 0);
-//        }
-//        if(Math.abs(right) > 0.1){
-//
-//        }  else {
-//            rightDrive[0].set(TalonFXControlMode.PercentOutput, 0);
-//            rightDrive[1].set(TalonFXControlMode.PercentOutput, 0);
-//        }
+        if(Math.abs(left) > 0.1) {
+            leftDrive[0].set(TalonFXControlMode.PercentOutput, left);
+            leftDrive[1].set(TalonFXControlMode.PercentOutput, left);
+        } else {
+            leftDrive[0].set(TalonFXControlMode.PercentOutput, 0);
+            leftDrive[1].set(TalonFXControlMode.PercentOutput, 0);
+        }
+        if(Math.abs(right) > 0.1){
+            rightDrive[0].set(TalonFXControlMode.PercentOutput, right);
+            rightDrive[1].set(TalonFXControlMode.PercentOutput, right);
+        }  else {
+            rightDrive[0].set(TalonFXControlMode.PercentOutput, 0);
+            rightDrive[1].set(TalonFXControlMode.PercentOutput, 0);
+        }
     }
 
     public void tankVelocity(double left, double right) {
@@ -174,5 +179,13 @@ public class DriveTrainFalcon extends SubsystemBase {
 
     public double getLeftVelSetpoint(){
         return latestLeftVelSetpoint;
+    }
+
+    public void setNeutralMode(NeutralMode mode){
+        leftDrive[0].setNeutralMode(mode);
+        leftDrive[1].setNeutralMode(mode);
+        rightDrive[0].setNeutralMode(mode);
+        rightDrive[1].setNeutralMode(mode);
+
     }
 }

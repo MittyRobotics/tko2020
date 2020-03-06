@@ -16,7 +16,11 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
+<<<<<<< HEAD
         //DriveTrainTalon.getInstance().initHardware();
+=======
+        DriveTrainFalcon.getInstance().initHardware();
+>>>>>>> drive
     }
 
     @Override
@@ -49,28 +53,11 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
 
-//        CommandScheduler.getInstance().cancelAll();
-//        DriveTrainTalon.getInstance().resetEncoder();
-        //DriveTrainFalcon.getInstance().tankDrive(1, 1);
-        //DriveTrainFalcon.getInstance().resetEncoder();
-
     }
 
     @Override
     public void teleopPeriodic() {
         CommandScheduler.getInstance().run();
-
-
-//    DriveTrainFalcon.getInstance().tankVelocity(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
-//    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
-//    System.out.println(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
-//    DriveTrainFalcon.getInstance().tankVelocity(60, 60);
-
-        //DriveTrainTalon.getInstance().velocityPIDFeedForward( 40, 40);
-//        DriveTrainTalon.getInstance().tankVelocity(-OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
-//    DriveTrainTalon.getInstance().velocityPIDFeedForward( 50, 50); // 50 fine but 40 overshoots and undershoots
-//        System.out.println("Left Encoder: " + DriveTrainTalon.getInstance().getLeftEncoderVelocity());
-//        System.out.println("Right Encoder: " + DriveTrainTalon.getInstance().getRightEncoderVelocity());
 
     }
 
