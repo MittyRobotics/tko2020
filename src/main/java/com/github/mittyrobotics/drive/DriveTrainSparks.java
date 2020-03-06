@@ -45,7 +45,7 @@ public class DriveTrainSparks extends SubsystemBase {
         leftSpark2.restoreFactoryDefaults();
         rightSpark1.restoreFactoryDefaults();
         rightSpark2.restoreFactoryDefaults();
-        rightSpark1.follow(leftSpark1);
+        leftSpark2.follow(leftSpark1);
         rightSpark2.follow(rightSpark1);
         leftSpark1.setMotorType(CANSparkMaxLowLevel.MotorType.kBrushless);
         leftSpark2.setMotorType(CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -56,8 +56,8 @@ public class DriveTrainSparks extends SubsystemBase {
         //setDefaultCommand(new Drive());
     }
 
-    public void tankDrive(double left, double right) {
-        if (Math.abs(left) < 0.1){
+    public void tankDrive(double left, double right, double deadZone) {
+        if (Math.abs(left) < deadZone){
             leftSpark1.stopMotor();
             leftSpark2.stopMotor();
         } else {
@@ -65,7 +65,7 @@ public class DriveTrainSparks extends SubsystemBase {
             leftSpark2.set(left);
         }
 
-        if (Math.abs(right) < 0.1){
+        if (Math.abs(right) < deadZone){
             rightSpark1.stopMotor();
             rightSpark2.stopMotor();
         } else {
@@ -80,5 +80,13 @@ public class DriveTrainSparks extends SubsystemBase {
 
     public CANEncoder getLeftEncoder(){
         return leftSpark1.getEncoder();
+    }
+
+    public CANSparkMax getRightSpark() {
+        return rightSpark1;
+    }
+
+    public CANEncoder getRightEncoder() {
+        return rightSpark1.getEncoder();
     }
 }

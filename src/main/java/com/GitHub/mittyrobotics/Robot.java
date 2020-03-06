@@ -16,7 +16,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
-        DriveTrainTalon.getInstance().initHardware();
+        //DriveTrainTalon.getInstance().initHardware();
     }
 
     @Override
