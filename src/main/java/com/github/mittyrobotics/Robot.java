@@ -25,12 +25,15 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.LinearActuator.LinearActuator;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class Robot extends TimedRobot {
 
-    Joystick js = new Joystick(0);
+    //Joystick js = new Joystick(0);
+    XboxController js = new XboxController(0);
     boolean toggle = false;
 
     @Override
@@ -73,16 +76,16 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
 
-        if (js.getRawButton(3)) {
+        if (js.getAButtonPressed()) {
             LinearActuator.getInstance().set(0.5);
-        } else if(js.getRawButton(2)) {
+        } else if(js.getYButtonPressed()) {
             LinearActuator.getInstance().set(0);
-        } else if(js.getRawButtonPressed(4)) {
+        } else if(js.getBButtonPressed()) {
             toggle = !toggle;
         }
 
         if(toggle) {
-            LinearActuator.getInstance().set(1-((js.getY() + 1) / 2));
+            LinearActuator.getInstance().set(1-((js.getY(GenericHID.Hand.kRight) + 1) / 2));
         }
     }
 
