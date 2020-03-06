@@ -12,7 +12,7 @@ public class IndexPositionCommand extends CommandBase {
     @Override
     public void initialize(){
         initPos = Conveyor2Subsystem.getInstance().getPosition();
-        Conveyor2Subsystem.getInstance().setMotor(1);
+        Conveyor2Subsystem.getInstance().setMotor(0.5);
     }
 
     @Override

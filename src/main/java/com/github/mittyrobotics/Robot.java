@@ -24,7 +24,12 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
 import com.github.mittyrobotics.conveyor2.Conveyor2Subsystem;
+import com.github.mittyrobotics.conveyor2.IndexPositionCommand;
+import com.github.mittyrobotics.subsystems.ShooterSubsystem;
+import com.github.mittyrobotics.subsystems.TurretSubsystem;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -57,6 +62,14 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
+        System.out.println("SENSOR: " + Conveyor2Subsystem.getInstance().getSwitch());
+//        Conveyor2Subsystem.getInstance().overrideSetMotor(OI.getInstance().getJoystick1().getZ());
+//        TurretSubsystem.getInstance().manualTurret(OI.getInstance().getJoystick1().getX());
+//        if (OI.getInstance().getJoystick1().getY() > 0.8) {
+//            ShooterSubsystem.getInstance().overrideSetMotor(0.5);
+//        } else {
+//            ShooterSubsystem.getInstance().overrideSetMotor(0);
+//        }
 
     }
 
@@ -67,7 +80,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-
+        if (OI.getInstance().getJoystick1().getRawButtonPressed(3)) {
+            CommandScheduler.getInstance().schedule(new IndexPositionCommand(4));
+        }
     }
 
     @Override
@@ -77,6 +92,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
+        Conveyor2Subsystem.getInstance().overrideSetMotor(OI.getInstance().getJoystick1().getY());
+        System.out.println("Encoder position: " + Conveyor2Subsystem.getInstance().getPosition());
 
     }
 

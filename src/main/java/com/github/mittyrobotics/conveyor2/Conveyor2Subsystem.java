@@ -43,14 +43,14 @@ public class Conveyor2Subsystem extends SubsystemBase implements IMotorSubsystem
         conveyorTalon1.setInverted(false);
         conveyorTalon2.setInverted(false);
         conveyorTalon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        sensor = new DigitalInput(0);
+//        sensor = new DigitalInput(0);
         prevSwitchValue = false;
         ballCount = 0;
     }
 
     @Override
     public boolean getSwitch(){
-        return !sensor.get();
+        return sensor.get();
     }
 
     @Override
@@ -68,4 +68,5 @@ public class Conveyor2Subsystem extends SubsystemBase implements IMotorSubsystem
             ballCount--;
         }
     }
+
 }
