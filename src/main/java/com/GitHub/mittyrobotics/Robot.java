@@ -16,11 +16,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         OI.getInstance().digitalInputControls();
-<<<<<<< HEAD
-        //DriveTrainTalon.getInstance().initHardware();
-=======
-        DriveTrainFalcon.getInstance().initHardware();
->>>>>>> drive
+        DriveTrainTalon.getInstance().initHardware();
     }
 
     @Override
@@ -57,7 +53,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        CommandScheduler.getInstance().run();
+        DriveTrainTalon.getInstance().tankDriveBrake(OI.getInstance().getJoystick1().getY(),OI.getInstance().getJoystick2().getY(), OI.getInstance().getJoystick1().getTrigger(), OI.getInstance().getJoystick2().getTrigger());
 
     }
 

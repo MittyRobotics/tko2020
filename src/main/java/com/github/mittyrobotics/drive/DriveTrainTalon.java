@@ -72,12 +72,27 @@ public class DriveTrainTalon extends SubsystemBase {
 		rightDrive[0].setNeutralMode(NeutralMode.Brake);
 		rightDrive[1].setNeutralMode(NeutralMode.Brake);
 
-		setDefaultCommand(new CurvatureSteering());
-
 		//Feedforward Velocity PID
 		//controller = new PIDController(0.309 / 12.0, 0, 0);
 
 
+	}
+
+	public void tankDriveBrake(double left, double right, boolean leftTrigger, boolean rightTrigger) {
+		if (Math.abs(left) < 0.1 || leftTrigger) {
+			leftDrive[0].set(ControlMode.PercentOutput, 0);
+			leftDrive[1].set(ControlMode.PercentOutput, 0);
+		} else {
+			leftDrive[0].set(ControlMode.PercentOutput, left);
+			leftDrive[1].set(ControlMode.PercentOutput, left);
+		}
+		if (Math.abs(right) < 0.1 || rightTrigger) {
+			rightDrive[0].set(ControlMode.PercentOutput, 0);
+			rightDrive[1].set(ControlMode.PercentOutput, 0);
+		} else {
+			rightDrive[0].set(ControlMode.PercentOutput, right);
+			rightDrive[1].set(ControlMode.PercentOutput, right);
+		}
 	}
 
 	public void tankDrive(double left, double right) {
@@ -96,6 +111,7 @@ public class DriveTrainTalon extends SubsystemBase {
 			rightDrive[1].set(ControlMode.PercentOutput, right);
 		}
 	}
+
 
 	public void tankVelocity(double left, double right) {
 		if(Math.abs(left) < 0.1){
