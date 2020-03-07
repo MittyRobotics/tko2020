@@ -26,14 +26,18 @@ package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.constants.ConveyorConstants;
 import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
+import com.github.mittyrobotics.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoConveyorIndexCommand extends CommandBase {
+public class Bowling extends CommandBase {
     private State state;
     private double setpoint;
     private State prevState;
-    public AutoConveyorIndexCommand(){
-        addRequirements(ConveyorSubsystem.getInstance());
+    private double time;
+    public Bowling(){
+        addRequirements(ConveyorSubsystem.getInstance(),
+        ShooterSubsystem.getInstance());
     }
 
     @Override
@@ -41,6 +45,7 @@ public class AutoConveyorIndexCommand extends CommandBase {
         prevState = State.STOPPING;
         state = State.STOPPING;
         setpoint = ConveyorSubsystem.getInstance().getPosition();
+        time = Timer.getFPGATimestamp();
     }
 
     @Override
@@ -71,7 +76,13 @@ public class AutoConveyorIndexCommand extends CommandBase {
             ConveyorSubsystem.getInstance().stopMotor();
         }
         if(ConveyorSubsystem.getInstance().getTotalBallCount() > 4){
-            ConveyorSubsystem.getInstance().stopMotor();
+            time = Timer.getFPGATimestamp();
+        }
+        if(Timer.getFPGATimestamp() - time < 5){
+            ConveyorSubsystem.getInstance().setIndexSpeed();
+            ShooterSubsystem.getInstance().setShooterRpm(3000);
+        } else {
+            ShooterSubsystem.getInstance().stopMotor();
         }
         prevState = state;
     }

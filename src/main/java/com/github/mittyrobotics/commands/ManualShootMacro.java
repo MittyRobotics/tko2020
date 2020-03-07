@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ManualShootMacro extends ParallelCommandGroup {
@@ -33,7 +34,7 @@ public class ManualShootMacro extends ParallelCommandGroup {
                 new ManualSpinFlywheelCommand(),
                 sequence(
                         new WaitCommand(0.02),
-                        new WaitUntilShooterSpeedCommand(50),
+                        new ParallelRaceGroup(new WaitUntilShooterSpeedCommand(50), new WaitCommand(5)),
                         parallel(
                                 new UnloadConveyorCommand(),
                                 new IntakeBallShootingCommand()

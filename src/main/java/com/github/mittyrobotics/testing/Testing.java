@@ -27,7 +27,9 @@ package com.github.mittyrobotics.testing;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.modes.SixBallAuton;
+import com.github.mittyrobotics.autonomous.modes.TestConveyorAuto;
 import com.github.mittyrobotics.autonomous.modes.TestPathFollowingAuton;
+import com.github.mittyrobotics.autonomous.modes.TestTwoBallPickupAuto;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
@@ -42,6 +44,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Testing extends TimedRobot {
     Command autonCommandGroup;
@@ -86,7 +89,7 @@ public class Testing extends TimedRobot {
         DriveTrainSubsystem.getInstance().updateDashboard();
         OdometryManager.getInstance().updateDashboard();
 ////        IntakeSubsystem.getInstance().updateDashboard();
-//        ConveyorSubsystem.getInstance().updateDashboard();
+        ConveyorSubsystem.getInstance().updateDashboard();
         ShooterSubsystem.getInstance().updateDashboard();
 //        BufferSubsystem.getInstance().updateDashboard();
 //        ShooterSubsystem.getInstance().updateDashboard();
@@ -109,13 +112,18 @@ public class Testing extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-//        IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallShootingCommand());
-        Odometry.getInstance().setTransform(new Transform(0,0,0), Gyro.getInstance().getAngle());
-        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
-        CommandScheduler.getInstance().schedule(new SixBallAuton());
+////        IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallShootingCommand());
+//        Odometry.getInstance().setTransform(new Transform(0,0,0), Gyro.getInstance().getAngle());
+//        new TestConveyorAuto().schedule();
+////        CommandScheduler.getInstance().schedule(new SixBallAuton());
+////
+////        new IntakeBallCommand().schedule();
+//////        new Bowling().schedule();
+////        new RunCommand(()->ConveyorSubsystem.getInstance().setMotor(1), ConveyorSubsystem.getInstance()).schedule();
+////        new RunCommand(()->ShooterSubsystem.getInstance().setShooterRpm(3000), ShooterSubsystem.getInstance()).schedule();
+//////        ConveyorSubsystem.getInstance().setDefaultCommand(new ConveyorAutonCommand());
 
-//        new IntakeBallCommand().schedule();
-//        ConveyorSubsystem.getInstance().setDefaultCommand(new ConveyorAutonCommand());
+        new TestTwoBallPickupAuto().schedule();
     }
 
     @Override
@@ -126,7 +134,7 @@ public class Testing extends TimedRobot {
     @Override
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
-
+        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
         DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
         CommandScheduler.getInstance().schedule(new ArcadeDriveCommand());
         ConveyorSubsystem.getInstance().resetBallCount();
@@ -148,6 +156,7 @@ public class Testing extends TimedRobot {
     @Override
     public void testPeriodic() {
         System.out.println("Testing: " + Vision.getInstance().getLatestVisionTarget().getObserverDistanceToTarget());
+        ConveyorSubsystem.getInstance().setMotor(-1);
 //        ShooterSubsystem.getInstance().setMotor(1);
 //        DriveTrainSubsystem.getInstance()
 //                .tankDrive(0, OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
