@@ -90,8 +90,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         turretTalon.config_kP(0, TurretConstants.TURRET_P);
         turretTalon.config_kI(0, TurretConstants.TURRET_I);
         turretTalon.config_kD(0, TurretConstants.TURRET_D);
-//      limitSwitchLeft = new DigitalInput(TurretConstants.TURRET_SWITCH_ID);
-//      limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
+      limitSwitchLeft = new DigitalInput(TurretConstants.TURRET_SWITCH_ID);
+      limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
         turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         turretTalon.setSensorPhase(TurretConstants.TURRET_ENCODER_INVERSION);
 
@@ -124,11 +124,11 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @param percent the turret motor percent output.
      */
     public void setMotor(double percent) {
-//        if ((getLeftSwitch() && percent < 0) || (getRightSwitch() && percent >0)) {
-//            turretTalon.set(0);
-//        } else {
-        turretTalon.set(percent);
-//        }
+        if ((getLeftSwitch() && percent < 0) || (getRightSwitch() && percent >0)) {
+            overrideSetMotor(0);
+        } else {
+            overrideSetMotor(percent);
+        }
     }
 
     /**
