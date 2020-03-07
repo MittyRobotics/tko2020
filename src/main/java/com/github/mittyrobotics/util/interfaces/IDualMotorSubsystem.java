@@ -24,37 +24,89 @@
 
 package com.github.mittyrobotics.util.interfaces;
 
+/**
+ * Interface for all dual motor subsystem
+ */
 public interface IDualMotorSubsystem extends ISubsystem {
+    /**
+     * Stops the motors from moving
+     */
     default void stopMotor() {
         setMotor(0, 0);
     }
 
-    void setMotor(double percent1, double percent2);
+    /**
+     * Sets both motors to move at different percents
+     * By default, this has no contraints, but can be overriden
+     * @param percent1 the percent for the first motor
+     * @param percent2 the percent for the second motor
+     */
+    default void setMotor(double percent1, double percent2){
+        overrideSetMotor(percent1, percent2);
+    }
 
+    /**
+     * Sets both motors to move at a certain percent without constraints
+     * @param percent1 the percent of the first motor
+     * @param percent2 the percent of the second motor
+     */
+    void overrideSetMotor(double percent1, double percent2);
+
+    /**
+     * Function to reset an encoders on the subsystem
+     */
     default void resetEncoder() {
 
     }
 
+    /**
+     * Returns the encoder value of the left motor
+     * By default returns 0
+     * @return left encoder value
+     */
     default double getLeftPosition() {
         return 0;
     }
 
+    /**
+     * Returns the encoder velocity of the left motor
+     * By default returns 0
+     * @return left encoder velocity
+     */
     default double getLeftVelocity() {
         return 0;
     }
 
+    /**
+     * Returns the encoder value of the right motor
+     * By default returns 0
+     * @return right encoder value
+     */
     default double getRightPosition() {
         return 0;
     }
 
+    /**
+     * Returns the encoder value of the left motor
+     * By default returns 0
+     * @return left encoder value
+     */
     default double getRightVelocity() {
         return 0;
     }
 
+    /**
+     * Returns the average velocity of both encoders
+     * @return average velocity
+     */
     default double getAverageVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
     }
 
+    /**
+     * Returns the average position of both encoders
+     * @return average position
+     */
     default double getAveragePosition() {
         return (getLeftPosition() + getLeftPosition()) / 2;
     }

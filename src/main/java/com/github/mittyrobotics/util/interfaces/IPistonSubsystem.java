@@ -28,9 +28,19 @@ package com.github.mittyrobotics.util.interfaces;
  * Interface for all Piston based Subsystem classes
  */
 public interface IPistonSubsystem extends ISubsystem {
+    /**
+     * Returns if the piston is extended
+     * @return piston is extended
+     */
     boolean isPistonExtended();
 
+    /**
+     * Extends a piston
+     */
     void extendPiston();
 
+    /**
+     * Retracts a piston
+     */
     void retractPiston();
 }

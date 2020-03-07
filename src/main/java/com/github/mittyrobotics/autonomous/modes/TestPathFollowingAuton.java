@@ -39,9 +39,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TestPathFollowingAuton extends SequentialCommandGroup {
     public TestPathFollowingAuton() {
-        double maxAcceleration = 30;
-        double maxDeceleration = 30;
-        double maxVelocity = 50;
+        double maxAcceleration = 20;
+        double maxDeceleration = 20;
+        double maxVelocity = 30;
         double startVelocity = 0;
         double endVelocity = 0;
         boolean extremeTakeoff = false;
@@ -74,14 +74,11 @@ public class TestPathFollowingAuton extends SequentialCommandGroup {
         PathFollower follower = new PathFollower(properties, purePursuitProperties);
         PathFollower followerReversed = new PathFollower(propertiesReversed, purePursuitProperties);
 
+
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(new Position(121.88534545898438, -30.914794921875), new Rotation(180.0)),
-                        new Transform(new Position(28.727142333984375, -36.14836883544922), new Rotation(89.0)),
-                        new Transform(new Position(28.727142333984375, -36.14836883544922), new Rotation(89.0)),
-                        new Transform(new Position(17.854766845703125, 24.730712890625), new Rotation(122.0)),
-                        new Transform(new Position(17.854766845703125, 24.730712890625), new Rotation(122.0)),
-                        new Transform(new Position(29.935211181640625, 59.945068359375), new Rotation(37.0)),
+                        new Transform(new Position(0, 0), new Rotation(0)),
+                        new Transform(new Position(100, 50), new Rotation(0))
                 }
         ));
 

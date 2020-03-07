@@ -73,18 +73,26 @@ public interface IMotorSubsystem extends ISubsystem {
     }
 
     /**
-     * Gets if a limit switch
+     * Gets if a switch
      *
-     * @return if a limit switch is being pressed
+     * @return value of a switch
      */
     default boolean getSwitch() {
         return false;
     }
 
+    /**
+     * Gets if a left limit switch is being pressed
+     * @return value of left limit switch
+     */
     default boolean getLeftSwitch() {
         return false;
     }
 
+    /**
+     * Gets if a right limit switch is being pressed
+     * @return value of right limit switch
+     */
     default boolean getRightSwitch() {
         return false;
     }

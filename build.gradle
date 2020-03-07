@@ -80,7 +80,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    compile 'com.github.MittyRobotics:tko-libraries:6b39b8ded1'
+    compile 'com.github.MittyRobotics:tko-libraries:8c456f7ef1'
 
     testImplementation 'junit:junit:4.12'
 

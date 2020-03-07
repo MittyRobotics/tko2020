@@ -79,7 +79,7 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
     }
 
     @Override
-    public void setMotor(double leftPercent, double rightPercent) {
+    public void overrideSetMotor(double leftPercent, double rightPercent) {
         leftWinchSpark.set(leftPercent);
         rightWinchSpark.set(rightPercent);
     }

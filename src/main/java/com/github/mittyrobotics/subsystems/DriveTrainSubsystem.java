@@ -134,7 +134,7 @@ public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubs
     }
 
     @Override
-    public void setMotor(double leftPercent, double rightPercent) {
+    public void overrideSetMotor(double leftPercent, double rightPercent) {
         leftDrive[0].set(leftPercent);
         leftDrive[1].set(leftPercent);
         rightDrive[0].set(rightPercent);

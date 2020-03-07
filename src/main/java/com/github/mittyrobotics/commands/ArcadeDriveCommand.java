@@ -38,7 +38,7 @@ public class ArcadeDriveCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        isReversed = false;
+        isReversed = true;
     }
 
     @Override

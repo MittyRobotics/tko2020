@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,34 +25,10 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class AltIndexerCommand extends CommandBase {
-    public AltIndexerCommand() {
-//        addRequirements(ConveyorSubsystem.getInstance());
-    }
-
-    @Override
-    public void initialize() {
-        ConveyorSubsystem.getInstance().setMotor(1);
-    }
-
-    @Override
-    public void execute() {
-//        if (!ConveyorSubsystem.getInstance().getSwitch()) {
-//            CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(3));
-//        }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        ConveyorSubsystem.getInstance().stopMotor();
-        CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(3));
-    }
-
-    @Override
-    public boolean isFinished() {
-        return !ConveyorSubsystem.getInstance().getSwitch();
+public class SetConveyorMotorCommand extends InstantCommand {
+    public SetConveyorMotorCommand(double percent){
+        super(()-> ConveyorSubsystem.getInstance().setMotor(percent));
     }
 }

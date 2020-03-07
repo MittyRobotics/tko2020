@@ -24,16 +24,20 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
-import com.github.mittyrobotics.conveyor2.Conveyor2Subsystem;
-import com.github.mittyrobotics.conveyor2.IndexPositionCommand;
-import com.github.mittyrobotics.subsystems.ShooterSubsystem;
-import com.github.mittyrobotics.subsystems.TurretSubsystem;
+import com.github.mittyrobotics.autonomous.util.AutonSelector;
+import com.github.mittyrobotics.commands.LockBallCommand;
+import com.github.mittyrobotics.commands.TankDriveCommand;
+import com.github.mittyrobotics.subsystems.*;
+import com.github.mittyrobotics.util.Compressor;
+import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
+import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
+    Command autonCommandGroup;
 
     public Robot() {
         super(0.02);
@@ -41,13 +45,32 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        Conveyor2Subsystem.getInstance().initHardware();
+        SubsystemManager.getInstance().addSubsystems(
+                BufferSubsystem.getInstance(),
+                ColorPistonSubsystem.getInstance(),
+                ConveyorSubsystem.getInstance(),
+                DriveTrainSubsystem.getInstance(),
+//                HooksSubsystem.getInstance(),
+                IntakePistonSubsystem.getInstance(),
+                IntakeSubsystem.getInstance(),
+                ShooterSubsystem.getInstance(),
+                SpinnerSubsystem.getInstance(),
+                TurretSubsystem.getInstance()
+//                WinchLockSubsystem.getInstance(),
+//                WinchSubsystem.getInstance()
+        );
+        SubsystemManager.getInstance().initHardware();
+        Gyro.getInstance().initHardware();
+        Compressor.getInstance().initHardware();
+        AutonSelector.getInstance().setupAutonChooser();
     }
 
     @Override
     public void robotPeriodic() {
+        //Run command sscheduler
         CommandScheduler.getInstance().run();
-//        Conveyor2Subsystem.getInstance().updateDashboard();
+        //Update dashboards
+        SubsystemManager.getInstance().updateDashboard();
     }
 
     @Override
@@ -57,44 +80,36 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-
+        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
+//        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
+//        CommandScheduler.getInstance().schedule(autonCommandGroup);
     }
 
     @Override
     public void autonomousPeriodic() {
-        System.out.println("SENSOR: " + Conveyor2Subsystem.getInstance().getSwitch());
-//        Conveyor2Subsystem.getInstance().overrideSetMotor(OI.getInstance().getJoystick1().getZ());
-//        TurretSubsystem.getInstance().manualTurret(OI.getInstance().getJoystick1().getX());
-//        if (OI.getInstance().getJoystick1().getY() > 0.8) {
-//            ShooterSubsystem.getInstance().overrideSetMotor(0.5);
-//        } else {
-//            ShooterSubsystem.getInstance().overrideSetMotor(0);
-//        }
 
     }
 
     @Override
     public void teleopInit() {
-//
+//        CommandScheduler.getInstance().cancel(autonCommandGroup);
+        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
+        OI.getInstance().testButtons();
+        CommandScheduler.getInstance().schedule(new TankDriveCommand());
     }
 
     @Override
     public void teleopPeriodic() {
-        if (OI.getInstance().getJoystick1().getRawButtonPressed(3)) {
-            CommandScheduler.getInstance().schedule(new IndexPositionCommand(4));
-        }
+
     }
 
     @Override
     public void testInit() {
-        Conveyor2Subsystem.getInstance().resetEncoder();
 
     }
 
     @Override
     public void testPeriodic() {
-        Conveyor2Subsystem.getInstance().joystickConveyorControl(-OI.getInstance().getJoystick1().getY());
-        System.out.println("Encoder position: " + Conveyor2Subsystem.getInstance().getPosition());
 
     }
 

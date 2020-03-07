@@ -24,11 +24,12 @@
 
 package com.github.mittyrobotics.commands;
 
+import com.github.mittyrobotics.constants.TurretConstants;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class WaitUntilTurretReachedSetpointCommand extends WaitUntilCommand {
-    public WaitUntilTurretReachedSetpointCommand(double errorThreshold) {
-        super(() -> Math.abs(TurretSubsystem.getInstance().getError()) < errorThreshold);
+    public WaitUntilTurretReachedSetpointCommand(double angleThreshold) {
+        super(() -> Math.abs(TurretSubsystem.getInstance().getError()) < angleThreshold * TurretConstants.TICKS_PER_ANGLE);
     }
 }

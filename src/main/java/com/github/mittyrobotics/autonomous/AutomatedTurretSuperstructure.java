@@ -78,7 +78,7 @@ public class AutomatedTurretSuperstructure {
                     Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
             this.trackedFieldRelativePosition = latestAccurateFieldRelativePosition;
             Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
-                    Gyro.getInstance().getRotation()));
+                    Gyro.getInstance().getRotation()), Gyro.getInstance().getAngle());
         } else {
             //If vision is not safe to use, capture turret position from odometry
             this.trackedFieldRelativePosition = robotToTurretPosition(Odometry.getInstance().getLatestRobotTransform());

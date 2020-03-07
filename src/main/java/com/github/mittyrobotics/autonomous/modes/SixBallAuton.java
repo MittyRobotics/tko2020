@@ -26,7 +26,6 @@ package com.github.mittyrobotics.autonomous.modes;
 
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.commands.*;
-import com.github.mittyrobotics.constants.TurretConstants;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
@@ -36,9 +35,7 @@ import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
 import com.github.mittyrobotics.util.Gyro;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
 
 /**
  * Safe six ball autonomous mode. Shoots slower to ensure maximum probability of inner goal shots. Also ensures all
@@ -49,7 +46,7 @@ public class SixBallAuton extends SequentialCommandGroup {
         //Properties
         double defaultMaxAcceleration = 30;
         double defaultMaxDeceleration = 30;
-        double defaultMaxVelocity = 100;
+        double defaultMaxVelocity = 60;
         double defaultStartVelocity = 0;
         double defaultEndVelocity = 0;
         boolean defaultExtremeTakeoff = false;
@@ -145,12 +142,15 @@ public class SixBallAuton extends SequentialCommandGroup {
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(AutonCoordinates.SCORING_STARTING_POINT, 180),
-                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180)
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
                 })
         );
 
         Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),}));
+
+        Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
@@ -162,46 +162,42 @@ public class SixBallAuton extends SequentialCommandGroup {
                 Gyro.getInstance().getAngle());
 
         addCommands(
-                parallel(
-                        //Start automated shooter aim throughout the duration of the autonomous mode
-                        new AutomateShooterAimMacro(),
-                        sequence(
-                                //Wait until ready to shoot, consists of waiting until shooter sped up, waiting until
-                                //vision is detected, waiting until vision is locked, and waiting until turret has
-                                //reached its setpoint
-                                new WaitUntilShooterSpeedCommand(50),
-                                new WaitUntilVisionSafeCommand(.1),
-                                new WaitUntilVisionAlignedCommand(),
-                                new WaitUntilTurretReachedSetpointCommand(2 * TurretConstants.TICKS_PER_ANGLE),
-                                //Shoot 3 balls
-                                new ParallelRaceGroup(
-                                        new UnloadConveyorCommand(),
-                                        new WaitCommand(2) //TODO: Placeholder, replace with detect balls exit command
-                                ),
-                                //Start intaking
-                                new IntakeBallCommand(),
-                                //Drive first path
-                                new InitNewPathFollowerCommand(followerReversed),
-                                new PathFollowerCommand(path1),
-                                //Stop intake
-                                new SetIntakeStopCommand(),
-                                //Drive second path
-                                new InitNewPathFollowerCommand(follower),
-                                new PathFollowerCommand(path2),
-                                //Wait until ready to shoot, consists of waiting until shooter sped up, waiting until
-                                //vision is detected, waiting until vision is locked, and waiting until turret has
-                                //reached its setpoint
-                                new WaitUntilShooterSpeedCommand(50),
-                                new WaitUntilVisionSafeCommand(.1),
-                                new WaitUntilVisionAlignedCommand(),
-                                new WaitUntilTurretReachedSetpointCommand(2 * TurretConstants.TICKS_PER_ANGLE),
-                                //Shoot 3 balls
-                                new ParallelRaceGroup(
-                                        new UnloadConveyorCommand(),
-                                        new WaitCommand(2) //TODO: Placeholder, replace with detect balls exit command
-                                )
-                        )
-                )
+               shoot(followerReversed, path1),
+                intake(followerReversed, path2),
+                shoot(follower, path3)
+        );
+    }
+    private SequentialCommandGroup shoot(PathFollower follower, Path path){
+        return new SequentialCommandGroup(
+                new ParallelDeadlineGroup(
+                    new SequentialCommandGroup(
+                            new InitNewPathFollowerCommand(follower),
+                            new PathFollowerCommand(path),
+                            new SequentialCommandGroup(
+                                    new WaitUntilShooterSpeedCommand(200),
+                                    new WaitUntilVisionSafeCommand(0),
+                                    new WaitUntilVisionAlignedCommand(),
+                                    new WaitUntilTurretReachedSetpointCommand(2),
+                                    new ParallelRaceGroup(
+                                            new AutoShootMacro(),
+                                            new WaitCommand(3)
+                                    )
+                            )
+                    ),
+                    new MinimalVisionCommand()
+                ), new SetShooterRpmCommand(0),
+                new SetTurretMotorCommand(0)
+        );
+    }
+    private SequentialCommandGroup intake(PathFollower follower, Path path){
+        return new SequentialCommandGroup(
+                new ParallelDeadlineGroup(
+                    new SequentialCommandGroup(
+                            new InitNewPathFollowerCommand(follower),
+                            new PathFollowerCommand(path)
+                    ),
+                    new IntakeBallCommand()
+                ), new SetIntakeStopCommand()
         );
     }
 }

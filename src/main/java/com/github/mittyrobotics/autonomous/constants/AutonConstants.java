@@ -29,7 +29,7 @@ import com.github.mittyrobotics.datatypes.positioning.Position;
 public class AutonConstants {
     //Field
     public static double HIGH_TARGET_HEIGHT = 91;
-            //(6.836 + 9.438) / 2.0 * 12; /*(6.836 + 9.438) / 2.0;*/ //ft //TODO:
+    //(6.836 + 9.438) / 2.0 * 12; /*(6.836 + 9.438) / 2.0;*/ //ft //TODO:
     // Calibrate to field
     public static double HIGH_TARGET_MIN_HEIGHT = 6.938 + (7.0 / 12.0 / 2.0); //ft
     public static double HIGH_TARGET_MAX_HEIGHT = 9.438 - (7.0 / 12.0 / 2.0); //ft
@@ -54,13 +54,16 @@ public class AutonConstants {
      * Elements are in the format {distance, RPM}
      */
     public static double[][] SHOOTER_RPM_TABLE = {
-            {12, 4200},
-            {12, 3748},
-            {14, 3785},
-            {16, 3880},
-            {18, 3865},
-            {20, 4048},
-            {22, 4010},
-            {24, 4060}
+            {10, 3800},
+            {11, 3800},
+            {12, 3500},
+            {13, 3550},
+            {14, 3600},
+            {15, 3650},
+            {16, 3800},
+            {17, 3850},
+            {18, 3750},
+            {19, 3800},
+            {20, 3850}
     };
 }
