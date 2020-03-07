@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem {
     private static ConveyorSubsystem instance;
@@ -83,35 +84,35 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
 
     @Override
     public void periodic() {
-        if(DriverStation.getInstance().isOperatorControl()){
-            boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-            shouldIntake = IntakeSubsystem.getInstance().getVelocity() > 0;
-            if (
-//        IntakePistonSubsystem.getInstance().isPistonExtended()
-//                &&
-//            ShooterSubsystem.getInstance().getVelocity() == 0
-//                &&
-//                    OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.5
-//                            &&
-//                            OI.getInstance().getXboxController().getBumper(GenericHID.Hand.kLeft)
-//                &&
-                shouldIntake
-//                    true
-            ) {
-                indexSensor(isReverse);
-            }
-            previousEntranceSwitchValue = getSwitch();
-        }
+//        if(DriverStation.getInstance().isOperatorControl()){
+//            boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
+//            shouldIntake = IntakeSubsystem.getInstance().getVelocity() > 0;
+//            if (
+////        IntakePistonSubsystem.getInstance().isPistonExtended()
+////                &&
+////            ShooterSubsystem.getInstance().getVelocity() == 0
+////                &&
+////                    OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.5
+////                            &&
+////                            OI.getInstance().getXboxController().getBumper(GenericHID.Hand.kLeft)
+////                &&
+//                shouldIntake
+////                    true
+//            ) {
+////                indexSensor(isReverse);
+//            }
+//            previousEntranceSwitchValue = getSwitch();
+//        }
 
     }
 
     public void periodic2() {
-        boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-        shouldIntake = IntakeSubsystem.getInstance().getVelocity() > 0;
-        if (true) {
-            indexSensor(isReverse);
-        }
-        previousEntranceSwitchValue = getSwitch();
+//        boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
+//        shouldIntake = IntakeSubsystem.getInstance().getVelocity() > 0;
+//        if (true) {
+//            indexSensor(isReverse);
+//        }
+//        previousEntranceSwitchValue = getSwitch();
     }
 
     public void indexPosition(boolean isReverse) {
@@ -163,7 +164,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     public void updateBallCount(int count) {
-        totalBallCount = Math.max(totalBallCount + count, 0);
+        totalBallCount = MathUtil.clamp(totalBallCount + count, 0, 5);
         if (!IntakePistonSubsystem.getInstance().isPistonExtended()) {
             resetBallCount();
         }
@@ -226,5 +227,10 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
     public void setIndexSpeed(){
         setMotor(ConveyorConstants.CONVEYOR_INDEX_SPEED);
+    }
+
+    @Override
+    public double getVelocity(){
+        return conveyorTalon.get();
     }
 }
