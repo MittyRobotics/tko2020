@@ -1,8 +1,6 @@
 package com.github.mittyrobotics.conveyor2;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -46,19 +44,19 @@ public class Conveyor2Subsystem extends SubsystemBase implements IMotorSubsystem
         conveyorTalon2.setInverted(false);
         conveyorTalon1.setSensorPhase(true);
         conveyorTalon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-//        sensor = new DigitalInput(0);
+        sensor = new DigitalInput(0);
         prevSwitchValue = false;
         ballCount = 0;
     }
 
-//    @Override
-//    public boolean getSwitch(){
-//        return sensor.get();
-//    }
+    @Override
+    public boolean getSwitch(){
+        return sensor.get();
+    }
 
     @Override
     public double getPosition(){
-        return conveyorTalon1.getSelectedSensorPosition();
+        return conveyorTalon1.getSelectedSensorPosition() / Conveyor2Constants.TICKS_PER_CYCLE;
     }
 
     @Override
