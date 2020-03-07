@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,11 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.constants.TurretConstants;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class WaitUntilTurretReachedSetpointCommand extends WaitUntilCommand {
-    public WaitUntilTurretReachedSetpointCommand(double angleThreshold) {
-        super(() -> Math.abs(TurretSubsystem.getInstance().getError()) < angleThreshold * TurretConstants.TICKS_PER_ANGLE);
+public class SetTurretPercentCommand extends InstantCommand {
+    public SetTurretPercentCommand(double percent){
+        super(()-> TurretSubsystem.getInstance().setMotor(percent));
     }
 }

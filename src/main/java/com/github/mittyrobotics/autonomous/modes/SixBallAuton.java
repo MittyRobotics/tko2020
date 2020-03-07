@@ -143,12 +143,15 @@ public class SixBallAuton extends SequentialCommandGroup {
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(AutonCoordinates.SCORING_STARTING_POINT, 180),
-                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180)
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
                 })
         );
 
         Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),}));
+
+        Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
@@ -158,69 +161,51 @@ public class SixBallAuton extends SequentialCommandGroup {
         //Set odometry
         Odometry.getInstance().setTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
                 Gyro.getInstance().getAngle());
+
         addCommands(
-                parallel(
-                        sequence(
-                                new ParallelDeadlineGroup(
-                                        new SequentialCommandGroup(
-                                                new WaitUntilShooterSpeedCommand(200),
-                                                new PrintCommand("DONE 1"),
-                                                new WaitUntilVisionSafeCommand(.1),
-                                                new PrintCommand("DONE 2"),
-                                                new WaitUntilVisionAlignedCommand(),
-                                                new PrintCommand("DONE 3"),
-                                                new WaitUntilTurretReachedSetpointCommand(
-                                                        2 * TurretConstants.TICKS_PER_ANGLE),
-                                                new PrintCommand("DONE 4"),
-                                                new ParallelRaceGroup(
-                                                        new AutoShootMacro(),
-                                                        new WaitCommand(3)
-                                                ),
-                                                new PrintCommand("DONE 5")),
-                                        new MinimalVisionCommand()
-                                ),
-                                new PrintCommand("DONE 6"),
-                                new SetShooterRpmCommand(0),
-                                new ParallelRaceGroup(
-                                        new SequentialCommandGroup(
-                                                new InitNewPathFollowerCommand(followerReversed),
-                                                new PathFollowerCommand(path1),
-                                                new PrintCommand("DONE VWITH PATH FOLLOWER 1")
-                                        ),
-                                        new IntakeBallCommand(),
-                                        new WaitCommand(6)
-                                ),
-                                new PrintCommand("DONE 7"),
-                                new SetIntakeStopCommand(),
-                                new ParallelRaceGroup(
-                                        sequence(
-                                                new InitNewPathFollowerCommand(follower),
-                                                new PathFollowerCommand(path2)
-                                        ),
-                                        new MinimalVisionCommand(),
-                                        new WaitCommand(7)
-                                ),
+                new ParallelDeadlineGroup(
+                        new SequentialCommandGroup(
+                                new InitNewPathFollowerCommand(followerReversed),
+                                new PathFollowerCommand(path1),
                                 new SequentialCommandGroup(
-                                        parallel(
-                                                new MinimalVisionCommand(),
-                                                new WaitUntilShooterSpeedCommand(200),
-                                                new PrintCommand("DONE 1"),
-                                                new WaitUntilVisionSafeCommand(.1),
-                                                new PrintCommand("DONE 2"),
-                                                new WaitUntilVisionAlignedCommand(),
-                                                new PrintCommand("DONE 3"),
-                                                new WaitUntilTurretReachedSetpointCommand(
-                                                        2 * TurretConstants.TICKS_PER_ANGLE),
-                                                new PrintCommand("DONE 4"),
-                                                new ParallelRaceGroup(
-                                                        new AutoShootMacro(),
-                                                        new WaitCommand(3)
-                                                ),
-                                                new PrintCommand("DONE 5"))
+                                        new WaitUntilShooterSpeedCommand(200),
+                                        new WaitUntilVisionSafeCommand(0),
+                                        new WaitUntilVisionAlignedCommand(),
+                                        new WaitUntilTurretReachedSetpointCommand(2),
+                                        new ParallelRaceGroup(
+                                                new AutoShootMacro(),
+                                                new WaitCommand(3)
                                         )
-
-
-                        )
+                                )
+                        ),
+                        new MinimalVisionCommand()
+                ),
+                new SetShooterRpmCommand(0),
+                new SetTurretPercentCommand(0),
+                new ParallelDeadlineGroup(
+                        new SequentialCommandGroup(
+                                new InitNewPathFollowerCommand(followerReversed),
+                                new PathFollowerCommand(path2)
+                        ),
+                        new IntakeBallCommand()
+                ),
+                new SetIntakeStopCommand(),
+                new ParallelDeadlineGroup(
+                        new SequentialCommandGroup(
+                                new InitNewPathFollowerCommand(follower),
+                                new PathFollowerCommand(path3),
+                                new SequentialCommandGroup(
+                                        new WaitUntilShooterSpeedCommand(200),
+                                        new WaitUntilVisionSafeCommand(0),
+                                        new WaitUntilVisionAlignedCommand(),
+                                        new WaitUntilTurretReachedSetpointCommand(2),
+                                        new ParallelRaceGroup(
+                                                new AutoShootMacro(),
+                                                new WaitCommand(3)
+                                        )
+                                )
+                        ),
+                        new MinimalVisionCommand()
                 )
         );
     }
