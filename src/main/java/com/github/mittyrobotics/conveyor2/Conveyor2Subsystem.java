@@ -74,11 +74,9 @@ public class Conveyor2Subsystem extends SubsystemBase implements IMotorSubsystem
 
     public void joystickConveyorControl(double percent) {
         if (Math.abs(percent) > 0.05) {
-            conveyorTalon1.set(ControlMode.PercentOutput, percent);
-            conveyorTalon2.set(ControlMode.PercentOutput, percent);
+            setMotor(percent);
         } else {
-            conveyorTalon1.set(ControlMode.PercentOutput, 0);
-            conveyorTalon2.set(ControlMode.PercentOutput, 0);
+            stopMotor();
         }
     }
     @Override
