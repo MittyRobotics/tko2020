@@ -163,36 +163,41 @@ public class SixBallAuton extends SequentialCommandGroup {
 
         addCommands(
                shoot(followerReversed, path1),
-                new SetShooterRpmCommand(0),
-                new SetTurretMotorCommand(0),
-                new ParallelDeadlineGroup(
-                        new SequentialCommandGroup(
-                                new InitNewPathFollowerCommand(followerReversed),
-                                new PathFollowerCommand(path2)
-                        ),
-                        new IntakeBallCommand()
-                ),
-                new SetIntakeStopCommand(),
+                intake(followerReversed, path2),
                 shoot(follower, path3)
         );
     }
-    private ParallelDeadlineGroup shoot(PathFollower follower, Path path){
-        return new ParallelDeadlineGroup(
-                new SequentialCommandGroup(
-                        new InitNewPathFollowerCommand(follower),
-                        new PathFollowerCommand(path),
-                        new SequentialCommandGroup(
-                                new WaitUntilShooterSpeedCommand(200),
-                                new WaitUntilVisionSafeCommand(0),
-                                new WaitUntilVisionAlignedCommand(),
-                                new WaitUntilTurretReachedSetpointCommand(2),
-                                new ParallelRaceGroup(
-                                        new AutoShootMacro(),
-                                        new WaitCommand(3)
-                                )
-                        )
-                ),
-                new MinimalVisionCommand()
+    private SequentialCommandGroup shoot(PathFollower follower, Path path){
+        return new SequentialCommandGroup(
+                new ParallelDeadlineGroup(
+                    new SequentialCommandGroup(
+                            new InitNewPathFollowerCommand(follower),
+                            new PathFollowerCommand(path),
+                            new SequentialCommandGroup(
+                                    new WaitUntilShooterSpeedCommand(200),
+                                    new WaitUntilVisionSafeCommand(0),
+                                    new WaitUntilVisionAlignedCommand(),
+                                    new WaitUntilTurretReachedSetpointCommand(2),
+                                    new ParallelRaceGroup(
+                                            new AutoShootMacro(),
+                                            new WaitCommand(3)
+                                    )
+                            )
+                    ),
+                    new MinimalVisionCommand()
+                ), new SetShooterRpmCommand(0),
+                new SetTurretMotorCommand(0)
+        );
+    }
+    private SequentialCommandGroup intake(PathFollower follower, Path path){
+        return new SequentialCommandGroup(
+                new ParallelDeadlineGroup(
+                    new SequentialCommandGroup(
+                            new InitNewPathFollowerCommand(follower),
+                            new PathFollowerCommand(path)
+                    ),
+                    new IntakeBallCommand()
+                ), new SetIntakeStopCommand()
         );
     }
 }
