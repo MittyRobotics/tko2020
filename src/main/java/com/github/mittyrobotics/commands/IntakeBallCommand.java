@@ -32,6 +32,10 @@ public class IntakeBallCommand extends RunCommand {
         super(() -> IntakeSubsystem.getInstance().setIntaking(), IntakeSubsystem.getInstance());
     }
 
+    public IntakeBallCommand(double speedFast, double speedSlow) {
+        super(() -> IntakeSubsystem.getInstance().setIntaking(speedFast, speedSlow), IntakeSubsystem.getInstance());
+    }
+
     @Override
     public void end(boolean interrupted) {
         IntakeSubsystem.getInstance().stopMotor();

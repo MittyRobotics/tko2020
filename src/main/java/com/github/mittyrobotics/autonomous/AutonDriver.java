@@ -86,7 +86,7 @@ public class AutonDriver {
             this.previousTime = currentTime;
             if (!isFinishedPath()) {
                 updatePathFollower(deltaTime);
-                this.finishedPath = pathFollower.isFinished(4);
+                this.finishedPath = pathFollower.isFinished(8);
             } else {
                 DriveTrainSubsystem.getInstance().tankDrive(0, 0);
             }

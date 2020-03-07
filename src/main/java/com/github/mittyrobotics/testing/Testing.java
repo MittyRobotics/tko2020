@@ -26,10 +26,7 @@ package com.github.mittyrobotics.testing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.modes.SixBallAuton;
-import com.github.mittyrobotics.autonomous.modes.TestConveyorAuto;
-import com.github.mittyrobotics.autonomous.modes.TestPathFollowingAuton;
-import com.github.mittyrobotics.autonomous.modes.TestTwoBallPickupAuto;
+import com.github.mittyrobotics.autonomous.modes.*;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
@@ -123,7 +120,7 @@ public class Testing extends TimedRobot {
 ////        new RunCommand(()->ShooterSubsystem.getInstance().setShooterRpm(3000), ShooterSubsystem.getInstance()).schedule();
 //////        ConveyorSubsystem.getInstance().setDefaultCommand(new ConveyorAutonCommand());
 
-        new TestTwoBallPickupAuto().schedule();
+        new EightBallAuton().schedule();
     }
 
     @Override

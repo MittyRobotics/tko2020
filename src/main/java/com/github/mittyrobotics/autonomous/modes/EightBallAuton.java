@@ -44,12 +44,12 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
  * Safe six ball autonomous mode. Shoots slower to ensure maximum probability of inner goal shots. Also ensures all
  * balls enter the intake straight on, in case the intake's vectoring capabilities break.
  */
-public class SixBallAuton extends SequentialCommandGroup {
-    public SixBallAuton() {
+public class EightBallAuton extends SequentialCommandGroup {
+    public EightBallAuton() {
         //Properties
-        double defaultMaxAcceleration = 40;
-        double defaultMaxDeceleration = 50;
-        double defaultMaxVelocity = 90;
+        double defaultMaxAcceleration = 30;
+        double defaultMaxDeceleration = 30;
+        double defaultMaxVelocity = 100;
         double defaultStartVelocity = 0;
         double defaultEndVelocity = 0;
         boolean defaultExtremeTakeoff = false;
@@ -122,6 +122,7 @@ public class SixBallAuton extends SequentialCommandGroup {
                 )
         );
 
+
         PathFollower followerRamseteReversed = new PathFollower(new PathFollowerProperties(
                 new PathVelocityController(new VelocityConstraints(
                         defaultMaxAcceleration,
@@ -141,6 +142,8 @@ public class SixBallAuton extends SequentialCommandGroup {
                 )
         );
 
+        //TODO: DO NOT CHANGE TO FUNCTIONS, PLEASE.
+
         //Initialize paths
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
@@ -150,12 +153,15 @@ public class SixBallAuton extends SequentialCommandGroup {
         );
 
         Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),}));
+                new Transform[]{
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),
+                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_1, 180 + 20),
+                }));
 
         Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
+                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_1, 20),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
                 })
         );
@@ -165,7 +171,6 @@ public class SixBallAuton extends SequentialCommandGroup {
                 Gyro.getInstance().getAngle());
 
         addCommands(
-
                 new SequentialCommandGroup(
                         new ParallelDeadlineGroup(
                                 new SequentialCommandGroup(
@@ -192,10 +197,17 @@ public class SixBallAuton extends SequentialCommandGroup {
                                                 new InitNewPathFollowerCommand(followerReversed),
                                                 new PathFollowerCommand(path2)
                                         ),
-                                        new IntakeBallCommand(),
+                                        sequence(
+                                                new ParallelDeadlineGroup(
+                                                        new WaitUntilPathFollowerWithinDistanceCommand(10),
+                                                        new IntakeBallCommand(.85, .25)
+                                                ),
+                                                new IntakeBallCommand(.7, .25)
+                                        ),
                                         new AutoConveyorIndexCommand()
                                 ),
                                 new SetIntakeStopCommand(),
+                                new SetConveyorMotorCommand(0),
                                 new SequentialCommandGroup(
                                         new ParallelDeadlineGroup(
                                                 new SequentialCommandGroup(
@@ -212,7 +224,11 @@ public class SixBallAuton extends SequentialCommandGroup {
                                                                 )
                                                         )
                                                 ),
-                                                new MinimalVisionCommand()
+                                                sequence(
+                                                        new WaitCommand(5),
+                                                        new MinimalVisionCommand()
+                                                )
+
                                         ),
                                         new SetShooterRpmCommand(0)
                                 )
@@ -221,4 +237,3 @@ public class SixBallAuton extends SequentialCommandGroup {
         );
     }
 }
- 
