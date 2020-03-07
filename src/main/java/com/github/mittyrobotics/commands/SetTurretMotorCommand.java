@@ -27,8 +27,8 @@ package com.github.mittyrobotics.commands;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class SetTurretPercentCommand extends InstantCommand {
-    public SetTurretPercentCommand(double percent){
+public class SetTurretMotorCommand extends InstantCommand {
+    public SetTurretMotorCommand(double percent){
         super(()-> TurretSubsystem.getInstance().setMotor(percent));
     }
 }

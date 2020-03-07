@@ -26,7 +26,6 @@ package com.github.mittyrobotics.autonomous.modes;
 
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.commands.*;
-import com.github.mittyrobotics.constants.TurretConstants;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
@@ -181,7 +180,7 @@ public class SixBallAuton extends SequentialCommandGroup {
                         new MinimalVisionCommand()
                 ),
                 new SetShooterRpmCommand(0),
-                new SetTurretPercentCommand(0),
+                new SetTurretMotorCommand(0),
                 new ParallelDeadlineGroup(
                         new SequentialCommandGroup(
                                 new InitNewPathFollowerCommand(followerReversed),
