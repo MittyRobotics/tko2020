@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Mitty Robotics (Team 1351)
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,49 @@
 
 package com.github.mittyrobotics.commands;
 
+import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoConveyorIndexCommand extends CommandBase {
+    private State state;
+    private double setpoint;
+    public AutoConveyorIndexCommand(){
+        addRequirements(ConveyorSubsystem.getInstance());
+    }
+
+    @Override
+    public void initialize() {
+        state = State.STOPPING;
+        setpoint = ConveyorSubsystem.getInstance().getPosition();
+    }
+
+    @Override
+    public void execute() {
+        if(ConveyorSubsystem.getInstance().getSwitch()){
+            state = State.SENSING;
+        }
+        if(state == State.SENSING){
+            ConveyorSubsystem.getInstance().setIndexSpeed();
+            if(!ConveyorSubsystem.getInstance().getSwitch()){
+                state = State.INDEXING;
+                setpoint += 3;
+            }
+        } else if(state == State.INDEXING){
+            ConveyorSubsystem.getInstance().setIndexSpeed();
+            if(setpoint < ConveyorSubsystem.getInstance().getPosition()){
+                state = State.STOPPING;
+            }
+        } else {
+            ConveyorSubsystem.getInstance().stopMotor();
+        }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    private enum State{
+        SENSING, INDEXING, STOPPING
+    }
 }

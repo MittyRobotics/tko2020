@@ -111,10 +111,10 @@ public class Testing extends TimedRobot {
     public void autonomousInit() {
 //        IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallShootingCommand());
         Odometry.getInstance().setTransform(new Transform(0,0,0), Gyro.getInstance().getAngle());
-        new SixBallAuton().schedule();
+        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
+        CommandScheduler.getInstance().schedule(new SixBallAuton());
 
 //        new IntakeBallCommand().schedule();
-        ConveyorSubsystem.getInstance().resetBallCount();
 //        ConveyorSubsystem.getInstance().setDefaultCommand(new ConveyorAutonCommand());
     }
 

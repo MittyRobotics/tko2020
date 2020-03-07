@@ -224,4 +224,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
             setMotor(0);
         }
     }
+    public void setIndexSpeed(){
+        setMotor(ConveyorConstants.CONVEYOR_INDEX_SPEED);
+    }
 }

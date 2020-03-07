@@ -34,4 +34,5 @@ public class ConveyorConstants {
     public static final double CONVEYOR_I = 0;
     public static final double CONVEYOR_D = 0;
     public static final double TICKS_PER_BALL_INCH = 1495;
+    public static final double CONVEYOR_INDEX_SPEED = 1;
 }
