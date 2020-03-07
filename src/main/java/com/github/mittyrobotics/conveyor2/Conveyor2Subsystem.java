@@ -1,6 +1,8 @@
 package com.github.mittyrobotics.conveyor2;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -36,22 +38,23 @@ public class Conveyor2Subsystem extends SubsystemBase implements IMotorSubsystem
 
     @Override
     public void initHardware() {
-        conveyorTalon1 = new WPI_TalonSRX(0);
-        conveyorTalon2 = new WPI_TalonSRX(1);
+        conveyorTalon1 = new WPI_TalonSRX(41);
+        conveyorTalon2 = new WPI_TalonSRX(42);
         conveyorTalon1.configFactoryDefault();
         conveyorTalon2.configFactoryDefault();
-        conveyorTalon1.setInverted(false);
+        conveyorTalon1.setInverted(true);
         conveyorTalon2.setInverted(false);
+        conveyorTalon1.setSensorPhase(true);
         conveyorTalon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 //        sensor = new DigitalInput(0);
         prevSwitchValue = false;
         ballCount = 0;
     }
 
-    @Override
-    public boolean getSwitch(){
-        return sensor.get();
-    }
+//    @Override
+//    public boolean getSwitch(){
+//        return sensor.get();
+//    }
 
     @Override
     public double getPosition(){
@@ -67,6 +70,20 @@ public class Conveyor2Subsystem extends SubsystemBase implements IMotorSubsystem
         if(prevSwitchValue && !getSwitch()){
             ballCount--;
         }
+    }
+
+    public void joystickConveyorControl(double percent) {
+        if (Math.abs(percent) > 0.05) {
+            conveyorTalon1.set(ControlMode.PercentOutput, percent);
+            conveyorTalon2.set(ControlMode.PercentOutput, percent);
+        } else {
+            conveyorTalon1.set(ControlMode.PercentOutput, 0);
+            conveyorTalon2.set(ControlMode.PercentOutput, 0);
+        }
+    }
+    @Override
+    public void resetEncoder(){
+        conveyorTalon1.setSelectedSensorPosition(0);
     }
 
 }

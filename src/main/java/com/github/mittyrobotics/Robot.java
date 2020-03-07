@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        Conveyor2Subsystem.getInstance().updateDashboard();
+//        Conveyor2Subsystem.getInstance().updateDashboard();
     }
 
     @Override
@@ -87,12 +87,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
+        Conveyor2Subsystem.getInstance().resetEncoder();
 
     }
 
     @Override
     public void testPeriodic() {
-        Conveyor2Subsystem.getInstance().overrideSetMotor(OI.getInstance().getJoystick1().getY());
+        Conveyor2Subsystem.getInstance().joystickConveyorControl(-OI.getInstance().getJoystick1().getY());
         System.out.println("Encoder position: " + Conveyor2Subsystem.getInstance().getPosition());
 
     }
