@@ -162,42 +162,50 @@ public class SixBallAuton extends SequentialCommandGroup {
                 Gyro.getInstance().getAngle());
 
         addCommands(
-               shoot(followerReversed, path1),
-                intake(followerReversed, path2),
-                shoot(follower, path3)
-        );
-    }
-    private SequentialCommandGroup shoot(PathFollower follower, Path path){
-        return new SequentialCommandGroup(
                 new ParallelDeadlineGroup(
-                    new SequentialCommandGroup(
-                            new InitNewPathFollowerCommand(follower),
-                            new PathFollowerCommand(path),
-                            new SequentialCommandGroup(
-                                    new WaitUntilShooterSpeedCommand(200),
-                                    new WaitUntilVisionSafeCommand(0),
-                                    new WaitUntilVisionAlignedCommand(),
-                                    new WaitUntilTurretReachedSetpointCommand(2),
-                                    new ParallelRaceGroup(
-                                            new AutoShootMacro(),
-                                            new WaitCommand(3)
-                                    )
-                            )
-                    ),
-                    new MinimalVisionCommand()
-                ), new SetShooterRpmCommand(0),
-                new SetTurretMotorCommand(0)
-        );
-    }
-    private SequentialCommandGroup intake(PathFollower follower, Path path){
-        return new SequentialCommandGroup(
+                        new SequentialCommandGroup(
+                                new InitNewPathFollowerCommand(followerReversed),
+                                new PathFollowerCommand(path1),
+                                new SequentialCommandGroup(
+                                        new WaitUntilShooterSpeedCommand(200),
+                                        new WaitUntilVisionSafeCommand(0),
+                                        new WaitUntilVisionAlignedCommand(),
+                                        new WaitUntilTurretReachedSetpointCommand(2),
+                                        new ParallelRaceGroup(
+                                                new AutoShootMacro(),
+                                                new WaitCommand(3)
+                                        )
+                                )
+                        ),
+                        new MinimalVisionCommand()
+                ),
+                new SetShooterRpmCommand(0),
+                new SetTurretMotorCommand(0),
                 new ParallelDeadlineGroup(
-                    new SequentialCommandGroup(
-                            new InitNewPathFollowerCommand(follower),
-                            new PathFollowerCommand(path)
-                    ),
-                    new IntakeBallCommand()
-                ), new SetIntakeStopCommand()
+                        new SequentialCommandGroup(
+                                new InitNewPathFollowerCommand(followerReversed),
+                                new PathFollowerCommand(path2)
+                        ),
+                        new IntakeBallCommand()
+                ),
+                new SetIntakeStopCommand(),
+                new ParallelDeadlineGroup(
+                        new SequentialCommandGroup(
+                                new InitNewPathFollowerCommand(follower),
+                                new PathFollowerCommand(path3),
+                                new SequentialCommandGroup(
+                                        new WaitUntilShooterSpeedCommand(200),
+                                        new WaitUntilVisionSafeCommand(0),
+                                        new WaitUntilVisionAlignedCommand(),
+                                        new WaitUntilTurretReachedSetpointCommand(2),
+                                        new ParallelRaceGroup(
+                                                new AutoShootMacro(),
+                                                new WaitCommand(3)
+                                        )
+                                )
+                        ),
+                        new MinimalVisionCommand()
+                )
         );
     }
 }
