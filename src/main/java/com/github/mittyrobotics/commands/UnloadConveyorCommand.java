@@ -24,38 +24,16 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.subsystems.BufferSubsystem;
 import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class UnloadConveyorCommand extends CommandBase {
+public class UnloadConveyorCommand extends RunCommand {
     public UnloadConveyorCommand() {
-        addRequirements(ConveyorSubsystem.getInstance(), BufferSubsystem.getInstance());
+        super(()->ConveyorSubsystem.getInstance().shootBall(), ConveyorSubsystem.getInstance());
     }
-
-    @Override
-    public void execute() {
-//        if(ShooterSubsystem.getInstance().getRPMError() > 100){
-//            BufferSubsystem.getInstance().manualBufferSpeed(-.2);
-//            ConveyorSubsystem.getInstance().manualSetConveyorSpeed(0);
-//        }
-//        if(OI.getInstance().getController2().getBumper(GenericHID.Hand.kLeft)){
-//            ConveyorSubsystem.getInstance().manualSetConveyorSpeed(-1);
-//        }
-        ConveyorSubsystem.getInstance().setMotor(1);
-        BufferSubsystem.getInstance().bufferRelease();
-//        Intake.getInstance().intakeBall();
-    }
-
     @Override
     public void end(boolean interrupted) {
         ConveyorSubsystem.getInstance().stopMotor();
-        BufferSubsystem.getInstance().stopMotor();
-        ConveyorSubsystem.getInstance().resetBallCount();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

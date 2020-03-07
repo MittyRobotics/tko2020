@@ -34,7 +34,7 @@ public class ShoveBallCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        ConveyorSubsystem.getInstance().setMotor(.8);
+        ConveyorSubsystem.getInstance().shoveBall();
     }
 
     @Override
