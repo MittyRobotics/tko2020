@@ -26,8 +26,14 @@ package com.github.mittyrobotics.testing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.commands.LockBallCommand;
-import com.github.mittyrobotics.commands.TankDriveCommand;
+import com.github.mittyrobotics.autonomous.modes.SixBallAuton;
+import com.github.mittyrobotics.autonomous.modes.TestPathFollowingAuton;
+import com.github.mittyrobotics.autonomous.util.OdometryManager;
+import com.github.mittyrobotics.commands.*;
+import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
+import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
+import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
@@ -46,6 +52,8 @@ public class Testing extends TimedRobot {
 
     @Override
     public void robotInit() {
+        Odometry.getInstance().setTransform(new Transform(),0);
+        DifferentialDriveKinematics.getInstance().setTrackWidth(27);
         DriveTrainSubsystem.getInstance().initHardware();
         IntakeSubsystem.getInstance().initHardware();
         ConveyorSubsystem.getInstance().initHardware();
@@ -71,12 +79,14 @@ public class Testing extends TimedRobot {
     public void robotPeriodic() {
         //Run command scheduler
         CommandScheduler.getInstance().run();
+        OdometryManager.getInstance().run();
         Vision.getInstance().run(false);
         //AutomatedTurretSuperstructure.getInstance().run();
         //Update dashboards
-//        DriveTrainSubsystem.getInstance().updateDashboard();
+        DriveTrainSubsystem.getInstance().updateDashboard();
+        OdometryManager.getInstance().updateDashboard();
 ////        IntakeSubsystem.getInstance().updateDashboard();
-        ConveyorSubsystem.getInstance().updateDashboard();
+//        ConveyorSubsystem.getInstance().updateDashboard();
         ShooterSubsystem.getInstance().updateDashboard();
 //        BufferSubsystem.getInstance().updateDashboard();
 //        ShooterSubsystem.getInstance().updateDashboard();
@@ -93,23 +103,24 @@ public class Testing extends TimedRobot {
     @Override
     public void disabledInit() {
         DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
+        DriveTrainSubsystem.getInstance().stopMotor();
+        TurretSubsystem.getInstance().setMotor(0);
     }
 
     @Override
     public void autonomousInit() {
-        DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
-//        new MinimalVisionCommand().schedule();
-//        new ShootMacro().schedule();
-        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-//        ShooterSubsystem.getInstance().setDefaultCommand(new SetShooterRpmCommand(0));
-//        IntakeSubsystem.getInstance().setDefaultCommand(new StopRollersCommand());
-//        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
-//        CommandScheduler.getInstance().schedule(autonCommandGroup);
+//        IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallShootingCommand());
+        Odometry.getInstance().setTransform(new Transform(0,0,0), Gyro.getInstance().getAngle());
+        new SixBallAuton().schedule();
+
+//        new IntakeBallCommand().schedule();
+        ConveyorSubsystem.getInstance().resetBallCount();
+//        ConveyorSubsystem.getInstance().setDefaultCommand(new ConveyorAutonCommand());
     }
 
     @Override
     public void autonomousPeriodic() {
-
+        ConveyorSubsystem.getInstance().periodic2();
     }
 
     @Override
@@ -117,22 +128,15 @@ public class Testing extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
 
         DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
-        CommandScheduler.getInstance().schedule(new TankDriveCommand());
-//        IntakePistonSubsystem.getInstance().retractIntake();
-//        CommandScheduler.getInstance().cancel(autonCommandGroup\;
-//        OI.getInstance().setupControls();
-//        ConveyorSubsystem.getInstance().resetBallCount();
-//        DriveTrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
-////        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
-//        BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-//        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
+        CommandScheduler.getInstance().schedule(new ArcadeDriveCommand());
         ConveyorSubsystem.getInstance().resetBallCount();
-        OI.getInstance().testButtons();
+        OI.getInstance().testButtons2();
     }
 
     @Override
     public void teleopPeriodic() {
 //        System.out.println(Vision.getInstance().getLatestVisionTarget().getObserverDistanceToTarget());
+//        ConveyorSubsystem.getInstance().periodic2();
     }
 
     @Override
@@ -143,8 +147,10 @@ public class Testing extends TimedRobot {
 
     @Override
     public void testPeriodic() {
-        DriveTrainSubsystem.getInstance()
-                .tankDrive(0, OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
+        System.out.println("Testing: " + Vision.getInstance().getLatestVisionTarget().getObserverDistanceToTarget());
+//        ShooterSubsystem.getInstance().setMotor(1);
+//        DriveTrainSubsystem.getInstance()
+//                .tankDrive(0, OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));
 //        ShooterSubsystem.getInstance().setShooterPercent(1);
 //        if(OI.getInstance().getController2().getBButton()){
 //            IntakePistonSubsystem.getInstance().retractIntake();

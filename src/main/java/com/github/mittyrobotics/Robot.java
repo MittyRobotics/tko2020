@@ -25,7 +25,8 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.util.AutonSelector;
-import com.github.mittyrobotics.commands.*;
+import com.github.mittyrobotics.commands.LockBallCommand;
+import com.github.mittyrobotics.commands.TankDriveCommand;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
@@ -66,7 +67,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        //Run command scheduler
+        //Run command sscheduler
         CommandScheduler.getInstance().run();
         //Update dashboards
         SubsystemManager.getInstance().updateDashboard();

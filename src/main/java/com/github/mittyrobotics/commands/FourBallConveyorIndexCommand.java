@@ -36,7 +36,7 @@ public class FourBallConveyorIndexCommand extends CommandBase {
     public FourBallConveyorIndexCommand(double distance) {
         super();
         this.distance = distance;
-        addRequirements(ConveyorSubsystem.getInstance());
+//        addRequirements(ConveyorSubsystem.getInstance());
     }
 
     @Override

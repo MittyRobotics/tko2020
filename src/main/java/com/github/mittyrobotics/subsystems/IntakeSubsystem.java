@@ -72,15 +72,15 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     public void setIntaking() {
-//        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
+        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
         if (!ConveyorSubsystem.getInstance().getSwitch()) {
             setMotor(IntakeConstants.INTAKE_SPEED_FAST);
         } else {
             setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
         }
-//        } else {
-//            stopMotor();
-//        }
+        } else {
+            stopMotor();
+        }
     }
 
     public void setIntakingShooting() {
@@ -89,6 +89,11 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     public void setOuttaking() {
         setMotor(IntakeConstants.OUTTAKE_SPEED);
+    }
+
+    @Override
+    public double getVelocity(){
+        return intakeWheel.get();
     }
 
 }

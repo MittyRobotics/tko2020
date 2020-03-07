@@ -36,9 +36,7 @@ import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
 import com.github.mittyrobotics.util.Gyro;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
 
 /**
  * Safe six ball autonomous mode. Shoots slower to ensure maximum probability of inner goal shots. Also ensures all
@@ -49,7 +47,7 @@ public class SixBallAuton extends SequentialCommandGroup {
         //Properties
         double defaultMaxAcceleration = 30;
         double defaultMaxDeceleration = 30;
-        double defaultMaxVelocity = 100;
+        double defaultMaxVelocity = 60;
         double defaultStartVelocity = 0;
         double defaultEndVelocity = 0;
         boolean defaultExtremeTakeoff = false;
@@ -160,46 +158,68 @@ public class SixBallAuton extends SequentialCommandGroup {
         //Set odometry
         Odometry.getInstance().setTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
                 Gyro.getInstance().getAngle());
-
         addCommands(
                 parallel(
-                        //Start automated shooter aim throughout the duration of the autonomous mode
-                        new AutomateShooterAimMacro(),
                         sequence(
-                                //Wait until ready to shoot, consists of waiting until shooter sped up, waiting until
-                                //vision is detected, waiting until vision is locked, and waiting until turret has
-                                //reached its setpoint
-                                new WaitUntilShooterSpeedCommand(50),
-                                new WaitUntilVisionSafeCommand(.1),
-                                new WaitUntilVisionAlignedCommand(),
-                                new WaitUntilTurretReachedSetpointCommand(2 * TurretConstants.TICKS_PER_ANGLE),
-                                //Shoot 3 balls
-                                new ParallelRaceGroup(
-                                        new UnloadConveyorCommand(),
-                                        new WaitCommand(2) //TODO: Placeholder, replace with detect balls exit command
+                                new ParallelDeadlineGroup(
+                                        new SequentialCommandGroup(
+                                                new WaitUntilShooterSpeedCommand(200),
+                                                new PrintCommand("DONE 1"),
+                                                new WaitUntilVisionSafeCommand(.1),
+                                                new PrintCommand("DONE 2"),
+                                                new WaitUntilVisionAlignedCommand(),
+                                                new PrintCommand("DONE 3"),
+                                                new WaitUntilTurretReachedSetpointCommand(
+                                                        2 * TurretConstants.TICKS_PER_ANGLE),
+                                                new PrintCommand("DONE 4"),
+                                                new ParallelRaceGroup(
+                                                        new AutoShootMacro(),
+                                                        new WaitCommand(3)
+                                                ),
+                                                new PrintCommand("DONE 5")),
+                                        new MinimalVisionCommand()
                                 ),
-                                //Start intaking
-                                new IntakeBallCommand(),
-                                //Drive first path
-                                new InitNewPathFollowerCommand(followerReversed),
-                                new PathFollowerCommand(path1),
-                                //Stop intake
-                                new SetIntakeStopCommand(),
-                                //Drive second path
-                                new InitNewPathFollowerCommand(follower),
-                                new PathFollowerCommand(path2),
-                                //Wait until ready to shoot, consists of waiting until shooter sped up, waiting until
-                                //vision is detected, waiting until vision is locked, and waiting until turret has
-                                //reached its setpoint
-                                new WaitUntilShooterSpeedCommand(50),
-                                new WaitUntilVisionSafeCommand(.1),
-                                new WaitUntilVisionAlignedCommand(),
-                                new WaitUntilTurretReachedSetpointCommand(2 * TurretConstants.TICKS_PER_ANGLE),
-                                //Shoot 3 balls
+                                new PrintCommand("DONE 6"),
+                                new SetShooterRpmCommand(0),
                                 new ParallelRaceGroup(
-                                        new UnloadConveyorCommand(),
-                                        new WaitCommand(2) //TODO: Placeholder, replace with detect balls exit command
-                                )
+                                        new SequentialCommandGroup(
+                                                new InitNewPathFollowerCommand(followerReversed),
+                                                new PathFollowerCommand(path1),
+                                                new PrintCommand("DONE VWITH PATH FOLLOWER 1")
+                                        ),
+                                        new IntakeBallCommand(),
+                                        new WaitCommand(6)
+                                ),
+                                new PrintCommand("DONE 7"),
+                                new SetIntakeStopCommand(),
+                                new ParallelRaceGroup(
+                                        sequence(
+                                                new InitNewPathFollowerCommand(follower),
+                                                new PathFollowerCommand(path2)
+                                        ),
+                                        new MinimalVisionCommand(),
+                                        new WaitCommand(7)
+                                ),
+                                new SequentialCommandGroup(
+                                        parallel(
+                                                new MinimalVisionCommand(),
+                                                new WaitUntilShooterSpeedCommand(200),
+                                                new PrintCommand("DONE 1"),
+                                                new WaitUntilVisionSafeCommand(.1),
+                                                new PrintCommand("DONE 2"),
+                                                new WaitUntilVisionAlignedCommand(),
+                                                new PrintCommand("DONE 3"),
+                                                new WaitUntilTurretReachedSetpointCommand(
+                                                        2 * TurretConstants.TICKS_PER_ANGLE),
+                                                new PrintCommand("DONE 4"),
+                                                new ParallelRaceGroup(
+                                                        new AutoShootMacro(),
+                                                        new WaitCommand(3)
+                                                ),
+                                                new PrintCommand("DONE 5"))
+                                        )
+
+
                         )
                 )
         );

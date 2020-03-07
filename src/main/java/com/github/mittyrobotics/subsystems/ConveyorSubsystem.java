@@ -34,6 +34,7 @@ import com.github.mittyrobotics.constants.ConveyorConstants;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -46,6 +47,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     private boolean previousEntranceSwitchValue;
     private DigitalInput entranceOpticalSwitch;
     private int count;
+    private boolean shouldIntake;
     private double currentConveyorSetpoint;
 
     private ConveyorSubsystem() {
@@ -81,11 +83,32 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
 
     @Override
     public void periodic() {
+        if(DriverStation.getInstance().isOperatorControl()){
+            boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
+            shouldIntake = IntakeSubsystem.getInstance().getVelocity() > 0;
+            if (
+//        IntakePistonSubsystem.getInstance().isPistonExtended()
+//                &&
+//            ShooterSubsystem.getInstance().getVelocity() == 0
+//                &&
+//                    OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.5
+//                            &&
+//                            OI.getInstance().getXboxController().getBumper(GenericHID.Hand.kLeft)
+//                &&
+                shouldIntake
+//                    true
+            ) {
+                indexSensor(isReverse);
+            }
+            previousEntranceSwitchValue = getSwitch();
+        }
+
+    }
+
+    public void periodic2() {
         boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-        if (IntakePistonSubsystem.getInstance().isPistonExtended()
-//                && ShooterSubsystem.getInstance().getVelocity() == 0
-                && OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.5
-        ) {
+        shouldIntake = IntakeSubsystem.getInstance().getVelocity() > 0;
+        if (true) {
             indexSensor(isReverse);
         }
         previousEntranceSwitchValue = getSwitch();
@@ -192,5 +215,13 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     @Override
     public void resetEncoder() {
         conveyorTalon.setSelectedSensorPosition(0);
+    }
+
+    public void chooseMoveConveyor(){
+        if(getSwitch()){
+            setMotor(1);
+        } else {
+            setMotor(0);
+        }
     }
 }

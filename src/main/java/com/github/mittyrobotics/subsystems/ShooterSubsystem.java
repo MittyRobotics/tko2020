@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.subsystems;
 
+import com.github.mittyrobotics.commands.StopShooterCommand;
 import com.github.mittyrobotics.constants.ShooterConstants;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import com.revrobotics.*;
@@ -108,6 +109,8 @@ public class ShooterSubsystem extends SubsystemBase implements IMotorSubsystem {
         followerPIDController.setI(ShooterConstants.SHOOTER_I);
         followerPIDController.setD(ShooterConstants.SHOOTER_D);
         manualRPMSetpoint = 3800;
+
+        setDefaultCommand(new StopShooterCommand());
     }
 
     @Override

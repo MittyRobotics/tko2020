@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.commands;
 
+import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.VisionTarget;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
@@ -46,16 +47,17 @@ public class MinimalVisionCommand extends CommandBase {
     @Override
     public void execute() {
         VisionTarget target = Vision.getInstance().getLatestVisionTarget();
-        System.out.println(target.getObserverYawToTarget().getHeading());
-        double p = 0.02;
+        double p = 0.03;
         TurretSubsystem.getInstance()
                 .setMotor(p * target.getObserverYawToTarget().getHeading());
-        double rpm = rpmEquation(target.getObserverDistanceToTarget() / 12);
+        double rpm =
+                AutomatedTurretSuperstructure.getInstance().computeShooterRPMFromDistance(target.getObserverDistanceToTarget()/12);
         ShooterSubsystem.getInstance().setShooterRpm(rpm);
     }
 
     private double rpmEquation(double distance) {
-        return 5000 - 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
+        //return 5000 - 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
+        return 2900+distance*50;
     }
 
     @Override
