@@ -37,15 +37,17 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
 
     @Override
     public void initHardware() {
-        conveyorTalon1 = new WPI_TalonSRX(41);
-        conveyorTalon2 = new WPI_TalonSRX(42);
+        conveyorTalon1 = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_TOP_ID);
+        conveyorTalon2 = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_BOTTOM_ID);
         conveyorTalon1.configFactoryDefault();
         conveyorTalon2.configFactoryDefault();
-        conveyorTalon1.setInverted(true);
-        conveyorTalon2.setInverted(false);
-        conveyorTalon1.setSensorPhase(true);
+        conveyorTalon1.setInverted(ConveyorConstants.CONVEYOR_TOP_INVERSION);
+        conveyorTalon2.setInverted(ConveyorConstants.CONVEYOR_BOTTOM_INVERSION);
+        conveyorTalon1.setSensorPhase(ConveyorConstants.CONVEYOR_ENCODER_INVERSION);
         conveyorTalon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        sensor = new DigitalInput(0);
+        conveyorTalon1.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
+        conveyorTalon2.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
+        sensor = new DigitalInput(ConveyorConstants.BALL_SENSOR_ID);
         ballCount = 0;
     }
 
@@ -74,7 +76,9 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     public void updateBallCount(int increase){
-        ballCount = MathUtil.clamp(ballCount + increase, 0, 5);
+        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
+            ballCount = MathUtil.clamp(ballCount + increase, ConveyorConstants.MINIMUM_BALL_COUNT, ConveyorConstants.MAXIMUM_BALL_COUNT);
+        }
     }
 
     public void resetBallCount(){
@@ -95,7 +99,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
 
     @Override
     public void setMotor(double speed){
-        if(getBallCount() > 4 && speed > 0){
+        if(getBallCount() > ConveyorConstants.MAXIMUM_BALL_COUNT - 1 && speed > 0){
             overrideSetMotor(0);
         } else {
             overrideSetMotor(speed);

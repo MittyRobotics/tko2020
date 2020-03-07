@@ -61,20 +61,23 @@ public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubs
 
     public void initHardware() {
 
-        leftDrive[0] = new WPI_TalonFX(DriveConstants.LEFT_FALCON_1);
-        leftDrive[1] = new WPI_TalonFX(DriveConstants.LEFT_FALCON_2);
-        rightDrive[0] = new WPI_TalonFX(DriveConstants.RIGHT_FALCON_1);
-        rightDrive[1] = new WPI_TalonFX(DriveConstants.RIGHT_FALCON_2);
+        leftDrive[0] = new WPI_TalonFX(DriveConstants.LEFT_FALCON_MASTER_ID);
+        leftDrive[1] = new WPI_TalonFX(DriveConstants.LEFT_FALCON_SLAVE_ID);
+        rightDrive[0] = new WPI_TalonFX(DriveConstants.RIGHT_FALCON_MASTER_ID);
+        rightDrive[1] = new WPI_TalonFX(DriveConstants.RIGHT_FALCON_SLAVE_ID);
         leftDrive[0].configFactoryDefault();
         leftDrive[1].configFactoryDefault();
         rightDrive[0].configFactoryDefault();
         rightDrive[1].configFactoryDefault();
 
-        leftDrive[0].setInverted(false);
-        leftDrive[1].setInverted(false);
+        leftDrive[0].setInverted(DriveConstants.LEFT_FACLON_MASTER_INVERSION);
+        leftDrive[1].setInverted(DriveConstants.LEFT_FACLON_SLAVE_INVERSION);
 
-        rightDrive[0].setInverted(true);
-        rightDrive[1].setInverted(true);
+        rightDrive[0].setInverted(DriveConstants.RIGHT_FACLON_MASTER_INVERSION);
+        rightDrive[1].setInverted(DriveConstants.RIGHT_FACLON_SLAVE_INVERSION);
+
+        leftDrive[0].setSensorPhase(DriveConstants.LEFT_ENCODER_INVERSION);
+        rightDrive[0].setSensorPhase(DriveConstants.RIGHT_ENCODER_INVERSION);
 
         setNeutralMode(NeutralMode.Coast);
     }
@@ -115,22 +118,22 @@ public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubs
 
     @Override
     public double getLeftPosition() {
-        return leftDrive[0].getSelectedSensorPosition() / DriveConstants.TICKS_PER_INCH_FALCON;
+        return leftDrive[0].getSelectedSensorPosition() / DriveConstants.TICKS_PER_INCH;
     }
 
     @Override
     public double getRightPosition() {
-        return rightDrive[0].getSelectedSensorPosition() / DriveConstants.TICKS_PER_INCH_FALCON;
+        return rightDrive[0].getSelectedSensorPosition() / DriveConstants.TICKS_PER_INCH;
     }
 
     @Override
     public double getLeftVelocity() {
-        return (leftDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH_FALCON * 10);
+        return (leftDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH * 10);
     }
 
     @Override
     public double getRightVelocity() {
-        return (rightDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH_FALCON * 10);
+        return (rightDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH * 10);
     }
 
     @Override
