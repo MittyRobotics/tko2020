@@ -207,7 +207,7 @@ public class EightBallAuton extends SequentialCommandGroup {
                                         new AutoConveyorIndexCommand()
                                 ),
                                 new SetIntakeStopCommand(),
-                                new SetConveyorMotorCommand(0),
+                                new StopConveyorCommand(),
                                 new SequentialCommandGroup(
                                         new ParallelDeadlineGroup(
                                                 new SequentialCommandGroup(
