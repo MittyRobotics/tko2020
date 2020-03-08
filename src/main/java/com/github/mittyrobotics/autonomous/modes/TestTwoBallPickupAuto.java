@@ -24,7 +24,10 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.commands.*;
+import com.github.mittyrobotics.commands.AutoConveyorIndexCommand;
+import com.github.mittyrobotics.commands.InitNewPathFollowerCommand;
+import com.github.mittyrobotics.commands.IntakeBallCommand;
+import com.github.mittyrobotics.commands.PathFollowerCommand;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
@@ -117,19 +120,19 @@ public class TestTwoBallPickupAuto extends SequentialCommandGroup {
                                 new ParallelDeadlineGroup(
                                         new SequentialCommandGroup(
                                                 new InitNewPathFollowerCommand(followerReversed),
-                                                new PathFollowerCommand(path1)
+                                                new PathFollowerCommand(followerReversed, path1)
                                         )
                                 ),
                                 new InitNewPathFollowerCommand(follower),
-                                new PathFollowerCommand(path2),
+                                new PathFollowerCommand(follower, path2),
                                 new ParallelDeadlineGroup(
                                         new SequentialCommandGroup(
                                                 new InitNewPathFollowerCommand(followerReversed),
-                                                new PathFollowerCommand(path3)
+                                                new PathFollowerCommand(followerReversed, path3)
                                         )
                                 ),
                                 new InitNewPathFollowerCommand(follower),
-                                new PathFollowerCommand(path4)
+                                new PathFollowerCommand(follower, path4)
                         ),
                         new AutoConveyorIndexCommand(),
                         new IntakeBallCommand()

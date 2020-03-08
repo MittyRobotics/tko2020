@@ -98,7 +98,7 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     @Override
-    public double getVelocity(){
+    public double getVelocity() {
         return intakeWheel.get();
     }
 

@@ -28,7 +28,7 @@ import com.github.mittyrobotics.autonomous.Vision;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class WaitUntilVisionDetectedCommand extends InstantCommand {
-    public WaitUntilVisionDetectedCommand(){
-        super(()-> Vision.getInstance().isVisionDetected());
+    public WaitUntilVisionDetectedCommand() {
+        super(() -> Vision.getInstance().isVisionDetected());
     }
 }

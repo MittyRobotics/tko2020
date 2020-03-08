@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class WaitUntilTurretReachedSetpointCommand extends WaitUntilCommand {
     public WaitUntilTurretReachedSetpointCommand(double angleThreshold) {
-        super(() -> Math.abs(TurretSubsystem.getInstance().getError()) < angleThreshold * TurretConstants.TICKS_PER_ANGLE);
+        super(() -> Math.abs(TurretSubsystem.getInstance().getError()) <
+                angleThreshold * TurretConstants.TICKS_PER_ANGLE);
     }
 }

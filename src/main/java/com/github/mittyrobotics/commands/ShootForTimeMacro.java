@@ -22,10 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.modes;
+package com.github.mittyrobotics.commands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-//TODO fill in
-public class DriveAndShootAuto extends SequentialCommandGroup {
+public class ShootForTimeMacro extends ParallelDeadlineGroup {
+    public ShootForTimeMacro(double time) {
+        super(
+                new WaitCommand(time),
+                new AutoShootMacro()
+        );
+    }
 }

@@ -26,22 +26,20 @@ package com.github.mittyrobotics.testing;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.modes.*;
+import com.github.mittyrobotics.autonomous.modes.EightBallAuton;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
-import com.github.mittyrobotics.commands.*;
+import com.github.mittyrobotics.commands.ArcadeDriveCommand;
+import com.github.mittyrobotics.commands.AutoConveyorIndexCommand;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
-import com.github.mittyrobotics.datatypes.motion.DrivetrainVelocities;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.subsystems.*;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class Testing extends TimedRobot {
     Command autonCommandGroup;
@@ -52,7 +50,7 @@ public class Testing extends TimedRobot {
 
     @Override
     public void robotInit() {
-        Odometry.getInstance().setTransform(new Transform(),0);
+        Odometry.getInstance().setTransform(new Transform(), 0);
         DifferentialDriveKinematics.getInstance().setTrackWidth(27);
         DriveTrainSubsystem.getInstance().initHardware();
         IntakeSubsystem.getInstance().initHardware();

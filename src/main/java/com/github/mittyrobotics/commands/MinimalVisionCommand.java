@@ -51,13 +51,14 @@ public class MinimalVisionCommand extends CommandBase {
         TurretSubsystem.getInstance()
                 .setMotor(p * target.getObserverYawToTarget().getHeading());
         double rpm =
-                AutomatedTurretSuperstructure.getInstance().computeShooterRPMFromDistance(target.getObserverDistanceToTarget()/12);
+                AutomatedTurretSuperstructure.getInstance()
+                        .computeShooterRPMFromDistance(target.getObserverDistanceToTarget() / 12);
         ShooterSubsystem.getInstance().setShooterRpm(rpm);
     }
 
     private double rpmEquation(double distance) {
         //return 5000 - 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
-        return 2900+distance*50;
+        return 2900 + distance * 50;
     }
 
     @Override

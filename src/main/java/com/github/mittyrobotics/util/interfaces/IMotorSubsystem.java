@@ -83,6 +83,7 @@ public interface IMotorSubsystem extends ISubsystem {
 
     /**
      * Gets if a left limit switch is being pressed
+     *
      * @return value of left limit switch
      */
     default boolean getLeftSwitch() {
@@ -91,6 +92,7 @@ public interface IMotorSubsystem extends ISubsystem {
 
     /**
      * Gets if a right limit switch is being pressed
+     *
      * @return value of right limit switch
      */
     default boolean getRightSwitch() {

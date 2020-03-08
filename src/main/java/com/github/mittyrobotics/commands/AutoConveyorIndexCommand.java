@@ -31,7 +31,8 @@ public class AutoConveyorIndexCommand extends CommandBase {
     private State state;
     private double setpoint;
     private State prevState;
-    public AutoConveyorIndexCommand(){
+
+    public AutoConveyorIndexCommand() {
         addRequirements(ConveyorSubsystem.getInstance());
     }
 
@@ -44,13 +45,13 @@ public class AutoConveyorIndexCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(ConveyorSubsystem.getInstance().getSwitch()){
+        if (ConveyorSubsystem.getInstance().getSwitch()) {
             state = State.SENSING;
             if(prevState != State.SENSING){
                 ConveyorSubsystem.getInstance().updateBallCount(1);
             }
         } else {
-            if(ConveyorSubsystem.getInstance().getVelocity() < 0 && prevState == State.SENSING){
+            if (ConveyorSubsystem.getInstance().getVelocity() < 0 && prevState == State.SENSING) {
                 ConveyorSubsystem.getInstance().updateBallCount(-1);
             }
         }
@@ -76,7 +77,7 @@ public class AutoConveyorIndexCommand extends CommandBase {
         return false;
     }
 
-    private enum State{
+    private enum State {
         SENSING, INDEXING, STOPPING
     }
 }

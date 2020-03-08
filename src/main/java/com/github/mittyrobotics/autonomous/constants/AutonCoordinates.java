@@ -56,8 +56,8 @@ public class AutonCoordinates {
     public static final Position BALL_4 = new Position(-114.17, 0);
     public static final Position BALL_5 = new Position(-120.51, 15.3);
 
-    public static final Position BALL_BACK_TRENCH_1 = new Position(-257.49, -125.155);
-    public static final Position BALL_BACK_TRENCH_2 = new Position(-257.49, -142.155);
+    public static final Position BALL_BACK_TRENCH_INNER = new Position(-257.49, -125.155);
+    public static final Position BALL_BACK_TRENCH_OUTER = new Position(-257.49, -142.155);
 
 
     public static final Position SHOOTING_POINT_TRENCH = new Position(-259.49f, -134.155f);
