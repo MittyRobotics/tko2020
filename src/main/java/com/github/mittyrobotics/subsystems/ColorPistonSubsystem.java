@@ -55,7 +55,7 @@ public class ColorPistonSubsystem extends SubsystemBase implements IPistonSubsys
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putBoolean("Piston Up", isPistonExtended());
+        SmartDashboard.putBoolean("Color Spinner Up", isPistonExtended());
     }
 
     @Override

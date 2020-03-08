@@ -27,6 +27,7 @@ package com.github.mittyrobotics.subsystems;
 import com.github.mittyrobotics.constants.ClimberConstants;
 import com.github.mittyrobotics.util.interfaces.IPistonSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberPistonSubsystem extends SubsystemBase implements IPistonSubsystem {
@@ -51,7 +52,7 @@ public class ClimberPistonSubsystem extends SubsystemBase implements IPistonSubs
 
     @Override
     public void updateDashboard() {
-
+        SmartDashboard.putBoolean("Climber Extended", isPistonExtended());
     }
 
     @Override

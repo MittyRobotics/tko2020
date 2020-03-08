@@ -74,15 +74,7 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     public void setIntaking() {
-        if (ConveyorSubsystem.getInstance().getBallCount() < ConveyorConstants.MAXIMUM_BALL_COUNT) {
-            if (!ConveyorSubsystem.getInstance().getSwitch()) {
-                setMotor(IntakeConstants.INTAKE_SPEED_FAST);
-            } else {
-                setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
-            }
-        } else {
-            stopMotor();
-        }
+        setIntaking(IntakeConstants.INTAKE_SPEED_FAST, IntakeConstants.INTAKE_SPEED_SLOW);
     }
 
     public void setIntaking(double speedFast, double speedSlow) {

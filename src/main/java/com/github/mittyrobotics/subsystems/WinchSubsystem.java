@@ -101,11 +101,15 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
     }
 
     public void setWinchPosition(double setpoint, double difference) {
-        double lSpeed = leftController.calculate(getLeftPosition(), setpoint);
-        double rSpeed = rightController.calculate(getRightPosition(), setpoint);
+        double lSpeed = leftController.calculate(getLeftPosition(), setpoint + difference/2);
+        double rSpeed = rightController.calculate(getRightPosition(), setpoint - difference/2);
         double auxSpeed = auxController.calculate(getLeftPosition() - getRightPosition(), difference);
         setMotor(lSpeed + auxSpeed, rSpeed - auxSpeed);
         this.setpoint = setpoint;
+    }
+
+    public void setWinchPosition(double setpoint){
+        setWinchPosition(setpoint, 0);
     }
 
     public double getError() {

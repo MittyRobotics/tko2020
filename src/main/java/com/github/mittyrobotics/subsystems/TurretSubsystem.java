@@ -107,7 +107,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Turret Encoder", TurretSubsystem.getInstance().getPosition());
+        SmartDashboard.putNumber("Turret Position", getPosition());
         SmartDashboard.putNumber("Turret Robot Relative Angle",
                 AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
         SmartDashboard.putNumber("Turret Field Relative Angle",

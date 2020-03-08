@@ -33,6 +33,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     @Override
     public void updateDashboard() {
         SmartDashboard.putNumber("Ball Count: ", ballCount);
+        SmartDashboard.putBoolean("Ball Detected: ", getSwitch());
     }
 
     @Override
@@ -59,11 +60,6 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     @Override
     public double getPosition(){
         return conveyorTalon1.getSelectedSensorPosition() / ConveyorConstants.TICKS_PER_CYCLE;
-    }
-
-    @Override
-    public void periodic(){
-
     }
 
     @Override

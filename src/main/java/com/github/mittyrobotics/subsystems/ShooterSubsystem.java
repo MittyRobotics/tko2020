@@ -114,11 +114,6 @@ public class ShooterSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     @Override
-    public void periodic() {
-        SmartDashboard.putNumber("Manual RPM", manualRPMSetpoint);
-    }
-
-    @Override
     public void updateDashboard() {
         SmartDashboard.putNumber("Current Shooter RPM", getVelocity());
         SmartDashboard.putNumber("Shooter RPM Setpoint", getCurrentSetpoint());
