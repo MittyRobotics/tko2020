@@ -36,7 +36,6 @@ import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
 import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -122,7 +121,6 @@ public class EightBallAuton extends SequentialCommandGroup {
                 )
         );
 
-
         PathFollower followerRamseteReversed = new PathFollower(new PathFollowerProperties(
                 new PathVelocityController(new VelocityConstraints(
                         defaultMaxAcceleration,
@@ -142,8 +140,6 @@ public class EightBallAuton extends SequentialCommandGroup {
                 )
         );
 
-        //TODO: DO NOT CHANGE TO FUNCTIONS, PLEASE.
-
         //Initialize paths
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
@@ -156,12 +152,13 @@ public class EightBallAuton extends SequentialCommandGroup {
                 new Transform[]{
                         new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
                         new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),
-                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_1, 180 + 20),
-                }));
+                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER, 180 + 20),
+                })
+        );
 
         Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_1, 20),
+                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER, 20),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
                 })
         );
@@ -171,69 +168,56 @@ public class EightBallAuton extends SequentialCommandGroup {
                 Gyro.getInstance().getAngle());
 
         addCommands(
-                new SequentialCommandGroup(
-                        new ParallelDeadlineGroup(
-                                new SequentialCommandGroup(
-                                        new InitNewPathFollowerCommand(followerReversed),
-                                        new PathFollowerCommand(path1),
-                                        new SequentialCommandGroup(
-                                                new WaitUntilShooterSpeedCommand(200),
-                                                new WaitUntilVisionSafeCommand(0),
-                                                new WaitUntilVisionAlignedCommand(),
-                                                new WaitUntilTurretReachedSetpointCommand(2),
-                                                new ParallelRaceGroup(
-                                                        new AutoShootMacro(),
-                                                        new WaitCommand(3)
-                                                )
-                                        )
-                                ),
-                                new MinimalVisionCommand()
+                new ParallelDeadlineGroup(
+                        sequence(
+                                new PathFollowerCommand(followerReversed, path1),
+                                new WaitUntilReadyToShootMacro(),
+                                new ShootForTimeMacro(3)
                         ),
-                        new SetShooterRpmCommand(0),
-                        new SetTurretMotorCommand(0),
-                        new SequentialCommandGroup(
-                                new ParallelDeadlineGroup(
-                                        new SequentialCommandGroup(
-                                                new InitNewPathFollowerCommand(followerReversed),
-                                                new PathFollowerCommand(path2)
-                                        ),
-                                        sequence(
-                                                new ParallelDeadlineGroup(
-                                                        new WaitUntilPathFollowerWithinDistanceCommand(10),
-                                                        new IntakeBallCommand(.85, .25)
-                                                ),
-                                                new IntakeBallCommand(.7, .25)
-                                        ),
-                                        new AutoConveyorIndexCommand()
-                                ),
-                                new SetIntakeStopCommand(),
-                                new SetConveyorMotorCommand(0),
-                                new SequentialCommandGroup(
-                                        new ParallelDeadlineGroup(
-                                                new SequentialCommandGroup(
-                                                        new InitNewPathFollowerCommand(follower),
-                                                        new PathFollowerCommand(path3),
-                                                        new SequentialCommandGroup(
-                                                                new WaitUntilShooterSpeedCommand(200),
-                                                                new WaitUntilVisionSafeCommand(0),
-                                                                new WaitUntilVisionAlignedCommand(),
-                                                                new WaitUntilTurretReachedSetpointCommand(2),
-                                                                new ParallelRaceGroup(
-                                                                        new AutoShootMacro(),
-                                                                        new WaitCommand(3)
-                                                                )
-                                                        )
-                                                ),
-                                                sequence(
-                                                        new WaitCommand(5),
-                                                        new MinimalVisionCommand()
-                                                )
 
-                                        ),
-                                        new SetShooterRpmCommand(0)
+                        new MinimalVisionCommand()
+                ),
+
+                new SetShooterRpmCommand(0),
+                new SetTurretMotorCommand(0),
+
+                new ParallelDeadlineGroup(
+                        sequence(
+                                new PathFollowerCommand(followerReversed, path2),
+                                new WaitCommand(.1)
+                        ),
+
+                        sequence(
+                                new ParallelDeadlineGroup(
+                                        new WaitUntilPathFollowerWithinDistanceCommand(10),
+                                        new IntakeBallCommand(.85, .25)
+                                ),
+                                new IntakeBallCommand(.6, .25)
+                        ),
+                        new AutoConveyorIndexCommand()
+                ),
+
+                new SetIntakeStopCommand(),
+                new SetConveyorMotorCommand(0),
+
+                new ParallelDeadlineGroup(
+                        sequence(
+                                new PathFollowerCommand(follower, path3),
+                                sequence(
+                                        new WaitUntilReadyToShootMacro(),
+                                        new ShootForTimeMacro(3)
                                 )
+                        ),
+
+                        sequence(
+                                new WaitCommand(5),
+                                new MinimalVisionCommand()
                         )
-                )
+
+                ),
+
+                new SetShooterRpmCommand(0),
+                new SetTurretMotorCommand(0)
         );
     }
 }

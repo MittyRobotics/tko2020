@@ -28,11 +28,11 @@ import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ConveyorAutonCommand extends CommandBase {
-    public ConveyorAutonCommand(){
+    public ConveyorAutonCommand() {
         addRequirements(ConveyorSubsystem.getInstance());
     }
 
-    public void execute(){
+    public void execute() {
         ConveyorSubsystem.getInstance().chooseMoveConveyor();
     }
 }

@@ -31,11 +31,8 @@ import com.github.mittyrobotics.commands.AltIndexerCommand;
 import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
 import com.github.mittyrobotics.commands.IncreaseConveyorSetpoint;
 import com.github.mittyrobotics.constants.ConveyorConstants;
-import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -218,19 +215,20 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
         conveyorTalon.setSelectedSensorPosition(0);
     }
 
-    public void chooseMoveConveyor(){
-        if(getSwitch()){
+    public void chooseMoveConveyor() {
+        if (getSwitch()) {
             setMotor(1);
         } else {
             setMotor(0);
         }
     }
-    public void setIndexSpeed(){
+
+    public void setIndexSpeed() {
         setMotor(ConveyorConstants.CONVEYOR_INDEX_SPEED);
     }
 
     @Override
-    public double getVelocity(){
+    public double getVelocity() {
         return conveyorTalon.get();
     }
 }

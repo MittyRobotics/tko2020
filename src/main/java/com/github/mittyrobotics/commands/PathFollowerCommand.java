@@ -25,22 +25,25 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.autonomous.AutonDriver;
+import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PathFollowerCommand extends CommandBase {
     private Path path;
+    private PathFollower pathFollower;
 
-    public PathFollowerCommand(Path path) {
+    public PathFollowerCommand(PathFollower pathFollower, Path path) {
         super();
+        this.pathFollower = pathFollower;
         addRequirements(DriveTrainSubsystem.getInstance());
         this.path = path;
     }
 
     @Override
     public void initialize() {
-        System.out.println("Init path follower");
+        AutonDriver.getInstance().initNewPathFollower(pathFollower);
         AutonDriver.getInstance().setPath(path);
         AutonDriver.getInstance().initAutonDriver();
     }

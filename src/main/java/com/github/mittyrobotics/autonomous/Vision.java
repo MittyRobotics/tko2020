@@ -61,7 +61,7 @@ public class Vision implements IDashboard {
         if (isSafeToUseVision(.3)) {
             Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
             Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
-            double visionDistance = computeVisionDistance(visionPitch) * 120/135.0;
+            double visionDistance = computeVisionDistance(visionPitch) * 120 / 135.0;
 
             //Update rotations from median filter
             visionYaw = new Rotation(yawFilter.calculate(visionYaw.getHeading()));
@@ -75,7 +75,7 @@ public class Vision implements IDashboard {
 
             Transform turretTransform;
             //Update the latest vision target
-            if(!withTurretSuperStructure){
+            if (!withTurretSuperStructure) {
                 latestVisionTarget = new VisionTarget(new Transform(), visionYaw, visionDistance);
             } else {
                 //Compute the turret transforms
@@ -99,7 +99,7 @@ public class Vision implements IDashboard {
         }
     }
 
-    public boolean isVisionDetected(){
+    public boolean isVisionDetected() {
         return Limelight.getInstance().isHasValidTarget();
     }
 

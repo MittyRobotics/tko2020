@@ -24,20 +24,22 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.commands.AutoShootMacro;
 import com.github.mittyrobotics.commands.MinimalVisionCommand;
-import com.github.mittyrobotics.commands.WaitUntilShooterSpeedCommand;
+import com.github.mittyrobotics.commands.ShootForTimeMacro;
+import com.github.mittyrobotics.commands.WaitUntilReadyToShootMacro;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ShootAuto extends SequentialCommandGroup {
     public ShootAuto() {
         addCommands(
-                parallel(
-                        new MinimalVisionCommand(),
+                new ParallelDeadlineGroup(
                         sequence(
-                                new WaitUntilShooterSpeedCommand(100),
-                                new AutoShootMacro()
-                        )
+                                new WaitUntilReadyToShootMacro(),
+                                new ShootForTimeMacro(5)
+                        ),
+
+                        new MinimalVisionCommand()
                 )
         );
     }

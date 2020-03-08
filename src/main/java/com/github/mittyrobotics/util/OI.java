@@ -230,9 +230,9 @@ public class OI {
         Button setupShooter = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
         setupShooter.whenHeld(new MinimalVisionCommand());
         setupShooter.whenReleased(new StopShooterCommand());
-        setupShooter.whenPressed(new InstantCommand(()->inAutoShootMode = true));
+        setupShooter.whenPressed(new InstantCommand(() -> inAutoShootMode = true));
         setupShooter.whenReleased(new ManualTurretButtonCommand(0));
-        setupShooter.whenReleased(new InstantCommand(()->inAutoShootMode = false));
+        setupShooter.whenReleased(new InstantCommand(() -> inAutoShootMode = false));
 
         Button shoot = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
         shoot.whenHeld(new ShootMacro());
@@ -248,7 +248,7 @@ public class OI {
 
         //Turret
         Button turret =
-                new Button(()->Math.abs(OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight)) > 0.05);
+                new Button(() -> Math.abs(OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight)) > 0.05);
         turret.whenHeld(new ManualTurretCommand());
         turret.whenReleased(new ManualTurretButtonCommand(0));
         Button addBallCount = new Button(() -> getXboxController().getStartButton());

@@ -35,9 +35,10 @@ public class Bowling extends CommandBase {
     private double setpoint;
     private State prevState;
     private double time;
-    public Bowling(){
+
+    public Bowling() {
         addRequirements(ConveyorSubsystem.getInstance(),
-        ShooterSubsystem.getInstance());
+                ShooterSubsystem.getInstance());
     }
 
     @Override
@@ -50,35 +51,35 @@ public class Bowling extends CommandBase {
 
     @Override
     public void execute() {
-        if(ConveyorSubsystem.getInstance().getSwitch()){
+        if (ConveyorSubsystem.getInstance().getSwitch()) {
             state = State.SENSING;
-            if(state == State.SENSING && prevState != State.SENSING){
+            if (state == State.SENSING && prevState != State.SENSING) {
                 ConveyorSubsystem.getInstance().updateBallCount(1);
             }
         } else {
-            if(ConveyorSubsystem.getInstance().getVelocity() < 0 && prevState == State.SENSING){
+            if (ConveyorSubsystem.getInstance().getVelocity() < 0 && prevState == State.SENSING) {
                 ConveyorSubsystem.getInstance().updateBallCount(-1);
             }
         }
-        if(state == State.SENSING){
+        if (state == State.SENSING) {
             ConveyorSubsystem.getInstance().setIndexSpeed();
-            if(!ConveyorSubsystem.getInstance().getSwitch()){
+            if (!ConveyorSubsystem.getInstance().getSwitch()) {
                 state = State.INDEXING;
                 setpoint += 9 * ConveyorConstants.TICKS_PER_BALL_INCH;
 //                ConveyorSubsystem.getInstance().updateBallCount(1);
             }
-        } else if(state == State.INDEXING){
+        } else if (state == State.INDEXING) {
             ConveyorSubsystem.getInstance().setIndexSpeed();
-            if(setpoint < ConveyorSubsystem.getInstance().getPosition()){
+            if (setpoint < ConveyorSubsystem.getInstance().getPosition()) {
                 state = State.STOPPING;
             }
         } else {
             ConveyorSubsystem.getInstance().stopMotor();
         }
-        if(ConveyorSubsystem.getInstance().getTotalBallCount() > 4){
+        if (ConveyorSubsystem.getInstance().getTotalBallCount() > 4) {
             time = Timer.getFPGATimestamp();
         }
-        if(Timer.getFPGATimestamp() - time < 5){
+        if (Timer.getFPGATimestamp() - time < 5) {
             ConveyorSubsystem.getInstance().setIndexSpeed();
             ShooterSubsystem.getInstance().setShooterRpm(3000);
         } else {
@@ -92,7 +93,7 @@ public class Bowling extends CommandBase {
         return false;
     }
 
-    private enum State{
+    private enum State {
         SENSING, INDEXING, STOPPING
     }
 }

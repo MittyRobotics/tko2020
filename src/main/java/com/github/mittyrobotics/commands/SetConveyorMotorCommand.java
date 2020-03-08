@@ -28,7 +28,7 @@ import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class SetConveyorMotorCommand extends InstantCommand {
-    public SetConveyorMotorCommand(double percent){
-        super(()-> ConveyorSubsystem.getInstance().setMotor(percent));
+    public SetConveyorMotorCommand(double percent) {
+        super(() -> ConveyorSubsystem.getInstance().setMotor(percent));
     }
 }

@@ -22,10 +22,26 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.autonomous.modes;
+package com.github.mittyrobotics.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-//TODO fill in
-public class DriveOffLineAuto extends SequentialCommandGroup {
+public class WaitUntilReadyToShootMacro extends SequentialCommandGroup {
+    public WaitUntilReadyToShootMacro() {
+        super(
+                new WaitUntilShooterSpeedCommand(200),
+                new WaitUntilVisionSafeCommand(0),
+                new WaitUntilVisionAlignedCommand(),
+                new WaitUntilTurretReachedSetpointCommand(2)
+        );
+    }
+
+    public WaitUntilReadyToShootMacro(double rpmThreshold, double visionSafeSeconds, double turretAngleThreshold) {
+        super(
+                new WaitUntilShooterSpeedCommand(rpmThreshold),
+                new WaitUntilVisionSafeCommand(visionSafeSeconds),
+                new WaitUntilVisionAlignedCommand(),
+                new WaitUntilTurretReachedSetpointCommand(turretAngleThreshold)
+        );
+    }
 }

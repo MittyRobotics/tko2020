@@ -29,17 +29,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ChangeManualSetpoint extends CommandBase {
     private double change;
-    public ChangeManualSetpoint(double change){
+
+    public ChangeManualSetpoint(double change) {
         this.change = change;
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         ShooterSubsystem.getInstance().changeManualRPMSetpoint(change);
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return false;
     }
 }

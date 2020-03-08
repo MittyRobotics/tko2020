@@ -30,6 +30,7 @@ package com.github.mittyrobotics.util.interfaces;
 public interface IPistonSubsystem extends ISubsystem {
     /**
      * Returns if the piston is extended
+     *
      * @return piston is extended
      */
     boolean isPistonExtended();
