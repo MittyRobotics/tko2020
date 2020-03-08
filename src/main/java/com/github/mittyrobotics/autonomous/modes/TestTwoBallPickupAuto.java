@@ -41,8 +41,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TestTwoBallPickupAuto extends SequentialCommandGroup {
     public TestTwoBallPickupAuto() {
-        double maxAcceleration = 30;
-        double maxDeceleration = 50;
+        double maxAcceleration = 40;
+        double maxDeceleration = 40;
         double maxVelocity = 100;
         double startVelocity = 0;
         double endVelocity = 0;
@@ -83,27 +83,27 @@ public class TestTwoBallPickupAuto extends SequentialCommandGroup {
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(new Position(0, 0), new Rotation(180)),
-                        new Transform(new Position(-64.17, 9.96), new Rotation(180 - 20))
+                        new Transform(new Position(-64.17, 10), new Rotation(180 - 10))
                 }
         ));
 
         Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(new Position(-64.17, 9.96), new Rotation(-20)),
-                        new Transform(new Position(0, 0), new Rotation(0))
+                        new Transform(new Position(-64.17, 10), new Rotation(-10)),
+                        new Transform(new Position(-20, 0), new Rotation(0))
                 }
         ));
 
         Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(new Position(0, 0), new Rotation(180)),
-                        new Transform(new Position(-64.17, -9.96), new Rotation(180 + 20))
+                        new Transform(new Position(-20, 0), new Rotation(180)),
+                        new Transform(new Position(-64.17, -10), new Rotation(180 + 10))
                 }
         ));
 
         Path path4 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(new Position(-64.17, -9.96), new Rotation(20)),
+                        new Transform(new Position(-64.17, -10), new Rotation(10)),
                         new Transform(new Position(0, 0), new Rotation(0))
                 }
         ));
@@ -116,26 +116,23 @@ public class TestTwoBallPickupAuto extends SequentialCommandGroup {
                         new SequentialCommandGroup(
                                 new ParallelDeadlineGroup(
                                         new SequentialCommandGroup(
-                                                new InitNewPathFollowerCommand(followerReversedRamsete),
+                                                new InitNewPathFollowerCommand(followerReversed),
                                                 new PathFollowerCommand(path1)
-                                        ),
-                                        new IntakeBallCommand()
+                                        )
                                 ),
-                                new SetIntakeStopCommand(),
-                                new InitNewPathFollowerCommand(followerRamsete),
+                                new InitNewPathFollowerCommand(follower),
                                 new PathFollowerCommand(path2),
                                 new ParallelDeadlineGroup(
                                         new SequentialCommandGroup(
-                                                new InitNewPathFollowerCommand(followerReversedRamsete),
+                                                new InitNewPathFollowerCommand(followerReversed),
                                                 new PathFollowerCommand(path3)
-                                        ),
-                                        new IntakeBallCommand()
+                                        )
                                 ),
-                                new SetIntakeStopCommand(),
-                                new InitNewPathFollowerCommand(followerRamsete),
+                                new InitNewPathFollowerCommand(follower),
                                 new PathFollowerCommand(path4)
                         ),
-                        new AutoConveyorIndexCommand()
+                        new AutoConveyorIndexCommand(),
+                        new IntakeBallCommand()
                 )
 
         );

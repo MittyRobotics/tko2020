@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class AutoShootMacro extends SequentialCommandGroup {
     public AutoShootMacro() {
         addCommands(
-                new ParallelRaceGroup(new WaitUntilShooterSpeedCommand(50), new WaitCommand(1)),
+                //new ParallelRaceGroup(new WaitUntilShooterSpeedCommand(50), new WaitCommand(1)),
                 parallel(
                         new UnloadConveyorCommand(), new IntakeBallShootingCommand()
                 )
