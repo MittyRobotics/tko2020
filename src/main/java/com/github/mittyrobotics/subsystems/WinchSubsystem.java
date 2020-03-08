@@ -111,4 +111,13 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
     public double getError() {
         return setpoint - getAveragePosition();
     }
+
+    @Override
+    public void setMotor(double left, double right){
+        if(WinchLockSubsystem.getInstance().isPistonExtended()){
+            left = Math.min(left, 0);
+            right = Math.min(right, 0);
+        }
+        overrideSetMotor(left, right);
+    }
 }
