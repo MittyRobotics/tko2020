@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.constants.ConveyorConstants;
 import com.github.mittyrobotics.constants.IntakeConstants;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,8 +50,9 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     @Override
     public void initHardware() {
         intakeWheel = new WPI_TalonSRX(IntakeConstants.INTAKE_WHEEL_ID);
-        intakeWheel.setInverted(IntakeConstants.INTAKE_WHEEL_INVERSION);
         intakeWheel.configFactoryDefault();
+        intakeWheel.setInverted(IntakeConstants.INTAKE_WHEEL_INVERSION);
+        intakeWheel.setNeutralMode(IntakeConstants.INTAKE_NEUTRAL_MODE);
     }
 
     @Override
@@ -59,11 +61,11 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     public void setMotor(double percent) {
-//        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
-        overrideSetMotor(percent);
-//        } else {
-//            overrideSetMotor(0);
-//        }
+        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+            overrideSetMotor(percent);
+        } else {
+            overrideSetMotor(0);
+        }
     }
 
     @Override
@@ -72,19 +74,11 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     public void setIntaking() {
-        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
-            if (!ConveyorSubsystem.getInstance().getSwitch()) {
-                setMotor(IntakeConstants.INTAKE_SPEED_FAST);
-            } else {
-                setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
-            }
-        } else {
-            stopMotor();
-        }
+        setIntaking(IntakeConstants.INTAKE_SPEED_FAST, IntakeConstants.INTAKE_SPEED_SLOW);
     }
 
     public void setIntaking(double speedFast, double speedSlow) {
-        if (ConveyorSubsystem.getInstance().getTotalBallCount() < 5) {
+        if (ConveyorSubsystem.getInstance().getBallCount() < 5) {
             if (!ConveyorSubsystem.getInstance().getSwitch()) {
                 setMotor(speedFast);
             } else {

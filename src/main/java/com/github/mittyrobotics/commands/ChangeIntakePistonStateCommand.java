@@ -30,8 +30,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ChangeIntakePistonStateCommand extends ConditionalCommand {
     public ChangeIntakePistonStateCommand() {
-        super(new InstantCommand(() -> IntakePistonSubsystem.getInstance().retractPiston()),
-                new InstantCommand(() -> IntakePistonSubsystem.getInstance().extendPiston()),
+        super(new RetractIntake(),
+                new ExtendIntake(),
                 () -> IntakePistonSubsystem.getInstance().isPistonExtended());
     }
 }
