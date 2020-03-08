@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class ReverseConveyor extends RunCommand {
     public ReverseConveyor() {
-        super(() -> ConveyorSubsystem.getInstance().outtakeBall(), ConveyorSubsystem.getInstance());
+        super(() -> ConveyorSubsystem.getInstance().setMotor(-1), ConveyorSubsystem.getInstance());
     }
 
     @Override

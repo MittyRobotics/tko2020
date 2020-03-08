@@ -25,25 +25,10 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ShoveBallCommand extends CommandBase {
-    public ShoveBallCommand() {
-        addRequirements(ConveyorSubsystem.getInstance());
-    }
-
-    @Override
-    public void initialize() {
-        ConveyorSubsystem.getInstance().setMotor(.8);
-    }
-
-    @Override
-    public void end(boolean i) {
-        ConveyorSubsystem.getInstance().stopMotor();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
+public class IncreaseConveyorSetpoint extends InstantCommand {
+    public IncreaseConveyorSetpoint() {
+        super(() -> ConveyorSubsystem.getInstance().increaseSetpoint(), ConveyorSubsystem.getInstance());
     }
 }

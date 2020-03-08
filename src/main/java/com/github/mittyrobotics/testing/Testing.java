@@ -55,6 +55,7 @@ public class Testing extends TimedRobot {
         DriveTrainSubsystem.getInstance().initHardware();
         IntakeSubsystem.getInstance().initHardware();
         ConveyorSubsystem.getInstance().initHardware();
+        BufferSubsystem.getInstance().initHardware();
         ShooterSubsystem.getInstance().initHardware();
         TurretSubsystem.getInstance().initHardware();
         ColorPistonSubsystem.getInstance().initHardware();
@@ -122,7 +123,7 @@ public class Testing extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-
+        ConveyorSubsystem.getInstance().periodic2();
     }
 
     @Override
