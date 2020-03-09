@@ -37,6 +37,7 @@ import com.github.mittyrobotics.vision.Limelight;
 import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import javafx.scene.input.TransferMode;
 
 public class Vision implements IDashboard {
     private static Vision instance;
@@ -48,6 +49,9 @@ public class Vision implements IDashboard {
     private MedianFilter pitchFilter = new MedianFilter(10);
     private MedianFilter distanceFilter = new MedianFilter(10);
 
+    private double resetTimer;
+    private double resetTimerStart;
+
     public static Vision getInstance() {
         if (instance == null) {
             instance = new Vision();
@@ -56,11 +60,22 @@ public class Vision implements IDashboard {
     }
 
     public void run(boolean withTurretSuperStructure) {
+        //Update reset timer
+        resetTimer = Timer.getFPGATimestamp()-resetTimerStart;
+
+        //Update limelight values
         Limelight.getInstance().updateLimelightValues();
+
+        //Update vision latency
         latestVisionLatency = Limelight.getInstance().getLimelightLatency();
-        if (isSafeToUseVision(.3)) {
+
+        //If vision is detected, update vision values
+        if (isVisionDetected()) {
+            //Get yaw and pitch to target from limelight
             Rotation visionYaw = new Rotation(Limelight.getInstance().getYawToTarget());
             Rotation visionPitch = new Rotation(Limelight.getInstance().getPitchToTarget());
+
+            //Calculate vision distance
             double visionDistance = computeVisionDistance(visionPitch) * 120 / 135.0;
 
             //Update rotations from median filter
@@ -72,23 +87,31 @@ public class Vision implements IDashboard {
             visionDistance = visionToTurretDistance(visionDistance, visionYaw);
             visionYaw = visionToTurretYaw(visionDistance, visionDistance, visionYaw);
 
+            //Init blank turret transform
+            Transform turretTransform = new Transform();
 
-            Transform turretTransform;
             //Update the latest vision target
-            if (!withTurretSuperStructure) {
-                latestVisionTarget = new VisionTarget(new Transform(), visionYaw, visionDistance);
-            } else {
+            if(withTurretSuperStructure) {
                 //Compute the turret transforms
                 turretTransform = computeTurretTransform(visionDistance, visionYaw,
                         Gyro.getInstance().getRotation());
-//            Compensate transform based on latency
+                //Compensate transform based on latency
                 turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
             }
+
+            //Set latest vision target
+            latestVisionTarget = new VisionTarget(turretTransform, visionYaw, visionDistance);
+
+            //Set the start of the reset timer
+            resetTimerStart = Timer.getFPGATimestamp();
         } else {
-            //Reset filters
-            yawFilter.reset();
-            pitchFilter.reset();
-            distanceFilter.reset();
+            //If reset timer is above 2 seconds, reset the filters
+            if(resetTimer > 2){
+                //Reset filters
+                yawFilter.reset();
+                pitchFilter.reset();
+                distanceFilter.reset();
+            }
         }
 
         //Update vision visible timer
@@ -104,12 +127,12 @@ public class Vision implements IDashboard {
     }
 
     /**
-     * Returns if the vision system is safe to use.
+     * Returns if the vision system is safe to use for localization calculations.
      *
      * @param seconds the seconds for the target to be visible
-     * @return if the vision system is safe to use.
+     * @return if the vision system is safe to use for localization calculations.
      */
-    public boolean isSafeToUseVision(double seconds) {
+    public boolean isSafeToUseVisionCalculations(double seconds) {
         return visibleTimer >= seconds;
     }
 

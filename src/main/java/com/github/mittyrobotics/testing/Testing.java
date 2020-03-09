@@ -50,8 +50,6 @@ public class Testing extends TimedRobot {
 
     @Override
     public void robotInit() {
-        Odometry.getInstance().setTransform(new Transform(), 0);
-        DifferentialDriveKinematics.getInstance().setTrackWidth(27);
         DriveTrainSubsystem.getInstance().initHardware();
         IntakeSubsystem.getInstance().initHardware();
         ConveyorSubsystem.getInstance().initHardware();
@@ -66,6 +64,11 @@ public class Testing extends TimedRobot {
 //        WinchLockSubsystem.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
+
+        Odometry.getInstance().calibrateTransformToZero(DriveTrainSubsystem.getInstance().getLeftPosition(),
+                DriveTrainSubsystem.getInstance().getRightPosition(), Gyro.getInstance().getAngle());
+
+        DifferentialDriveKinematics.getInstance().setTrackWidth(27);
     }
 
     @Override
@@ -107,16 +110,6 @@ public class Testing extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-////        IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallShootingCommand());
-//        Odometry.getInstance().setTransform(new Transform(0,0,0), Gyro.getInstance().getAngle());
-//        new TestConveyorAuto().schedule();
-////        CommandScheduler.getInstance().schedule(new SixBallAuton());
-////
-////        new IntakeBallCommand().schedule();
-//////        new Bowling().schedule();
-////        new RunCommand(()->ConveyorSubsystem.getInstance().setMotor(1), ConveyorSubsystem.getInstance()).schedule();
-////        new RunCommand(()->ShooterSubsystem.getInstance().setShooterRpm(3000), ShooterSubsystem.getInstance()).schedule();
-//////        ConveyorSubsystem.getInstance().setDefaultCommand(new ConveyorAutonCommand());
 
         new EightBallAuton().schedule();
     }

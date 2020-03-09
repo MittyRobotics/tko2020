@@ -29,6 +29,6 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class WaitUntilVisionSafeCommand extends WaitUntilCommand {
     public WaitUntilVisionSafeCommand(double seconds) {
-        super(() -> Vision.getInstance().isSafeToUseVision(seconds));
+        super(() -> Vision.getInstance().isSafeToUseVisionCalculations(seconds));
     }
 }
