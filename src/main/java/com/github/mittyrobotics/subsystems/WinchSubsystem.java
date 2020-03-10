@@ -43,8 +43,6 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
 
     private PIDController leftController, rightController, auxController;
 
-    private double setpoint;
-
     private WinchSubsystem() {
         super();
     }
@@ -69,7 +67,6 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
         leftController = new PIDController(0, 0, 0);
         rightController = new PIDController(0, 0, 0);
         auxController = new PIDController(0, 0, 0);
-        setpoint = 0;
     }
 
     @Override
@@ -100,21 +97,18 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
         return rightWinchEncoder.getPosition();
     }
 
-    public void setWinchPosition(double setpoint, double difference) {
-        double lSpeed = leftController.calculate(getLeftPosition(), setpoint + difference/2);
-        double rSpeed = rightController.calculate(getRightPosition(), setpoint - difference/2);
-        double auxSpeed = auxController.calculate(getLeftPosition() - getRightPosition(), difference);
+    public void setupWinchPID(double leftSetpoint, double rightSetpoint){
+        leftController.setSetpoint(leftSetpoint);
+        rightController.setSetpoint(rightSetpoint);
+        auxController.setSetpoint(leftSetpoint - rightSetpoint);
+    }
+    public void runWinchControlLoop() {
+        double lSpeed = leftController.calculate(getLeftPosition());
+        double rSpeed = rightController.calculate(getRightPosition());
+        double auxSpeed = auxController.calculate(getLeftPosition() - getRightPosition());
         setMotor(lSpeed + auxSpeed, rSpeed - auxSpeed);
-        this.setpoint = setpoint;
     }
 
-    public void setWinchPosition(double setpoint){
-        setWinchPosition(setpoint, 0);
-    }
-
-    public double getError() {
-        return setpoint - getAveragePosition();
-    }
 
     @Override
     public void setMotor(double left, double right){
@@ -123,5 +117,17 @@ public class WinchSubsystem extends SubsystemBase implements IDualMotorSubsystem
             right = Math.min(right, 0);
         }
         overrideSetMotor(left, right);
+    }
+
+    public double getLeftError(){
+        return leftController.getPositionError();
+    }
+
+    public double getRightError(){
+        return rightController.getPositionError();
+    }
+
+    public double getAuxError(){
+        return auxController.getPositionError();
     }
 }

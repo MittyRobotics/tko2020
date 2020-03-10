@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberPistonSubsystem extends SubsystemBase implements IPistonSubsystem {
     private static ClimberPistonSubsystem ourInstance = new ClimberPistonSubsystem();
-    private DoubleSolenoid leftPiston, rightPiston;
+    private DoubleSolenoid piston;
 
     private ClimberPistonSubsystem() {
         super();
@@ -44,10 +44,8 @@ public class ClimberPistonSubsystem extends SubsystemBase implements IPistonSubs
 
     @Override
     public void initHardware() {
-        leftPiston =
-                new DoubleSolenoid(ClimberConstants.LEFT_PISTON_FORWARD_ID, ClimberConstants.LEFT_PISTON_REVERSE_ID);
-        rightPiston =
-                new DoubleSolenoid(ClimberConstants.RIGHT_PISTON_FORWARD_ID, ClimberConstants.RIGHT_PISTON_REVERSE_ID);
+        piston =
+                new DoubleSolenoid(ClimberConstants.PISTON_FORWARD_ID, ClimberConstants.PISTON_REVERSE_ID);
     }
 
     @Override
@@ -57,18 +55,16 @@ public class ClimberPistonSubsystem extends SubsystemBase implements IPistonSubs
 
     @Override
     public void extendPiston() {
-        leftPiston.set(DoubleSolenoid.Value.kForward);
-        rightPiston.set(DoubleSolenoid.Value.kForward);
+        piston.set(DoubleSolenoid.Value.kForward);
     }
 
     @Override
     public void retractPiston() {
-        leftPiston.set(DoubleSolenoid.Value.kReverse);
-        rightPiston.set(DoubleSolenoid.Value.kReverse);
+        piston.set(DoubleSolenoid.Value.kReverse);
     }
 
     @Override
     public boolean isPistonExtended() {
-        return leftPiston.get() == DoubleSolenoid.Value.kForward && rightPiston.get() == DoubleSolenoid.Value.kForward;
+        return piston.get() == DoubleSolenoid.Value.kForward;
     }
 }

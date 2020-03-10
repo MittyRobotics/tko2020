@@ -27,10 +27,8 @@ package com.github.mittyrobotics.constants;
 public class ClimberConstants {
     public static final int LEFT_WINCH_ID = 50;
     public static final int RIGHT_WINCH_ID = 51;
-    public static final int LEFT_PISTON_FORWARD_ID = 0;
-    public static final int LEFT_PISTON_REVERSE_ID = 7;
-    public static final int RIGHT_PISTON_FORWARD_ID = 1;
-    public static final int RIGHT_PISTON_REVERSE_ID = 6;
+    public static final int PISTON_FORWARD_ID = 1;
+    public static final int PISTON_REVERSE_ID = 6;
     public static final double WINCH_TPI = 10;
     public static final double PISTON_DISTANCE = 5;
     public static final double[] WINCH_PID_VALUES = {0.5, 0, 0};
@@ -40,4 +38,12 @@ public class ClimberConstants {
     public static final int RIGHT_ACTATOR_ID = 1;
     public static final boolean LEFT_WINCH_INVERSION = false;
     public static final boolean RIGHT_WINCH_INVERSION = false;
+    public static final double THRESHOLD = 5;
+    public static final double MIDDLE_UP_POSITION_LEFT = 10;
+    public static final double MIDDLE_UP_POSITION_RIGHT = 10;
+    public static final double LEFT_UP_POSITION_LEFT = 10;
+    public static final double LEFT_UP_POSITION_RIGHT = 10;
+    public static final double RIGHT_UP_POSITION_LEFT = 10;
+    public static final double RIGHT_UP_POSITION_RIGHT = 10;
+    public static final double CLIMBER_DOWN_POSITION = 10;
 }
