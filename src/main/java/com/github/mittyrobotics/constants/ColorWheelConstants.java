@@ -24,10 +24,16 @@
 
 package com.github.mittyrobotics.constants;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.ColorMatch;
+import edu.wpi.first.wpilibj.util.Color;
+
 public class ColorWheelConstants {
     //channels for hardware
     public static final int SOLENOID_FOWARD_CHANNEL = 0;
     public static final int SOLENOID_REVERSE_CHANNEL = 7;
+
+    public static final NeutralMode SPINNER_NEUTRAL_MODE = NeutralMode.Brake;
 
     public static final int SPINNER_TALON_ID = 20;
     public static final boolean SPINNER_TALON_INVERSION = false;
@@ -71,4 +77,18 @@ public class ColorWheelConstants {
     public static final double ALSO_NULL_R = 0.23;
     public static final double ALSO_NULL_G = 0.50;
     public static final double ALSO_NULL_B = 0.27;
+
+    public static final Color BLUE_COLOR =
+            ColorMatch.makeColor(ColorWheelConstants.BLUE_R, ColorWheelConstants.BLUE_G, ColorWheelConstants.BLUE_B);
+    public static final Color GREEN_COLOR =
+            ColorMatch.makeColor(ColorWheelConstants.GREEN_R, ColorWheelConstants.GREEN_G, ColorWheelConstants.GREEN_B);
+    public static final Color RED_COLOR =
+            ColorMatch.makeColor(ColorWheelConstants.RED_R, ColorWheelConstants.RED_G, ColorWheelConstants.RED_B);
+    public static final Color YELLOW_COLOR = ColorMatch
+            .makeColor(ColorWheelConstants.YELLOW_R, ColorWheelConstants.YELLOW_G, ColorWheelConstants.YELLOW_B);
+    public static final Color NULL_COLOR =
+            ColorMatch.makeColor(ColorWheelConstants.NULL_R, ColorWheelConstants.NULL_G, ColorWheelConstants.NULL_B);
+    public static final Color NULL_COLOR_2 =
+            ColorMatch.makeColor(ColorWheelConstants.ALSO_NULL_R, ColorWheelConstants.ALSO_NULL_G,
+                    ColorWheelConstants.ALSO_NULL_B);
 }

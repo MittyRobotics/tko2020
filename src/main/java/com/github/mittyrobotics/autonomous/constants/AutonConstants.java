@@ -46,10 +46,6 @@ public class AutonConstants {
     public static double CAMERA_TURRET_OFFSET = 7.5; //Inches //TODO: Find this value
     public static Position turretPositionRelativeToRobotCenter = new Position(24, 0); //Inches //Todo: Find this value
 
-    public static double LOW_RANGE_SHOOTER_GAIN = 1;
-    public static double MID_RANGE_SHOOTER_GAIN = 1;
-    public static double HIGH_RANGE_SHOOTER_GAIN = 1;
-
     //Shooter //TODO: Tune these
     //TODO: Convert real distances into vision distance
     /**
@@ -58,21 +54,16 @@ public class AutonConstants {
      * Elements are in the format {distance, RPM}
      */
     public static double[][] SHOOTER_RPM_TABLE = {
-            {10, 3700 * LOW_RANGE_SHOOTER_GAIN},
-            {11, 3700 * LOW_RANGE_SHOOTER_GAIN},
-            {12, 3450 * LOW_RANGE_SHOOTER_GAIN},
-            {13, 3500 * LOW_RANGE_SHOOTER_GAIN},
-            {14, 3500 * LOW_RANGE_SHOOTER_GAIN},
-            {15, 3550 * LOW_RANGE_SHOOTER_GAIN},
-            {16, 3800 * MID_RANGE_SHOOTER_GAIN},
-            {17, 3850 * MID_RANGE_SHOOTER_GAIN},
-            {18, 3850 * MID_RANGE_SHOOTER_GAIN},
-            {19, 3900 * MID_RANGE_SHOOTER_GAIN},
-            {20, 3950 * MID_RANGE_SHOOTER_GAIN},
-            {21, 4000 * HIGH_RANGE_SHOOTER_GAIN},
-            {22, 4050 * HIGH_RANGE_SHOOTER_GAIN},
-            {23, 4100 * HIGH_RANGE_SHOOTER_GAIN},
-            {24, 4150 * HIGH_RANGE_SHOOTER_GAIN},
-            {25, 4200 * HIGH_RANGE_SHOOTER_GAIN}
+            {10, 3700},
+            {11, 3700},
+            {12, 3450},
+            {13, 3500},
+            {14, 3500},
+            {15, 3550},
+            {16, 3800},
+            {17, 3850},
+            {18, 3850},
+            {19, 3900},
+            {20, 3950}
     };
 }

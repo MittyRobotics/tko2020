@@ -55,9 +55,6 @@ public class AutomatedTurretSuperstructure {
     private TurretAutomationMode aimMode = TurretAutomationMode.NO_AUTOMATION;
     private Transform setpoint;
 
-    private boolean immediateEnterVision = true;
-    private boolean immediateExitVision = true;
-
     private CircularTimestampedList<Rotation> turretRobotRelativeRotations = new CircularTimestampedList<>(50);
 
     public static AutomatedTurretSuperstructure getInstance() {
@@ -76,25 +73,13 @@ public class AutomatedTurretSuperstructure {
                 .addFront(new TimestampedElement<>(robotRelativeRotation, Timer.getFPGATimestamp()));
 
         //If vision is safe to use, update the latest accurate field-relative position and calibrate the odometry
-        if (Vision.getInstance().isSafeToUseVisionCalculations(1)) {
+        if (Vision.getInstance().isSafeToUseVision(1)) {
             this.latestAccurateFieldRelativePosition =
                     Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
             this.trackedFieldRelativePosition = latestAccurateFieldRelativePosition;
-
-            if(immediateEnterVision){
-                Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
-                        Gyro.getInstance().getRotation()));
-                immediateEnterVision = false;
-            }
-            immediateExitVision = true;
+            Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
+                    Gyro.getInstance().getRotation()), Gyro.getInstance().getAngle());
         } else {
-            if(immediateExitVision){
-                Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
-                        Gyro.getInstance().getRotation()));
-                immediateExitVision = false;
-            }
-            immediateEnterVision = true;
-
             //If vision is not safe to use, capture turret position from odometry
             this.trackedFieldRelativePosition = robotToTurretPosition(Odometry.getInstance().getLatestRobotTransform());
         }
@@ -156,7 +141,7 @@ public class AutomatedTurretSuperstructure {
      */
     private void maintainFieldRelativeAim(Position setpoint) {
         Rotation rotationSetpoint =
-                new Line(trackedFieldRelativePosition, setpoint).getLineAngle();
+                new Line(latestAccurateFieldRelativePosition, setpoint).getLineAngle();
         maintainFieldRelativeRotation(rotationSetpoint);
     }
 

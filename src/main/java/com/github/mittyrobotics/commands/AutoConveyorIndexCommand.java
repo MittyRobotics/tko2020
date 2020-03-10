@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.constants.ConveyorConstants;
 import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -48,7 +47,7 @@ public class AutoConveyorIndexCommand extends CommandBase {
     public void execute() {
         if (ConveyorSubsystem.getInstance().getSwitch()) {
             state = State.SENSING;
-            if (state == State.SENSING && prevState != State.SENSING) {
+            if(prevState != State.SENSING){
                 ConveyorSubsystem.getInstance().updateBallCount(1);
             }
         } else {
@@ -56,22 +55,18 @@ public class AutoConveyorIndexCommand extends CommandBase {
                 ConveyorSubsystem.getInstance().updateBallCount(-1);
             }
         }
-        if (state == State.SENSING) {
-            ConveyorSubsystem.getInstance().setIndexSpeed();
-            if (!ConveyorSubsystem.getInstance().getSwitch()) {
+        if(state == State.SENSING){
+            ConveyorSubsystem.getInstance().indexBall();
+            if(!ConveyorSubsystem.getInstance().getSwitch()){
                 state = State.INDEXING;
-                setpoint += 9 * ConveyorConstants.TICKS_PER_BALL_INCH;
-//                ConveyorSubsystem.getInstance().updateBallCount(1);
+                setpoint += 9;
             }
-        } else if (state == State.INDEXING) {
-            ConveyorSubsystem.getInstance().setIndexSpeed();
-            if (setpoint < ConveyorSubsystem.getInstance().getPosition()) {
+        } else if(state == State.INDEXING){
+            ConveyorSubsystem.getInstance().indexBall();
+            if(setpoint < ConveyorSubsystem.getInstance().getPosition()){
                 state = State.STOPPING;
             }
         } else {
-            ConveyorSubsystem.getInstance().stopMotor();
-        }
-        if (ConveyorSubsystem.getInstance().getTotalBallCount() > 4) {
             ConveyorSubsystem.getInstance().stopMotor();
         }
         prevState = state;

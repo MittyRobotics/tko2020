@@ -1,234 +1,109 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package com.github.mittyrobotics.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.github.mittyrobotics.commands.AltIndexerCommand;
-import com.github.mittyrobotics.commands.FourBallConveyorIndexCommand;
-import com.github.mittyrobotics.commands.IncreaseConveyorSetpoint;
 import com.github.mittyrobotics.constants.ConveyorConstants;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem {
-    private static ConveyorSubsystem instance;
-    private WPI_TalonSRX conveyorTalon;
-    private int totalBallCount;
-    private boolean previousEntranceSwitchValue;
-    private DigitalInput entranceOpticalSwitch;
-    private int count;
-    private boolean shouldIntake;
-    private double currentConveyorSetpoint;
-
-    private ConveyorSubsystem() {
+    private WPI_TalonSRX conveyorTalon1, conveyorTalon2;
+    private DigitalInput sensor;
+    private int ballCount;
+    public ConveyorSubsystem(){
         super();
-        setName("Conveyor");
     }
-
-    public static ConveyorSubsystem getInstance() {
-        if (instance == null) {
+    private static ConveyorSubsystem instance;
+    public static ConveyorSubsystem getInstance(){
+        if(instance == null){
             instance = new ConveyorSubsystem();
         }
         return instance;
     }
 
     @Override
-    public void initHardware() {
-        conveyorTalon = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_TALON_ID);
-        conveyorTalon.configFactoryDefault();
-        conveyorTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        entranceOpticalSwitch = new DigitalInput(ConveyorConstants.ENTRANCE_OPTICAL_SWITCH);
-        conveyorTalon.setNeutralMode(NeutralMode.Brake);
-        previousEntranceSwitchValue = false;
-        totalBallCount = 0;
-        count = 0;
+    public void overrideSetMotor(double percent) {
+        conveyorTalon1.set(percent);
+        conveyorTalon2.set(percent);
     }
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Total Ball Count", getTotalBallCount());
-        SmartDashboard.putBoolean("Is Ball Detected", getSwitch());
-        SmartDashboard.putBoolean("Prev switch value", previousEntranceSwitchValue);
+        SmartDashboard.putNumber("Ball Count: ", ballCount);
+        SmartDashboard.putBoolean("Ball Detected: ", getSwitch());
     }
 
     @Override
-    public void periodic() {
-//        if(DriverStation.getInstance().isOperatorControl()){
-//            boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-//            shouldIntake = IntakeSubsystem.getInstance().getVelocity() > 0;
-//            if (
-////        IntakePistonSubsystem.getInstance().isPistonExtended()
-////                &&
-////            ShooterSubsystem.getInstance().getVelocity() == 0
-////                &&
-////                    OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) < 0.5
-////                            &&
-////                            OI.getInstance().getXboxController().getBumper(GenericHID.Hand.kLeft)
-////                &&
-//                shouldIntake
-////                    true
-//            ) {
-////                indexSensor(isReverse);
-//            }
-//            previousEntranceSwitchValue = getSwitch();
-//        }
-
+    public void initHardware() {
+        conveyorTalon1 = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_TOP_ID);
+        conveyorTalon2 = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_BOTTOM_ID);
+        conveyorTalon1.configFactoryDefault();
+        conveyorTalon2.configFactoryDefault();
+        conveyorTalon1.setInverted(ConveyorConstants.CONVEYOR_TOP_INVERSION);
+        conveyorTalon2.setInverted(ConveyorConstants.CONVEYOR_BOTTOM_INVERSION);
+        conveyorTalon1.setSensorPhase(ConveyorConstants.CONVEYOR_ENCODER_INVERSION);
+        conveyorTalon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        conveyorTalon1.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
+        conveyorTalon2.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
+        sensor = new DigitalInput(ConveyorConstants.BALL_SENSOR_ID);
+        ballCount = 0;
     }
 
-    public void periodic2() {
-//        boolean isReverse = conveyorTalon.getMotorOutputPercent() < 0;
-//        shouldIntake = IntakeSubsystem.getInstance().getVelocity() > 0;
-//        if (true) {
-//            indexSensor(isReverse);
-//        }
-//        previousEntranceSwitchValue = getSwitch();
+    @Override
+    public boolean getSwitch(){
+        return sensor.get();
     }
 
-    public void indexPosition(boolean isReverse) {
-        if (getSwitch() && !isReverse) {
-            count++;
+    @Override
+    public double getPosition(){
+        return conveyorTalon1.getSelectedSensorPosition() / ConveyorConstants.TICKS_PER_CYCLE;
+    }
+
+    @Override
+    public void resetEncoder(){
+        conveyorTalon1.setSelectedSensorPosition(0);
+    }
+
+    public int getBallCount(){
+        return ballCount;
+    }
+
+    public void updateBallCount(int increase){
+        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
+            ballCount = MathUtil.clamp(ballCount + increase, ConveyorConstants.MINIMUM_BALL_COUNT, ConveyorConstants.MAXIMUM_BALL_COUNT);
+        }
+    }
+
+    public void resetBallCount(){
+        ballCount = 0;
+    }
+
+    public void indexBall(){
+        setMotor(ConveyorConstants.INDEX_SPEED);
+    }
+
+    public void outtakeBall(){
+        setMotor(ConveyorConstants.OUTTAKE_SPEED);
+    }
+
+    public void shoveBall(){
+        setMotor(ConveyorConstants.SHOVE_SPEED);
+    }
+
+    @Override
+    public void setMotor(double speed){
+        if(getBallCount() > ConveyorConstants.MAXIMUM_BALL_COUNT - 1 && speed > 0){
+            overrideSetMotor(0);
         } else {
-            count = 0;
-        }
-        if (count == 3) {
-            totalBallCount++;
-        }
-        if (!isReverse && count == 3 && totalBallCount < 5) {
-            if (totalBallCount == 4) {
-                CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(4));
-            } else {
-                CommandScheduler.getInstance().schedule(new FourBallConveyorIndexCommand(11));
-            }
-        }
-
-        if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
-            updateBallCount(-1);
+            overrideSetMotor(speed);
         }
     }
 
-    public void indexSensor(boolean isReverse) {
-        if (getSwitch() && !previousEntranceSwitchValue && !isReverse
-                && getTotalBallCount() < 4
-        ) {
-            System.out.println("HERE");
-            CommandScheduler.getInstance().schedule(new AltIndexerCommand());
-            updateBallCount(1);
-        } else if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
-            updateBallCount(-1);
-        }
+    public void shootBall(){
+        setMotor(ConveyorConstants.SHOOT_SPEED);
     }
 
-    public void index3(boolean isReverse) {
-        if (getSwitch() && !previousEntranceSwitchValue && !isReverse) {
-            CommandScheduler.getInstance().schedule(new IncreaseConveyorSetpoint());
-            updateBallCount(1);
-        }
-        if (isReverse && !getSwitch() && previousEntranceSwitchValue) {
-            updateBallCount(-1);
-        }
-    }
-
-    public int getTotalBallCount() {
-        return totalBallCount;
-    }
-
-    public void updateBallCount(int count) {
-        totalBallCount = MathUtil.clamp(totalBallCount + count, 0, 5);
-        if (!IntakePistonSubsystem.getInstance().isPistonExtended()) {
-            resetBallCount();
-        }
-    }
-
-    public void resetBallCount() {
-        totalBallCount = 0;
-    }
-
-    public void indexBall() {
-        if (currentConveyorSetpoint > getPosition()) {
-            setMotor(1);
-        } else {
-            stopMotor();
-        }
-    }
-
-    public void increaseSetpoint(double value) {
-        currentConveyorSetpoint += value;
-    }
-
-    public void increaseSetpoint() {
-        increaseSetpoint(10);
-    }
-
-    public void manualSetConveyorSpeed(double speed) { //TODO remove when done testing
-        if (Math.abs(speed) > 0.2) {
-            setMotor(speed);
-        } else {
-            stopMotor();
-        }
-    }
-
-    @Override
-    public boolean getSwitch() {
-        return !entranceOpticalSwitch.get();
-    }
-
-    @Override
-    public void overrideSetMotor(double percent) {
-        conveyorTalon.set(percent);
-    }
-
-    @Override
-    public double getPosition() {
-        return conveyorTalon.getSelectedSensorPosition();
-    }
-
-    @Override
-    public void resetEncoder() {
-        conveyorTalon.setSelectedSensorPosition(0);
-    }
-
-    public void chooseMoveConveyor() {
-        if (getSwitch()) {
-            setMotor(1);
-        } else {
-            setMotor(0);
-        }
-    }
-
-    public void setIndexSpeed() {
-        setMotor(ConveyorConstants.CONVEYOR_INDEX_SPEED);
-    }
-
-    @Override
-    public double getVelocity() {
-        return conveyorTalon.get();
-    }
 }
