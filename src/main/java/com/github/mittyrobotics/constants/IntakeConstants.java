@@ -24,8 +24,6 @@
 
 package com.github.mittyrobotics.constants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 public class IntakeConstants {
     public static final int INTAKE_WHEEL_ID = 40;
     public static final boolean INTAKE_WHEEL_INVERSION = false;
@@ -34,6 +32,5 @@ public class IntakeConstants {
     public static final double OUTTAKE_SPEED = -.5;
     public static final int SOLENOID_FORWQRD_CHANNEL = 3;
     public static final int SOLENOID_REVERSE_CHANNEL = 4;
-    public static final NeutralMode INTAKE_NEUTRAL_MODE = NeutralMode.Coast;
 
 }

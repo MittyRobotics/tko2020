@@ -27,8 +27,8 @@ package com.github.mittyrobotics.commands;
 import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ShoveBallCommand extends CommandBase {
-    public ShoveBallCommand() {
+public class ConveyorFullEnter extends CommandBase {
+    public ConveyorFullEnter() {
         addRequirements(ConveyorSubsystem.getInstance());
     }
 
@@ -38,7 +38,7 @@ public class ShoveBallCommand extends CommandBase {
     }
 
     @Override
-    public void end(boolean i) {
+    public void end(boolean initialize) {
         ConveyorSubsystem.getInstance().stopMotor();
     }
 

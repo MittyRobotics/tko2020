@@ -49,6 +49,19 @@ public class SpinnerSubsystem extends SubsystemBase implements IMotorSubsystem {
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final ColorMatch colorMatcher = new ColorMatch();
     //calibrated
+    private final Color blue =
+            ColorMatch.makeColor(ColorWheelConstants.BLUE_R, ColorWheelConstants.BLUE_G, ColorWheelConstants.BLUE_B);
+    private final Color green =
+            ColorMatch.makeColor(ColorWheelConstants.GREEN_R, ColorWheelConstants.GREEN_G, ColorWheelConstants.GREEN_B);
+    private final Color red =
+            ColorMatch.makeColor(ColorWheelConstants.RED_R, ColorWheelConstants.RED_G, ColorWheelConstants.RED_B);
+    private final Color yellow = ColorMatch
+            .makeColor(ColorWheelConstants.YELLOW_R, ColorWheelConstants.YELLOW_G, ColorWheelConstants.YELLOW_B);
+    private final Color nullTarget =
+            ColorMatch.makeColor(ColorWheelConstants.NULL_R, ColorWheelConstants.NULL_G, ColorWheelConstants.NULL_B);
+    private final Color alsoNullTarget =
+            ColorMatch.makeColor(ColorWheelConstants.ALSO_NULL_R, ColorWheelConstants.ALSO_NULL_G,
+                    ColorWheelConstants.ALSO_NULL_B);
     //talon for spinner
     private WPI_TalonSRX spinnerTalon;
     private HashMap<WheelColor, WheelColor> map;
@@ -77,13 +90,13 @@ public class SpinnerSubsystem extends SubsystemBase implements IMotorSubsystem {
         spinnerTalon.configFactoryDefault();
         spinnerTalon.setInverted(ColorWheelConstants.SPINNER_TALON_INVERSION);
         spinnerTalon.setSensorPhase(ColorWheelConstants.SPINNER_ENCODER_INVERSION);
-        spinnerTalon.setNeutralMode(ColorWheelConstants.SPINNER_NEUTRAL_MODE);
-        colorMatcher.addColorMatch(ColorWheelConstants.BLUE_COLOR);
-        colorMatcher.addColorMatch(ColorWheelConstants.GREEN_COLOR);
-        colorMatcher.addColorMatch(ColorWheelConstants.RED_COLOR);
-        colorMatcher.addColorMatch(ColorWheelConstants.YELLOW_COLOR);
-        colorMatcher.addColorMatch(ColorWheelConstants.NULL_COLOR);
-        colorMatcher.addColorMatch(ColorWheelConstants.NULL_COLOR_2);
+        spinnerTalon.setNeutralMode(NeutralMode.Brake);
+        colorMatcher.addColorMatch(blue);
+        colorMatcher.addColorMatch(green);
+        colorMatcher.addColorMatch(red);
+        colorMatcher.addColorMatch(yellow);
+        colorMatcher.addColorMatch(nullTarget);
+        colorMatcher.addColorMatch(alsoNullTarget);
         map = new HashMap<>();
         map.put(WheelColor.Blue, WheelColor.Red);
         map.put(WheelColor.Red, WheelColor.Blue);
@@ -134,13 +147,13 @@ public class SpinnerSubsystem extends SubsystemBase implements IMotorSubsystem {
         //matches rgb to color targets
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
-        if (match.color == ColorWheelConstants.BLUE_COLOR) {
+        if (match.color == blue) {
             return WheelColor.Blue;
-        } else if (match.color == ColorWheelConstants.RED_COLOR) {
+        } else if (match.color == red) {
             return WheelColor.Red;
-        } else if (match.color == ColorWheelConstants.GREEN_COLOR) {
+        } else if (match.color == green) {
             return WheelColor.Green;
-        } else if (match.color == ColorWheelConstants.YELLOW_COLOR) {
+        } else if (match.color == yellow) {
             return WheelColor.Yellow;
         } else {
             return WheelColor.None;

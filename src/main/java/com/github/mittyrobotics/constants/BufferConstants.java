@@ -22,28 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.commands;
+package com.github.mittyrobotics.constants;
 
-import com.github.mittyrobotics.subsystems.ConveyorSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
-public class ShoveBallCommand extends CommandBase {
-    public ShoveBallCommand() {
-        addRequirements(ConveyorSubsystem.getInstance());
-    }
-
-    @Override
-    public void initialize() {
-        ConveyorSubsystem.getInstance().setMotor(.8);
-    }
-
-    @Override
-    public void end(boolean i) {
-        ConveyorSubsystem.getInstance().stopMotor();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+public class BufferConstants {
+    public static final int BUFFER_WHEEL_ID = 42;
+    public static final double LOCK_SPEED = -0.1;
+    public static final double RELEASE_SPEED = 1;
+    public static final double TICKS_PER_ROTATION = 4163;
+    public static final boolean BUFFER_WHEEL_INVERSION = false;
+    public static final boolean BUFFER_WHEEL_ENCODER_INVERSION = false;
 }

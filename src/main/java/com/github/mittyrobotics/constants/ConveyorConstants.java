@@ -1,20 +1,38 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.github.mittyrobotics.constants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 public class ConveyorConstants {
-    public static final double TICKS_PER_CYCLE = 52900;
-    public static final double INDEX_SPEED = 1;
-    public static final double OUTTAKE_SPEED = -1;
-    public static final double SHOVE_SPEED = 0.8;
-    public static final double SHOOT_SPEED = 1;
-    public static final int CONVEYOR_TOP_ID = 41;
-    public static final int CONVEYOR_BOTTOM_ID = 42;
-    public static final boolean CONVEYOR_TOP_INVERSION = true;
-    public static final boolean CONVEYOR_BOTTOM_INVERSION = false;
-    public static final boolean CONVEYOR_ENCODER_INVERSION = true;
-    public static final int BALL_SENSOR_ID = 0;
-    public static final int MINIMUM_BALL_COUNT = 0;
-    public static final int MAXIMUM_BALL_COUNT = 5;
-    public static final NeutralMode CONVEYOR_NEUTRAL_MODE = NeutralMode.Brake;
+    public static final int CONVEYOR_TALON_ID = 41;
+    public static final double CONVEYOR_SPEED = 0.5;
+    public static final int ENTRANCE_OPTICAL_SWITCH = 4;
+    public static final int EXIT_OPTICAL_SWITCH = 9;
+    public static final double TICKS_PER_INCH = 12; //TODO: find this value
+    public static final double CONVEYOR_P = 0.01;
+    public static final double CONVEYOR_I = 0;
+    public static final double CONVEYOR_D = 0;
+    public static final double TICKS_PER_BALL_INCH = 1495;
+    public static final double CONVEYOR_INDEX_SPEED = 1;
 }

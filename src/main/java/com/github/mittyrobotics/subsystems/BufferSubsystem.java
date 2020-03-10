@@ -24,52 +24,58 @@
 
 package com.github.mittyrobotics.subsystems;
 
-import com.github.mittyrobotics.constants.ColorWheelConstants;
-import com.github.mittyrobotics.util.interfaces.IPistonSubsystem;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.constants.BufferConstants;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ColorPistonSubsystem extends SubsystemBase implements IPistonSubsystem {
+public class BufferSubsystem extends SubsystemBase implements IMotorSubsystem {
+    private static BufferSubsystem instance;
+    private WPI_TalonSRX bufferWheel;
 
-    private static ColorPistonSubsystem instance;
-    private DoubleSolenoid piston;
-
-    private ColorPistonSubsystem() {
+    private BufferSubsystem() {
         super();
-        setName("Color Piston");
+        setName("Buffer");
     }
 
-    public static ColorPistonSubsystem getInstance() {
+    public static BufferSubsystem getInstance() {
         if (instance == null) {
-            instance = new ColorPistonSubsystem();
+            instance = new BufferSubsystem();
         }
         return instance;
     }
 
-    @Override
     public void initHardware() {
-        piston = new DoubleSolenoid(ColorWheelConstants.SOLENOID_FOWARD_CHANNEL,
-                ColorWheelConstants.SOLENOID_REVERSE_CHANNEL);
+        bufferWheel = new WPI_TalonSRX(BufferConstants.BUFFER_WHEEL_ID);
+        bufferWheel.configFactoryDefault();
+        bufferWheel.setInverted(BufferConstants.BUFFER_WHEEL_INVERSION);
+        bufferWheel.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        bufferWheel.setSensorPhase(BufferConstants.BUFFER_WHEEL_ENCODER_INVERSION);
+    }
+
+    @Override
+    public double getVelocity() {
+        return bufferWheel.getSelectedSensorVelocity();
     }
 
     @Override
     public void updateDashboard() {
-        SmartDashboard.putBoolean("Piston Up", isPistonExtended());
+        SmartDashboard.putBoolean("Buffer Locking", bufferWheel.get() > 0);
     }
 
     @Override
-    public void extendPiston() {
-        piston.set(DoubleSolenoid.Value.kReverse);
+    public void overrideSetMotor(double percent) {
+        bufferWheel.set(percent);
     }
 
-    @Override
-    public void retractPiston() {
-        piston.set(DoubleSolenoid.Value.kForward);
+    public void bufferLock() {
+        setMotor(BufferConstants.LOCK_SPEED);
     }
 
-    @Override
-    public boolean isPistonExtended() {
-        return piston.get() != DoubleSolenoid.Value.kForward;
+    public void bufferRelease() {
+        setMotor(BufferConstants.RELEASE_SPEED);
     }
+
 }
