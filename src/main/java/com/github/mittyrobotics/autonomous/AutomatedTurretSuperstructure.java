@@ -1,28 +1,28 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+ /*
+         * MIT License
+         *
+         * Copyright (c) 2020 Mitty Robotics (Team 1351)
+         *
+         * Permission is hereby granted, free of charge, to any person obtaining a copy
+         * of this software and associated documentation files (the "Software"), to deal
+         * in the Software without restriction, including without limitation the rights
+         * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+         * copies of the Software, and to permit persons to whom the Software is
+         * furnished to do so, subject to the following conditions:
+         *
+         * The above copyright notice and this permission notice shall be included in all
+         * copies or substantial portions of the Software.
+         *
+         * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+         * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+         * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+         * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+         * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+         * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+         * SOFTWARE.
+         */
 
-package com.github.mittyrobotics.autonomous;
+        package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.enums.TurretAutomationMode;
@@ -55,6 +55,9 @@ public class AutomatedTurretSuperstructure {
     private TurretAutomationMode aimMode = TurretAutomationMode.NO_AUTOMATION;
     private Transform setpoint;
 
+    private boolean immediateEnterVision = true;
+    private boolean immediateExitVision = true;
+
     private CircularTimestampedList<Rotation> turretRobotRelativeRotations = new CircularTimestampedList<>(50);
 
     public static AutomatedTurretSuperstructure getInstance() {
@@ -73,13 +76,25 @@ public class AutomatedTurretSuperstructure {
                 .addFront(new TimestampedElement<>(robotRelativeRotation, Timer.getFPGATimestamp()));
 
         //If vision is safe to use, update the latest accurate field-relative position and calibrate the odometry
-        if (Vision.getInstance().isSafeToUseVision(1)) {
+        if (Vision.getInstance().isSafeToUseVisionCalculations(1)) {
             this.latestAccurateFieldRelativePosition =
                     Vision.getInstance().getLatestVisionTarget().getObserverTransform().getPosition();
             this.trackedFieldRelativePosition = latestAccurateFieldRelativePosition;
-            Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
-                    Gyro.getInstance().getRotation()), Gyro.getInstance().getAngle());
+
+            if(immediateEnterVision){
+                Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
+                        Gyro.getInstance().getRotation()));
+                immediateEnterVision = false;
+            }
+            immediateExitVision = true;
         } else {
+            if(immediateExitVision){
+                Odometry.getInstance().setPosition(turretToRobotPosition(latestAccurateFieldRelativePosition,
+                        Gyro.getInstance().getRotation()));
+                immediateExitVision = false;
+            }
+            immediateEnterVision = true;
+
             //If vision is not safe to use, capture turret position from odometry
             this.trackedFieldRelativePosition = robotToTurretPosition(Odometry.getInstance().getLatestRobotTransform());
         }
@@ -141,7 +156,7 @@ public class AutomatedTurretSuperstructure {
      */
     private void maintainFieldRelativeAim(Position setpoint) {
         Rotation rotationSetpoint =
-                new Line(latestAccurateFieldRelativePosition, setpoint).getLineAngle();
+                new Line(trackedFieldRelativePosition, setpoint).getLineAngle();
         maintainFieldRelativeRotation(rotationSetpoint);
     }
 
