@@ -142,6 +142,7 @@ public class EightBallAuton extends SequentialCommandGroup {
                 )
         );
 
+
         //Initialize paths
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
@@ -156,7 +157,7 @@ public class EightBallAuton extends SequentialCommandGroup {
                 new Transform[]{
                         new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
                         new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180), new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER
-                                .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(-10))), 180 - 10),
+                        .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(-10))), 180 - 10),
                 })
         );
 
@@ -172,7 +173,7 @@ public class EightBallAuton extends SequentialCommandGroup {
 
         Path path4 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),
                         new Transform(AutonCoordinates.BALL_BACK_TRENCH_OUTER
                                 .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(10))), 180 + 10)
                 })
@@ -187,7 +188,6 @@ public class EightBallAuton extends SequentialCommandGroup {
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
                 })
         );
-
         //Set odometry
         Odometry.getInstance().setTransform(new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 0),
                 Gyro.getInstance().getAngle());
