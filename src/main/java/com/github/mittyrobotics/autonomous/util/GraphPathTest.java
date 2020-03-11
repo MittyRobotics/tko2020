@@ -39,58 +39,26 @@ import java.util.Random;
 public class GraphPathTest {
     public static void main(String[] args) {
 
-        //Initialize paths
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(
-                                AutonCoordinates.TRENCH_STARTING_POINT.add(AutonCoordinates.ROBOT_FRONT_TO_CENTER),
-                                180),
+                        new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
                         new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
                 })
         );
-
         Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{
-                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180), new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER
-                        .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(-10))), 180 - 10),
-                })
-        );
-
+                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),}));
 
         Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER
-                                .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(-10))), -10),
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
-                })
-        );
-
-
-        Path path4 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),
-                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_OUTER
-                                .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(10))), 180 + 10)
-                })
-        );
-
-
-        Path path5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{
-                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_OUTER
-                                .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(10))), 10),
                         new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
                 })
         );
-
         Path[] paths =  new Path[]{
                 path1,
                 path2,
                 path3,
-                path4,
-                path5
         };
 
         Graph graph = new Graph();
