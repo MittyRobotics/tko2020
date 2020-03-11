@@ -30,6 +30,7 @@ import com.github.mittyrobotics.autonomous.modes.EightBallAuton;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.commands.ArcadeDriveCommand;
 import com.github.mittyrobotics.commands.AutoConveyorIndexCommand;
+import com.github.mittyrobotics.constants.DriveConstants;
 import com.github.mittyrobotics.datatypes.motion.DifferentialDriveKinematics;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.following.util.Odometry;
@@ -126,7 +127,7 @@ public class Testing extends TimedRobot {
         DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
         CommandScheduler.getInstance().schedule(new ArcadeDriveCommand());
         ConveyorSubsystem.getInstance().resetBallCount();
-        OI.getInstance().testButtons2();
+      OI.getInstance().testButtons();
     }
 
     @Override
@@ -143,8 +144,9 @@ public class Testing extends TimedRobot {
 
     @Override
     public void testPeriodic() {
-        System.out.println("Testing: " + Vision.getInstance().getLatestVisionTarget().getObserverDistanceToTarget());
-        ConveyorSubsystem.getInstance().setMotor(-1);
+//        System.out.println("Testing: " + Vision.getInstance().getLatestVisionTarget().getObserverDistanceToTarget());
+//        ConveyorSubsystem.getInstance().setMotor(-1);
+        System.out.println(DriveTrainSubsystem.getInstance().getLeftPosition() * DriveConstants.TICKS_PER_INCH + " " + DriveTrainSubsystem.getInstance().getRightPosition()  * DriveConstants.TICKS_PER_INCH);
 //        ShooterSubsystem.getInstance().setMotor(1);
 //        DriveTrainSubsystem.getInstance()
 //                .tankDrive(0, OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft));

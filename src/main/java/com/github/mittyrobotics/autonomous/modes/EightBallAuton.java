@@ -27,6 +27,8 @@ package com.github.mittyrobotics.autonomous.modes;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.commands.*;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
+import com.github.mittyrobotics.datatypes.positioning.Position;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
@@ -46,9 +48,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class EightBallAuton extends SequentialCommandGroup {
     public EightBallAuton() {
         //Properties
-        double defaultMaxAcceleration = 30;
-        double defaultMaxDeceleration = 30;
-        double defaultMaxVelocity = 100;
+        double defaultMaxAcceleration = 50;
+        double defaultMaxDeceleration = 40;
+        double defaultMaxVelocity = 150;
         double defaultStartVelocity = 0;
         double defaultEndVelocity = 0;
         boolean defaultExtremeTakeoff = false;
@@ -143,7 +145,9 @@ public class EightBallAuton extends SequentialCommandGroup {
         //Initialize paths
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.SCORING_STARTING_POINT, 180),
+                        new Transform(
+                                AutonCoordinates.TRENCH_STARTING_POINT.add(AutonCoordinates.ROBOT_FRONT_TO_CENTER),
+                                180),
                         new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
                 })
         );
@@ -151,14 +155,35 @@ public class EightBallAuton extends SequentialCommandGroup {
         Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),
-                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER, 180 + 20),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180), new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER
+                                .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(-10))), 180 - 10),
                 })
         );
 
+
         Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER, 20),
+                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_INNER
+                                .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(-10))), -10),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
+                })
+        );
+
+
+        Path path4 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
+                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_OUTER
+                                .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(10))), 180 + 10)
+                })
+        );
+
+
+        Path path5 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+                new Transform[]{
+                        new Transform(AutonCoordinates.BALL_BACK_TRENCH_OUTER
+                                .add(AutonCoordinates.ROBOT_BACK_TO_CENTER.rotateBy(new Rotation(10))), 10),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
                         new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
                 })
         );
@@ -171,11 +196,12 @@ public class EightBallAuton extends SequentialCommandGroup {
                 new ParallelDeadlineGroup(
                         sequence(
                                 new PathFollowerCommand(followerReversed, path1),
-                                new WaitUntilReadyToShootMacro(),
-                                new ShootForTimeMacro(3)
-                        ),
+                                //new WaitUntilReadyToShootMacro(),
+//                                new ShootForTimeMacro(3)
+                                new WaitCommand(1.5)
+                        )
 
-                        new MinimalVisionCommand()
+//                        new MinimalVisionCommand()
                 ),
 
                 new SetShooterRpmCommand(0),
@@ -184,15 +210,19 @@ public class EightBallAuton extends SequentialCommandGroup {
                 new ParallelDeadlineGroup(
                         sequence(
                                 new PathFollowerCommand(followerReversed, path2),
+                                new WaitCommand(.1),
+                                new PathFollowerCommand(follower, path3),
+                                new PathFollowerCommand(followerReversed, path4),
                                 new WaitCommand(.1)
                         ),
 
                         sequence(
-                                new ParallelDeadlineGroup(
-                                        new WaitUntilPathFollowerWithinDistanceCommand(10),
-                                        new IntakeBallCommand(.85, .25)
-                                ),
-                                new IntakeBallCommand(.6, .25)
+//                                new ParallelDeadlineGroup(
+//                                        new WaitUntilPathFollowerWithinDistanceCommand(10),
+//
+//                                )
+                                new IntakeBallCommand(.85, .25)
+                                //new IntakeBallCommand(.6, .25)
                         ),
                         new AutoConveyorIndexCommand()
                 ),
@@ -202,18 +232,20 @@ public class EightBallAuton extends SequentialCommandGroup {
 
                 new ParallelDeadlineGroup(
                         sequence(
-                                new PathFollowerCommand(follower, path3),
+                                new PathFollowerCommand(follower, path5),
                                 sequence(
-                                        new WaitUntilReadyToShootMacro(),
-                                        new ShootForTimeMacro(3)
+                                        //new WaitUntilReadyToShootMacro(),
+//                                        new ShootForTimeMacro(3)
+                                        new WaitCommand(3)
                                 )
                         ),
 
                         sequence(
-                                new WaitCommand(5),
-                                new MinimalVisionCommand()
-                        )
-
+                                new WaitCommand(5)
+//                                new MinimalVisionCommand()
+                        ),
+                        new IntakeBallCommand(.85, .25),
+                        new AutoConveyorIndexCommand()
                 ),
 
                 new SetShooterRpmCommand(0),

@@ -26,7 +26,7 @@ package com.github.mittyrobotics.constants;
 
 public class DriveConstants {
 
-    public static final double TICKS_PER_INCH = 170.73611; //talon chassis
+    public static final double TICKS_PER_INCH = 166; //talon chassis
     public static final double TICKS_PER_INCH_LEFT = 169.34;
     public static final double TICKS_PER_INCH_RIGHT = 169.76;
     public static final double TICKS_PER_INCH_FALCON = 642.83;

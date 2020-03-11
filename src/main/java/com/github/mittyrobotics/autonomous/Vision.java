@@ -37,7 +37,7 @@ import com.github.mittyrobotics.vision.Limelight;
 import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import javafx.scene.input.TransferMode;
+
 
 public class Vision implements IDashboard {
     private static Vision instance;

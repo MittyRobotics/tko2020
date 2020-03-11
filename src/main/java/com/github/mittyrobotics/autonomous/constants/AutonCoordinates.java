@@ -37,6 +37,9 @@ public class AutonCoordinates {
     public static final double BALL_DROP_TRIANGLE_TO_HORIZONTAL = 67.25;
     public static final Position ZERO = new Position();
 
+    public static final Position ROBOT_FRONT_TO_CENTER = new Position(-19,0);
+    public static final Position ROBOT_BACK_TO_CENTER = new Position(30,0);
+
     // ALLIANCE VALUES
     public static final Position LOADING_STARTING_POINT = new Position(0, 60.75);
     public static final Position SCORING_STARTING_POINT = new Position(0, -67.25);
