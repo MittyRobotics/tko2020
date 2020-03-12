@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 public class Vision implements IDashboard {
     private static Vision instance;
     private double visibleTimer;

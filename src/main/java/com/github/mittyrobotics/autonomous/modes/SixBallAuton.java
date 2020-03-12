@@ -143,7 +143,7 @@ public class SixBallAuton extends SequentialCommandGroup {
         //Initialize paths
         Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.SCORING_STARTING_POINT, 180),
+                        new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
                         new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
                 })
         );
