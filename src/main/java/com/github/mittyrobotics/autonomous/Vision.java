@@ -29,7 +29,6 @@ import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
-import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
@@ -79,8 +78,8 @@ public class Vision implements IDashboard {
             double visionDistance = computeVisionDistance(visionPitch) * 120 / 135.0;
 
             //Update rotations from median filter
-            visionYaw = new Rotation(yawFilter.calculate(visionYaw.getHeading()));
-            visionPitch = new Rotation(pitchFilter.calculate(visionPitch.getHeading()));
+            visionYaw = new Rotation(yawFilter.calculate(visionYaw.getDegrees()));
+            visionPitch = new Rotation(pitchFilter.calculate(visionPitch.getDegrees()));
             visionDistance = distanceFilter.calculate(visionDistance);
 
             //Get distance and angle from turret's center of rotation to the target instead of camera to the target
@@ -90,14 +89,6 @@ public class Vision implements IDashboard {
             //Init blank turret transform
             Transform turretTransform = new Transform();
 
-            //Update the latest vision target
-            if(withTurretSuperStructure) {
-                //Compute the turret transforms
-                turretTransform = computeTurretTransform(visionDistance, visionYaw,
-                        Gyro.getInstance().getRotation());
-                //Compensate transform based on latency
-                turretTransform = computeLatencyCompensatedTransform(turretTransform, latestVisionLatency);
-            }
 
             //Set latest vision target
             latestVisionTarget = new VisionTarget(turretTransform, visionYaw, visionDistance);
@@ -150,9 +141,9 @@ public class Vision implements IDashboard {
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("vision-turret-yaw", latestVisionTarget.getObserverYawToTarget().getHeading());
+        SmartDashboard.putNumber("vision-turret-yaw", latestVisionTarget.getObserverYawToTarget().getDegrees());
         SmartDashboard
-                .putNumber("vision-field-yaw", latestVisionTarget.getObserverTransform().getRotation().getHeading());
+                .putNumber("vision-field-yaw", latestVisionTarget.getObserverTransform().getRotation().getDegrees());
         SmartDashboard
                 .putNumber("vision-localization-x", latestVisionTarget.getObserverTransform().getPosition().getX());
         SmartDashboard
@@ -161,23 +152,6 @@ public class Vision implements IDashboard {
         SmartDashboard.putNumber("vision-latency", latestVisionLatency);
     }
 
-    /**
-     * Computes the field-relative turret {@link Transform} based on the vision values and robot gyro value
-     *
-     * @param visionDistance the distance from the turret's center to the vision target
-     * @param visionYaw      the yaw angle from the turret's center to the vision target
-     * @param gyro           the robot's gyro value
-     * @return the field-relative turret {@link Transform}
-     */
-    private Transform computeTurretTransform(double visionDistance, Rotation visionYaw, Rotation gyro) {
-        Position turretPosition = computeTurretPosition(visionDistance, visionYaw);
-        Rotation robotrelativeAngle = AutomatedTurretSuperstructure.getInstance().turretToRobotRelativeAngle(
-                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation(), visionYaw);
-        Rotation fieldRelativeAngle = AutomatedTurretSuperstructure.getInstance().robotToFieldRelativeAngle(
-                gyro, robotrelativeAngle);
-
-        return new Transform(turretPosition, fieldRelativeAngle);
-    }
 
     /**
      * Computes the field-relative turret {@link Position} based on the vision values.
@@ -212,31 +186,7 @@ public class Vision implements IDashboard {
 
     private double computeVisionDistance(Rotation pitch) {
         return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
-                Math.tan(Math.toRadians(pitch.getHeading() + AutonConstants.LIMELIGHT_PITCH));
-    }
-
-    private Transform computeLatencyCompensatedTransform(Transform turretTransform, double latency) {
-        double timestampAtLatency = Timer.getFPGATimestamp() - latency * 1000;
-        //Get the robot transform at the estimated time of vision capture
-        Transform robotTransformAtLatency = Odometry.getInstance().getRobotTransformAtTimestamp(timestampAtLatency);
-        Transform currentRobotTransform = Odometry.getInstance().getLatestRobotTransform();
-        Rotation turretRotationAtLatency = AutomatedTurretSuperstructure.getInstance().getTurretRobotRelativeRotations()
-                .getElementFromTimestamp(timestampAtLatency);
-        Rotation currentTurretRotation = AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation();
-        //Check if previous robot transform and turret rotations exist from their circular timestamped lists
-        if (robotTransformAtLatency != null && turretRotationAtLatency != null) {
-            Transform turretTransformAtLatency = new Transform(
-                    AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(robotTransformAtLatency),
-                    turretRotationAtLatency);
-            Transform currentTurretTransform =
-                    new Transform(
-                            AutomatedTurretSuperstructure.getInstance().robotToTurretPosition(currentRobotTransform),
-                            currentTurretRotation);
-            Transform difference = currentTurretTransform.subtract(turretTransformAtLatency);
-
-            return turretTransform.subtract(difference);
-        }
-        return turretTransform;
+                Math.tan(Math.toRadians(pitch.getDegrees() + AutonConstants.LIMELIGHT_PITCH));
     }
 
     public VisionTarget getLatestVisionTarget() {

@@ -24,11 +24,10 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.autonomous.AutonDriver;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-
-public class WaitUntilPathFollowerFinishedCommand extends WaitUntilCommand {
-    public WaitUntilPathFollowerFinishedCommand() {
-        super(() -> AutonDriver.getInstance().isFinishedPath());
-    }
-}
+//
+//public class WaitUntilPathFollowerFinishedCommand extends WaitUntilCommand {
+////    public WaitUntilPathFollowerFinishedCommand() {
+////        super(() -> AutonDriver.getInstance().isFinishedPath());
+////    }
+//}

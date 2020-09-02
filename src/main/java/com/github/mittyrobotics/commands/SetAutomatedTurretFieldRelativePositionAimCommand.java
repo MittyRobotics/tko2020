@@ -24,12 +24,11 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class SetAutomatedTurretFieldRelativePositionAimCommand extends InstantCommand {
     public SetAutomatedTurretFieldRelativePositionAimCommand(Position setpoint) {
-        super(() -> AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimPosition(setpoint));
+//        super(() -> AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimPosition(setpoint));
     }
 }

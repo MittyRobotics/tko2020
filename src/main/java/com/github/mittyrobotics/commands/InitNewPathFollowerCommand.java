@@ -24,12 +24,10 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.autonomous.AutonDriver;
-import com.github.mittyrobotics.path.following.PathFollower;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class InitNewPathFollowerCommand extends InstantCommand {
-    public InitNewPathFollowerCommand(PathFollower pathFollower) {
-        super(() -> AutonDriver.getInstance().initNewPathFollower(pathFollower));
-    }
+//    public InitNewPathFollowerCommand(PathFollower pathFollower) {
+//        super(() -> AutonDriver.getInstance().initNewPathFollower(pathFollower));
+//    }
 }

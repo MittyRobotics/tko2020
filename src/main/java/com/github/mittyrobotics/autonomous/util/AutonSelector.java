@@ -24,10 +24,6 @@
 
 package com.github.mittyrobotics.autonomous.util;
 
-import com.github.mittyrobotics.autonomous.modes.DriveBackAndShootAuto;
-import com.github.mittyrobotics.autonomous.modes.DriveBackOffLineAuto;
-import com.github.mittyrobotics.autonomous.modes.ShootAuto;
-import com.github.mittyrobotics.autonomous.modes.SixBallAuton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
@@ -55,10 +51,10 @@ public class AutonSelector {
 
     public void setupAutonChooser() {
         SendableChooser<CommandGroupBase> chooser = new SendableChooser<>();
-        chooser.setDefaultOption("Shoot 3 Balls", new ShootAuto());
-        chooser.addOption("Drive off line", new DriveBackOffLineAuto());
-        chooser.addOption("Drive and Shoot", new DriveBackAndShootAuto());
-        chooser.addOption("Six Ball Auton", new SixBallAuton());
+//        chooser.setDefaultOption("Shoot 3 Balls", new ShootAuto());
+//        chooser.addOption("Drive off line", new DriveBackOffLineAuto());
+//        chooser.addOption("Drive and Shoot", new DriveBackAndShootAuto());
+//        chooser.addOption("Six Ball Auton", new SixBallAuton());
         SmartDashboard.putData("Auton Mode", chooser);
     }
 }

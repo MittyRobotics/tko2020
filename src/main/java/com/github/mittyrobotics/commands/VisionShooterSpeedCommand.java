@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.VisionTarget;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
@@ -46,8 +45,7 @@ public class VisionShooterSpeedCommand extends CommandBase {
             VisionTarget target = Vision.getInstance().getLatestVisionTarget();
 
             ShooterSubsystem.getInstance().setShooterRpm(
-                    AutomatedTurretSuperstructure.getInstance()
-                            .computeShooterRPMFromDistance(target.getObserverDistanceToTarget()));
+                    MinimalVisionCommand.computeShooterRPMFromDistance(target.getObserverDistanceToTarget()));
         }
     }
 

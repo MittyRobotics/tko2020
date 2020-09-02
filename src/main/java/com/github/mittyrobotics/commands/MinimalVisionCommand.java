@@ -24,9 +24,9 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.VisionTarget;
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -49,11 +49,21 @@ public class MinimalVisionCommand extends CommandBase {
         VisionTarget target = Vision.getInstance().getLatestVisionTarget();
         double p = 0.03;
         TurretSubsystem.getInstance()
-                .setMotor(p * target.getObserverYawToTarget().getHeading());
-        double rpm =
-                AutomatedTurretSuperstructure.getInstance()
-                        .computeShooterRPMFromDistance(target.getObserverDistanceToTarget() / 12);
+                .setMotor(p * target.getObserverYawToTarget().getDegrees());
+        double rpm = computeShooterRPMFromDistance(target.getObserverDistanceToTarget() / 12);
         ShooterSubsystem.getInstance().setShooterRpm(rpm);
+    }
+
+    public static double computeShooterRPMFromDistance(double distance) {
+        double closest = Double.POSITIVE_INFINITY;
+        double rpm = 0;
+        for (int i = 0; i < AutonConstants.SHOOTER_RPM_TABLE.length; i++) {
+            if (Math.abs(distance - AutonConstants.SHOOTER_RPM_TABLE[i][0]) < closest) {
+                closest = Math.abs(distance - AutonConstants.SHOOTER_RPM_TABLE[i][0]);
+                rpm = AutonConstants.SHOOTER_RPM_TABLE[i][1];
+            }
+        }
+        return rpm;
     }
 
     private double rpmEquation(double distance) {

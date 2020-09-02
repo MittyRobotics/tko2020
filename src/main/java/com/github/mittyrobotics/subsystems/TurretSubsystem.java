@@ -27,7 +27,6 @@ package com.github.mittyrobotics.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.constants.TurretConstants;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -108,14 +107,14 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
     @Override
     public void updateDashboard() {
         SmartDashboard.putNumber("Turret Encoder", TurretSubsystem.getInstance().getPosition());
-        SmartDashboard.putNumber("Turret Robot Relative Angle",
-                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
-        SmartDashboard.putNumber("Turret Field Relative Angle",
-                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
-        SmartDashboard.putNumber("Turret Field Relative Position X",
-                AutomatedTurretSuperstructure.getInstance().getLatestAccurateFieldRelativePosition().getX());
-        SmartDashboard.putNumber("Turret Field Relative Position Y",
-                AutomatedTurretSuperstructure.getInstance().getLatestAccurateFieldRelativePosition().getY());
+//        SmartDashboard.putNumber("Turret Robot Relative Angle",
+//                AutomatedTurretSuperstructure.getInstance().getRobotRelativeRotation().getHeading());
+//        SmartDashboard.putNumber("Turret Field Relative Angle",
+//                AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation().getHeading());
+//        SmartDashboard.putNumber("Turret Field Relative Position X",
+//                AutomatedTurretSuperstructure.getInstance().getLatestAccurateFieldRelativePosition().getX());
+//        SmartDashboard.putNumber("Turret Field Relative Position Y",
+//                AutomatedTurretSuperstructure.getInstance().getLatestAccurateFieldRelativePosition().getY());
     }
 
     /**

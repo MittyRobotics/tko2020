@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.commands;
 
-import com.github.mittyrobotics.autonomous.AutomatedTurretSuperstructure;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.VisionTarget;
 import com.github.mittyrobotics.subsystems.TurretSubsystem;
@@ -44,16 +43,16 @@ public class VisionTurretAimCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (Vision.getInstance().isVisionDetected()) {
-            //Get latest vision target
-            VisionTarget target = Vision.getInstance().getLatestVisionTarget();
-            //Set automated turret aim
-            AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
-        } else {
-            //If no vision target is detected, lock the target onto the last detected vision target position
-            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(
-                    AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation());
-        }
+//        if (Vision.getInstance().isVisionDetected()) {
+//            //Get latest vision target
+//            VisionTarget target = Vision.getInstance().getLatestVisionTarget();
+//            //Set automated turret aim
+//            AutomatedTurretSuperstructure.getInstance().setVisionAim(target);
+//        } else {
+//            //If no vision target is detected, lock the target onto the last detected vision target position
+//            AutomatedTurretSuperstructure.getInstance().setFieldRelativeAimRotation(
+//                    AutomatedTurretSuperstructure.getInstance().getFieldRelativeRotation());
+//        }
     }
 
     @Override
