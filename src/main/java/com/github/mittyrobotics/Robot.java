@@ -81,8 +81,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
-//        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
-//        CommandScheduler.getInstance().schedule(autonCommandGroup);
     }
 
     @Override
@@ -92,7 +90,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-//        CommandScheduler.getInstance().cancel(autonCommandGroup);
         BufferSubsystem.getInstance().setDefaultCommand(new LockBallCommand());
         OI.getInstance().testButtons();
         CommandScheduler.getInstance().schedule(new TankDriveCommand());

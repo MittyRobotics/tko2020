@@ -25,11 +25,8 @@
 package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.datatypes.units.Conversions;
-import com.github.mittyrobotics.motion.controllers.StateSpaceController;
-import com.github.mittyrobotics.motion.statespace.KalmanFilter;
 import com.github.mittyrobotics.motion.statespace.LinearQuadraticRegulator;
 import com.github.mittyrobotics.motion.statespace.MatrixUtils;
-import com.github.mittyrobotics.motion.statespace.Plant;
 import com.github.mittyrobotics.motion.statespace.motors.Motor;
 import com.github.mittyrobotics.motion.statespace.motors.NEOMotor;
 import com.github.mittyrobotics.subsystems.ShooterSubsystem;
@@ -41,7 +38,6 @@ import org.ejml.simple.SimpleMatrix;
 
 public class StateSpaceFlywheelCommand extends CommandBase {
     private double setpointRPM;
-    private StateSpaceController loop;
     private double previousTime;
     private double startTime;
 
@@ -52,35 +48,12 @@ public class StateSpaceFlywheelCommand extends CommandBase {
 
     @Override
     public void initialize() {
-//        System.out.println(MatrixUtils.discreteAlgebraicRiccatiEquation(new SimpleMatrix(new double[][]{{5}}),
-//                new SimpleMatrix(new double[][]{{5}}), new SimpleMatrix(new double[][]{{5}}),
-//                new SimpleMatrix(new double[][]{{5}})));
         Motor motor = new NEOMotor(2);
         double momentOfInertia = 0.04482798121311679;
         double gearReduction = 1;
         double maxVoltage = 12;
         double dt = 0.02;
 
-        double modelVelocityAccuracyGain = 1.0;
-        double measurementAccuracyGain = 0.01;
-        double velocityTolerance = 0.4;
-        double voltageTolerance = 12;
-        double qWeight = 0.0000005;
-
-        Plant plant = Plant.createFlywheelPlant(motor, momentOfInertia, gearReduction, maxVoltage, dt);
-
-        KalmanFilter observer = new KalmanFilter(plant,
-                new SimpleMatrix(new double[][]{{modelVelocityAccuracyGain}}),
-                new SimpleMatrix(new double[][]{{measurementAccuracyGain}}));
-
-        LinearQuadraticRegulator controller = new LinearQuadraticRegulator(plant,
-                new SimpleMatrix(new double[][]{{velocityTolerance}}),
-                new SimpleMatrix(new double[][]{{voltageTolerance}}), qWeight);
-
-        this.loop = new StateSpaceController(plant, controller, observer);
-
-        this.previousTime = System.currentTimeMillis();
-        this.startTime = System.currentTimeMillis();
     }
 
     private double previousVelocity = 0;
@@ -91,22 +64,13 @@ public class StateSpaceFlywheelCommand extends CommandBase {
         this.previousTime = currentTime;
 
         double currentRPM = ShooterSubsystem.getInstance().getVelocity();
-        double voltage =
-                loop.calculate(new SimpleMatrix(new double[][]{{currentRPM * Conversions.RPM_TO_RAD_PER_SECOND}}),
-                        new SimpleMatrix(new double[][]{{setpointRPM * Conversions.RPM_TO_RAD_PER_SECOND}}), deltaTime)
-                        .get(0) / 12.0;
-//        voltage = MathUtil.clamp(voltage, -.3, .3);
 
-//        double voltage = 5.0 / 12.0;
-
-        System.out.println(voltage + ", " + currentRPM * Conversions.RPM_TO_RAD_PER_SECOND + ", " + (System.currentTimeMillis() - startTime) + ", " + (currentRPM * Conversions.RPM_TO_RAD_PER_SECOND - previousVelocity)/deltaTime);
-        previousVelocity = currentRPM*Conversions.RPM_TO_RAD_PER_SECOND;
+        double voltage = 0;
 
         SmartDashboard.putNumber("Shooter RPM Setpoint", setpointRPM);
         SmartDashboard.putNumber("Shooter RPM", currentRPM);
         SmartDashboard.putNumber("Shooter Percent Output", voltage);
 
-        ShooterSubsystem.getInstance().overrideSetMotor(voltage);
     }
 
     @Override

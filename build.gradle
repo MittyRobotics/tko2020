@@ -64,7 +64,7 @@ deploy {
 
 repositories {
     mavenLocal()
-    maven { url 'https://www.jitpack.io' }
+//    maven { url 'https://www.jitpack.io' }
 
 }
 
@@ -92,7 +92,7 @@ dependencies {
     compile 'com.github.MittyRobotics:visualization:0.1.0'
     compile 'com.github.MittyRobotics:cpp-util-module:0.1.0'
 
-//    compile 'com.github.mittyrobotics:tko-libraries:a063db7669'
+//    compile 'com.github.mittyrobotics:tko-libraries:48d40ea05c'
 
 //    nativeLib files('libs/libVendor.so')
     nativeLib files('libs/libTkoLibrariesCppDriver.so')
