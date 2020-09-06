@@ -157,7 +157,8 @@ public class OI {
 //        spinManual.whenHeld(new ManualSpinnerButtonCommand(.5));
 
         Button setupShooter = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
-        setupShooter.whenHeld(new MinimalVisionCommand());
+//        setupShooter.whenHeld(new MinimalVisionCommand());
+        setupShooter.whenHeld(new SetShooterRpmCommand(1000));
         setupShooter.whenReleased(new StopShooterCommand());
         setupShooter.whenReleased(new ManualTurretButtonCommand(0));
 
