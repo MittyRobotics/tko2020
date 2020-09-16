@@ -29,6 +29,7 @@ import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class ColorWheelConstants {
+
     //channels for hardware
     public static final int SOLENOID_FOWARD_CHANNEL = 0;
     public static final int SOLENOID_REVERSE_CHANNEL = 7;
