@@ -24,6 +24,8 @@
 
 package com.github.mittyrobotics.commands;
 
+import com.github.mittyrobotics.subsystems.IntakePistonSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutomateShooterAimMacro extends SequentialCommandGroup {
@@ -35,5 +37,11 @@ public class AutomateShooterAimMacro extends SequentialCommandGroup {
                         new VisionShooterSpeedCommand()
                 )
         );
+    }
+
+    public static class ExtendIntake extends InstantCommand {
+        public ExtendIntake(){
+            super(()-> IntakePistonSubsystem.getInstance().extendPiston(), IntakePistonSubsystem.getInstance());
+        }
     }
 }
