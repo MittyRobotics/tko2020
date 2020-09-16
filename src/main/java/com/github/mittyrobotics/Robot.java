@@ -49,14 +49,11 @@ public class Robot extends TimedRobot {
                 ColorPistonSubsystem.getInstance(),
                 ConveyorSubsystem.getInstance(),
                 DriveTrainSubsystem.getInstance(),
-                ClimberPistonSubsystem.getInstance(),
                 IntakePistonSubsystem.getInstance(),
                 IntakeSubsystem.getInstance(),
                 ShooterSubsystem.getInstance(),
                 SpinnerSubsystem.getInstance(),
-                TurretSubsystem.getInstance(),
-                WinchLockSubsystem.getInstance(),
-                WinchSubsystem.getInstance()
+                TurretSubsystem.getInstance()
         );
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
