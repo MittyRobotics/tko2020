@@ -2,9 +2,8 @@ package com.github.mittyrobotics.NewClimber;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.controller.PIDController;
-import com.github.mittyrobotics.NewClimber.Constants;
 
-public class MoveArm {
+public class SampleMoveArm {
     public void move(double setpoint){
         WPI_TalonSRX talonSRX1 = new WPI_TalonSRX(0);
         WPI_TalonSRX talonSRX2 = new WPI_TalonSRX(1);
