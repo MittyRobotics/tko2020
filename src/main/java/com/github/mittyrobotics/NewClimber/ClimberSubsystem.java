@@ -116,10 +116,14 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
         climberRightSparkMaster.set(percent);
     }
 
+    public void setSetpoint(double leftSetpoint, double rightSetpoint){
+        primaryController1.setSetpoint(leftSetpoint);
+        primaryController2.setSetpoint(rightSetpoint);
+        shouldMoveArm = true;
+    }
+
     public void periodic(){
-        primaryController1.setSetpoint(setpoint);
-        primaryController2.setSetpoint(setpoint);
-        while (shouldMoveArm){
+        if (shouldMoveArm){
             double auxSpeed = auxController.calculate(climberLeftSparkMaster.get() - climberRightSparkMaster.get());
             double primarySpeed1 = primaryController1.calculate(climberLeftSparkMaster.get());
             double primarySpeed2 = primaryController2.calculate(climberRightSparkMaster.get());
