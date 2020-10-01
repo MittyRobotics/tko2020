@@ -48,6 +48,16 @@ public class RatchetSubsystem extends SubsystemBase {
         piston2.set(DoubleSolenoid.Value.kForward);
     }
 
+    public void lockWinch() {
+        extendPiston1();
+        extendPiston2();
+    }
+
+    public void unlockWinch() {
+        retractPiston1();
+        retractPiston2();
+    }
+
     //same thing as extended
     public boolean isPiston1Locked() {
         return piston1.get() != DoubleSolenoid.Value.kForward;

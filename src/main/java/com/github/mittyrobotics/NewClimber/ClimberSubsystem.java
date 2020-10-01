@@ -90,6 +90,11 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
         SmartDashboard.putNumber("Right Encoder Position", getRightEncoderPosition());
     }
 
+    public void setSparks(double leftPercent, double rightPercent) {
+        setLeftSpark(leftPercent);
+        setRightSpark(rightPercent);
+    }
+
     public void setLeftSpark(double percent) {
         climberLeftSparkMaster.set(percent);
     }
