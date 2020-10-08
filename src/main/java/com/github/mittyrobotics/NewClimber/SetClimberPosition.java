@@ -12,16 +12,24 @@ public class SetClimberPosition extends CommandBase {
 
     @Override
     public void initialize(){
-        ClimberSubsystem.getInstance().setSetpoint(0,0);
+        ClimberSubsystem.getInstance().setSetpoint(leftSetpoint,rightSetpoint);
     }
 
     @Override
     public void execute(){
-        ClimberSubsystem.getInstance().setSetpoint(leftSetpoint,rightSetpoint);
+
     }
 
     @Override
     public void end(boolean interrupted){
         ClimberSubsystem.getInstance().stopSparks();
+    }
+
+    @Override
+    public boolean isFinished(){
+        //TODO make 5 a constant
+        if ((Math.abs(leftSetpoint - ClimberSubsystem.getInstance().getLeftEncoderPosition()) < 5) && (Math.abs(rightSetpoint - ClimberSubsystem.getInstance().getRightEncoderPosition()) < 5)) {
+            return true;
+        } else {return false;}
     }
 }

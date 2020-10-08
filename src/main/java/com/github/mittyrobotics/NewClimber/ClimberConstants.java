@@ -12,4 +12,5 @@ public class ClimberConstants {
     public static final double RIGHT_UP_SETPOINT = 0;
     public static final double LEFT_DOWN_SETPOINT = 0;
     public static final double RIGHT_DOWN_SETPOINT = 0;
+    public static final double DELTA_CONSTANT = 1.5;
 }

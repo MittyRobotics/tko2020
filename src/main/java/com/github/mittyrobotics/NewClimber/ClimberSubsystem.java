@@ -2,6 +2,7 @@ package com.github.mittyrobotics.NewClimber;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.constants.ShooterConstants;
+import com.github.mittyrobotics.util.interfaces.IDualMotorSubsystem;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -12,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Climber subsystem with 2 sparks
  */
 
-public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
+public class ClimberSubsystem extends SubsystemBase implements IDualMotorSubsystem {
     /**
      * {@link ClimberSubsystem} instance
      */
@@ -116,15 +117,21 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
         return rightEncoder.getPosition();
     }
 
-    public void overrideSetMotor(double percent) {
-        climberLeftSparkMaster.set(percent);
-        climberRightSparkMaster.set(percent);
+    public void overrideSetMotor(double percen1, double percent2) {
+        climberLeftSparkMaster.set(percen1);
+        climberRightSparkMaster.set(percent2);
+        shouldMoveArm = false;
     }
 
     public void setSetpoint(double leftSetpoint, double rightSetpoint){
         primaryController1.setSetpoint(leftSetpoint);
         primaryController2.setSetpoint(rightSetpoint);
         shouldMoveArm = true;
+    }
+
+    public void changeSetpoint(double leftChange, double rightChange){
+        primaryController1.setSetpoint(setpoint + (leftChange*ClimberConstants.DELTA_CONSTANT));
+        primaryController2.setSetpoint(setpoint + (rightChange*ClimberConstants.DELTA_CONSTANT));
     }
 
     public void periodic(){

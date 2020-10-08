@@ -25,10 +25,16 @@
 package com.github.mittyrobotics.NewClimber;
 
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class MoveClimberDownMacro extends ConditionalCommand {
+import java.util.concurrent.locks.Lock;
+
+public class MoveClimberDownMacro extends SequentialCommandGroup {
     public MoveClimberDownMacro() {
-        super(new UnlockWinch(), new SetClimberPosition(ClimberConstants.LEFT_DOWN_SETPOINT, ClimberConstants.RIGHT_DOWN_SETPOINT),
-                () -> RatchetSubsystem.getInstance().isWinchLocked());
+        addCommands(
+                new UnlockWinch(),
+                new SetClimberPosition(ClimberConstants.LEFT_DOWN_SETPOINT, ClimberConstants.RIGHT_DOWN_SETPOINT),
+                new LockWinch()
+        );
     }
 }
