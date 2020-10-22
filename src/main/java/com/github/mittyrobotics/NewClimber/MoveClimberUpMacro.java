@@ -31,8 +31,7 @@ public class MoveClimberUpMacro extends SequentialCommandGroup {
     public MoveClimberUpMacro() {
         addCommands(
                 new LockWinch(),
-                new SetClimberPosition(ClimberConstants.LEFT_UP_SETPOINT, ClimberConstants.RIGHT_UP_SETPOINT),
-                new UnlockWinch()
+                new SetClimberPosition(ClimberConstants.LEFT_UP_SETPOINT, ClimberConstants.RIGHT_UP_SETPOINT)
         );
     }
 }
