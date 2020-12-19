@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.commands.PathFollowerCommand;
+import com.github.mittyrobotics.drivetrain.commands.PathFollowerCommand;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;

@@ -25,7 +25,7 @@
 package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
 import edu.wpi.first.wpilibj.Timer;

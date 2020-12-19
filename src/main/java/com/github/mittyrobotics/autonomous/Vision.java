@@ -30,7 +30,7 @@ import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.subsystems.TurretSubsystem;
+import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
 import com.github.mittyrobotics.vision.Limelight;

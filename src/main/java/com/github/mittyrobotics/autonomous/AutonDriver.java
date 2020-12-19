@@ -30,7 +30,7 @@ import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
-import com.github.mittyrobotics.subsystems.DriveTrainSubsystem;
+import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 public class AutonDriver {

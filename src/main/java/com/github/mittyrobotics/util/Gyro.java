@@ -28,13 +28,28 @@ import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.util.interfaces.IHardware;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
+/**
+ * Gyro class in the form of a singleton
+ */
 public class Gyro extends ADXRS450_Gyro implements IHardware {
+
+    /**
+     * {@link Gyro} instance
+     */
     private static Gyro instance = new Gyro();
 
+    /**
+     * Calls {@link ADXRS450_Gyro} constructor
+     */
     private Gyro() {
         super();
     }
 
+    /**
+     * Returns the {@link Gyro} instance
+     *
+     * @return {@link Gyro} instance
+     */
     public static Gyro getInstance() {
         if (instance == null) {
             instance = new Gyro();
@@ -42,15 +57,30 @@ public class Gyro extends ADXRS450_Gyro implements IHardware {
         return instance;
     }
 
+    /**
+     * Gets the angle of the {@link ADXRS450_Gyro}
+     *
+     * @return {@link ADXRS450_Gyro} angle
+     */
     @Override
     public double getAngle() {
         return -super.getAngle();
     }
 
+    /**
+     * Returns the angle in the form of a {@link Rotation}
+     *
+     * @return {@link Rotation} angle
+     */
     public Rotation getRotation() {
         return new Rotation(getAngle360());
     }
 
+    /**
+     * Gets the gyro angle between 0-360
+     *
+     * @return angle between 0-360
+     */
     public double getAngle360() {
         double angle = getAngle();
         angle %= 360;
@@ -60,6 +90,9 @@ public class Gyro extends ADXRS450_Gyro implements IHardware {
         return angle;
     }
 
+    /**
+     * Initializes the gyro with correct settings
+     */
     @Override
     public void initHardware() {
         reset();

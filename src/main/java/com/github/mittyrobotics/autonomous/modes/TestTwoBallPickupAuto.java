@@ -24,10 +24,10 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.commands.AutoConveyorIndexCommand;
-import com.github.mittyrobotics.commands.InitNewPathFollowerCommand;
-import com.github.mittyrobotics.commands.IntakeBallCommand;
-import com.github.mittyrobotics.commands.PathFollowerCommand;
+import com.github.mittyrobotics.conveyor.commands.AutoConveyorIndexCommand;
+import com.github.mittyrobotics.autonomous.commands.InitNewPathFollowerCommand;
+import com.github.mittyrobotics.conveyor.commands.IntakeBallCommand;
+import com.github.mittyrobotics.drivetrain.commands.PathFollowerCommand;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;

@@ -24,9 +24,9 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
-import com.github.mittyrobotics.commands.MinimalVisionCommand;
-import com.github.mittyrobotics.commands.ShootForTimeMacro;
-import com.github.mittyrobotics.commands.WaitUntilReadyToShootMacro;
+import com.github.mittyrobotics.shooter.commands.MinimalVisionCommand;
+import com.github.mittyrobotics.shooter.commands.ShootForTimeMacro;
+import com.github.mittyrobotics.autonomous.commands.WaitUntilReadyToShootMacro;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 

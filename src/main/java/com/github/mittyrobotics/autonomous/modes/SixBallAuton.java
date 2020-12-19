@@ -24,16 +24,25 @@
 
 package com.github.mittyrobotics.autonomous.modes;
 
+import com.github.mittyrobotics.autonomous.commands.WaitUntilReadyToShootMacro;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
-import com.github.mittyrobotics.commands.*;
+import com.github.mittyrobotics.conveyor.commands.AutoConveyorIndexCommand;
+import com.github.mittyrobotics.conveyor.commands.IntakeBallCommand;
+import com.github.mittyrobotics.conveyor.commands.SetIntakeStopCommand;
+import com.github.mittyrobotics.conveyor.commands.StopConveyorCommand;
 import com.github.mittyrobotics.datatypes.motion.VelocityConstraints;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
+import com.github.mittyrobotics.drivetrain.commands.PathFollowerCommand;
 import com.github.mittyrobotics.motionprofile.PathVelocityController;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
+import com.github.mittyrobotics.shooter.commands.MinimalVisionCommand;
+import com.github.mittyrobotics.shooter.commands.SetShooterRpmCommand;
+import com.github.mittyrobotics.shooter.commands.SetTurretMotorCommand;
+import com.github.mittyrobotics.shooter.commands.ShootForTimeMacro;
 import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;

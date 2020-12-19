@@ -24,16 +24,20 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.testing.Testing;
 import edu.wpi.first.wpilibj.RobotBase;
 
+/**
+ * Main Class to run robot code, do not touch
+ */
 public final class Main {
     private Main() {
 
     }
 
-    //DO NOT PUSH ANY CHANGES FROM MAIN
+    /**
+     * Main function to run robot code, do not touch
+     */
     public static void main(String... args) {
-        RobotBase.startRobot(Robot::new); //Replace Robot with whatever class you are using
+        RobotBase.startRobot(Robot::new);
     }
 }

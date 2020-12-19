@@ -27,13 +27,27 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.util.interfaces.IHardware;
 
+/**
+ * Compressor Class in the form of a singleton
+ */
 public class Compressor extends edu.wpi.first.wpilibj.Compressor implements IHardware {
+
+    /**
+     * {@link Compressor} instance
+     */
     private static Compressor instance;
 
+    /**
+     * Calls {@link edu.wpi.first.wpilibj.Compressor} constructor
+     */
     private Compressor() {
         super();
     }
 
+    /**
+     * Returns the {@link Compressor} instance
+     * @return the {@link Compressor} instance
+     */
     public static Compressor getInstance() {
         if (instance == null) {
             instance = new Compressor();
@@ -41,9 +55,13 @@ public class Compressor extends edu.wpi.first.wpilibj.Compressor implements IHar
         return instance;
     }
 
+    /**
+     * Initializes the compressor with the correct settings
+     * Starts the compressor
+     */
     @Override
     public void initHardware() {
         start();
-//        setClosedLoopControl(true);
+        setClosedLoopControl(true);
     }
 }
