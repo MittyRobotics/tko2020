@@ -79,6 +79,7 @@ public class SpinRevsCommand extends CommandBase {
 
     /**
      * Stops the motor
+     *
      * @param interrupted whether the command was interrupted or ended because {@link #isFinished()} returned true
      */
     @Override
@@ -88,6 +89,7 @@ public class SpinRevsCommand extends CommandBase {
 
     /**
      * Returns if the command should end
+     *
      * @return if the wheel has made more than the inputted revolutions
      */
     @Override

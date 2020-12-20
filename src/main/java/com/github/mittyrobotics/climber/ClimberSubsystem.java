@@ -1,42 +1,29 @@
 package com.github.mittyrobotics.climber;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.climber.commands.StopClimberCommand;
 import com.github.mittyrobotics.util.interfaces.IDualMotorSubsystem;
-import com.revrobotics.*;
-import edu.wpi.first.wpilibj.controller.PIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * Climber subsystem with 2 sparks
+ * Climber subsystem to climb
  */
-
 public class ClimberSubsystem extends SubsystemBase implements IDualMotorSubsystem {
+
     /**
      * {@link ClimberSubsystem} instance
      */
     private static ClimberSubsystem instance;
 
     /**
-     * Shooter {@link CANSparkMax}s
+     * Climber {@link CANSparkMax}s
      */
     private CANSparkMax climberLeftSparkMaster, climberRightSparkMaster;
 
     /**
-     * Climber {@link CANEncoder}s
-     */
-    private CANEncoder leftEncoder, rightEncoder;
-
-    private WPI_TalonSRX talonSRX1, talonSRX2;
-
-    private PIDController primaryController1, primaryController2, auxController;
-
-    private double setpoint;
-
-    private boolean shouldMoveArm;
-
-    /**
-     * Calls SubsystemBase constructor and names the subsystem 'Climber'
+     * Calls {@link SubsystemBase} constructor and names the subsystem "Climber"
      */
     private ClimberSubsystem() {
         super();
@@ -44,9 +31,9 @@ public class ClimberSubsystem extends SubsystemBase implements IDualMotorSubsyst
     }
 
     /**
-     * Returns the {@link ClimberSubsystem}'s {@link SubsystemBase} instance.
+     * Returns the {@link ClimberSubsystem} instance.
      *
-     * @return the {@link ClimberSubsystem}'s {@link SubsystemBase} instance.
+     * @return the {@link ClimberSubsystem} instance.
      */
     public static ClimberSubsystem getInstance() {
         if (instance == null) {
@@ -64,81 +51,74 @@ public class ClimberSubsystem extends SubsystemBase implements IDualMotorSubsyst
                 new CANSparkMax(ClimberConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         climberLeftSparkMaster.restoreFactoryDefaults();
         climberLeftSparkMaster.setInverted(ClimberConstants.LEFT_SPARK_INVERSION);
-        this.leftEncoder = climberLeftSparkMaster.getEncoder();
 
         climberRightSparkMaster =
                 new CANSparkMax(ClimberConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         climberRightSparkMaster.restoreFactoryDefaults();
         climberRightSparkMaster.setInverted(ClimberConstants.RIGHT_SPARK_INVERSION);
-        this.rightEncoder = climberRightSparkMaster.getEncoder();
         setDefaultCommand(new StopClimberCommand());
-
-        talonSRX1 = new WPI_TalonSRX(0);
-        talonSRX2 = new WPI_TalonSRX(1);
-        primaryController1 = new PIDController(1, 0, 0);
-        primaryController2 = new PIDController(1, 0, 0);
-        auxController = new PIDController(1, 0, 0);
-        auxController.setSetpoint(0);
-        shouldMoveArm = false;
-        setpoint = ClimberConstants.ARM_SETPOINT;
     }
 
+    /**
+     * Update the climber's dashboard values
+     */
     @Override
     public void updateDashboard() {
         SmartDashboard.putNumber("Left Encoder Position", getLeftEncoderPosition());
         SmartDashboard.putNumber("Right Encoder Position", getRightEncoderPosition());
     }
 
+    /**
+     * Sets each climber to move if the {@link RatchetSubsystem} is not locked
+     *
+     * @param leftPercent percent to set the left climber
+     *
+     * @param rightPercent percent to set the right climber
+     */
     public void setSparks(double leftPercent, double rightPercent) {
-        setLeftSpark(leftPercent);
-        setRightSpark(rightPercent);
-    }
-
-    public void setLeftSpark(double percent) {
-        climberLeftSparkMaster.set(percent);
-    }
-
-    public void setRightSpark(double percent) {
-        climberRightSparkMaster.set(percent);
-    }
-
-    public void stopSparks() {
-        setLeftSpark(0);
-        setRightSpark(0);
-    }
-
-    public double getLeftEncoderPosition() {
-        return leftEncoder.getPosition();
-    }
-
-    public double getRightEncoderPosition() {
-        return rightEncoder.getPosition();
-    }
-
-    public void overrideSetMotor(double percen1, double percent2) {
-        climberLeftSparkMaster.set(percen1);
-        climberRightSparkMaster.set(percent2);
-        shouldMoveArm = false;
-    }
-
-    public void setSetpoint(double leftSetpoint, double rightSetpoint){
-        primaryController1.setSetpoint(leftSetpoint);
-        primaryController2.setSetpoint(rightSetpoint);
-        shouldMoveArm = true;
-    }
-
-    public void changeSetpoint(double leftChange, double rightChange){
-        primaryController1.setSetpoint(setpoint + (leftChange*ClimberConstants.DELTA_CONSTANT));
-        primaryController2.setSetpoint(setpoint + (rightChange*ClimberConstants.DELTA_CONSTANT));
-    }
-
-    public void periodic(){
-        if (shouldMoveArm){
-            double auxSpeed = auxController.calculate(climberLeftSparkMaster.get() - climberRightSparkMaster.get());
-            double primarySpeed1 = primaryController1.calculate(climberLeftSparkMaster.get());
-            double primarySpeed2 = primaryController2.calculate(climberRightSparkMaster.get());
-            setLeftSpark(primarySpeed1 + auxSpeed);
-            setRightSpark(primarySpeed2 - auxSpeed);
+        if(RatchetSubsystem.getInstance().isLeftWinchLocked()){
+            leftPercent = 0;
         }
+        if(RatchetSubsystem.getInstance().isRightWinchLocked()){
+            rightPercent = 0;
+        }
+        overrideSetMotor(leftPercent, rightPercent);
+    }
+
+    /**
+     * Stops the climber from moving
+     */
+    public void stopSparks() {
+        setSparks(0, 0);
+    }
+
+    /**
+     * Returns the left encoder position
+     *
+     * @return the left encoder position
+     */
+    public double getLeftEncoderPosition() {
+        return climberLeftSparkMaster.getEncoder().getPosition();
+    }
+
+    /**
+     * Returns the right encoder position
+     *
+     * @return the right encoder position
+     */
+    public double getRightEncoderPosition() {
+        return climberRightSparkMaster.getEncoder().getPosition();
+    }
+
+    /**
+     * Sets the climber to move regardless if the {@link RatchetSubsystem} is locked
+     *
+     * @param leftPercent the percent of the left motor
+     *
+     * @param rightPercent the percent of the right motor
+     */
+    public void overrideSetMotor(double leftPercent, double rightPercent) {
+        climberLeftSparkMaster.set(leftPercent);
+        climberRightSparkMaster.set(rightPercent);
     }
 }

@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.colorwheel.commands;
 
 import com.github.mittyrobotics.colorwheel.ColorPistonSubsystem;
+import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
@@ -33,7 +34,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class SpinnerUpCommand extends InstantCommand {
 
     /**
-     * Sets the Spinner's piston upward
+     * Sets the piston upward to activate the {@link SpinnerSubsystem}
      *
      * Command ends immediately
      *

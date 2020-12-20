@@ -22,11 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.climber;
+package com.github.mittyrobotics.climber.commands;
 
+import com.github.mittyrobotics.climber.ClimberConstants;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+/**
+ * Macro used to pull the climber arms down
+ */
 public class MoveClimberUpMacro extends SequentialCommandGroup {
+
+    /**
+     * Locks the winch, then moves the climber arms up
+     *
+     */
     public MoveClimberUpMacro() {
         addCommands(
                 new LockWinch(),

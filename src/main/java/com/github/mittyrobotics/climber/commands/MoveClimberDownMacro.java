@@ -22,15 +22,24 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.climber;
+package com.github.mittyrobotics.climber.commands;
 
+import com.github.mittyrobotics.climber.ClimberConstants;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+/**
+ * Macro used to pull the climber arms down
+ */
 public class MoveClimberDownMacro extends SequentialCommandGroup {
+
+    /**
+     * Unlocks the winch, moves the climber down, then locks the winch
+     */
     public MoveClimberDownMacro() {
         addCommands(
                 new UnlockWinch(),
-                new SetClimberPosition(ClimberConstants.LEFT_DOWN_SETPOINT, ClimberConstants.RIGHT_DOWN_SETPOINT)
+                new SetClimberPosition(ClimberConstants.LEFT_DOWN_SETPOINT, ClimberConstants.RIGHT_DOWN_SETPOINT),
+                new LockWinch()
         );
     }
 }
