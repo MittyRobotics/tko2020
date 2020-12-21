@@ -24,20 +24,39 @@
 
 package com.github.mittyrobotics.conveyor;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * Intake subsystem to move balls into the {@link ConveyorSubsystem}
+ */
 public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
+    /**
+     * {@link IntakeSubsystem} instance
+     */
     private static IntakeSubsystem instance;
+
+    /**
+     * Intake's {@link WPI_TalonSRX}
+     */
     private WPI_TalonSRX intakeWheel;
 
+    /**
+     * Calls {@link SubsystemBase} constructor and names the subsystem "Intake"
+     */
     private IntakeSubsystem() {
         super();
         setName("Intake");
     }
 
+    /**
+     * Returns the {@link IntakeSubsystem} instance.
+     *
+     * @return the {@link IntakeSubsystem} instance.
+     */
     public static IntakeSubsystem getInstance() {
         if (instance == null) {
             instance = new IntakeSubsystem();
@@ -45,6 +64,9 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
         return instance;
     }
 
+    /**
+     * Initialize the intake's hardware
+     */
     @Override
     public void initHardware() {
         intakeWheel = new WPI_TalonSRX(IntakeConstants.INTAKE_WHEEL_ID);
@@ -53,11 +75,19 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
         intakeWheel.setNeutralMode(IntakeConstants.INTAKE_NEUTRAL_MODE);
     }
 
+    /**
+     * Update the intake's dashboard values
+     */
     @Override
     public void updateDashboard() {
         SmartDashboard.putBoolean("Is Intaking", intakeWheel.get() > 0);
     }
 
+    /**
+     * Sets the motor to a spin at a percentage of the {@link IntakePistonSubsystem} is extended
+     *
+     * @param percent the percentage to run the motor at
+     */
     public void setMotor(double percent) {
         if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
             overrideSetMotor(percent);
@@ -66,18 +96,33 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
         }
     }
 
+    /**
+     * Runs the intake wheels regardless of the {@link IntakePistonSubsystem} state
+     *
+     * @param percent the percentage to run the motor at
+     */
     @Override
     public void overrideSetMotor(double percent) {
         intakeWheel.set(percent);
     }
 
+    /**
+     * Calls the {@link #setIntaking(double, double)} using the default values
+     */
     public void setIntaking() {
         setIntaking(IntakeConstants.INTAKE_SPEED_FAST, IntakeConstants.INTAKE_SPEED_SLOW);
     }
 
+    /**
+     * Sets the subsystem to intake at given speeds if less the {@link ConveyorSubsystem} can take in more balls
+     *
+     * @param speedFast the speed to run if a ball is not detected (need to get the ball into the conveyor)
+     *
+     * @param speedSlow the speed to run if the ball is detected (needs a slight push to get into the conveyor)
+     */
     public void setIntaking(double speedFast, double speedSlow) {
-        if (ConveyorSubsystem.getInstance().getBallCount() < 5) {
-            if (!ConveyorSubsystem.getInstance().getSwitch()) {
+        if (ConveyorSubsystem.getInstance().getBallCount() < ConveyorConstants.MAXIMUM_BALL_COUNT) {
+            if (!ConveyorSubsystem.getInstance().isBallDetected()) {
                 setMotor(speedFast);
             } else {
                 setMotor(speedSlow);
@@ -87,14 +132,25 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
         }
     }
 
+    /**
+     * Sets the intake to move at the speed needed when shooting balls
+     */
     public void setIntakingShooting() {
         setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
     }
 
+    /**
+     * Sets the intake ot move at the outtaking ball speed
+     */
     public void setOuttaking() {
         setMotor(IntakeConstants.OUTTAKE_SPEED);
     }
 
+    /**
+     * Gets the current velocity of the intake
+     *
+     * @return current intake wheel velocity in {@link ControlMode#PercentOutput}
+     */
     @Override
     public double getVelocity() {
         return intakeWheel.get();

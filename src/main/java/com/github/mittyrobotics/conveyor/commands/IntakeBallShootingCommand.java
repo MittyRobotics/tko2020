@@ -25,25 +25,26 @@
 package com.github.mittyrobotics.conveyor.commands;
 
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class IntakeBallShootingCommand extends CommandBase {
+/**
+ * Sets the Intake to spin at the correct speed to shoot
+ */
+public class IntakeBallShootingCommand extends RunCommand {
+
+    /**
+     * Sets the Intake to spin at the correct speed when the {@link ShooterSubsystem} is running
+     */
     public IntakeBallShootingCommand() {
-        addRequirements(IntakeSubsystem.getInstance());
+        super(() -> IntakeSubsystem.getInstance().setIntakingShooting(), IntakeSubsystem.getInstance());
     }
 
+    /**
+     * Stops the intake when the command ends
+     */
     @Override
-    public void initialize() {
-        IntakeSubsystem.getInstance().setIntakingShooting();
-    }
-
-    @Override
-    public void end(boolean inte) {
+    public void end(boolean interrupted) {
         IntakeSubsystem.getInstance().stopMotor();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

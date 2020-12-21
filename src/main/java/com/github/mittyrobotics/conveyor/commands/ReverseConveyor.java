@@ -27,11 +27,23 @@ package com.github.mittyrobotics.conveyor.commands;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
+/**
+ * Reverses the {@link ConveyorSubsystem} for outtaking balls
+ */
 public class ReverseConveyor extends RunCommand {
+
+    /**
+     * Reverses the {@link ConveyorSubsystem} at the designated speed to outtake balls from the conveyor
+     *
+     * Requires the {@link ConveyorSubsystem}
+     */
     public ReverseConveyor() {
         super(() -> ConveyorSubsystem.getInstance().outtakeBall(), ConveyorSubsystem.getInstance());
     }
 
+    /**
+     * Stops the conveyor from moving when the command ends
+     */
     @Override
     public void end(boolean interrupted) {
         ConveyorSubsystem.getInstance().stopMotor();

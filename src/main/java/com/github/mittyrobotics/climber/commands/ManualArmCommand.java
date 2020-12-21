@@ -11,6 +11,8 @@ public class ManualArmCommand extends RunCommand {
 
     /**
      * Manually moves the {@link ClimberSubsystem} arms based on joysticks
+     *
+     * Requires the {@link ClimberSubsystem}
      */
     public ManualArmCommand() {
         super(

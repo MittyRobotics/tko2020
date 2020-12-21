@@ -24,26 +24,27 @@
 
 package com.github.mittyrobotics.conveyor.commands;
 
+import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class OuttakeRollersCommand extends CommandBase {
+/**
+ * Sets the intake to spin at the correct speed to outtake a ball
+ */
+public class OuttakeRollersCommand extends RunCommand {
+
+    /**
+     * Sets the intake to spin at the correct speed to outtake a ball from the {@link ConveyorSubsystem}
+     */
     public OuttakeRollersCommand() {
-        addRequirements(IntakeSubsystem.getInstance());
+        super(() -> IntakeSubsystem.getInstance().setOuttaking(), IntakeSubsystem.getInstance());
     }
 
-    @Override
-    public void initialize() {
-        IntakeSubsystem.getInstance().setOuttaking();
-    }
-
+    /**
+     * Stops the intake when the command ends
+     */
     @Override
     public void end(boolean interrputed) {
         IntakeSubsystem.getInstance().stopMotor();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

@@ -24,18 +24,37 @@
 
 package com.github.mittyrobotics.conveyor.commands;
 
+import com.github.mittyrobotics.conveyor.ConveyorConstants;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Indexes balls entered into the {@link ConveyorSubsystem}
+ */
 public class AutoConveyorIndexCommand extends CommandBase {
-    private State state;
-    private double setpoint;
-    private State prevState;
 
+    /**
+     * Current and previous state of the state machine
+     */
+    private State state, prevState;
+
+    /**
+     * Current target position for the conveyor
+     */
+    private double setpoint;
+
+    /**
+     * Calls the constructor of {@link CommandBase}
+     *
+     * Requires the {@link ConveyorSubsystem}
+     */
     public AutoConveyorIndexCommand() {
         addRequirements(ConveyorSubsystem.getInstance());
     }
 
+    /**
+     * Initializes the starting states and setpoints
+     */
     @Override
     public void initialize() {
         prevState = State.STOPPING;
@@ -43,9 +62,12 @@ public class AutoConveyorIndexCommand extends CommandBase {
         setpoint = ConveyorSubsystem.getInstance().getPosition();
     }
 
+    /**
+     * Runs state machine, setting motor speeds and updating ball counts depending on sensor values and assigned states
+     */
     @Override
     public void execute() {
-        if (ConveyorSubsystem.getInstance().getSwitch()) {
+        if (ConveyorSubsystem.getInstance().isBallDetected()) {
             state = State.SENSING;
             if(prevState != State.SENSING){
                 ConveyorSubsystem.getInstance().updateBallCount(1);
@@ -57,9 +79,9 @@ public class AutoConveyorIndexCommand extends CommandBase {
         }
         if(state == State.SENSING){
             ConveyorSubsystem.getInstance().indexBall();
-            if(!ConveyorSubsystem.getInstance().getSwitch()){
+            if(!ConveyorSubsystem.getInstance().isBallDetected()){
                 state = State.INDEXING;
-                setpoint += 9;
+                setpoint += ConveyorConstants.INDEXING_SETPOINT;
             }
         } else if(state == State.INDEXING){
             ConveyorSubsystem.getInstance().indexBall();
@@ -72,11 +94,25 @@ public class AutoConveyorIndexCommand extends CommandBase {
         prevState = state;
     }
 
+    /**
+     * Returns if the command should end
+     *
+     * @return false because this is a default command
+     */
     @Override
     public boolean isFinished() {
         return false;
     }
 
+    /**
+     * State enum used for the state machine
+     *
+     * Sensing - Activates when ball is detected, transitions to indexing when ball is no longer detected
+     *
+     * Indexing - Moves ball an extra distance after the sensor stops detecting it, then transitions to Stopping
+     *
+     * Stopping - the State machine ends, will trigger again if a ball is detected
+     */
     private enum State {
         SENSING, INDEXING, STOPPING
     }

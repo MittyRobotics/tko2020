@@ -25,25 +25,28 @@
 package com.github.mittyrobotics.conveyor.commands;
 
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class ShoveBallCommand extends CommandBase {
-    public ShoveBallCommand() {
-        addRequirements(ConveyorSubsystem.getInstance());
+/**
+ * Moves the {@link ConveyorSubsystem} at the designated speed to shoot balls
+ */
+public class UnloadConveyorCommand extends RunCommand {
+
+    /**
+     * Moves the {@link ConveyorSubsystem} at the designated speed to move balls into the {@link ShooterSubsystem}
+     *
+     * Requires the {@link ConveyorSubsystem}
+     */
+    public UnloadConveyorCommand() {
+        super(()->ConveyorSubsystem.getInstance().shootBall(), ConveyorSubsystem.getInstance());
     }
 
+    /**
+     * Stops the conveyor from moving when the command ends
+     */
     @Override
-    public void initialize() {
-        ConveyorSubsystem.getInstance().shoveBall();
-    }
-
-    @Override
-    public void end(boolean i) {
+    public void end(boolean interrupted) {
         ConveyorSubsystem.getInstance().stopMotor();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

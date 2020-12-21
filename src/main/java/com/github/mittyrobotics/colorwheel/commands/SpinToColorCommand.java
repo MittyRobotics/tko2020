@@ -79,7 +79,6 @@ public class SpinToColorCommand extends CommandBase {
 
     /**
      * Stops the motor
-     * @param interrupted whether the command was interrupted or ended because {@link #isFinished()} returned true
      */
     @Override
     public void end(boolean interrupted) {
@@ -88,6 +87,7 @@ public class SpinToColorCommand extends CommandBase {
 
     /**
      * Returns if the command should finish
+     *
      * @return if the target color is found
      */
     @Override

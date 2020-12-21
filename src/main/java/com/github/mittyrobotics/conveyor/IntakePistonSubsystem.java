@@ -29,15 +29,34 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * Intake Piston Subsystem to extend or retract the {@link IntakeSubsystem}
+ */
 public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsystem {
+
+    /**
+     * {@link IntakeSubsystem} instance
+     */
     private static IntakePistonSubsystem instance;
+
+    /**
+     * Intake piston's {@link DoubleSolenoid}
+     */
     private DoubleSolenoid intakePiston;
 
+    /**
+     * Calls {@link SubsystemBase} constructor and names the subsystem "Intake Piston"
+     */
     private IntakePistonSubsystem() {
         super();
         setName("Intake Piston");
     }
 
+    /**
+     * Returns the {@link IntakePistonSubsystem} instance.
+     *
+     * @return the {@link IntakePistonSubsystem} instance.
+     */
     public static IntakePistonSubsystem getInstance() {
         if (instance == null) {
             instance = new IntakePistonSubsystem();
@@ -45,28 +64,45 @@ public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsy
         return instance;
     }
 
+    /**
+     * Update the intake piston's dashboard values
+     */
     @Override
     public void updateDashboard() {
         SmartDashboard.putBoolean("Is Intake Extended", isPistonExtended());
     }
 
+    /**
+     * Initialize the intake piston's hardware
+     */
     @Override
     public void initHardware() {
         intakePiston =
                 new DoubleSolenoid(IntakeConstants.SOLENOID_FORWQRD_CHANNEL, IntakeConstants.SOLENOID_REVERSE_CHANNEL);
     }
 
+    /**
+     * Returns if the intake piston is extended
+     *
+     * @return if the {@link IntakeSubsystem} is extended
+     */
     @Override
     public boolean isPistonExtended() {
         return intakePiston.get() != DoubleSolenoid.Value.kReverse;
     }
 
+    /**
+     * Extends the {@link IntakeSubsystem}
+     */
     @Override
     public void extendPiston() {
         intakePiston.set(DoubleSolenoid.Value.kForward);
         ConveyorSubsystem.getInstance().resetBallCount();
     }
 
+    /**
+     * Retracts the {@link IntakeSubsystem}
+     */
     @Override
     public void retractPiston() {
         intakePiston.set(DoubleSolenoid.Value.kReverse);

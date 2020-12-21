@@ -27,7 +27,16 @@ package com.github.mittyrobotics.conveyor.commands;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
+/**
+ * Stops the intake from running
+ */
 public class SetIntakeStopCommand extends InstantCommand {
+
+    /**
+     * Stops the {@link IntakeSubsystem} from running
+     *
+     * Requires the {@link IntakeSubsystem}
+     */
     public SetIntakeStopCommand() {
         super(() -> IntakeSubsystem.getInstance().stopMotor(), IntakeSubsystem.getInstance());
     }

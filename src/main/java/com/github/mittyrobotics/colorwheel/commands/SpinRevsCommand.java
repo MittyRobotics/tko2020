@@ -79,8 +79,6 @@ public class SpinRevsCommand extends CommandBase {
 
     /**
      * Stops the motor
-     *
-     * @param interrupted whether the command was interrupted or ended because {@link #isFinished()} returned true
      */
     @Override
     public void end(boolean interrupted) {

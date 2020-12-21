@@ -26,6 +26,9 @@ package com.github.mittyrobotics.conveyor;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+/**
+ * Constants for the {@link IntakeSubsystem} and {@link IntakePistonSubsystem}
+ */
 public class IntakeConstants {
     public static final int INTAKE_WHEEL_ID = 40;
     public static final boolean INTAKE_WHEEL_INVERSION = false;

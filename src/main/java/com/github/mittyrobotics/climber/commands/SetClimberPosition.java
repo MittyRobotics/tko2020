@@ -61,8 +61,6 @@ public class SetClimberPosition extends CommandBase {
 
     /**
      * Stops the climber motor
-     *
-     * @param interrupted whether the command was interrupted or ended because {@link #isFinished()} returned true
      */
     @Override
     public void end(boolean interrupted){

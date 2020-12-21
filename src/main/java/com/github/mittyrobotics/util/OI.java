@@ -28,10 +28,8 @@ import com.github.mittyrobotics.colorwheel.commands.ManualSpinColorWheelCommand;
 import com.github.mittyrobotics.colorwheel.commands.SpinWheelMacro;
 import com.github.mittyrobotics.colorwheel.commands.SpinnerDownCommand;
 import com.github.mittyrobotics.colorwheel.commands.SpinnerUpCommand;
-import com.github.mittyrobotics.conveyor.commands.ChangeIntakePistonStateCommand;
-import com.github.mittyrobotics.conveyor.commands.IntakeBallCommand;
-import com.github.mittyrobotics.conveyor.commands.OuttakeRollersCommand;
-import com.github.mittyrobotics.conveyor.commands.ReverseConveyor;
+import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
@@ -146,6 +144,8 @@ public class OI {
         TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
         SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
+
+        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
 
         Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
         spinWheelColor.whenPressed(new SpinWheelMacro());

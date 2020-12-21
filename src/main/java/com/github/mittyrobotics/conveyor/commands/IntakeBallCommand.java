@@ -24,18 +24,35 @@
 
 package com.github.mittyrobotics.conveyor.commands;
 
+import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
+/**
+ * Intakes a ball into the {@link ConveyorSubsystem}
+ */
 public class IntakeBallCommand extends RunCommand {
+    /**
+     * Intakes the ball at the default fast and slow speeds
+     *
+     * Requires the {@link IntakeSubsystem}
+     */
     public IntakeBallCommand() {
         super(() -> IntakeSubsystem.getInstance().setIntaking(), IntakeSubsystem.getInstance());
     }
 
+    /**
+     * Intakes the ball at the inputted fast and slow speeds
+     *
+     * Requires the {@link IntakeSubsystem}
+     */
     public IntakeBallCommand(double speedFast, double speedSlow) {
         super(() -> IntakeSubsystem.getInstance().setIntaking(speedFast, speedSlow), IntakeSubsystem.getInstance());
     }
 
+    /**
+     * Stops the intake when the command ends
+     */
     @Override
     public void end(boolean interrupted) {
         IntakeSubsystem.getInstance().stopMotor();

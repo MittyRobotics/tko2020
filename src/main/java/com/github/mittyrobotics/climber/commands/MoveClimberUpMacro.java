@@ -34,7 +34,6 @@ public class MoveClimberUpMacro extends SequentialCommandGroup {
 
     /**
      * Locks the winch, then moves the climber arms up
-     *
      */
     public MoveClimberUpMacro() {
         addCommands(

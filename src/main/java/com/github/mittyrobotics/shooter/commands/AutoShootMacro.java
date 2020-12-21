@@ -25,7 +25,7 @@
 package com.github.mittyrobotics.shooter.commands;
 
 import com.github.mittyrobotics.conveyor.commands.IntakeBallShootingCommand;
-import com.github.mittyrobotics.drivetrain.commands.UnloadConveyorCommand;
+import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
