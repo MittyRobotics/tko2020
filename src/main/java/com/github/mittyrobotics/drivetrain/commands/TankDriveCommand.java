@@ -24,41 +24,55 @@
 
 package com.github.mittyrobotics.drivetrain.commands;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
+import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Tank Drive Command
+ *
+ * Uses the {@link XboxController}
+ */
 public class TankDriveCommand extends CommandBase {
 
+    /**
+     * Calls the constructor of {@link CommandBase}
+     *
+     * Requires the {@link DrivetrainSubsystem}
+     */
     public TankDriveCommand() {
-        addRequirements(DriveTrainSubsystem.getInstance());
+        addRequirements(DrivetrainSubsystem.getInstance());
     }
 
-    @Override
-    public void initialize() {
-
-    }
-
+    /**
+     * Reads controller input and moves the robot based on the inputs
+     */
     @Override
     public void execute() {
         if (OI.getInstance().getXboxController().getStickButton(GenericHID.Hand.kLeft)) {
-            DriveTrainSubsystem.getInstance().tankDrive(0, 0);
-            DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
+            DrivetrainSubsystem.getInstance().brake();
         } else {
-            DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
-            DriveTrainSubsystem.getInstance()
-                    .tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight),
-                            OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft), 0.1, 0.5);
+            DrivetrainSubsystem.getInstance()
+                    .tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),
+                            OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), 0.1, 0.5);
         }
     }
 
+    /**
+     * Sets the drivetrain to stop
+     */
     @Override
     public void end(boolean interrupted) {
-
+        DrivetrainSubsystem.getInstance().tankDrive(0, 0);
     }
 
+    /**
+     * Returns if the command should end
+     *
+     * @return false because this is a default command
+     */
     @Override
     public boolean isFinished() {
         return false;

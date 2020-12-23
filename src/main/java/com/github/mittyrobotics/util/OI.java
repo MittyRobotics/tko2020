@@ -33,7 +33,7 @@ import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
-import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
+import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
@@ -139,7 +139,7 @@ public class OI {
      * Setup controls
      */
     public void setupControls() {
-        DriveTrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
 
         TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 

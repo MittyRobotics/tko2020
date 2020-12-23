@@ -32,32 +32,57 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
-public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubsystem {
-    private static DriveTrainSubsystem instance;
-    private WPI_TalonFX[] leftDrive = new WPI_TalonFX[2];
-    private WPI_TalonFX[] rightDrive = new WPI_TalonFX[2];
+/**
+ * Drivetrain Subsystem to move the chassis
+ */
+public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubsystem {
+    /**
+     * {@link DrivetrainSubsystem} instance
+     */
+    private static DrivetrainSubsystem instance;
+
+    /**
+     * Drivetrain left {@link WPI_TalonFX}s
+     */
+    private final WPI_TalonFX[] leftDrive = new WPI_TalonFX[2];
+
+    /**
+     * Drivetrain right {@link WPI_TalonFX}s
+     */
+    private final WPI_TalonFX[] rightDrive = new WPI_TalonFX[2];
+
+    /**
+     * Variables used for velocity pid calculations
+     */
     private double leftLastMeasured = 0;
     private double rightLastMeasured = 0;
     private double latestLeftVelSetpoint = 0;
     private double latestRightVelSetpoint = 0;
 
-    private DriveTrainSubsystem() {
+    /**
+     * Calls {@link SubsystemBase} constructor and names the subsystem "Drivetrain"
+     */
+    private DrivetrainSubsystem() {
         super();
-        setName("Drive Train Falcon");
+        setName("Drivetrain");
     }
 
-    public static DriveTrainSubsystem getInstance() {
+    /**
+     * Returns the {@link DrivetrainSubsystem} instance.
+     *
+     * @return the {@link DrivetrainSubsystem} instance.
+     */
+    public static DrivetrainSubsystem getInstance() {
         if (instance == null) {
-            instance = new DriveTrainSubsystem();
+            instance = new DrivetrainSubsystem();
         }
         return instance;
     }
 
+    /**
+     * Initialize the drivetrain's hardware
+     */
     @Override
-    public void periodic() {
-
-    }
-
     public void initHardware() {
 
         leftDrive[0] = new WPI_TalonFX(DriveConstants.LEFT_FALCON_MASTER_ID);
@@ -82,6 +107,9 @@ public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubs
         setNeutralMode(NeutralMode.Coast);
     }
 
+    /**
+     * Update the drivetrain's dashboard values
+     */
     @Override
     public void updateDashboard() {
         SmartDashboard.putNumber("Drive Velocity Left", getLeftVelocity());
@@ -91,52 +119,94 @@ public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubs
         SmartDashboard.putNumber("Gyro Angle", Gyro.getInstance().getAngle360());
     }
 
+    /**
+     * Drives the robot using tank drive
+     *
+     * @param left percent output to move the left side
+     *
+     * @param right percent output to move the right side
+     *
+     * @param threshold minimum percent output for each side
+     *
+     * @param multiplier multiplier for the percent output on each side
+     */
     public void tankDrive(double left, double right, double threshold, double multiplier) {
         setNeutralMode(NeutralMode.Coast);
         multiplier = MathUtil.clamp(multiplier, 0, 1);
         threshold = MathUtil.clamp(threshold, 0, 1);
         left = MathUtil.clamp(left, -1, 1);
         right = MathUtil.clamp(right, -1, 1);
-        if (Math.abs(left) > threshold) {
-            leftDrive[0].set(left * multiplier);
-            leftDrive[1].set(left * multiplier);
-        } else {
-            leftDrive[0].set(0);
-            leftDrive[1].set(0);
+        if (Math.abs(left) < threshold) {
+            left = 0;
         }
-        if (Math.abs(right) > 0.1) {
-            rightDrive[0].set(right * multiplier);
-            rightDrive[1].set(right * multiplier);
-        } else {
-            rightDrive[0].set(0);
-            rightDrive[1].set(0);
+        if (Math.abs(right) < threshold) {
+            right = 0;
         }
+        overrideSetMotor(left * multiplier, right * multiplier);
     }
 
+    /**
+     * Drives the robot using tank drive
+     *
+     * Default threshold of 0.1
+     *
+     * @param left percent output to move the left side
+     *
+     * @param right percent output to move the right side
+     */
     public void tankDrive(double left, double right) {
         tankDrive(left, right, 0.1, 1);
     }
 
+    /**
+     * Returns the left encoder position in inches
+     *
+     * @return the left encoder position in inches
+     */
     @Override
     public double getLeftPosition() {
         return leftDrive[0].getSelectedSensorPosition() / DriveConstants.TICKS_PER_INCH;
     }
 
+    /**
+     * Returns the right encoder position in inches
+     *
+     * @return the right encoder position in inches
+     */
     @Override
     public double getRightPosition() {
         return rightDrive[0].getSelectedSensorPosition() / DriveConstants.TICKS_PER_INCH;
     }
 
+    /**
+     * Returns the left encoder velocity in inches / sec
+     *
+     * @return the left encoder velocity in inches / sec
+     */
     @Override
     public double getLeftVelocity() {
         return (leftDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH * 10);
     }
 
+    /**
+     * Returns the right encoder velocity in inches / sec
+     *
+     * @return the right encoder velocity in inches / sec
+     */
     @Override
     public double getRightVelocity() {
         return (rightDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH * 10);
     }
 
+    /**
+     * Sets the motor output ignoring thresholds
+     *
+     * Sets the robot to {@link NeutralMode#Coast}
+     *
+     * @param leftPercent left percent output
+     *
+     * @param rightPercent right percent output
+     */
     @Override
     public void overrideSetMotor(double leftPercent, double rightPercent) {
         setNeutralMode(NeutralMode.Coast);
@@ -146,12 +216,22 @@ public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubs
         rightDrive[1].set(rightPercent);
     }
 
+    /**
+     * Resets the left and right encoder position
+     */
     @Override
     public void resetEncoder() {
         leftDrive[0].setSelectedSensorPosition(0);
         rightDrive[0].setSelectedSensorPosition(0);
     }
 
+    /**
+     * Moves the robot using tank drive in
+     *
+     * @param leftVel left velocity in inches / sec
+     *
+     * @param rightVel right velocity in inches / sec
+     */
     public void tankVelocity(double leftVel, double rightVel) {
         setNeutralMode(NeutralMode.Coast);
         double left;
@@ -194,21 +274,41 @@ public class DriveTrainSubsystem extends SubsystemBase implements IDualMotorSubs
         tankDrive(left, right);
     }
 
+    /**
+     * Returns current left velocity setpoint
+     *
+     * @return current left velocity setpoint
+     */
     public double getRightVelSetpoint() {
         return latestRightVelSetpoint;
     }
 
+    /**
+     * Returns current right velocity setpoint
+     *
+     * @return current right velocity setpoint
+     */
     public double getLeftVelSetpoint() {
         return latestLeftVelSetpoint;
     }
 
-    public void setNeutralMode(NeutralMode neutralMode) {
+    /**
+     * Sets each of the {@link WPI_TalonFX}s to the inputted neutral mdoe
+     *
+     * @param neutralMode the neutral mode to set the talons to
+     */
+    private void setNeutralMode(NeutralMode neutralMode) {
         leftDrive[0].setNeutralMode(neutralMode);
         leftDrive[1].setNeutralMode(neutralMode);
         rightDrive[0].setNeutralMode(neutralMode);
         rightDrive[1].setNeutralMode(neutralMode);
     }
 
+    /**
+     * Brakes the robot
+     *
+     * Stops the robot form moving and sets to robot to {@link NeutralMode#Brake} to make it stop immediately
+     */
     public void brake(){
         overrideSetMotor(0, 0);
         setNeutralMode(NeutralMode.Brake);

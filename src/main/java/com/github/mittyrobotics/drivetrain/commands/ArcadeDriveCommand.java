@@ -24,23 +24,44 @@
 
 package com.github.mittyrobotics.drivetrain.commands;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
+import com.github.mittyrobotics.controls.controllers.XboxWheel;
+import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Drives the robot using arcade drive
+ *
+ * Uses the {@link XboxWheel} and the {@link Joystick}
+ */
 public class ArcadeDriveCommand extends CommandBase {
+
+    /**
+     * If the front and back should be reversed
+     */
     private boolean isReversed;
 
+    /**
+     * Calls the constructor of {@link CommandBase}
+     *
+     * Requires the {@link DrivetrainSubsystem}
+     */
     public ArcadeDriveCommand() {
-        addRequirements(DriveTrainSubsystem.getInstance());
+        addRequirements(DrivetrainSubsystem.getInstance());
     }
 
+    /**
+     * Initializes starting variables
+     */
     @Override
     public void initialize() {
         isReversed = true;
     }
 
+    /**
+     * Reads controller input and moves the robot based on the inputs
+     */
     @Override
     public void execute() {
         if (OI.getInstance().getJoystick2().getRawButtonPressed(3)) {
@@ -63,39 +84,43 @@ public class ArcadeDriveCommand extends CommandBase {
 
 
         if (brake) {
-            speed = 0;
-            turn = 0;
-            DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Brake);
-        } else {
-            DriveTrainSubsystem.getInstance().setNeutralMode(NeutralMode.Coast);
-        }
-        if (isReversed) {
-            speed = -speed;
-        }
-        double newSpeed = (speed * e);
-        double newTurn = turn;
-
-        if (Math.abs(speed) < 0.05) {
-            DriveTrainSubsystem.getInstance().tankDrive(newTurn, -newTurn);
-        } else if (speed >= 0) {
-            if (isReversed) {
-                newTurn = -newTurn;
-            }
-            DriveTrainSubsystem.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
+            DrivetrainSubsystem.getInstance().brake();
         } else {
             if (isReversed) {
-                newTurn = -newTurn;
+                speed = -speed;
             }
-            DriveTrainSubsystem.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
-        }
+            double newSpeed = (speed * e);
+            double newTurn = turn;
 
+            if (Math.abs(speed) < 0.05) {
+                DrivetrainSubsystem.getInstance().tankDrive(newTurn, -newTurn);
+            } else if (speed >= 0) {
+                if (isReversed) {
+                    newTurn = -newTurn;
+                }
+                DrivetrainSubsystem.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
+            } else {
+                if (isReversed) {
+                    newTurn = -newTurn;
+                }
+                DrivetrainSubsystem.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
+            }
+        }
     }
 
+    /**
+     * Sets the drivetrain to stop
+     */
     @Override
     public void end(boolean interrupted) {
-
+        DrivetrainSubsystem.getInstance().tankDrive(0, 0);
     }
 
+    /**
+     * Returns if the command should end
+     *
+     * @return false because this is a default command
+     */
     @Override
     public boolean isFinished() {
         return false;

@@ -25,7 +25,7 @@
 package com.github.mittyrobotics.autonomous.util;
 
 import com.github.mittyrobotics.path.following.util.Odometry;
-import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
+import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
 import edu.wpi.first.wpilibj.Timer;
@@ -44,8 +44,8 @@ public class OdometryManager implements IDashboard {
 
     public void run() {
         //Get left and right encoder positions and gyro heading
-        double leftEncoderPosition = DriveTrainSubsystem.getInstance().getLeftPosition();
-        double rightEncoderPosition = DriveTrainSubsystem.getInstance().getRightPosition();
+        double leftEncoderPosition = DrivetrainSubsystem.getInstance().getLeftPosition();
+        double rightEncoderPosition = DrivetrainSubsystem.getInstance().getRightPosition();
         double heading = Gyro.getInstance().getAngle();
 
         //Update Odometry

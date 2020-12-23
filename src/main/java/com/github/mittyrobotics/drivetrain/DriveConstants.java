@@ -24,6 +24,9 @@
 
 package com.github.mittyrobotics.drivetrain;
 
+/**
+ * Constants for the {@link DrivetrainSubsystem}
+ */
 public class DriveConstants {
 
     public static final double TICKS_PER_INCH = 642.83;

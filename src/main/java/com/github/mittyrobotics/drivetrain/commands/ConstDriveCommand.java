@@ -24,13 +24,23 @@
 
 package com.github.mittyrobotics.drivetrain.commands;
 
-import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
+import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
+import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
+/**
+ * Moves the drivetrain at a constant percent output
+ */
 public class ConstDriveCommand extends RunCommand {
+
+    /**
+     * Moves the drivetrain at a constant percent output
+     *
+     * Used to move the drivetrain when running the {@link SpinnerSubsystem}
+     */
     public ConstDriveCommand(double leftSpeed, double rightSpeed) {
-        super(() -> DriveTrainSubsystem.getInstance().tankDrive(leftSpeed, rightSpeed, 0, 1),
-                DriveTrainSubsystem.getInstance());
+        super(() -> DrivetrainSubsystem.getInstance().tankDrive(leftSpeed, rightSpeed, 0, 1),
+                DrivetrainSubsystem.getInstance());
     }
 
 }

@@ -27,20 +27,43 @@ package com.github.mittyrobotics.drivetrain.commands;
 import com.github.mittyrobotics.autonomous.AutonDriver;
 import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.generation.Path;
-import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
+import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Drivetrain follows a {@link Path}
+ */
 public class PathFollowerCommand extends CommandBase {
+
+    /**
+     * {@link Path} to follow
+     */
     private Path path;
+
+    /**
+     * {@link PathFollower} to use
+     */
     private PathFollower pathFollower;
 
+    /**
+     * Calls the constructor of {@link CommandBase}
+     *
+     * Requires the {@link DrivetrainSubsystem}
+     *
+     * @param pathFollower the path follower to use
+     *
+     * @param path the path to follow
+     */
     public PathFollowerCommand(PathFollower pathFollower, Path path) {
         super();
         this.pathFollower = pathFollower;
-        addRequirements(DriveTrainSubsystem.getInstance());
+        addRequirements(DrivetrainSubsystem.getInstance());
         this.path = path;
     }
 
+    /**
+     * Initializes the path follower and path to the {@link AutonDriver}
+     */
     @Override
     public void initialize() {
         AutonDriver.getInstance().initNewPathFollower(pathFollower);
@@ -48,16 +71,27 @@ public class PathFollowerCommand extends CommandBase {
         AutonDriver.getInstance().initAutonDriver();
     }
 
+    /**
+     * Follows the path
+     */
     @Override
     public void execute() {
         AutonDriver.getInstance().run();
     }
 
+    /**
+     * Disables the path following
+     */
     @Override
     public void end(boolean interrupted) {
         AutonDriver.getInstance().disableAutonDriver();
     }
 
+    /**
+     * Returns if the command should end
+     *
+     * @return if the path is completed
+     */
     @Override
     public boolean isFinished() {
         return AutonDriver.getInstance().isFinishedPath();

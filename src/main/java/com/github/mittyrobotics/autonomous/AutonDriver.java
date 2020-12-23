@@ -30,7 +30,7 @@ import com.github.mittyrobotics.path.following.PathFollower;
 import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.path.following.util.PathFollowerProperties;
 import com.github.mittyrobotics.path.generation.Path;
-import com.github.mittyrobotics.drivetrain.DriveTrainSubsystem;
+import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 public class AutonDriver {
@@ -88,13 +88,13 @@ public class AutonDriver {
                 updatePathFollower(deltaTime);
                 this.finishedPath = pathFollower.isFinished(8);
             } else {
-                DriveTrainSubsystem.getInstance().tankDrive(0, 0);
+                DrivetrainSubsystem.getInstance().tankDrive(0, 0);
             }
         }
     }
 
     public void disableAutonDriver() {
-        DriveTrainSubsystem.getInstance().tankDrive(0, 0);
+        DrivetrainSubsystem.getInstance().tankDrive(0, 0);
         this.pathFollower = null;
         this.finishedPath = true;
         this.disabled = true;
@@ -102,14 +102,14 @@ public class AutonDriver {
 
     private void updatePathFollower(double deltaTime) {
         DrivetrainVelocities currentVelocities = DrivetrainVelocities.calculateFromWheelVelocities(
-                DriveTrainSubsystem.getInstance().getLeftVelocity(),
-                DriveTrainSubsystem.getInstance().getRightVelocity()
+                DrivetrainSubsystem.getInstance().getLeftVelocity(),
+                DrivetrainSubsystem.getInstance().getRightVelocity()
         );
 
         DrivetrainVelocities output = pathFollower.updatePathFollower(Odometry.getInstance().getLatestRobotTransform()
                 , currentVelocities, deltaTime);
 
-        DriveTrainSubsystem.getInstance().tankVelocity(output.getLeftVelocity(), output.getRightVelocity());
+        DrivetrainSubsystem.getInstance().tankVelocity(output.getLeftVelocity(), output.getRightVelocity());
     }
 
     public double getRoughDistanceToEnd() {
