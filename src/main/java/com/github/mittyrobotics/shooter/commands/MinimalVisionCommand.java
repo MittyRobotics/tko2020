@@ -31,19 +31,28 @@ import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Shoots the ball using Vision
+ */
 public class MinimalVisionCommand extends CommandBase {
 
+
+    /**
+     * Calls the constructor of {@link CommandBase}
+     *
+     * Requires the {@link TurretSubsystem} and {@link ShooterSubsystem}
+     */
     public MinimalVisionCommand() {
         super();
         addRequirements(TurretSubsystem.getInstance());
         addRequirements(ShooterSubsystem.getInstance());
     }
 
-    @Override
-    public void initialize() {
-
-    }
-
+    /**
+     * Calculates and sets turret speed based on angle
+     *
+     * Calculates and sets shooter rpm based on distance
+     */
     @Override
     public void execute() {
         VisionTarget target = Vision.getInstance().getLatestVisionTarget();
@@ -56,16 +65,11 @@ public class MinimalVisionCommand extends CommandBase {
         ShooterSubsystem.getInstance().setShooterRpm(rpm);
     }
 
-    private double rpmEquation(double distance) {
-        //return 5000 - 226 * (distance) + 15.1 * (distance * distance) - 0.291 * (distance * distance * distance);
-        return 2900 + distance * 50;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-
-    }
-
+    /**
+     * Returns if the command should end
+     *
+     * @return false because it will be overrode by other commands
+     */
     @Override
     public boolean isFinished() {
         return false;

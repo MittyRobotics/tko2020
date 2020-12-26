@@ -27,15 +27,23 @@ package com.github.mittyrobotics.shooter.commands;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
+/**
+ * Moves the turret using a {@link XboxController}
+ */
 public class ManualTurretCommand extends RunCommand {
+
+    /**
+     * Moves the turret using the x axis of the {@link XboxController}
+     *
+     * Requires the {@link TurretSubsystem}
+     */
     public ManualTurretCommand() {
         super(
-//                OI.getInstance().getXboxController().getX(GenericHID.Hand.kRight) > 0.1?
                 () -> TurretSubsystem.getInstance().setMotor(OI.getInstance().getXboxController()
                         .getX(GenericHID.Hand.kRight)),
-//                ()->TurretSubsystem.getInstance().setTurretPercent(0),
                 TurretSubsystem.getInstance());
     }
 }

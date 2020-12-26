@@ -27,7 +27,14 @@ package com.github.mittyrobotics.shooter.commands;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
+/**
+ * Shoots using either the auto or manual shoot macro
+ */
 public class ShootMacro extends ConditionalCommand {
+
+    /**
+     * Shoots using the auto shoot macro if in auto shoot mode, otherwise uses the manual shoot macro
+     */
     public ShootMacro() {
         super(new AutoShootMacro(), new ManualShootMacro(),
                 () -> OI.getInstance().inAutoShootMode());

@@ -24,25 +24,25 @@
 
 package com.github.mittyrobotics.shooter.commands;
 
+import com.github.mittyrobotics.autonomous.commands.WaitUntilReadyToShootMacro;
 import com.github.mittyrobotics.conveyor.commands.IntakeBallShootingCommand;
 import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+/**
+ * Macro to shoot balls when it auto mode
+ */
 public class AutoShootMacro extends SequentialCommandGroup {
+
+    /**
+     * Waits until the shooter is ready to shoot, then unloads the conveyor
+     */
     public AutoShootMacro() {
         addCommands(
-                //new ParallelRaceGroup(new WaitUntilShooterSpeedCommand(50), new WaitCommand(1)),
+                new WaitUntilReadyToShootMacro(50, 0, 2),
                 parallel(
                         new UnloadConveyorCommand(), new IntakeBallShootingCommand()
                 )
         );
-    }
-
-    public static class ExtendIntake extends InstantCommand {
-        public ExtendIntake(){
-            super(()-> IntakePistonSubsystem.getInstance().extendPiston(), IntakePistonSubsystem.getInstance());
-        }
     }
 }

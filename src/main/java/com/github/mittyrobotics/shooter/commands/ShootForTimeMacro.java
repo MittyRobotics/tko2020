@@ -24,11 +24,19 @@
 
 package com.github.mittyrobotics.shooter.commands;
 
-import com.github.mittyrobotics.shooter.commands.AutoShootMacro;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/**
+ * Shoots for a maximum of x seconds
+ */
 public class ShootForTimeMacro extends ParallelDeadlineGroup {
+
+    /**
+     * Runs the auto shoot macro for a maximum of x seconds
+     *
+     * @param time amount of time to run the shooter for
+     */
     public ShootForTimeMacro(double time) {
         super(
                 new WaitCommand(time),

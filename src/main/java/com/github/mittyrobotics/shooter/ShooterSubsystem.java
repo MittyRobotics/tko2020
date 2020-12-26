@@ -164,19 +164,39 @@ public class ShooterSubsystem extends SubsystemBase implements IMotorSubsystem {
         currentSetpoint = rpmSetpoint;
     }
 
+    /**
+     * Sets the shooter to move regardless of the current robot state
+     *
+     * @param percent percentage to set shooter motors
+     */
     public void overrideSetMotor(double percent) {
         shooterSparkMaster.set(percent);
         shooterSparkFollower.set(percent);
     }
 
+    /**
+     * Returns the manual RPM setpoint
+     *
+     * @return the manual RPM setpoint
+     */
     public double getManualRPMSetpoint() {
         return manualRPMSetpoint;
     }
 
+    /**
+     * Sets the manual RPM setpoint
+     *
+     * @param manualRPMSetpoint the new manual RPM setpoint
+     */
     public void setManualRPMSetpoint(double manualRPMSetpoint) {
         this.manualRPMSetpoint = manualRPMSetpoint;
     }
 
+    /**
+     * Increments the manual RPM setpoint
+     *
+     * @param rpm RPM to increment the setpoint by
+     */
     public void changeManualRPMSetpoint(double rpm) {
         setManualRPMSetpoint(getManualRPMSetpoint() + rpm);
     }

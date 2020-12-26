@@ -38,10 +38,4 @@ public class AutomateShooterAimMacro extends SequentialCommandGroup {
                 )
         );
     }
-
-    public static class ExtendIntake extends InstantCommand {
-        public ExtendIntake(){
-            super(()-> IntakePistonSubsystem.getInstance().extendPiston(), IntakePistonSubsystem.getInstance());
-        }
-    }
 }

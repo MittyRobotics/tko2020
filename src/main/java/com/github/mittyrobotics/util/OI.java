@@ -36,6 +36,7 @@ import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
+import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
 import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
 import com.github.mittyrobotics.shooter.commands.MinimalVisionCommand;
 import com.github.mittyrobotics.shooter.commands.ShootMacro;
@@ -160,11 +161,11 @@ public class OI {
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
-                .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(100)));
+                .whenPressed(new ChangeManualShooterSetpoint(100));
 
         Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
         manualShootSpeedDown
-                .whenPressed(new InstantCommand(() -> ShooterSubsystem.getInstance().changeManualRPMSetpoint(-100)));
+                .whenPressed(new ChangeManualShooterSetpoint(-100));
 
         Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
         changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());

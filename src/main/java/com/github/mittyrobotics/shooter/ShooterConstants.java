@@ -24,8 +24,10 @@
 
 package com.github.mittyrobotics.shooter;
 
+/**
+ * Constants for the {@link ShooterSubsystem}
+ */
 public class ShooterConstants {
-    //Shooter
     public static final double SHOOTER_F = 1.0 / 5150;
     public static final double SHOOTER_P = 0.0004;
     public static final double SHOOTER_I = 0;

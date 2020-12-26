@@ -25,10 +25,22 @@
 package com.github.mittyrobotics.shooter.commands;
 
 import com.github.mittyrobotics.shooter.TurretSubsystem;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
+/**
+ * Sets the maximum percent output of the {@link TurretSubsystem}
+ */
 public class SetTurretControlLoopMaxPercentCommand extends InstantCommand {
+
+    /**
+     * Sets the maximum percent output of the {@link PIDController} of the turret
+     *
+     * Requires the {@link TurretSubsystem}
+     *
+     * @param maxPercent new max percent output of the turret
+     */
     public SetTurretControlLoopMaxPercentCommand(double maxPercent) {
-        super(() -> TurretSubsystem.getInstance().setControlLoopMaxPercent(maxPercent));
+        super(() -> TurretSubsystem.getInstance().setControlLoopMaxPercent(maxPercent), TurretSubsystem.getInstance());
     }
 }

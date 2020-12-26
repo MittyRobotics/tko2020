@@ -41,7 +41,7 @@ import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
 import com.github.mittyrobotics.shooter.commands.MinimalVisionCommand;
 import com.github.mittyrobotics.shooter.commands.SetShooterRpmCommand;
-import com.github.mittyrobotics.shooter.commands.SetTurretMotorCommand;
+import com.github.mittyrobotics.shooter.commands.StopTurretCommand;
 import com.github.mittyrobotics.shooter.commands.ShootForTimeMacro;
 import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -184,7 +184,7 @@ public class SixBallAuton extends SequentialCommandGroup {
                 ),
 
                 new SetShooterRpmCommand(0),
-                new SetTurretMotorCommand(0),
+                new StopTurretCommand(),
 
                 new ParallelDeadlineGroup(
                         new PathFollowerCommand(followerReversed, path2),
@@ -213,7 +213,7 @@ public class SixBallAuton extends SequentialCommandGroup {
                 ),
 
                 new SetShooterRpmCommand(0),
-                new SetTurretMotorCommand(0)
+                new StopTurretCommand()
         );
     }
 }

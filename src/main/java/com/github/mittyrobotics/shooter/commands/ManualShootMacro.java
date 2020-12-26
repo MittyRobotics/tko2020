@@ -31,7 +31,14 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/**
+ * Macro to shoot balls when in manual mode
+ */
 public class ManualShootMacro extends ParallelCommandGroup {
+
+    /**
+     * Sets the Shooter to the manual setpoint, then unloads the conveyor once the shooter is up to speed
+     */
     public ManualShootMacro() {
         addCommands(
                 new ManualSpinFlywheelCommand(),

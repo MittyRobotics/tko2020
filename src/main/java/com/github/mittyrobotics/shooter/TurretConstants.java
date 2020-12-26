@@ -24,8 +24,10 @@
 
 package com.github.mittyrobotics.shooter;
 
+/**
+ * Constants for the {@link TurretSubsystem}
+ */
 public class TurretConstants {
-    //Spin
     public static final int Turret_Talon_ID = 30;
     public static final boolean TURRET_TALON_INVERSION = false;
     public static final boolean TURRET_ENCODER_INVERSION = false;

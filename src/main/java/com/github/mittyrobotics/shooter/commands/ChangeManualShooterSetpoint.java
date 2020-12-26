@@ -24,30 +24,22 @@
 
 package com.github.mittyrobotics.shooter.commands;
 
-import com.github.mittyrobotics.shooter.TurretSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ManualTurretButtonCommand extends CommandBase {
-    double speed;
+/**
+ * Changes the manual setpoint of the {@link ShooterSubsystem}
+ */
+public class ChangeManualShooterSetpoint extends InstantCommand {
 
-    public ManualTurretButtonCommand(double speed) {
-        this.speed = speed;
-        addRequirements(TurretSubsystem.getInstance());
+    /**
+     * Changes the manual setpoint of the shooter
+     *
+     * Requires the {@link ShooterSubsystem}
+     *
+     * @param change the amount to change the setpoint
+     */
+    public ChangeManualShooterSetpoint(double change) {
+        super(()->ShooterSubsystem.getInstance().changeManualRPMSetpoint(change), ShooterSubsystem.getInstance());
     }
-
-    @Override
-    public void initialize() {
-        TurretSubsystem.getInstance().setMotor(speed);
-    }
-
-    @Override
-    public void end(boolean initialize) {
-        TurretSubsystem.getInstance().stopMotor();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
 }

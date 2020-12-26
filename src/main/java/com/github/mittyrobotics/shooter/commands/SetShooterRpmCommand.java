@@ -27,7 +27,20 @@ package com.github.mittyrobotics.shooter.commands;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
+/**
+ * Sets the shooter RPM
+ */
 public class SetShooterRpmCommand extends InstantCommand {
+
+    /**
+     * Sets the shooter RPM
+     *
+     * Command ends immediately
+     *
+     * Requires the {@link ShooterSubsystem}
+     *
+     * @param rpm RPM to set the shooter to
+     */
     public SetShooterRpmCommand(double rpm) {
         super(() -> ShooterSubsystem.getInstance().setShooterRpm(rpm), ShooterSubsystem.getInstance());
     }

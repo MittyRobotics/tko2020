@@ -28,12 +28,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class WaitUntilReadyToShootMacro extends SequentialCommandGroup {
     public WaitUntilReadyToShootMacro() {
-        super(
-                new WaitUntilShooterSpeedCommand(200),
-                new WaitUntilVisionSafeCommand(0),
-                new WaitUntilVisionAlignedCommand(),
-                new WaitUntilTurretReachedSetpointCommand(2)
-        );
+        this(200, 0, 2);
     }
 
     public WaitUntilReadyToShootMacro(double rpmThreshold, double visionSafeSeconds, double turretAngleThreshold) {

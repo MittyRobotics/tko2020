@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,23 +24,20 @@
 
 package com.github.mittyrobotics.shooter.commands;
 
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.github.mittyrobotics.shooter.TurretSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ChangeManualSetpoint extends CommandBase {
-    private double change;
+/**
+ * Stops the turret from moving
+ */
+public class StopTurretCommand extends InstantCommand {
 
-    public ChangeManualSetpoint(double change) {
-        this.change = change;
-    }
-
-    @Override
-    public void initialize() {
-        ShooterSubsystem.getInstance().changeManualRPMSetpoint(change);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
+    /**
+     * Stops the turret from moving
+     *
+     * Requires the {@link TurretSubsystem}
+     */
+    public StopTurretCommand() {
+        super(() -> TurretSubsystem.getInstance().setMotor(0), TurretSubsystem.getInstance());
     }
 }

@@ -27,7 +27,18 @@ package com.github.mittyrobotics.shooter.commands;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
+/**
+ * Stops the shooter from running
+ */
 public class StopShooterCommand extends RunCommand {
+
+    /**
+     * Stops the shooter from running
+     *
+     * Requires the {@link ShooterSubsystem}
+     *
+     * This is the default command for the shooter
+     */
     public StopShooterCommand() {
         super(() -> ShooterSubsystem.getInstance().setMotor(0), ShooterSubsystem.getInstance());
     }

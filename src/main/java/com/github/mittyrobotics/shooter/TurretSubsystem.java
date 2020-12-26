@@ -260,12 +260,4 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
     public double getMaxPercent() {
         return maxPercent;
     }
-
-    public void manualTurret(double x) {
-        if (Math.abs(x) > 0.1) {
-            setMotor(x);
-        } else {
-            setMotor(0);
-        }
-    }
 }
