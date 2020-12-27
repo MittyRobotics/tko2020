@@ -34,10 +34,15 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+/**
+ * Moves the {@link TurretSubsystem} until a vision target is found
+ */
 public class VisionScanMacro extends SequentialCommandGroup {
 
+    /**
+     * Moves the Turret between -90 to 90 degrees until a vision target is found
+     */
     public VisionScanMacro() {
-        addRequirements(TurretSubsystem.getInstance());
         addCommands(
                 new ParallelRaceGroup(
                         new WaitUntilVisionDetectedCommand(),
