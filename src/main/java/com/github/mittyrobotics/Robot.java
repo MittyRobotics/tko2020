@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.colorwheel.ColorPistonSubsystem;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
@@ -76,6 +77,7 @@ public class Robot extends TimedRobot {
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
+        Vision.getInstance();
     }
 
     /**
@@ -86,6 +88,8 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         OdometryManager.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
+        Vision.getInstance().run();
+        Vision.getInstance().updateDashboard();
         OI.getInstance().updateOI();
     }
 
