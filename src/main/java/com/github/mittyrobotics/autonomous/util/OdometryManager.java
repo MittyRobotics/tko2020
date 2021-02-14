@@ -23,9 +23,8 @@
  */
 
 package com.github.mittyrobotics.autonomous.util;
-
-import com.github.mittyrobotics.path.following.util.Odometry;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.motion.pathfollowing.Odometry;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
 import edu.wpi.first.wpilibj.Timer;
@@ -58,13 +57,13 @@ public class OdometryManager implements IDashboard {
         SmartDashboard.putNumber("odometry-y", Odometry.getInstance().getLatestRobotTransform().getPosition().getY());
         SmartDashboard
                 .putNumber("odometry-heading",
-                        Odometry.getInstance().getLatestRobotTransform().getRotation().getHeading());
+                        Odometry.getInstance().getLatestRobotTransform().getRotation().getDegrees());
 
         SmartDashboard
                 .putNumber("odometry-velocity-x", Odometry.getInstance().getLatestRobotVelocity().getPosition().getX());
         SmartDashboard
                 .putNumber("odometry-velocity-y", Odometry.getInstance().getLatestRobotVelocity().getPosition().getY());
         SmartDashboard.putNumber("odometry-velocity-heading",
-                Odometry.getInstance().getLatestRobotVelocity().getRotation().getHeading());
+                Odometry.getInstance().getLatestRobotVelocity().getRotation().getDegrees());
     }
 }

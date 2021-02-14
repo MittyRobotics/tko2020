@@ -30,29 +30,29 @@ import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.path.generation.Path;
 import com.github.mittyrobotics.path.generation.PathGenerator;
-import com.github.mittyrobotics.visualization.graphs.Graph;
-import com.github.mittyrobotics.visualization.util.GraphManager;
+import com.github.mittyrobotics.visualization.Graph;
+import com.github.mittyrobotics.visualization.GraphUtil;
+import com.github.mittyrobotics.visualization.XYSeriesWithRenderer;
 
 import java.awt.*;
 import java.util.Random;
 
 public class GraphPathTest {
     public static void main(String[] args) {
-
-        Path path1 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+        Path path1 = new Path(PathGenerator.generateQuinticHermiteSplinePath(
                 new Transform[]{
-                        new Transform(AutonCoordinates.TRENCH_STARTING_POINT, 180),
-                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180)
+                        new Transform(AutonCoordinates.TRENCH_STARTING_POINT, Math.PI),
+                        new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, Math.PI)
                 })
         );
-        Path path2 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
-                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, 180),
-                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, 180),}));
+        Path path2 = new Path(PathGenerator.generateQuinticHermiteSplinePath(
+                new Transform[]{new Transform(AutonCoordinates.A_TRENCH_FRONT_CENTER, Math.PI),
+                        new Transform(AutonCoordinates.PICKUP_3_TRENCH, Math.PI)}));
 
-        Path path3 = new Path(PathGenerator.getInstance().generateQuinticHermiteSplinePath(
+        Path path3 = new Path(PathGenerator.generateQuinticHermiteSplinePath(
                 new Transform[]{
                         new Transform(AutonCoordinates.PICKUP_3_TRENCH, 0),
-                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, 45)
+                        new Transform(AutonCoordinates.OPTIMAL_SHOOT_POSITION, Math.PI/4)
                 })
         );
         Path[] paths =  new Path[]{
@@ -71,21 +71,9 @@ public class GraphPathTest {
             float brightness = 1.0f; //brightness
 
             Color color = Color.getHSBColor(hue, saturation, brightness);
-
-            for (double t = 0; t < 1; t += 0.01) {
-                Path path = paths[i];
-                graph.addDataset(
-                        GraphManager.getInstance().graphArrow(path.getTransform(t), 1, 1, "Arrow" + t,
-                                color));
-            }
+            Path path = paths[i];
+            graph.addSeries(
+                    GraphUtil.populateSeries(new XYSeriesWithRenderer("Path" + i, null, true, false, null), GraphUtil.parametric(path, .01, 1)));
         }
-
-        graph.addDataset(GraphManager.getInstance().graphCircle(new Circle(AutonCoordinates.BALL_BACK_TRENCH_INNER,
-                .1),"Inner", Color.red));
-        graph.addDataset(GraphManager.getInstance().graphCircle(new Circle(AutonCoordinates.BALL_BACK_TRENCH_OUTER,
-                .1),"Outer", Color.red));
-        graph.addDataset(GraphManager.getInstance().graphCircle(new Circle(AutonCoordinates.TRENCH_STARTING_POINT,
-                .1),"Outer", Color.red));
-
     }
 }
