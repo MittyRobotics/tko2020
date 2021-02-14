@@ -60,11 +60,11 @@ public class OdometryManager implements IDashboard {
                 .putNumber("odometry-heading",
                         Odometry.getInstance().getLatestRobotTransform().getRotation().getHeading());
 
-//        SmartDashboard
-//                .putNumber("odometry-velocity-x", Odometry.getInstance().getLatestRobotVelocity().getPosition().getX());
-//        SmartDashboard
-//                .putNumber("odometry-velocity-y", Odometry.getInstance().getLatestRobotVelocity().getPosition().getY());
-//        SmartDashboard.putNumber("odometry-velocity-heading",
-//                Odometry.getInstance().getLatestRobotVelocity().getRotation().getHeading());
+        SmartDashboard
+                .putNumber("odometry-velocity-x", Odometry.getInstance().getLatestRobotVelocity().getPosition().getX());
+        SmartDashboard
+                .putNumber("odometry-velocity-y", Odometry.getInstance().getLatestRobotVelocity().getPosition().getY());
+        SmartDashboard.putNumber("odometry-velocity-heading",
+                Odometry.getInstance().getLatestRobotVelocity().getRotation().getHeading());
     }
 }

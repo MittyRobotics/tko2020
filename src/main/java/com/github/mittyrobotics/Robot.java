@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.util.AutonSelector;
+import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.colorwheel.ColorPistonSubsystem;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
@@ -76,7 +76,6 @@ public class Robot extends TimedRobot {
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
-        AutonSelector.getInstance().setupAutonChooser();
     }
 
     /**
@@ -85,6 +84,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        OdometryManager.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
         OI.getInstance().updateOI();
     }
@@ -102,8 +102,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        autonCommandGroup = AutonSelector.getInstance().getSelectedAutonomousMode();
-        CommandScheduler.getInstance().schedule(autonCommandGroup);
     }
 
     /**

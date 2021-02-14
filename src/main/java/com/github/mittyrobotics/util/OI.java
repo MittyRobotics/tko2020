@@ -34,17 +34,13 @@ import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
 import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
-import com.github.mittyrobotics.shooter.commands.MinimalVisionCommand;
-import com.github.mittyrobotics.shooter.commands.ShootMacro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
@@ -152,11 +148,11 @@ public class OI {
         spinWheelColor.whenPressed(new SpinWheelMacro());
 
         Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
-        autoTurret.whenHeld(new MinimalVisionCommand());
+//        autoTurret.whenHeld(new MinimalVisionCommand());
 
         Button autoShoot =
                 new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
-        autoShoot.whenHeld(new ShootMacro());
+//        autoShoot.whenHeld(new ShootMacro());
 
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
