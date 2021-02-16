@@ -25,7 +25,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.util.OdometryManager;
+import com.github.mittyrobotics.autonomous.util.RobotPositionTracker;
 import com.github.mittyrobotics.colorwheel.ColorPistonSubsystem;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
@@ -39,6 +39,7 @@ import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -78,6 +79,7 @@ public class Robot extends TimedRobot {
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
         Vision.getInstance();
+        RobotPositionTracker.getInstance();
     }
 
     /**
@@ -86,8 +88,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        OdometryManager.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
+        RobotPositionTracker.getInstance().run(Timer.getFPGATimestamp());
         Vision.getInstance().run();
         Vision.getInstance().updateDashboard();
         OI.getInstance().updateOI();

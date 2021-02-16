@@ -39,7 +39,7 @@ public class ConstDriveCommand extends RunCommand {
      * Used to move the drivetrain when running the {@link SpinnerSubsystem}
      */
     public ConstDriveCommand(double leftSpeed, double rightSpeed) {
-        super(() -> DrivetrainSubsystem.getInstance().tankDrive(leftSpeed, rightSpeed, 0, 1),
+        super(() -> DrivetrainSubsystem.getInstance().setTankDrive(leftSpeed, rightSpeed, 0, 1),
                 DrivetrainSubsystem.getInstance());
     }
 

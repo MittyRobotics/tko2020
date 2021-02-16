@@ -130,7 +130,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      *
      * @param multiplier multiplier for the percent output on each side
      */
-    public void tankDrive(double left, double right, double threshold, double multiplier) {
+    public void setTankDrive(double left, double right, double threshold, double multiplier) {
         setNeutralMode(NeutralMode.Coast);
         multiplier = MathUtil.clamp(multiplier, 0, 1);
         threshold = MathUtil.clamp(threshold, 0, 1);
@@ -142,7 +142,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         if (Math.abs(right) < threshold) {
             right = 0;
         }
-        overrideSetMotor(left * multiplier, right * multiplier);
+        setMotorPercent(left * multiplier, right * multiplier);
     }
 
     /**
@@ -154,8 +154,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      *
      * @param right percent output to move the right side
      */
-    public void tankDrive(double left, double right) {
-        tankDrive(left, right, 0.1, 1);
+    public void setTankDrive(double left, double right) {
+        setTankDrive(left, right, 0.1, 1);
     }
 
     /**
@@ -208,7 +208,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      * @param rightPercent right percent output
      */
     @Override
-    public void overrideSetMotor(double leftPercent, double rightPercent) {
+    public void setMotorPercent(double leftPercent, double rightPercent) {
         setNeutralMode(NeutralMode.Coast);
         leftDrive[0].set(leftPercent);
         leftDrive[1].set(leftPercent);
@@ -232,7 +232,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      *
      * @param rightVel right velocity in inches / sec
      */
-    public void tankVelocity(double leftVel, double rightVel) {
+    public void setVelocity(double leftVel, double rightVel) {
         setNeutralMode(NeutralMode.Coast);
         double left;
         double right;
@@ -271,7 +271,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         left = left / 12;
         right = right / 12;
 
-        tankDrive(left, right);
+        setMotorPercent(left, right);
     }
 
     /**
@@ -310,7 +310,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      * Stops the robot form moving and sets to robot to {@link NeutralMode#Brake} to make it stop immediately
      */
     public void brake(){
-        overrideSetMotor(0, 0);
+        setMotorPercent(0, 0);
         setNeutralMode(NeutralMode.Brake);
     }
 }

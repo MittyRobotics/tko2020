@@ -43,7 +43,7 @@ public interface IDualMotorSubsystem extends ISubsystem {
      * @param percent2 the percent for the second motor
      */
     default void setMotor(double percent1, double percent2) {
-        overrideSetMotor(percent1, percent2);
+        setMotorPercent(percent1, percent2);
     }
 
     /**
@@ -52,7 +52,7 @@ public interface IDualMotorSubsystem extends ISubsystem {
      * @param percent1 the percent of the first motor
      * @param percent2 the percent of the second motor
      */
-    void overrideSetMotor(double percent1, double percent2);
+    void setMotorPercent(double percent1, double percent2);
 
     /**
      * Function to reset an encoders on the subsystem

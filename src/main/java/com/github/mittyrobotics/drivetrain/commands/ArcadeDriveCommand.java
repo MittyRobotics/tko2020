@@ -93,17 +93,17 @@ public class ArcadeDriveCommand extends CommandBase {
             double newTurn = turn;
 
             if (Math.abs(speed) < 0.05) {
-                DrivetrainSubsystem.getInstance().tankDrive(newTurn, -newTurn);
+                DrivetrainSubsystem.getInstance().setTankDrive(newTurn, -newTurn);
             } else if (speed >= 0) {
                 if (isReversed) {
                     newTurn = -newTurn;
                 }
-                DrivetrainSubsystem.getInstance().tankDrive(newSpeed + newTurn, newSpeed - newTurn);
+                DrivetrainSubsystem.getInstance().setTankDrive(newSpeed + newTurn, newSpeed - newTurn);
             } else {
                 if (isReversed) {
                     newTurn = -newTurn;
                 }
-                DrivetrainSubsystem.getInstance().tankDrive(newSpeed - newTurn, newSpeed + newTurn);
+                DrivetrainSubsystem.getInstance().setTankDrive(newSpeed - newTurn, newSpeed + newTurn);
             }
         }
     }
@@ -113,7 +113,7 @@ public class ArcadeDriveCommand extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        DrivetrainSubsystem.getInstance().tankDrive(0, 0);
+        DrivetrainSubsystem.getInstance().setTankDrive(0, 0);
     }
 
     /**

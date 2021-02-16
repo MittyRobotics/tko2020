@@ -15,7 +15,7 @@ public class Vision implements IDashboard {
         return instance;
     }
 
-    public Vision(){
+    private Vision(){
         //Initialize limelight
         Limelight.getInstance().initDefaultLimelightSettings();
     }

@@ -16,7 +16,7 @@ public class ManualArmCommand extends RunCommand {
      */
     public ManualArmCommand() {
         super(
-                () -> ClimberSubsystem.getInstance().overrideSetMotor(OI.getInstance().getJoystick1().getY(), OI.getInstance().getJoystick2().getY()),
+                () -> ClimberSubsystem.getInstance().setMotorPercent(OI.getInstance().getJoystick1().getY(), OI.getInstance().getJoystick2().getY()),
                 ClimberSubsystem.getInstance());
     }
 }

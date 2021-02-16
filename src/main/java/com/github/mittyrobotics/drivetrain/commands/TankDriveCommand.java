@@ -55,7 +55,7 @@ public class TankDriveCommand extends CommandBase {
             DrivetrainSubsystem.getInstance().brake();
         } else {
             DrivetrainSubsystem.getInstance()
-                    .tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),
+                    .setTankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),
                             OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), 0.1, 0.5);
         }
     }
@@ -65,7 +65,7 @@ public class TankDriveCommand extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        DrivetrainSubsystem.getInstance().tankDrive(0, 0);
+        DrivetrainSubsystem.getInstance().setTankDrive(0, 0);
     }
 
     /**

@@ -82,7 +82,7 @@ public class ClimberSubsystem extends SubsystemBase implements IDualMotorSubsyst
         if(RatchetSubsystem.getInstance().isRightWinchLocked()){
             rightPercent = 0;
         }
-        overrideSetMotor(leftPercent, rightPercent);
+        setMotorPercent(leftPercent, rightPercent);
     }
 
     /**
@@ -117,7 +117,7 @@ public class ClimberSubsystem extends SubsystemBase implements IDualMotorSubsyst
      *
      * @param rightPercent the percent of the right motor
      */
-    public void overrideSetMotor(double leftPercent, double rightPercent) {
+    public void setMotorPercent(double leftPercent, double rightPercent) {
         climberLeftSparkMaster.set(leftPercent);
         climberRightSparkMaster.set(rightPercent);
     }
