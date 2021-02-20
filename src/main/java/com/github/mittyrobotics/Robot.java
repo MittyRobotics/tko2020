@@ -78,6 +78,7 @@ public class Robot extends TimedRobot {
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
+        DrivetrainSubsystem.getInstance().setMaxPercent(.3);
         //EXPERIMENTAL
 //        Vision.getInstance();
 //        RobotPositionTracker.getInstance();

@@ -60,6 +60,11 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
     private double latestRightVelSetpoint = 0;
 
     /**
+     * Maximum percent output for motors.
+     */
+    private double maxPercent = 1;
+
+    /**
      * Calls {@link SubsystemBase} constructor and names the subsystem "Drivetrain"
      */
     private DrivetrainSubsystem() {
@@ -209,6 +214,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      */
     @Override
     public void setMotorPercent(double leftPercent, double rightPercent) {
+        leftPercent = MathUtil.clamp(leftPercent, -maxPercent, maxPercent);
+        rightPercent = MathUtil.clamp(rightPercent, -maxPercent, maxPercent);
         setNeutralMode(NeutralMode.Coast);
         leftDrive[0].set(leftPercent);
         leftDrive[1].set(leftPercent);
@@ -303,6 +310,11 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         rightDrive[0].setNeutralMode(neutralMode);
         rightDrive[1].setNeutralMode(neutralMode);
     }
+
+    public void setMaxPercent(double maxPercent){
+        this.maxPercent = maxPercent;
+    }
+
 
     /**
      * Brakes the robot
