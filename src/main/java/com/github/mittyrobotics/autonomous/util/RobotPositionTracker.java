@@ -25,13 +25,14 @@
 package com.github.mittyrobotics.autonomous.util;
 import com.github.mittyrobotics.datatypes.CircularTimestampedList;
 import com.github.mittyrobotics.datatypes.TimestampedElement;
+import com.github.mittyrobotics.datatypes.motion.DrivetrainState;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
-import com.github.mittyrobotics.motion.pathfollowing.Odometry;
+import com.github.mittyrobotics.motion.observers.Odometry;
 import com.github.mittyrobotics.util.Gyro;
-import org.apache.commons.math3.filter.KalmanFilter;
+import org.opencv.video.KalmanFilter;
 
 public class RobotPositionTracker {
     private static RobotPositionTracker instance;
@@ -68,6 +69,18 @@ public class RobotPositionTracker {
             double deltaTime = robotTransform.getLatest().getTimestamp()-lastRobotTransform.getTimestamp();
             robotVelocities.addFront(new TimestampedElement<>(robotTransform.getLatest().getObject().subtract(lastRobotTransform.getObject()).divide(deltaTime), timestamp));
         }
+
+    }
+
+    public void addStatePrediction(DrivetrainState statePrediction){
+
+    }
+
+    public void addStateMeasurement(DrivetrainState measurement){
+
+    }
+
+    public void addVisionMeasurement(Position visionPosition, double timestamp){
 
     }
 

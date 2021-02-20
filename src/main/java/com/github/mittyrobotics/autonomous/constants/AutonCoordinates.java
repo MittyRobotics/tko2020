@@ -77,7 +77,7 @@ public class AutonCoordinates {
     public static final Position[] FIELD_WAYPOINTS =
             new Position[]{ZERO, LOADING_STARTING_POINT, LOADING_STARTING_POINT,
                     SCORING_STARTING_POINT, TRENCH_STARTING_POINT, A_TRENCH_BACK_CENTER, A_TRENCH_FRONT_CENTER,
-                    SCORING_ZONE_TIP,
+                    SCORING_ZONE_TIP, SCORING_TARGET,
                     BALL_1, BALL_2, BALL_3, BALL_4, BALL_5, O_TRENCH_BACK_CENTER, O_TRENCH_FRONT_CENTER};
 
 

@@ -78,8 +78,9 @@ public class Robot extends TimedRobot {
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
-        Vision.getInstance();
-        RobotPositionTracker.getInstance();
+        //EXPERIMENTAL
+//        Vision.getInstance();
+//        RobotPositionTracker.getInstance();
     }
 
     /**
@@ -89,10 +90,11 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
-        RobotPositionTracker.getInstance().run(Timer.getFPGATimestamp());
-        Vision.getInstance().run();
-        Vision.getInstance().updateDashboard();
         OI.getInstance().updateOI();
+        //EXPERIMENTAL
+//        RobotPositionTracker.getInstance().run(Timer.getFPGATimestamp());
+//        Vision.getInstance().run();
+//        Vision.getInstance().updateDashboard();
     }
 
     /**

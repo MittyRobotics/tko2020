@@ -27,6 +27,7 @@ package com.github.mittyrobotics.shooter;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -219,6 +220,15 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     public double getAngle() {
         return turretTalon.getSelectedSensorPosition() / TurretConstants.TICKS_PER_ANGLE;
+    }
+
+    /**
+     * Returns the turret's robot-relative rotation calculated by the encoder value divided by a ticks per inch constant.
+     *
+     * @return the turret's robot-relative rotation
+     */
+    public Rotation getRotation(){
+        return Rotation.fromDegrees(getAngle());
     }
 
     /**

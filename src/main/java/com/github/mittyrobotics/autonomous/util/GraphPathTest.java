@@ -33,6 +33,7 @@ import com.github.mittyrobotics.path.generation.PathGenerator;
 import com.github.mittyrobotics.visualization.Graph;
 import com.github.mittyrobotics.visualization.GraphUtil;
 import com.github.mittyrobotics.visualization.XYSeriesWithRenderer;
+import org.jfree.data.xy.XYDataItem;
 
 import java.awt.*;
 import java.util.Random;
@@ -61,6 +62,8 @@ public class GraphPathTest {
                 path3,
         };
 
+
+
         Graph graph = new Graph();
         graph.getChart().removeLegend();
         graph.resizeGraph(-200,100,-300,0);
@@ -74,6 +77,11 @@ public class GraphPathTest {
             Path path = paths[i];
             graph.addSeries(
                     GraphUtil.populateSeries(new XYSeriesWithRenderer("Path" + i, null, true, false, null), GraphUtil.parametric(path, .01, 1)));
+        }
+
+        graph.addSeries(new XYSeriesWithRenderer("Points", null, false, true, null));
+        for(int i = 0; i < AutonCoordinates.FIELD_WAYPOINTS.length; i++){
+            graph.addToSeries("Points", new XYDataItem(AutonCoordinates.FIELD_WAYPOINTS[i].getX(),AutonCoordinates.FIELD_WAYPOINTS[i].getY()));
         }
     }
 }
