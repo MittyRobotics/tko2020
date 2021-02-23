@@ -3,7 +3,7 @@ package com.github.mittyrobotics.shooter;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
 
-public class TurretGyro {
+public class MPU6050 {
     //Global Variables
     private static double GRAVITIY_MS2 = 9.80665;
     private I2C device;
@@ -51,26 +51,17 @@ public class TurretGyro {
     private double gyroAngularSpeedOffsetZ;
 
 
-    public TurretGyro() throws Exception{
+    public MPU6050() throws Exception{
         this.init();
     }
 
     private void init() throws Exception{
         this.device = new I2C(I2C.Port.kOnboard, (byte)0x68);
-        // Wake up the MPU6050 from sleep since it starts in sleep mode by default.
         device.write(PWR_MGMT_1, (byte) 0x00);
 
     }
 
-    //General i2c Communication Methods
-
-    /**
-     * Reads a word (16 bits) from the passed register and the register after. The data is combine.
-     * @param register Place that is being read from.
-     * @return The value of the word read from the register.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public int read_i2c_word(int register) throws Exception {
+    public int readI2C(int register) throws Exception {
         byte[] highData = new byte[1];
         byte[] lowData = new byte[1];
         device.read(register, 1, highData);
@@ -89,47 +80,19 @@ public class TurretGyro {
         }
     }
 
-    //MPU6050 Methods
-
-    /**
-     * Reads the temperature from the MPU6050's onboard sensor.
-     * @return The temperature in degrees Celcius.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public double get_temp() throws Exception{
-        int rawTemp = read_i2c_word(TEMP_OUT0);
-        double actualTemp = (rawTemp / 340) + 36.53;
-        return actualTemp;
-    }
-
-    /**
-     * Sets the range of the accelerometer.
-     * @param accelRange The range that the accelerometer is set to. Using one of the predefined ranges is advised.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public void set_accel_range(byte accelRange) throws Exception {
+    public void setAccelRange(byte accelRange) throws Exception {
         device.write(ACCEL_CONFIG, (byte)0x00);
         device.write(ACCEL_CONFIG,accelRange);
     }
 
-    /**
-     * Reads the raw accelerometer range.
-     * @return The raw value from the ACCEL_COMFIG register.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public double read_raw_accel_range() throws Exception {
+    public double readRawAccelRange() throws Exception {
         byte[] data = new byte[1];
         device.read(ACCEL_CONFIG, 1, data);
         return data[0];
     }
 
-    /**
-     * Reads the accelerometer range in terms of gravity.
-     * @return Returns an integer: -1, 2, 4, 8, 16. If -1 an error occurred.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public int read_accel_range() throws Exception {
-        double rawData = read_raw_accel_range();
+    public int readAccelRange() throws Exception {
+        double rawData = readRawAccelRange();
 
         if (rawData == ACCEL_RANGE_2G) {
             return 2;
@@ -148,28 +111,17 @@ public class TurretGyro {
         }
     }
 
-    /**
-     * Gets the x, y, and z accelerometer data.
-     * @return Returns x, y, z in a double array [x, y, z]. All values are in m/s^2.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public double[] get_accel_data() throws Exception{
-        return get_accel_data(false);
+    public double[] getAccelData() throws Exception{
+        return getAccelData(false);
     }
 
-    /**
-     * Gets the x, y, and z accelerometer data.
-     * @param g If true: returned values are in terms of gravity(g). If false: returned values are in terms of m/s^2.
-     * @return Returns x, y, z in a double array [x, y, z].
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public double[] get_accel_data(boolean g) throws Exception{
-        double x = read_i2c_word(ACCEL_XOUT0);
-        double y = read_i2c_word(ACCEL_YOUT0);
-        double z = read_i2c_word(ACCEL_ZOUT0);
+    public double[] getAccelData(boolean g) throws Exception{
+        double x = readI2C(ACCEL_XOUT0);
+        double y = readI2C(ACCEL_YOUT0);
+        double z = readI2C(ACCEL_ZOUT0);
 
         double accel_scale_modifier;
-        double accel_range = read_raw_accel_range();
+        double accel_range = readAccelRange();
 
         if (accel_range == ACCEL_RANGE_2G) {
             accel_scale_modifier = ACCEL_SCALE_MODIFIER_2G;
@@ -201,34 +153,19 @@ public class TurretGyro {
         return new double[] {x,y,z};
     }
 
-    /**
-     * Sets the range of the Gyroscope.
-     * @param gyroRange The range to set the gyroscope to. Using a predefined range is advised.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public void set_gyro_range(byte gyroRange) throws Exception {
+    public void setGyroRange(byte gyroRange) throws Exception {
         device.write(GYRO_CONFIG, (byte)0x00);
         device.write(GYRO_CONFIG, gyroRange);
     }
 
-    /**
-     * Reads the raw range of the gyroscope.
-     * @return Returns the raw value from the GYRO_CONFIG register.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public double read_raw_gyro_range() throws Exception {
+    public double readRawGyroRange() throws Exception {
         byte[] data = new byte[1];
         device.read(GYRO_CONFIG, 1, data);
         return data[0];
     }
 
-    /**
-     * Reads the range of the gyroscope.
-     * @return Returns an integer: -1, 250, 500, 1000, and 2000. If -1 is returned something bad has happened.
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public double read_gyro_range() throws Exception {
-        double rawData = read_raw_gyro_range();
+    public double readGyroRange() throws Exception {
+        double rawData = readRawGyroRange();
 
         if(rawData == GYRO_RANGE_250DEG){
             return 250;
@@ -249,16 +186,16 @@ public class TurretGyro {
 
     public void calibrateSensors() {
         System.out.println("Calibration Started");
-        int nbReadings = 50;
+        int readings = 50;
 
         // Gyroscope offsets
-        gyroAngularSpeedOffsetX = 0.;
-        gyroAngularSpeedOffsetY = 0.;
-        gyroAngularSpeedOffsetZ = 0.;
-        for(int i = 0; i < nbReadings; i++) {
+        gyroAngularSpeedOffsetX = 0;
+        gyroAngularSpeedOffsetY = 0;
+        gyroAngularSpeedOffsetZ = 0;
+        for(int i = 0; i < readings; i++) {
             double[] angularSpeeds = new double[0];
             try {
-                angularSpeeds = get_gyro_data();
+                angularSpeeds = getGyroData();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -271,24 +208,19 @@ public class TurretGyro {
                 e.printStackTrace();
             }
         }
-        gyroAngularSpeedOffsetX /= nbReadings;
-        gyroAngularSpeedOffsetY /= nbReadings;
-        gyroAngularSpeedOffsetZ /= nbReadings;
+        gyroAngularSpeedOffsetX /= readings;
+        gyroAngularSpeedOffsetY /= readings;
+        gyroAngularSpeedOffsetZ /= readings;
         System.out.println("Calibration Ended");
     }
 
-    /**
-     * Gets the data from the gyroscope.
-     * @return Returns the values as a double array: [x, y, z].
-     * @throws Exception FIXME passes all errors onto the surrounding program.
-     */
-    public double[] get_gyro_data() throws Exception{
-        double x = read_i2c_word(GYRO_XOUT0);
-        double y = read_i2c_word(GYRO_YOUT0);
-        double z = read_i2c_word(GYRO_ZOUT0);
+    public double[] getGyroData() throws Exception{
+        double x = readI2C(GYRO_XOUT0);
+        double y = readI2C(GYRO_YOUT0);
+        double z = readI2C(GYRO_ZOUT0);
 
         double gyro_scale_modifier;
-        double gyro_range = read_raw_gyro_range();
+        double gyro_range = readRawGyroRange();
 
         if (gyro_range == GYRO_RANGE_250DEG) {
             gyro_scale_modifier = GYRO_SCALE_MODIFIER_250DEG;
@@ -351,11 +283,10 @@ public class TurretGyro {
     private double gyroAngleY;
     private double gyroAngleZ;
     public void updateValues() {
-
         // Gyroscope
         double[] angularSpeeds = new double[0];
         try {
-            angularSpeeds = get_gyro_data();
+            angularSpeeds = getGyroData();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -372,8 +303,5 @@ public class TurretGyro {
             gyroAngleX += deltaGyroAngleX;
             gyroAngleY += deltaGyroAngleY;
             gyroAngleZ += deltaGyroAngleZ;
-
-
-
     }
 }

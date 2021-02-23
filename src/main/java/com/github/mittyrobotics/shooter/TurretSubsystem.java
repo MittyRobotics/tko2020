@@ -30,7 +30,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -65,7 +66,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
     private double encoderVelocity = 0;
     private double gyroPosition = 0;
     private double gyroVelocity = 0;
-    private double lastTime = 0;
+    private double filteredPosition = 0;
+    private double filteredVelocity = 0;
 
     private TurretSubsystem() {
         super();
@@ -89,7 +91,6 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public void initHardware() {
-        lastTime = Timer.getFPGATimestamp();
         //Config talon
         turretTalon = new WPI_TalonSRX(TurretConstants.Turret_Talon_ID);
         turretTalon.configFactoryDefault();
@@ -97,12 +98,14 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         turretTalon.config_kP(0, TurretConstants.TURRET_P);
         turretTalon.config_kI(0, TurretConstants.TURRET_I);
         turretTalon.config_kD(0, TurretConstants.TURRET_D);
-      limitSwitchLeft = new DigitalInput(TurretConstants.TURRET_SWITCH_ID);
-      limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
+        limitSwitchLeft = new DigitalInput(TurretConstants.TURRET_SWITCH_ID);
+        limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
         turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         turretTalon.setSensorPhase(TurretConstants.TURRET_ENCODER_INVERSION);
 
-        resetEncoder();
+        turretTalon.setSelectedSensorPosition(0, 0, 10);
+        turretTalon.getSensorCollection().setQuadraturePosition(0, 10);
+        encoderPosition = 0;
 
         //Initialize PIDController
         turretController =
@@ -110,37 +113,17 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         turretController.enableContinuousInput(0, TurretConstants.REVOLUTION_TICKS - 1);
     }
 
-    public TalonSRX getTalon(){
+    public TalonSRX getTalon() {
         return turretTalon;
     }
 
-    public void updateEncoder(double gyroPos, double gyroVel, double encoderPos, double encoderVel){
-//        double currentTime = Timer.getFPGATimestamp();
-//        double dt = currentTime-lastTime;
-//        try {
-//            double data = gyro.get_gyro_data()[2];
-//            if(Math.abs(data) > 10){
-//                encoderVelocity = data;
-//            }
-//            else{
-//                encoderVelocity = 0;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        encoderPosition += encoderVelocity*dt;
-//        lastTime = currentTime;
-        encoderPosition = encoderPos;
-        encoderVelocity = encoderVel;
+    public void updateEncoder(double gyroPos, double gyroVel, double encoderPos, double encoderVel, double filteredPos, double filteredVel) {
         gyroPosition = gyroPos;
         gyroVelocity = gyroVel;
-    }
-
-    public void resetEncoder(){
-
-        turretTalon.setSelectedSensorPosition(0, 0, 10);
-        turretTalon.getSensorCollection().setQuadraturePosition(0, 10);
-        encoderPosition = 0;
+        encoderPosition = encoderPos;
+        encoderVelocity = encoderVel;
+        filteredPosition = filteredPos;
+        filteredVelocity = filteredVel;
     }
 
     /**
@@ -233,12 +216,12 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public double getPosition() {
-        return encoderPosition;
+        return filteredPosition;
     }
 
     @Override
     public double getVelocity() {
-        return encoderVelocity;
+        return filteredVelocity;
     }
 
     /**
@@ -275,7 +258,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      *
      * @return the turret's robot-relative rotation
      */
-    public Rotation getRotation(){
+    public Rotation getRotation() {
         return Rotation.fromDegrees(getAngle());
     }
 

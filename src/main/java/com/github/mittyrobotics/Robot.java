@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
 
         Notifier turretEncoderNotifier = new Notifier(new TurretEncoderUpdater());
         turretEncoderNotifier.startPeriodic(0.02);
+        
         //EXPERIMENTAL
 //        Vision.getInstance();
 //        RobotPositionTracker.getInstance();
@@ -98,7 +99,6 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
         OI.getInstance().updateOI();
-//        TurretSubsystem.getInstance().updateEncoder();
         //EXPERIMENTAL
 //        RobotPositionTracker.getInstance().run(Timer.getFPGATimestamp());
 //        Vision.getInstance().run();
