@@ -26,10 +26,11 @@ package com.github.mittyrobotics.shooter;
 
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -60,6 +61,12 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     private double maxPercent;
 
+    private double encoderPosition = 0;
+    private double encoderVelocity = 0;
+    private double gyroPosition = 0;
+    private double gyroVelocity = 0;
+    private double lastTime = 0;
+
     private TurretSubsystem() {
         super();
         setName("Turret");
@@ -82,6 +89,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public void initHardware() {
+        lastTime = Timer.getFPGATimestamp();
         //Config talon
         turretTalon = new WPI_TalonSRX(TurretConstants.Turret_Talon_ID);
         turretTalon.configFactoryDefault();
@@ -94,11 +102,45 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         turretTalon.setSensorPhase(TurretConstants.TURRET_ENCODER_INVERSION);
 
+        resetEncoder();
+
         //Initialize PIDController
         turretController =
                 new PIDController(TurretConstants.TURRET_P, TurretConstants.TURRET_I, TurretConstants.TURRET_D);
         turretController.enableContinuousInput(0, TurretConstants.REVOLUTION_TICKS - 1);
+    }
 
+    public TalonSRX getTalon(){
+        return turretTalon;
+    }
+
+    public void updateEncoder(double gyroPos, double gyroVel, double encoderPos, double encoderVel){
+//        double currentTime = Timer.getFPGATimestamp();
+//        double dt = currentTime-lastTime;
+//        try {
+//            double data = gyro.get_gyro_data()[2];
+//            if(Math.abs(data) > 10){
+//                encoderVelocity = data;
+//            }
+//            else{
+//                encoderVelocity = 0;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        encoderPosition += encoderVelocity*dt;
+//        lastTime = currentTime;
+        encoderPosition = encoderPos;
+        encoderVelocity = encoderVel;
+        gyroPosition = gyroPos;
+        gyroVelocity = gyroVel;
+    }
+
+    public void resetEncoder(){
+
+        turretTalon.setSelectedSensorPosition(0, 0, 10);
+        turretTalon.getSensorCollection().setQuadraturePosition(0, 10);
+        encoderPosition = 0;
     }
 
     /**
@@ -106,7 +148,11 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Turret Position", getPosition());
+        SmartDashboard.putNumber("turret-gyro-pos", gyroPosition);
+        SmartDashboard.putNumber("turret-gyro-vel", gyroVelocity);
+        SmartDashboard.putNumber("turret-pos", encoderPosition);
+        SmartDashboard.putNumber("turret-vel", encoderVelocity);
+        SmartDashboard.putNumber("turret-angle", getAngle());
     }
 
     /**
@@ -115,11 +161,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @param percent the turret motor percent output.
      */
     public void setMotor(double percent) {
-        if ((getLeftSwitch() && percent < 0) || (getRightSwitch() && percent >0)) {
-            overrideSetMotor(0);
-        } else {
-            overrideSetMotor(percent);
-        }
+        overrideSetMotor(percent);
     }
 
     /**
@@ -183,6 +225,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         turretTalon.set(percent);
     }
 
+
     /**
      * Returns the turret's encoder position in ticks.
      *
@@ -190,7 +233,12 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public double getPosition() {
-        return turretTalon.getSelectedSensorPosition();
+        return encoderPosition;
+    }
+
+    @Override
+    public double getVelocity() {
+        return encoderVelocity;
     }
 
     /**
@@ -219,7 +267,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @return the turret's robot-relative angle
      */
     public double getAngle() {
-        return turretTalon.getSelectedSensorPosition() / TurretConstants.TICKS_PER_ANGLE;
+        return Rotation.fromDegrees(getPosition() / TurretConstants.TICKS_PER_ANGLE).mapDegrees360().getDegrees();
     }
 
     /**

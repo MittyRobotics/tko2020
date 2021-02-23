@@ -24,10 +24,10 @@
 
 package com.github.mittyrobotics.autonomous.vision;
 
-import com.github.mittyrobotics.vision.enums.LimelightCameraMode;
-import com.github.mittyrobotics.vision.enums.LimelightLEDMode;
-import com.github.mittyrobotics.vision.enums.LimelightSnapshotMode;
-import com.github.mittyrobotics.vision.enums.LimelightStreamMode;
+import com.github.mittyrobotics.autonomous.vision.enums.LimelightCameraMode;
+import com.github.mittyrobotics.autonomous.vision.enums.LimelightLEDMode;
+import com.github.mittyrobotics.autonomous.vision.enums.LimelightSnapshotMode;
+import com.github.mittyrobotics.autonomous.vision.enums.LimelightStreamMode;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**

@@ -37,7 +37,7 @@ public enum LimelightSnapshotMode {
     private static Map map = new HashMap<>();
 
     static {
-        for (com.github.mittyrobotics.vision.enums.LimelightSnapshotMode pageType : com.github.mittyrobotics.vision.enums.LimelightSnapshotMode.values()) {
+        for (LimelightSnapshotMode pageType : LimelightSnapshotMode.values()) {
             map.put(pageType.value, pageType);
         }
     }
@@ -48,7 +48,7 @@ public enum LimelightSnapshotMode {
         value = value;
     }
 
-    public static com.github.mittyrobotics.vision.enums.LimelightSnapshotMode valueOf(int i) {
-        return (com.github.mittyrobotics.vision.enums.LimelightSnapshotMode) map.get(i);
+    public static LimelightSnapshotMode valueOf(int i) {
+        return (LimelightSnapshotMode) map.get(i);
     }
 }

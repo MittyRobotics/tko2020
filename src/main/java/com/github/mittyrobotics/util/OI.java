@@ -24,24 +24,14 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.colorwheel.commands.ManualSpinColorWheelCommand;
-import com.github.mittyrobotics.colorwheel.commands.SpinWheelMacro;
-import com.github.mittyrobotics.colorwheel.commands.SpinnerDownCommand;
-import com.github.mittyrobotics.colorwheel.commands.SpinnerUpCommand;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.commands.*;
-import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
-import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
-import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
-import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
 import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
  * OI Class to manage all controllers and input
@@ -53,9 +43,9 @@ public class OI {
     private static OI instance;
 
     /**
-     * OI {@link XboxWheel}
+     * OI {@link XBoxWheel}
      */
-    private XboxWheel xboxWheel;
+    private XBoxWheel xboxWheel;
 
     /**
      * OI {@link XboxController}
@@ -85,13 +75,13 @@ public class OI {
     }
 
     /**
-     * Returns the {@link XboxWheel} instance
+     * Returns the {@link XBoxWheel} instance
      *
-     * @return {@link XboxWheel} instance
+     * @return {@link XBoxWheel} instance
      */
-    public XboxWheel getXboxWheel() {
+    public XBoxWheel getXboxWheel() {
         if (xboxWheel == null) {
-            xboxWheel = new XboxWheel(OIConstants.XBOX_WHEEL_ID);
+            xboxWheel = new XBoxWheel(OIConstants.XBOX_WHEEL_ID);
         }
         return xboxWheel;
     }
@@ -99,7 +89,7 @@ public class OI {
     /**
      * Returns the {@link XboxController} instance
      *
-     * @return {@link XboxWheel} instance
+     * @return {@link XBoxWheel} instance
      */
     public XboxController getXboxController() {
         if (xboxController == null) {
@@ -132,52 +122,15 @@ public class OI {
         return joystick2;
     }
 
+
+
     /**
      * Setup controls
      */
     public void setupControls() {
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
+//        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
 
         TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
-
-        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
-
-        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
-
-        Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
-        spinWheelColor.whenPressed(new SpinWheelMacro());
-
-        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
-//        autoTurret.whenHeld(new MinimalVisionCommand());
-
-        Button autoShoot =
-                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
-//        autoShoot.whenHeld(new ShootMacro());
-
-
-        Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
-        manualShootSpeedUp
-                .whenPressed(new ChangeManualShooterSetpoint(100));
-
-        Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
-        manualShootSpeedDown
-                .whenPressed(new ChangeManualShooterSetpoint(-100));
-
-        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
-        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
-
-        Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
-        intake.whenHeld(new IntakeBallCommand());
-
-        Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        outtake.whenHeld(new OuttakeRollersCommand());
-        outtake.whenHeld(new ReverseConveyor());
-
-        Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
-        colorPistonUp.whenPressed(new SpinnerUpCommand());
-
-        Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
-        colorPistonDown.whenPressed(new SpinnerDownCommand());
     }
 
     /**

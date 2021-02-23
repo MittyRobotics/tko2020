@@ -33,11 +33,13 @@ import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import com.github.mittyrobotics.shooter.TurretEncoderUpdater;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -72,13 +74,17 @@ public class Robot extends TimedRobot {
                 IntakePistonSubsystem.getInstance(),
                 IntakeSubsystem.getInstance(),
                 ShooterSubsystem.getInstance(),
-                SpinnerSubsystem.getInstance(),
+//                SpinnerSubsystem.getInstance(),
                 TurretSubsystem.getInstance()
         );
+
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
-        Compressor.getInstance().initHardware();
+//        Compressor.getInstance().initHardware();
         DrivetrainSubsystem.getInstance().setMaxPercent(.3);
+
+        Notifier turretEncoderNotifier = new Notifier(new TurretEncoderUpdater());
+        turretEncoderNotifier.startPeriodic(0.02);
         //EXPERIMENTAL
 //        Vision.getInstance();
 //        RobotPositionTracker.getInstance();
@@ -92,6 +98,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
         OI.getInstance().updateOI();
+//        TurretSubsystem.getInstance().updateEncoder();
         //EXPERIMENTAL
 //        RobotPositionTracker.getInstance().run(Timer.getFPGATimestamp());
 //        Vision.getInstance().run();

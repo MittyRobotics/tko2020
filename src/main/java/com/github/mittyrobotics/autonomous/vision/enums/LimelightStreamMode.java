@@ -47,7 +47,7 @@ public enum LimelightStreamMode {
     private static Map map = new HashMap<>();
 
     static {
-        for (com.github.mittyrobotics.vision.enums.LimelightStreamMode pageType : com.github.mittyrobotics.vision.enums.LimelightStreamMode.values()) {
+        for (LimelightStreamMode pageType : LimelightStreamMode.values()) {
             map.put(pageType.value, pageType);
         }
     }
@@ -58,7 +58,7 @@ public enum LimelightStreamMode {
         value = i;
     }
 
-    public static com.github.mittyrobotics.vision.enums.LimelightStreamMode valueOf(int i) {
-        return (com.github.mittyrobotics.vision.enums.LimelightStreamMode) map.get(i);
+    public static LimelightStreamMode valueOf(int i) {
+        return (LimelightStreamMode) map.get(i);
     }
 }

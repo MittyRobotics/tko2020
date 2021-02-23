@@ -39,7 +39,7 @@ public enum LimelightLEDMode {
     private static Map map = new HashMap<>();
 
     static {
-        for (com.github.mittyrobotics.vision.enums.LimelightLEDMode pageType : com.github.mittyrobotics.vision.enums.LimelightLEDMode.values()) {
+        for (LimelightLEDMode pageType : LimelightLEDMode.values()) {
             map.put(pageType.value, pageType);
         }
     }
@@ -50,7 +50,7 @@ public enum LimelightLEDMode {
         value = i;
     }
 
-    public static com.github.mittyrobotics.vision.enums.LimelightLEDMode valueOf(int i) {
-        return (com.github.mittyrobotics.vision.enums.LimelightLEDMode) map.get(i);
+    public static LimelightLEDMode valueOf(int i) {
+        return (LimelightLEDMode) map.get(i);
     }
 }
