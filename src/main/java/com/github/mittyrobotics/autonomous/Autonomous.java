@@ -30,8 +30,8 @@ public class Autonomous {
         //Set shooter angle and speed
     }
 
-    public Rotation getFieldRelativeTurretRotation(double robotAngle, double turretAngle){
-        return Rotation.fromDegrees(robotAngle+turretAngle);
+    public Rotation getTurretRotationFromFieldRotation(Rotation fieldRotation, Rotation robotRotation){
+        return fieldRotation.subtract(robotRotation);
     }
 
     public void setDriveCommand(DrivetrainState state){

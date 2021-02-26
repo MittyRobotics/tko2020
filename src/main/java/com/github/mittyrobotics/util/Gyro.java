@@ -73,7 +73,7 @@ public class Gyro extends ADXRS450_Gyro implements IHardware {
      * @return {@link Rotation} angle
      */
     public Rotation getRotation() {
-        return new Rotation(getAngle360());
+        return Rotation.fromDegrees(getAngle());
     }
 
     /**
@@ -95,7 +95,7 @@ public class Gyro extends ADXRS450_Gyro implements IHardware {
      */
     @Override
     public void initHardware() {
-        reset();
         calibrate();
+        reset();
     }
 }

@@ -117,11 +117,13 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Drive Velocity Left", getLeftVelocity());
-        SmartDashboard.putNumber("Drive Velocity Right", getRightVelocity());
-        SmartDashboard.putNumber("Drive Velocity Left Setpoint", getLeftVelSetpoint());
-        SmartDashboard.putNumber("Drive Velocity Right Setpoint", getRightVelSetpoint());
-        SmartDashboard.putNumber("Gyro Angle", Gyro.getInstance().getAngle360());
+        SmartDashboard.putNumber("drive-vel-left", getLeftVelocity());
+        SmartDashboard.putNumber("drive-vel-right", getRightVelocity());
+        SmartDashboard.putNumber("drive-percent-left", leftDrive[0].getMotorOutputPercent());
+        SmartDashboard.putNumber("drive-percent-right", rightDrive[0].getMotorOutputPercent());
+        SmartDashboard.putNumber("drive-vel-left-setpoint", getLeftVelSetpoint());
+        SmartDashboard.putNumber("drive-vel-right-setpoint", getRightVelSetpoint());
+        SmartDashboard.putNumber("gyro-angle", Gyro.getInstance().getAngle());
     }
 
     /**

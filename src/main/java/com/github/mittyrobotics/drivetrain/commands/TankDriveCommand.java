@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.drivetrain.commands;
 
+import com.github.mittyrobotics.drivetrain.DriveConstants;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -55,8 +56,8 @@ public class TankDriveCommand extends CommandBase {
             DrivetrainSubsystem.getInstance().brake();
         } else {
             DrivetrainSubsystem.getInstance()
-                    .setTankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),
-                            OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), 0.1, 0.5);
+                    .setVelocity(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft)* DriveConstants.DRIVE_FALCON_MAX_VELOCITY * .5,
+                            OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight)* DriveConstants.DRIVE_FALCON_MAX_VELOCITY * .5);
         }
     }
 

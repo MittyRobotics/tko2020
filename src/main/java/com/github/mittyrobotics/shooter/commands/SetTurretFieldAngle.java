@@ -1,25 +1,18 @@
 package com.github.mittyrobotics.shooter.commands;
 
+import com.github.mittyrobotics.autonomous.Autonomous;
+import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
+import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * Sets the {@link TurretSubsystem} angle
- */
-public class SetTurretAngle extends CommandBase {
+public class SetTurretFieldAngle extends CommandBase{
 
     /**
      * Angle to set the turret to
      */
     private final double angle;
 
-    /**
-     * Margin of error tolerated
-     */
-    private final double threshold;
-
-    private double endCount = 10;
-    private double endCounter = 0;
 
     /**
      * Calls the constructor of {@link CommandBase}
@@ -28,25 +21,10 @@ public class SetTurretAngle extends CommandBase {
      *
      * @param angle angle to set turret to
      *
-     * @param threshold margin of error allowed
      */
-    public SetTurretAngle(double angle, double threshold){
+    public SetTurretFieldAngle(double angle){
         this.angle = angle;
-        this.threshold = threshold;
         addRequirements(TurretSubsystem.getInstance());
-    }
-
-    /**
-     * Calls the constructor of {@link CommandBase}
-     *
-     * Requires the {@link TurretSubsystem}
-     *
-     * Allows margin of error of 2 degrees
-     *
-     * @param angle angle to set turret to
-     */
-    public SetTurretAngle(double angle){
-        this(angle, .2);
     }
 
     /**
@@ -54,7 +32,6 @@ public class SetTurretAngle extends CommandBase {
      */
     @Override
     public void initialize(){
-        TurretSubsystem.getInstance().setTurretAngle(angle);
     }
 
     /**
@@ -62,13 +39,11 @@ public class SetTurretAngle extends CommandBase {
      */
     @Override
     public void execute(){
+        System.out.println(Autonomous.getInstance().getTurretRotationFromFieldRotation(
+                Rotation.fromDegrees(angle), Gyro.getInstance().getRotation()).getDegrees());
+        TurretSubsystem.getInstance().setTurretAngle(Autonomous.getInstance().getTurretRotationFromFieldRotation(
+                Rotation.fromDegrees(angle), Gyro.getInstance().getRotation()).getDegrees());
         TurretSubsystem.getInstance().updateTurretControlLoop();
-        if(Math.abs(TurretSubsystem.getInstance().getError()) < threshold){
-            endCounter ++;
-        }
-        else{
-            endCounter = 0;
-        }
     }
 
     /**
@@ -86,6 +61,6 @@ public class SetTurretAngle extends CommandBase {
      */
     @Override
     public boolean isFinished(){
-        return endCounter >= endCount;
+        return false;
     }
 }

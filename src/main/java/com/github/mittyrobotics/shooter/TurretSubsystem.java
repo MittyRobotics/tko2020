@@ -31,6 +31,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -60,7 +61,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
     /**
      * The turret's maximum percent output for the {@link PIDController} control loop.
      */
-    private double maxPercent;
+    private double maxPercent = .5;
 
     private double encoderPosition = 0;
     private double encoderVelocity = 0;
@@ -68,6 +69,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
     private double gyroVelocity = 0;
     private double filteredPosition = 0;
     private double filteredVelocity = 0;
+
+    private TurretEncoderUpdater turretEncoderUpdater = new TurretEncoderUpdater();
 
     private TurretSubsystem() {
         super();
@@ -110,20 +113,22 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         //Initialize PIDController
         turretController =
                 new PIDController(TurretConstants.TURRET_P, TurretConstants.TURRET_I, TurretConstants.TURRET_D);
-        turretController.enableContinuousInput(0, TurretConstants.REVOLUTION_TICKS - 1);
+//        turretController.enableContinuousInput(0, TurretConstants.REVOLUTION_TICKS - 1);
+
+        Notifier turretEncoderNotifier = new Notifier(turretEncoderUpdater);
+        turretEncoderNotifier.startPeriodic(0.02);
+        turretEncoderUpdater.resetPosition();
     }
 
     public TalonSRX getTalon() {
         return turretTalon;
     }
 
-    public void updateEncoder(double gyroPos, double gyroVel, double encoderPos, double encoderVel, double filteredPos, double filteredVel) {
+    public void updateEncoder(double gyroPos, double gyroVel, double encoderPos, double encoderVel) {
         gyroPosition = gyroPos;
         gyroVelocity = gyroVel;
         encoderPosition = encoderPos;
         encoderVelocity = encoderVel;
-        filteredPosition = filteredPos;
-        filteredVelocity = filteredVel;
     }
 
     /**
@@ -136,6 +141,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         SmartDashboard.putNumber("turret-pos", encoderPosition);
         SmartDashboard.putNumber("turret-vel", encoderVelocity);
         SmartDashboard.putNumber("turret-angle", getAngle());
+        SmartDashboard.putNumber("turret-angle-setpoint", turretController.getSetpoint());
     }
 
     /**
@@ -153,8 +159,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @param angle the robot-relative angle to set the turret to.
      */
     public void setTurretAngle(double angle) {
-        angle = capAngleSetpoint(angle);
-        angle *= TurretConstants.TICKS_PER_ANGLE;
+//        angle = capAngleSetpoint(angle);
+        angle = MathUtil.clamp(angle, -90, 90);
         turretController.setSetpoint(angle);
     }
 
@@ -250,7 +256,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @return the turret's robot-relative angle
      */
     public double getAngle() {
-        return Rotation.fromDegrees(getPosition() / TurretConstants.TICKS_PER_ANGLE).mapDegrees360().getDegrees();
+        return getPosition();
     }
 
     /**

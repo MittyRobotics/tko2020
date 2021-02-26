@@ -35,6 +35,8 @@ import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretEncoderUpdater;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
+import com.github.mittyrobotics.shooter.commands.SetTurretAngle;
+import com.github.mittyrobotics.shooter.commands.SetTurretFieldAngle;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
@@ -42,8 +44,9 @@ import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.*;
+
+import java.util.Set;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
@@ -80,15 +83,10 @@ public class Robot extends TimedRobot {
 
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
+
 //        Compressor.getInstance().initHardware();
         DrivetrainSubsystem.getInstance().setMaxPercent(.3);
 
-        Notifier turretEncoderNotifier = new Notifier(new TurretEncoderUpdater());
-        turretEncoderNotifier.startPeriodic(0.02);
-        
-        //EXPERIMENTAL
-//        Vision.getInstance();
-//        RobotPositionTracker.getInstance();
     }
 
     /**
@@ -99,10 +97,6 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
         OI.getInstance().updateOI();
-        //EXPERIMENTAL
-//        RobotPositionTracker.getInstance().run(Timer.getFPGATimestamp());
-//        Vision.getInstance().run();
-//        Vision.getInstance().updateDashboard();
     }
 
     /**
@@ -118,6 +112,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new PerpetualCommand(new InstantCommand(()->{}, DrivetrainSubsystem.getInstance())));
+//        DrivetrainSubsystem.getInstance().setVelocity(30, 30);
+        TurretSubsystem.getInstance().setControlLoopMaxPercent(.3);
+        CommandScheduler.getInstance().schedule(new SetTurretFieldAngle(0));
     }
 
     /**
@@ -127,6 +125,8 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().cancel(autonCommandGroup);
         OI.getInstance().setupControls();
+        TurretSubsystem.getInstance().setControlLoopMaxPercent(.3);
+//        CommandScheduler.getInstance().schedule(new SetTurretFieldAngle(0));
     }
 
     /**
