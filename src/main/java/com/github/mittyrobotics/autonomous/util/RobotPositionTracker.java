@@ -23,6 +23,8 @@
  */
 
 package com.github.mittyrobotics.autonomous.util;
+import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.datatypes.CircularTimestampedList;
 import com.github.mittyrobotics.datatypes.TimestampedElement;
 import com.github.mittyrobotics.datatypes.motion.DrivetrainState;
@@ -30,9 +32,11 @@ import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.motion.observers.KalmanFilter;
 import com.github.mittyrobotics.motion.observers.Odometry;
 import com.github.mittyrobotics.util.Gyro;
-import org.opencv.video.KalmanFilter;
+import edu.wpi.first.wpilibj.Timer;
+import org.ejml.simple.SimpleMatrix;
 
 public class RobotPositionTracker {
     private static RobotPositionTracker instance;
@@ -44,48 +48,112 @@ public class RobotPositionTracker {
     }
 
     private final Odometry odometry;
-    private CircularTimestampedList<Transform> robotVelocities;
-    private CircularTimestampedList<Transform> robotTransform;
+
+    private Transform odometryTransform = new Transform();
+
+    private KalmanFilter filter;
+
+    private double lastStateMeasurementTime;
+
     private RobotPositionTracker(){
         odometry = new Odometry();
     }
 
-    public void run(double timestamp) {
-        //Get left and right encoder positions and gyro heading
-        double leftEncoderPosition = DrivetrainSubsystem.getInstance().getLeftPosition();
-        double rightEncoderPosition = DrivetrainSubsystem.getInstance().getRightPosition();
-        double heading = Gyro.getInstance().getAngle();
+    public void init(double dt){
+        SimpleMatrix A = new SimpleMatrix(new double[][]{
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0}
+        }); //transition matrix
+        SimpleMatrix B = new SimpleMatrix(new double[][]{
+                {dt, 0},
+                {0, dt},
+                {1, 0},
+                {0, 1}
+        }); //control matrix
+        SimpleMatrix H = new SimpleMatrix(new double[][]{
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        }); //measurement matrix
+        SimpleMatrix Q = new SimpleMatrix(new double[][]{
+                {.005, 0, 0, 0},
+                {0, .005, 0, 0},
+                {0, 0, .1, 0},
+                {0, 0, 0, .1}
+        }); //process noise
+        SimpleMatrix R = new SimpleMatrix(new double[][]{
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        }); //measurement noise
 
-        //Update Odometry
-        odometry.update(leftEncoderPosition, rightEncoderPosition, heading);
+        filter = new KalmanFilter(A, B, H, Q, R);
 
-        Position delta = odometry.getDeltaPosition();
-        Rotation rotation = odometry.getRobotRotation();
+        lastStateMeasurementTime = Timer.getFPGATimestamp();
+    }
 
-        Transform currentRobotTransform = new Transform(getCurrentRobotTransform().getPosition().add(delta), rotation);
-        robotTransform.addFront(new TimestampedElement<>(currentRobotTransform, timestamp));
-        if(robotTransform.size() > 1) {
-            TimestampedElement<Transform> lastRobotTransform = robotTransform.get(1);
-            double deltaTime = robotTransform.getLatest().getTimestamp()-lastRobotTransform.getTimestamp();
-            robotVelocities.addFront(new TimestampedElement<>(robotTransform.getLatest().getObject().subtract(lastRobotTransform.getObject()).divide(deltaTime), timestamp));
-        }
+    public void updateOdometry(){
+        odometry.update(
+                DrivetrainSubsystem.getInstance().getLeftPosition(),
+                DrivetrainSubsystem.getInstance().getRightPosition(),
+                Gyro.getInstance().getAngle()
+        );
+        odometryTransform = new Transform(
+                odometryTransform.getPosition().add(odometry.getDeltaPosition()),
+                odometry.getRobotRotation()
+        );
+        DrivetrainState state = DrivetrainState.fromWheelSpeeds(DrivetrainSubsystem.getInstance().getLeftVelocity(),
+                DrivetrainSubsystem.getInstance().getRightVelocity(),
+                AutonConstants.DRIVETRAIN_TRACK_WIDTH);
 
+//        Transform delta = state.getDeltaTransform(0.02);
+//        odometryTransform = odometryTransform.add(new Transform(delta.getPosition().rotateBy(odometry.getRobotRotation()), new Rotation()));
+//        odometryTransform.setRotation(odometry.getRobotRotation());
+
+        addStateMeasurement(state);
+        addVisionMeasurement(Vision.getInstance().getLatestRobotTransformEstimate().getPosition());
     }
 
     public void addStatePrediction(DrivetrainState statePrediction){
-
     }
 
     public void addStateMeasurement(DrivetrainState measurement){
-
+        double time = Timer.getFPGATimestamp();
+        double dt = time-lastStateMeasurementTime;
+        lastStateMeasurementTime = time;
+        Position deltaPosition = measurement.getDeltaTransform(dt).getPosition();
+        double magnitude = deltaPosition.magnitude();
+        Rotation theta = new Position().angleTo(deltaPosition).add(Gyro.getInstance().getRotation().add(Rotation.fromDegrees(180)));
+        deltaPosition = new Position(magnitude*theta.cos(), magnitude*theta.sin());
+        SimpleMatrix u = new SimpleMatrix(new double[][]{
+                {deltaPosition.getX()/dt},
+                {deltaPosition.getY()/dt}
+        });
+        filter.predict(u);
     }
 
-    public void addVisionMeasurement(Position visionPosition, double timestamp){
-
+    public void addVisionMeasurement(Position visionPosition){
+        SimpleMatrix z = new SimpleMatrix(new double[][]{
+                {visionPosition.getX()},
+                {visionPosition.getY()},
+                {filter.getxHat().get(2)},
+                {filter.getxHat().get(3)}
+        });
+        filter.correct(z);
     }
 
-    public void setRobotTransform(Transform newTransform){
-
+    public void setOdometryTransform(Transform newTransform){
+        odometryTransform = newTransform;
+        filter.setxHat(new SimpleMatrix(new double[][]{
+                {newTransform.getPosition().getX()},
+                {newTransform.getPosition().getY()},
+                {0},
+                {0}
+        }));
     }
 
     public void setPosition(Position position){
@@ -104,7 +172,12 @@ public class RobotPositionTracker {
         return odometry;
     }
 
-    public Transform getCurrentRobotTransform() {
-        return robotTransform.getLatest().getObject();
+    public Transform getOdometryTransform() {
+        return odometryTransform;
+    }
+
+    public Transform getFilterTransform() {
+        SimpleMatrix xHat = filter.getxHat();
+        return new Transform(xHat.get(0), xHat.get(1), getOdometryTransform().getRotation());
     }
 }

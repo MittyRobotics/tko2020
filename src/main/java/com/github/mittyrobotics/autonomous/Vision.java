@@ -9,7 +9,10 @@ import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
+import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import javax.print.attribute.standard.Media;
 
 public class Vision implements IDashboard {
     public static Vision instance;
@@ -28,12 +31,11 @@ public class Vision implements IDashboard {
     private Transform latestTurretTransformEstimate = new Transform();
     private Transform latestRobotTransformEstimate = new Transform();
 
-
     public void run() {
         //Update limelight values
         Limelight.getInstance().updateLimelightValues();
         //Get limelight pitch and yaw
-        Rotation llYaw = Rotation.fromDegrees(Limelight.getInstance().getYawToTarget());
+        Rotation llYaw = Rotation.fromDegrees(Limelight.getInstance().getYawToTarget()).inverse();
         Rotation llPitch = Rotation.fromDegrees(Limelight.getInstance().getPitchToTarget());
         //Calculate distance to target
         double distance = calculateDistanceToTarget(llPitch);
@@ -80,7 +82,6 @@ public class Vision implements IDashboard {
     }
 
     public Transform calculateRobotFieldTransform(Transform turretFieldTransform, Rotation robotRotation){
-        System.out.println(AutonConstants.TURRET_ON_ROBOT.rotateBy(robotRotation));
         return new Transform(turretFieldTransform.getPosition().subtract(AutonConstants.TURRET_ON_ROBOT.rotateBy(robotRotation)), robotRotation);
     }
 
@@ -101,11 +102,10 @@ public class Vision implements IDashboard {
         SmartDashboard.putNumber("vision-yaw", latestTarget.yaw.getDegrees());
         SmartDashboard.putNumber("vision-pitch", latestTarget.pitch.getDegrees());
         SmartDashboard.putNumber("vision-turret-x", latestTurretTransformEstimate.getPosition().getX());
-        SmartDashboard.putNumber("vision-turret-y", latestTurretTransformEstimate.getPosition().getX());
+        SmartDashboard.putNumber("vision-turret-y", latestTurretTransformEstimate.getPosition().getY());
         SmartDashboard.putNumber("vision-turret-theta", latestTurretTransformEstimate.getRotation().getDegrees());
         SmartDashboard.putNumber("vision-robot-x", latestRobotTransformEstimate.getPosition().getX());
-        SmartDashboard.putNumber("vision-robot-y", latestRobotTransformEstimate.getPosition().getX());
+        SmartDashboard.putNumber("vision-robot-y", latestRobotTransformEstimate.getPosition().getY());
         SmartDashboard.putNumber("vision-robot-theta", latestRobotTransformEstimate.getRotation().getDegrees());
-
     }
 }

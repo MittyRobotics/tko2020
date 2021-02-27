@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.Autonomous;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.util.RobotPositionTracker;
 import com.github.mittyrobotics.colorwheel.ColorPistonSubsystem;
@@ -87,6 +88,11 @@ public class Robot extends TimedRobot {
 //        Compressor.getInstance().initHardware();
         DrivetrainSubsystem.getInstance().setMaxPercent(.3);
 
+        Vision.getInstance();
+        RobotPositionTracker.getInstance().init(getPeriod());
+        Vision.getInstance().run();
+        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+        RobotPositionTracker.getInstance().setOdometryTransform(Vision.getInstance().getLatestRobotTransformEstimate());
     }
 
     /**
@@ -97,6 +103,10 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
         OI.getInstance().updateOI();
+        Vision.getInstance().run();
+        Vision.getInstance().updateDashboard();
+        Autonomous.getInstance().updateDashboard();
+        RobotPositionTracker.getInstance().updateOdometry();
     }
 
     /**

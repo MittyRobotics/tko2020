@@ -1,10 +1,13 @@
 package com.github.mittyrobotics.autonomous;
 
+import com.github.mittyrobotics.autonomous.util.RobotPositionTracker;
 import com.github.mittyrobotics.datatypes.motion.DrivetrainState;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.util.interfaces.IDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Autonomous {
+public class Autonomous implements IDashboard {
     private static Autonomous instance;
     public static Autonomous getInstance(){
         if(instance == null){
@@ -36,5 +39,15 @@ public class Autonomous {
 
     public void setDriveCommand(DrivetrainState state){
         currentDriveCommand = state;
+    }
+
+    @Override
+    public void updateDashboard() {
+        SmartDashboard.putNumber("odometry-robot-x", RobotPositionTracker.getInstance().getOdometryTransform().getPosition().getX());
+        SmartDashboard.putNumber("odometry-robot-y", RobotPositionTracker.getInstance().getOdometryTransform().getPosition().getY());
+        SmartDashboard.putNumber("odometry-robot-theta", RobotPositionTracker.getInstance().getOdometryTransform().getRotation().getDegrees());
+        SmartDashboard.putNumber("filter-robot-x", RobotPositionTracker.getInstance().getFilterTransform().getPosition().getX());
+        SmartDashboard.putNumber("filter-robot-y", RobotPositionTracker.getInstance().getFilterTransform().getPosition().getY());
+        SmartDashboard.putNumber("filter-robot-theta", RobotPositionTracker.getInstance().getFilterTransform().getRotation().getDegrees());
     }
 }
