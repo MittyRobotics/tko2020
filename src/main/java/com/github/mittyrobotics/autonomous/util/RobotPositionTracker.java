@@ -54,6 +54,7 @@ public class RobotPositionTracker {
     private KalmanFilter filter;
 
     private double lastStateMeasurementTime;
+    private double lastStatePredictionTime;
 
     private RobotPositionTracker(){
         odometry = new Odometry();
@@ -122,16 +123,22 @@ public class RobotPositionTracker {
     }
 
     public void addStatePrediction(DrivetrainState statePrediction){
+        double time = Timer.getFPGATimestamp();
+        double dt = lastStatePredictionTime == 0? 0.02 : time-lastStatePredictionTime;
+        lastStatePredictionTime = time;
+        Position deltaPosition = statePrediction.getRotatedVelocityTransform(getFilterTransform().getRotation()).multiply(dt).getPosition();
+        SimpleMatrix u = new SimpleMatrix(new double[][]{
+                {deltaPosition.getX()/dt},
+                {deltaPosition.getY()/dt}
+        });
+        filter.predict(u);
     }
 
     public void addStateMeasurement(DrivetrainState measurement){
         double time = Timer.getFPGATimestamp();
         double dt = time-lastStateMeasurementTime;
         lastStateMeasurementTime = time;
-        Position deltaPosition = measurement.getDeltaTransform(dt).getPosition();
-        double magnitude = deltaPosition.magnitude();
-        Rotation theta = new Position().angleTo(deltaPosition).add(Gyro.getInstance().getRotation().add(Rotation.fromDegrees(180)));
-        deltaPosition = new Position(magnitude*theta.cos(), magnitude*theta.sin());
+        Position deltaPosition = measurement.getRotatedVelocityTransform(getFilterTransform().getRotation()).multiply(dt).getPosition();
         SimpleMatrix u = new SimpleMatrix(new double[][]{
                 {deltaPosition.getX()/dt},
                 {deltaPosition.getY()/dt}

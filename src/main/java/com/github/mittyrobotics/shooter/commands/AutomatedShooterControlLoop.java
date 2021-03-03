@@ -20,16 +20,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class AutomatedShooterControlLoop extends CommandBase{
-
-    private double lastTime;
-
-    private MedianFilter visionFilter = new MedianFilter(10);
-    private MedianFilter velocityFilter = new MedianFilter(10);
-
-    private double lastVision = 0;
-
-
-
     /**
      * Calls the constructor of {@link CommandBase}
      *
@@ -45,7 +35,6 @@ public class AutomatedShooterControlLoop extends CommandBase{
      */
     @Override
     public void initialize(){
-        lastTime = Timer.getFPGATimestamp();
     }
 
     /**
@@ -53,40 +42,7 @@ public class AutomatedShooterControlLoop extends CommandBase{
      */
     @Override
     public void execute(){
-        double time = Timer.getFPGATimestamp();
-        double dt = time-lastTime;
-        lastTime = time;
-
-        double visionDistance = visionFilter.calculate(Vision.getInstance().getLatestTarget().distance);
-        double visionRPM = getRPMFromTable(visionDistance);
-
-        Transform fieldVelocity = RobotPositionTracker.getInstance().getFilterState().getRotatedDeltaTransform(
-                RobotPositionTracker.getInstance().getFilterTransform().getRotation(), dt).divide(dt);
-
-        double velGain = 14;
-        double fieldVelocityY = velocityFilter.calculate(fieldVelocity.getPosition().getY());
-        double fieldVelocityRPM = Math.abs(fieldVelocityY)*velGain;
-
-        double RPM = visionRPM + fieldVelocityRPM;
-
-        SmartDashboard.putNumber("auto-rpm", RPM);
-        SmartDashboard.putNumber("auto-rpm-vision", visionRPM);
-        SmartDashboard.putNumber("auto-rpm-vel", fieldVelocityRPM);
-
-        ShooterSubsystem.getInstance().setShooterRpm(RPM);
-    }
-
-    private double getRPMFromTable(double distance){
-        distance /= 12.0;
-        double closest = AutonConstants.SHOOTER_RPM_TABLE[0][0];
-        double closestVal = AutonConstants.SHOOTER_RPM_TABLE[0][1];
-        for(int i = 1; i < AutonConstants.SHOOTER_RPM_TABLE.length; i++){
-            if(Math.abs(distance-AutonConstants.SHOOTER_RPM_TABLE[i][0]) < closest){
-                closest = AutonConstants.SHOOTER_RPM_TABLE[0][0];
-                closestVal = AutonConstants.SHOOTER_RPM_TABLE[0][1];
-            }
-        }
-        return closestVal;
+        ShooterSubsystem.getInstance().setShooterRpm(Autonomous.getInstance().getAutoShooterRPM());
     }
 
     /**
