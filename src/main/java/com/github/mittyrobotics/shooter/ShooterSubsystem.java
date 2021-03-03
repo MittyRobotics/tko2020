@@ -109,7 +109,12 @@ public class ShooterSubsystem extends SubsystemBase implements IMotorSubsystem {
         followerPIDController.setD(ShooterConstants.SHOOTER_D);
         manualRPMSetpoint = ShooterConstants.DEFAULT_MANUAL_SHOOTER_SPEED;
 
-        setDefaultCommand(new StopShooterCommand());
+    }
+
+    public void setRampRate(double rampRate){
+        shooterSparkMaster.setClosedLoopRampRate(rampRate);
+        shooterSparkFollower.setClosedLoopRampRate(rampRate);
+
     }
 
     /**
@@ -117,9 +122,11 @@ public class ShooterSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Current Shooter RPM", getVelocity());
-        SmartDashboard.putNumber("Shooter RPM Setpoint", getCurrentSetpoint());
-        SmartDashboard.putNumber("Manual Shooter RPM Setpoint", getManualRPMSetpoint());
+        SmartDashboard.putNumber("shooter-left-rpm", masterEncoder.getVelocity());
+        SmartDashboard.putNumber("shooter-right-rpm", followerEncoder.getVelocity());
+        SmartDashboard.putNumber("shooter-left-voltage", shooterSparkMaster.get()*12);
+        SmartDashboard.putNumber("shooter-right-voltage", shooterSparkFollower.get()*12);
+        SmartDashboard.putNumber("shooter-setpoint", getCurrentSetpoint());
     }
 
     /**

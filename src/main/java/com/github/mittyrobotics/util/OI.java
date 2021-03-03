@@ -128,8 +128,6 @@ public class OI {
      * Setup controls
      */
     public void setupControls() {
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
-
 //        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
     }
 

@@ -1,6 +1,8 @@
 package com.github.mittyrobotics.shooter.commands;
 
 import com.github.mittyrobotics.autonomous.Autonomous;
+import com.github.mittyrobotics.autonomous.FieldRotation;
+import com.github.mittyrobotics.autonomous.util.RobotPositionTracker;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
@@ -11,7 +13,7 @@ public class SetTurretFieldAngle extends CommandBase{
     /**
      * Angle to set the turret to
      */
-    private final double angle;
+    private final FieldRotation rotation;
 
 
     /**
@@ -19,11 +21,11 @@ public class SetTurretFieldAngle extends CommandBase{
      *
      * Requires the {@link TurretSubsystem}
      *
-     * @param angle angle to set turret to
+     * @param fieldRotation field rotation to set turret to
      *
      */
-    public SetTurretFieldAngle(double angle){
-        this.angle = angle;
+    public SetTurretFieldAngle(FieldRotation fieldRotation){
+        this.rotation = fieldRotation;
         addRequirements(TurretSubsystem.getInstance());
     }
 
@@ -39,10 +41,9 @@ public class SetTurretFieldAngle extends CommandBase{
      */
     @Override
     public void execute(){
-        System.out.println(Autonomous.getInstance().getTurretRotationFromFieldRotation(
-                Rotation.fromDegrees(angle), Gyro.getInstance().getRotation()).getDegrees());
         TurretSubsystem.getInstance().setTurretAngle(Autonomous.getInstance().getTurretRotationFromFieldRotation(
-                Rotation.fromDegrees(angle), Gyro.getInstance().getRotation()).getDegrees());
+                rotation.getRotation(RobotPositionTracker.getInstance().getFilterTransform().getPosition()),
+                Gyro.getInstance().getRotation()).getDegrees());
         TurretSubsystem.getInstance().updateTurretControlLoop();
     }
 

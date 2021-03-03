@@ -2,6 +2,7 @@ package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.util.RobotPositionTracker;
 import com.github.mittyrobotics.datatypes.motion.DrivetrainState;
+import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
@@ -35,6 +36,10 @@ public class Autonomous implements IDashboard {
 
     public Rotation getTurretRotationFromFieldRotation(Rotation fieldRotation, Rotation robotRotation){
         return fieldRotation.subtract(robotRotation);
+    }
+
+    public Rotation getFieldRotationToTarget(Position robotPosition, Position target){
+        return robotPosition.angleTo(target);
     }
 
     public void setDriveCommand(DrivetrainState state){

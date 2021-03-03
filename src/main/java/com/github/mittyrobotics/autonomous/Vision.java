@@ -31,6 +31,11 @@ public class Vision implements IDashboard {
     private Transform latestTurretTransformEstimate = new Transform();
     private Transform latestRobotTransformEstimate = new Transform();
 
+    private MedianFilter xFilter = new MedianFilter(10);
+    private MedianFilter yFilter = new MedianFilter(10);
+
+    private boolean visionSafe = true;
+
     public void run() {
         //Update limelight values
         Limelight.getInstance().updateLimelightValues();
@@ -50,10 +55,33 @@ public class Vision implements IDashboard {
         Transform cameraTransform = Vision.getInstance().calculateCameraRelativeTransform(latestTarget);
         //Calculate turret transform relative to target
         Transform turretTransform = Vision.getInstance().calculateTurretRelativeTransform(cameraTransform);
+
         //Calculate turret transform relative to field
-        latestTurretTransformEstimate = Vision.getInstance().calculateTurretFieldTransform(turretTransform, turretRotation, robotRotation);
-        //Calculate robot transform relative to field
-        latestRobotTransformEstimate = Vision.getInstance().calculateRobotFieldTransform(latestTurretTransformEstimate, robotRotation);
+        Transform transformEstimate = Vision.getInstance().calculateTurretFieldTransform(turretTransform, turretRotation, robotRotation);
+        cameraTransform.setPosition(new Position(
+                xFilter.calculate(latestTurretTransformEstimate.getPosition().getX()),
+                yFilter.calculate(latestTurretTransformEstimate.getPosition().getY())
+        ));
+
+        if((Math.abs(transformEstimate.getPosition().subtract(latestRobotTransformEstimate.getPosition()).getX()) > 30
+                || Math.abs(transformEstimate.getPosition().subtract(latestRobotTransformEstimate.getPosition()).getX()) > 30) &&
+                (latestRobotTransformEstimate.getPosition().getX() != 0 && latestRobotTransformEstimate.getPosition().getY() != 0)){
+            System.out.println("Warning: Inacurate Vision Data");
+            visionSafe = false;
+        }
+        else{
+            visionSafe = true;
+
+            latestTurretTransformEstimate = transformEstimate;
+
+            //Calculate robot transform relative to field
+            latestRobotTransformEstimate = Vision.getInstance().calculateRobotFieldTransform(latestTurretTransformEstimate, robotRotation);
+        }
+    }
+
+    public void reset(){
+        latestTurretTransformEstimate = new Transform();
+        latestRobotTransformEstimate = new Transform();
     }
 
     public double calculateDistanceToTarget(Rotation pitch) {
@@ -62,26 +90,26 @@ public class Vision implements IDashboard {
     }
 
     public Transform calculateCameraRelativeTransform(VisionTarget target) {
-        return new Transform( target.distance,target.yaw.tan() * target.distance, target.yaw);
+        return new Transform(target.distance, target.yaw.tan() * target.distance, target.yaw);
     }
 
-    public Transform calculateTurretRelativeTransform(Transform cameraRelativeTransform){
+    public Transform calculateTurretRelativeTransform(Transform cameraRelativeTransform) {
         Position turretPosition = cameraRelativeTransform.getPosition().add(new Position(
                 AutonConstants.CAMERA_TURRET_OFFSET, 0
         ));
         return new Transform(turretPosition, turretPosition.angleTo(new Position()));
     }
 
-    public Transform calculateTurretFieldTransform(Transform turretRelativeTransform, Rotation turretRotation, Rotation robotRotation){
+    public Transform calculateTurretFieldTransform(Transform turretRelativeTransform, Rotation turretRotation, Rotation robotRotation) {
         Rotation fieldRotation = robotRotation.add(turretRotation).add(turretRelativeTransform.getRotation());
         double distance = turretRelativeTransform.getPosition().magnitude();
-        Position fieldPosition = new Position(distance*fieldRotation.cos(), distance*fieldRotation.sin());
+        Position fieldPosition = new Position(distance * fieldRotation.cos(), distance * fieldRotation.sin());
         fieldPosition = AutonCoordinates.SCORING_TARGET.subtract(fieldPosition);
         fieldRotation = fieldRotation.subtract(turretRelativeTransform.getRotation());
         return new Transform(fieldPosition, fieldRotation);
     }
 
-    public Transform calculateRobotFieldTransform(Transform turretFieldTransform, Rotation robotRotation){
+    public Transform calculateRobotFieldTransform(Transform turretFieldTransform, Rotation robotRotation) {
         return new Transform(turretFieldTransform.getPosition().subtract(AutonConstants.TURRET_ON_ROBOT.rotateBy(robotRotation)), robotRotation);
     }
 
@@ -107,5 +135,9 @@ public class Vision implements IDashboard {
         SmartDashboard.putNumber("vision-robot-x", latestRobotTransformEstimate.getPosition().getX());
         SmartDashboard.putNumber("vision-robot-y", latestRobotTransformEstimate.getPosition().getY());
         SmartDashboard.putNumber("vision-robot-theta", latestRobotTransformEstimate.getRotation().getDegrees());
+    }
+
+    public boolean isVisionSafe() {
+        return visionSafe;
     }
 }

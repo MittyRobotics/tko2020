@@ -1,6 +1,7 @@
 package com.github.mittyrobotics.conveyor;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
@@ -91,6 +92,10 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
         conveyorTalonTop.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
         ballSensor = new DigitalInput(ConveyorConstants.BALL_SENSOR_ID);
         ballCount = 0;
+    }
+
+    public WPI_TalonSRX getConveyorTalonBottom(){
+        return conveyorTalonBottom;
     }
 
     /**

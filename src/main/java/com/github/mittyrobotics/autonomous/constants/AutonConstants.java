@@ -44,7 +44,9 @@ public class AutonConstants {
     public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
     public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
     public static double CAMERA_TURRET_OFFSET = 7.5; //Inches //TODO: Find this value
-    public static Position TURRET_ON_ROBOT = new Position(6, 0); //Inches //Todo: Find this value
+    public static Position TURRET_ON_ROBOT = new Position(7, 0); //Inches //Todo: Find this value
+
+    public static double DISTANCE_EDGE_MULTIPLIER = 1;
 
     public static double LOW_RANGE_SHOOTER_GAIN = 1;
     public static double MID_RANGE_SHOOTER_GAIN = 1;

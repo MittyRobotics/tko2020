@@ -67,8 +67,6 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
     private double encoderVelocity = 0;
     private double gyroPosition = 0;
     private double gyroVelocity = 0;
-    private double filteredPosition = 0;
-    private double filteredVelocity = 0;
 
     private TurretEncoderUpdater turretEncoderUpdater = new TurretEncoderUpdater();
 
@@ -103,21 +101,16 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         turretTalon.config_kD(0, TurretConstants.TURRET_D);
         limitSwitchLeft = new DigitalInput(TurretConstants.TURRET_SWITCH_ID);
         limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
-        turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        turretTalon.setSensorPhase(TurretConstants.TURRET_ENCODER_INVERSION);
 
-        turretTalon.setSelectedSensorPosition(0, 0, 10);
-        turretTalon.getSensorCollection().setQuadraturePosition(0, 10);
-        encoderPosition = 0;
+//        turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+//        turretTalon.setSelectedSensorPosition(0);
 
         //Initialize PIDController
         turretController =
                 new PIDController(TurretConstants.TURRET_P, TurretConstants.TURRET_I, TurretConstants.TURRET_D);
-//        turretController.enableContinuousInput(0, TurretConstants.REVOLUTION_TICKS - 1);
 
         Notifier turretEncoderNotifier = new Notifier(turretEncoderUpdater);
         turretEncoderNotifier.startPeriodic(0.02);
-        turretEncoderUpdater.resetPosition();
     }
 
     public TalonSRX getTalon() {
@@ -136,12 +129,10 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("turret-gyro-pos", gyroPosition);
-        SmartDashboard.putNumber("turret-gyro-vel", gyroVelocity);
         SmartDashboard.putNumber("turret-pos", encoderPosition);
         SmartDashboard.putNumber("turret-vel", encoderVelocity);
-        SmartDashboard.putNumber("turret-angle", getAngle());
-        SmartDashboard.putNumber("turret-angle-setpoint", turretController.getSetpoint());
+        SmartDashboard.putNumber("turret-voltage", turretTalon.getMotorOutputVoltage());
+
     }
 
     /**
@@ -150,7 +141,16 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @param percent the turret motor percent output.
      */
     public void setMotor(double percent) {
-        overrideSetMotor(percent);
+        percent = MathUtil.clamp(percent, -maxPercent, maxPercent);
+        if(getPosition() <= TurretConstants.MIN_ANGLE){
+            overrideSetMotor(Math.max(0, percent));
+        }
+        else if(getPosition() >=  TurretConstants.MAX_ANGLE){
+            overrideSetMotor(Math.min(0, percent));
+        }
+        else{
+            overrideSetMotor(percent);
+        }
     }
 
     /**
@@ -191,7 +191,13 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * This should be called periodically whenever the turret is automated.
      */
     public void updateTurretControlLoop() {
-        setMotor(MathUtil.clamp(turretController.calculate(getPosition()), -maxPercent, maxPercent));
+        double pid = turretController.calculate(getPosition());
+        if(Math.abs(turretController.getPositionError()) < 5){
+            setMotor(0);
+        }
+        else{
+            setMotor(MathUtil.clamp(pid, -maxPercent, maxPercent));
+        }
     }
 
     /**
@@ -222,12 +228,12 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public double getPosition() {
-        return filteredPosition;
+        return encoderPosition;
     }
 
     @Override
     public double getVelocity() {
-        return filteredVelocity;
+        return encoderVelocity;
     }
 
     /**

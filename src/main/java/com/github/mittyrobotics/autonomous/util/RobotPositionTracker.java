@@ -79,16 +79,16 @@ public class RobotPositionTracker {
                 {0, 0, 0, 1}
         }); //measurement matrix
         SimpleMatrix Q = new SimpleMatrix(new double[][]{
-                {.005, 0, 0, 0},
-                {0, .005, 0, 0},
-                {0, 0, .1, 0},
-                {0, 0, 0, .1}
+                {.01, 0, 0, 0},
+                {0, .01, 0, 0},
+                {0, 0, .01, 0},
+                {0, 0, 0, .01}
         }); //process noise
         SimpleMatrix R = new SimpleMatrix(new double[][]{
-                {1, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1}
+                {20, 0, 0, 0},
+                {0, 20, 0, 0},
+                {0, 0, 20, 0},
+                {0, 0, 0, 20}
         }); //measurement noise
 
         filter = new KalmanFilter(A, B, H, Q, R);
@@ -115,7 +115,10 @@ public class RobotPositionTracker {
 //        odometryTransform.setRotation(odometry.getRobotRotation());
 
         addStateMeasurement(state);
-        addVisionMeasurement(Vision.getInstance().getLatestRobotTransformEstimate().getPosition());
+        if(Vision.getInstance().isVisionSafe()){
+            addVisionMeasurement(Vision.getInstance().getLatestRobotTransformEstimate().getPosition());
+        }
+
     }
 
     public void addStatePrediction(DrivetrainState statePrediction){
@@ -179,5 +182,10 @@ public class RobotPositionTracker {
     public Transform getFilterTransform() {
         SimpleMatrix xHat = filter.getxHat();
         return new Transform(xHat.get(0), xHat.get(1), getOdometryTransform().getRotation());
+    }
+
+    public DrivetrainState getFilterState() {
+        SimpleMatrix xHat = filter.getxHat();
+        return DrivetrainState.fromWheelSpeeds(xHat.get(2), xHat.get(3), AutonConstants.DRIVETRAIN_TRACK_WIDTH);
     }
 }
