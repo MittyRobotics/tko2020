@@ -48,9 +48,9 @@ public class AutonConstants {
 
     public static double DISTANCE_EDGE_MULTIPLIER = 1;
 
-    public static double LOW_RANGE_SHOOTER_GAIN = 1;
-    public static double MID_RANGE_SHOOTER_GAIN = 1;
-    public static double HIGH_RANGE_SHOOTER_GAIN = 1;
+    public static double LOW_RANGE_SHOOTER_GAIN = 1.1;
+    public static double MID_RANGE_SHOOTER_GAIN = 1.05;
+    public static double HIGH_RANGE_SHOOTER_GAIN = .9;
 
     //Shooter //TODO: Tune these
     //TODO: Convert real distances into vision distance
@@ -60,9 +60,9 @@ public class AutonConstants {
      * Elements are in the format {distance, RPM}
      */
     public static double[][] SHOOTER_RPM_TABLE = {
-            {10, 3700 * LOW_RANGE_SHOOTER_GAIN},
-            {11, 3700 * LOW_RANGE_SHOOTER_GAIN},
-            {12, 3450 * LOW_RANGE_SHOOTER_GAIN},
+            {10, 3700 * LOW_RANGE_SHOOTER_GAIN*1.13},
+            {11, 3700 * LOW_RANGE_SHOOTER_GAIN*1.13},
+            {12, 3450 * LOW_RANGE_SHOOTER_GAIN*1.13},
             {13, 3500 * LOW_RANGE_SHOOTER_GAIN},
             {14, 3500 * LOW_RANGE_SHOOTER_GAIN},
             {15, 3550 * LOW_RANGE_SHOOTER_GAIN},

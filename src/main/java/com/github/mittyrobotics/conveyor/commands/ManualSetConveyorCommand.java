@@ -11,4 +11,9 @@ public class ManualSetConveyorCommand extends RunCommand {
             ConveyorSubsystem.getInstance().overrideSetMotor(conveyorSpeed);
         });
     }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

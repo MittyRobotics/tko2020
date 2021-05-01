@@ -100,11 +100,12 @@ public class Robot extends TimedRobot {
 
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
+        Gyro.getInstance().setZeroAngle(0);
 
 //        Compressor.getInstance().initHardware();
         DrivetrainSubsystem.getInstance().setMaxPercent(.3);
 
-        Vision.getInstance();
+        Vision.getInstance().reset();
         RobotPositionTracker.getInstance().init(getPeriod());
         Vision.getInstance().run();
         RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
@@ -118,11 +119,14 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
-        OI.getInstance().updateOI();
+//        OI.getInstance().updateOI();
         Vision.getInstance().run();
         Vision.getInstance().updateDashboard();
-        Autonomous.getInstance().updateDashboard();
         RobotPositionTracker.getInstance().updateOdometry();
+        Autonomous.getInstance().run();
+        Autonomous.getInstance().updateDashboard();
+
+
     }
 
     /**
@@ -151,17 +155,22 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-//        new TankDriveCommand().schedule();
+        new InstantCommand(()->{TurretSubsystem.getInstance().setMotor(0);}, TurretSubsystem.getInstance());
+        new InstantCommand(()->{ShooterSubsystem.getInstance().setShooterRpm(0); ShooterSubsystem.getInstance().stopMotor();}, ShooterSubsystem.getInstance());
+        new InstantCommand(()->{DrivetrainSubsystem.getInstance().stopMotor();}, DrivetrainSubsystem.getInstance());
+        new InstantCommand(()->{ConveyorSubsystem.getInstance().stopMotor();}, ConveyorSubsystem.getInstance());
+        new InstantCommand(()->{IntakeSubsystem.getInstance().stopMotor();}, IntakeSubsystem.getInstance());
+        new TankDriveCommand().schedule();
 //        CommandScheduler.getInstance().cancel(autonCommandGroup);
 //        OI.getInstance().setupControls();
         TurretSubsystem.getInstance().setControlLoopMaxPercent(.5);
-        new AutomatedTurretControlLoop().schedule();
-        new AutomatedShooterControlLoop().schedule();
+//        new AutomatedTurretControlLoop().schedule();
+//        new AutomatedShooterControlLoop().schedule();
 //
 //        new ManualTurretCommand().schedule();
 
 //        new SetShooterRpmCommand(2000).schedule();
-        new ManualSetConveyorCommand(.5, .3).schedule();
+//        new ManualSetConveyorCommand(.5, .3).schedule();
     }
 
     /**
@@ -169,6 +178,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testInit() {
+        Vision.getInstance().reset();
         Gyro.getInstance().initHardware();
         Vision.getInstance().run();
         RobotPositionTracker.getInstance().init(getPeriod());

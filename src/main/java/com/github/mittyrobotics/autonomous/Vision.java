@@ -2,12 +2,12 @@ package com.github.mittyrobotics.autonomous;
 
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
+import com.github.mittyrobotics.autonomous.util.RobotPositionTracker;
 import com.github.mittyrobotics.autonomous.vision.Limelight;
 import com.github.mittyrobotics.datatypes.positioning.Position;
 import com.github.mittyrobotics.datatypes.positioning.Rotation;
 import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
-import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
 import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,7 +48,7 @@ public class Vision implements IDashboard {
         latestTarget = new VisionTarget(llYaw, llPitch, distance);
 
         //Get robot and turret transforms
-        Rotation robotRotation = Gyro.getInstance().getRotation();
+        Rotation robotRotation = RobotPositionTracker.getInstance().getFilterTransform().getRotation();
         Rotation turretRotation = TurretSubsystem.getInstance().getRotation();
 
         //Calculate camera transform relative to target

@@ -28,6 +28,7 @@ public class FollowPath extends CommandBase {
     @Override
     public void initialize() {
         lastTime = Timer.getFPGATimestamp();
+        DrivetrainSubsystem.getInstance().brake();
     }
 
     @Override
@@ -45,11 +46,15 @@ public class FollowPath extends CommandBase {
                 ),
                 dt
         );
+
         DrivetrainSubsystem.getInstance().setVelocity(state.getLeft() * Conversions.M_TO_IN, state.getRight() * Conversions.M_TO_IN);
         SmartDashboard.putNumber("path-vel-linear", state.getLinear() * Conversions.M_TO_IN);
         SmartDashboard.putNumber("circle-x", follower.getPursuitCircle().getCenter().getX() * Conversions.M_TO_IN);
         SmartDashboard.putNumber("circle-y", follower.getPursuitCircle().getCenter().getY() * Conversions.M_TO_IN);
         SmartDashboard.putNumber("circle-r", follower.getPursuitCircle().getRadius() * Conversions.M_TO_IN);
+        SmartDashboard.putNumber("look-x", follower.getLookaheadPoint().getX() * Conversions.M_TO_IN);
+        SmartDashboard.putNumber("look-y", follower.getLookaheadPoint().getY() * Conversions.M_TO_IN);
+
 
 
     }

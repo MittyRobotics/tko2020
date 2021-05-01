@@ -35,7 +35,7 @@ public class DriveConstants {
     public static final int RIGHT_FALCON_MASTER_ID = 12;
     public static final int RIGHT_FALCON_SLAVE_ID = 13;
     public static final double DRIVE_FALCON_MAX_VELOCITY = 85.5/.3; //12*.3/85.5
-    public static final double DRIVE_FALCON_FF = (12*.3)/80; //12*.3/85.5
+    public static final double DRIVE_FALCON_FF = (12*.3)/75; //12*.3/85.5
     public static final double DRIVE_FALCON_P = 0.08;
     public static final boolean LEFT_FACLON_MASTER_INVERSION = false;
     public static final boolean LEFT_FACLON_SLAVE_INVERSION = false;

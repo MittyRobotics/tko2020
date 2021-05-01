@@ -116,7 +116,7 @@ public class RobotPositionTracker {
 //        odometryTransform.setRotation(odometry.getRobotRotation());
 
         addStateMeasurement(state);
-        if(Vision.getInstance().isVisionSafe()){
+        if(Vision.getInstance().isVisionSafe() && Vision.getInstance().getLatestTarget().distance < 20*12){
             addVisionMeasurement(Vision.getInstance().getLatestRobotTransformEstimate().getPosition());
         }
 

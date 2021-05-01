@@ -45,6 +45,8 @@ public class Gyro extends ADXRS450_Gyro implements IHardware {
         super();
     }
 
+    private double calibHeading = 0;
+
     /**
      * Returns the {@link Gyro} instance
      *
@@ -64,7 +66,7 @@ public class Gyro extends ADXRS450_Gyro implements IHardware {
      */
     @Override
     public double getAngle() {
-        return -super.getAngle();
+        return -super.getAngle() + calibHeading;
     }
 
     /**
@@ -88,6 +90,10 @@ public class Gyro extends ADXRS450_Gyro implements IHardware {
             angle += 360;
         }
         return angle;
+    }
+
+    public void setZeroAngle(double newAngle){
+        calibHeading = newAngle;
     }
 
     /**

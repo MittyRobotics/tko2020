@@ -10,6 +10,7 @@ import com.github.mittyrobotics.datatypes.positioning.Transform;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,13 +41,13 @@ public class Autonomous implements IDashboard {
 
     }
 
-    private final double VISION_P = .5;
+    private final double VISION_P = .6;
     private final double VISION_D = .07;
-    private final double LINEAR_VELOCITY_X_GAIN = .3/40.0;
-    private final double LINEAR_VELOCITY_Y_GAIN = 14;
+    private final double LINEAR_VELOCITY_Y_GAIN = .3/100.0;
+    private final double LINEAR_VELOCITY_X_GAIN = 10;
     private final double LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN = 1.1;
-    private final double TURRET_VELOCITY_F = (12.0)/70;
-    private final double TURRET_VELOCITY_P = .02;
+    private double TURRET_VELOCITY_F = (12.0)/180;
+    private final double TURRET_VELOCITY_P = 0;
 
     public void run(){
         //Update delta time
@@ -66,11 +67,11 @@ public class Autonomous implements IDashboard {
         Transform fieldVelocity = RobotPositionTracker.getInstance().getFilterState().getRotatedVelocityTransform(
                 RobotPositionTracker.getInstance().getFilterTransform().getRotation());
         //Filter field velocity
-        fieldVelocity = new Transform(
-                fieldVelocityYFilter.calculate(fieldVelocity.getPosition().getY()),
-                fieldVelocityXFilter.calculate(fieldVelocity.getPosition().getX()),
-                fieldVelocityRotFilter.calculate(fieldVelocity.getRotation().getRadians())
-        );
+//        fieldVelocity = new Transform(
+//                fieldVelocityYFilter.calculate(fieldVelocity.getPosition().getY()),
+//                fieldVelocityXFilter.calculate(fieldVelocity.getPosition().getX()),
+//                fieldVelocityRotFilter.calculate(fieldVelocity.getRotation().getRadians())
+//        );
 
         //Get current robot transform
         Transform currentRobotTransform = RobotPositionTracker.getInstance().getFilterTransform();
@@ -83,7 +84,6 @@ public class Autonomous implements IDashboard {
         double nextFieldRotation = AutonCoordinates.SCORING_TARGET.angleTo(nextRobotTransform.getPosition()).getDegrees();
         //Calculate change in field rotation over change in time for linear movement
         double linearRotationVelocity = -(nextFieldRotation-currentFieldRotation)/dt;
-
         //Calculate shooter RPM and turret output
         autoShooterRPM = calculateShooter(visionDistance, fieldVelocity);
         autoTurretOutput = calculateTurret(visionAngle, visionAngleVelocity, linearRotationVelocity, fieldVelocity, dt);
@@ -92,23 +92,31 @@ public class Autonomous implements IDashboard {
     private double calculateShooter(double visionDistance, Transform fieldVelocity){
         //Shooter calculations
         double visionRPM = getRPMFromTable(visionDistance);
-        double fieldVelocityRPM = Math.abs(fieldVelocity.getPosition().getY())* LINEAR_VELOCITY_Y_GAIN;
+        double fieldVelocityRPM = Math.abs(fieldVelocity.getPosition().getX())* LINEAR_VELOCITY_X_GAIN;
         return visionRPM + fieldVelocityRPM;
     }
 
     private double calculateTurret(double visionAngle, double visionAngleVelocity, double linearRotationVelocity, Transform fieldVelocity, double dt){
-        //Calculate X motion offset
-        double xVelocityOffset = -fieldVelocity.getPosition().getX()* LINEAR_VELOCITY_X_GAIN;
+        //Calculate Y motion offset
+        double yVelocityOffset = -fieldVelocity.getPosition().getY()* LINEAR_VELOCITY_Y_GAIN* Math.signum(fieldVelocity.getPosition().getX());
         //Add x motion offset to vision angle
-        double offsetVision = visionAngle + xVelocityOffset;
+        double offsetVision = visionAngle + yVelocityOffset;
         //Calculate vision angle PID
         double pidVoltage = offsetVision* VISION_P + visionAngleVelocity* VISION_D;
 
         //Counteract the current field rotation velocity
-        double counteractFieldRotationVelocity = -fieldVelocity.getRotation().getDegrees();
+        double counteractFieldRotationVelocity = fieldVelocity.getRotation().getDegrees()* Math.signum(-fieldVelocity.getPosition().getX());
 
         //Counteract the linear movement velocity
-        double counteractLinearMovementVelocity = linearRotationVelocity* LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN;
+        double counteractLinearMovementVelocity = linearRotationVelocity* LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN* Math.signum(fieldVelocity.getPosition().getX());
+
+        if(DriverStation.getInstance().isEnabled()){
+            System.out.println(linearRotationVelocity + " " + counteractLinearMovementVelocity + " " + counteractFieldRotationVelocity + " " + fieldVelocity ) ;
+        }
+
+
+        double oldF = TURRET_VELOCITY_F;
+        TURRET_VELOCITY_F = fieldVelocity.getPosition().getX() < 0? 12/300.0 : oldF;
 
         //Calculate final counteraction velocity with countracted field rotation and counteracted linear movement
         double desiredVelocity = counteractFieldRotationVelocity+counteractLinearMovementVelocity;
@@ -117,15 +125,12 @@ public class Autonomous implements IDashboard {
         double velVoltage = desiredVelocity* TURRET_VELOCITY_F +
                 (desiredVelocity-TurretSubsystem.getInstance().getVelocity()) * TURRET_VELOCITY_P;
 
+        TURRET_VELOCITY_F = oldF;
         //Combine position and velocity loop outputs
         double turretVoltage = pidVoltage + velVoltage;
 
         //return percent output
         return turretVoltage/12.0;
-    }
-
-    public void updateDrive(){
-        DrivetrainSubsystem.getInstance().setVelocity(currentDriveCommand.getLeft(), currentDriveCommand.getRight());
     }
 
     public Rotation getTurretRotationFromFieldRotation(Rotation fieldRotation, Rotation robotRotation){

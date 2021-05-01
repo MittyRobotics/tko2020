@@ -39,8 +39,8 @@ public class TurretConstants {
     public static final double TICKS_PER_ANGLE = 10.7;
     public static final double PWM_PER_ANGLE = (0.325-.089)/90.0;
     public static final double CENTER_PWM = 0.324;
-    public static final double MIN_ANGLE = -90;
-    public static final double MAX_ANGLE = 90;
+    public static final double MIN_ANGLE = -115;
+    public static final double MAX_ANGLE = 115;
     public static final double REVOLUTION_TICKS = 3911;
     public static final double CENTER_ENCODER_POS = -4192.0;
 }
