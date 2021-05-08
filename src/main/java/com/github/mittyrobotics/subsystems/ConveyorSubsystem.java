@@ -72,13 +72,13 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     public void updateBallCount(int increase){
-        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
+//        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
             ballCount = MathUtil.clamp(ballCount + increase, ConveyorConstants.MINIMUM_BALL_COUNT, ConveyorConstants.MAXIMUM_BALL_COUNT);
-        }
+//        }
     }
 
     public void resetBallCount(){
-        ballCount = 0;
+        ballCount = ConveyorConstants.MINIMUM_BALL_COUNT;
     }
 
     public void indexBall(){
@@ -100,6 +100,11 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
         } else {
             overrideSetMotor(speed);
         }
+    }
+
+    @Override
+    public void periodic() {
+        System.out.println(sensor.get());
     }
 
     public void shootBall(){

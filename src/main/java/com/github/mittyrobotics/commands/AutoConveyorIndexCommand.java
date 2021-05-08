@@ -45,6 +45,7 @@ public class AutoConveyorIndexCommand extends CommandBase {
 
     @Override
     public void execute() {
+//        System.out.println(state);
         if (ConveyorSubsystem.getInstance().getSwitch()) {
             state = State.SENSING;
             if(prevState != State.SENSING){

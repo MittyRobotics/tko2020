@@ -28,8 +28,8 @@ public class DriveConstants {
 
     public static final double TICKS_PER_INCH = 642.83;
     public static final int LEFT_FALCON_MASTER_ID = 10;
-    public static final int LEFT_FALCON_SLAVE_ID = 11;
-    public static final int RIGHT_FALCON_MASTER_ID = 12;
+    public static final int LEFT_FALCON_SLAVE_ID = 12;
+    public static final int RIGHT_FALCON_MASTER_ID = 11;
     public static final int RIGHT_FALCON_SLAVE_ID = 13;
     public static final double DRIVE_FALCON_FF = 0.06;
     public static final double DRIVE_FALCON_P = 0.01;
