@@ -89,6 +89,10 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
         }
     }
 
+    public void moveToPosition(double position) {
+
+    }
+
     public void setIntakingShooting() {
         setMotor(IntakeConstants.INTAKE_SPEED_SLOW);
     }
