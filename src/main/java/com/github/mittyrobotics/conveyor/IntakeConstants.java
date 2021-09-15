@@ -38,8 +38,8 @@ public class IntakeConstants {
     public static final int INTAKE_RAISE_MOTOR_ID = 0;
     public static final int INTAKE_LOWER_SWITCH_ID = 0;
     public static final int INTAKE_RAISE_SWITCH_ID = 1;
-    public static final double INTAKE_RAISED_POSITION = 0;
-    public static final double INTAKE_LOWERED_POSITION = 4000;
+    public static final int INTAKE_RAISED_POSITION = 0;
+    public static final int INTAKE_LOWERED_POSITION = 4000;
     public static final double INTAKE_KP = 0.1;
     public static final double INTAKE_KI = 0;
     public static final double INTAKE_KD = 0;

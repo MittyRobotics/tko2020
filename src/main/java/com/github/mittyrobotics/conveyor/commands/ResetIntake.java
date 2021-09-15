@@ -3,8 +3,8 @@ package com.github.mittyrobotics.conveyor.commands;
 import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class KeepIntakePosition extends CommandBase {
-    public KeepIntakePosition() {
+public class ResetIntake extends CommandBase {
+    public ResetIntake() {
         addRequirements(IntakeRaiseSubsystem.getInstance());
     }
 
@@ -13,16 +13,18 @@ public class KeepIntakePosition extends CommandBase {
 
     @Override
     public void execute() {
+        IntakeRaiseSubsystem.getInstance().raiseIntake();
         IntakeRaiseSubsystem.getInstance().setPositionPID(IntakeRaiseSubsystem.getInstance().getPosition());
     }
 
     @Override
     public void end(boolean interrupted) {
         IntakeRaiseSubsystem.getInstance().stop();
+        IntakeRaiseSubsystem.getInstance().resetEncoder();
     }
 
     @Override
     public boolean isFinished() {
-        return IntakeRaiseSubsystem.getInstance().getSwitch(0) || IntakeRaiseSubsystem.getInstance().getSwitch(1);
+        return IntakeRaiseSubsystem.getInstance().getSwitch(1);
     }
 }

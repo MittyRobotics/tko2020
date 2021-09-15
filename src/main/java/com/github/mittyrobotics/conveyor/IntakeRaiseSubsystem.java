@@ -26,6 +26,7 @@ package com.github.mittyrobotics.conveyor;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.conveyor.commands.KeepIntakePosition;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -90,18 +91,21 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
         raiseMotor.configFactoryDefault();
 
         raiseMotor.setInverted(IntakeConstants.INTAKE_RAISE_INVERSION);
-        raiseMotor.setNeutralMode(IntakeConstants.INTAKE_NEUTRAL_MODE);
+        raiseMotor.setNeutralMode(IntakeConstants.INTAKE_RAISE_NEUTRAL_MODE);
 
         raiseMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-        raiseMotor.setSelectedSensorPosition(0);
+        resetEncoder();
 
         controller = new PIDController(IntakeConstants.INTAKE_KP, IntakeConstants.INTAKE_KI, IntakeConstants.INTAKE_KD);
-        controller.setSetpoint(IntakeConstants.INTAKE_RAISED_POSITION);
+        controller.setSetpoint(IntakeConstants.INTAKE_LOWERED_POSITION);
 
         lowerSwitch = new DigitalInput(IntakeConstants.INTAKE_LOWER_SWITCH_ID);
         raiseSwitch = new DigitalInput(IntakeConstants.INTAKE_RAISE_SWITCH_ID);
+    }
 
-        stop();
+    @Override
+    public void resetEncoder() {
+        raiseMotor.setSelectedSensorPosition(0);
     }
 
     public void setPositionPID(double position) {

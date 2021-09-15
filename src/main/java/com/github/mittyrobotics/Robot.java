@@ -29,6 +29,7 @@ import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import com.github.mittyrobotics.conveyor.commands.ResetIntake;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
@@ -106,7 +107,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testInit() {
-
+        CommandScheduler.getInstance().schedule(new ResetIntake());
     }
 
     /**
