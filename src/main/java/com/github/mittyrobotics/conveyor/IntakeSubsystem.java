@@ -84,12 +84,12 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     /**
-     * Sets the motor to a spin at a percentage of the {@link IntakePistonSubsystem} is extended
+     * Sets the motor to a spin at a percentage of the {@link IntakeRaiseSubsystem} is extended
      *
      * @param percent the percentage to run the motor at
      */
     public void setMotor(double percent) {
-        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+        if (IntakeRaiseSubsystem.getInstance().isIntakeLowered()) {
             overrideSetMotor(percent);
         } else {
             overrideSetMotor(0);
@@ -97,7 +97,7 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     /**
-     * Runs the intake wheels regardless of the {@link IntakePistonSubsystem} state
+     * Runs the intake wheels regardless of the {@link IntakeRaiseSubsystem} state
      *
      * @param percent the percentage to run the motor at
      */

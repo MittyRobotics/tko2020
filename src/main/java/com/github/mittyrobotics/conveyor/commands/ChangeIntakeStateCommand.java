@@ -24,23 +24,23 @@
 
 package com.github.mittyrobotics.conveyor.commands;
 
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
+import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
 /**
  * Either retracts or extends the {@link IntakeSubsystem}
  */
-public class ChangeIntakePistonStateCommand extends ConditionalCommand {
+public class ChangeIntakeStateCommand extends ConditionalCommand {
 
     /**
      * Extends the {@link IntakeSubsystem} if retracted and retracts it if it is extended
      *
-     * Requires the {@link IntakePistonSubsystem}
+     * Requires the {@link IntakeRaiseSubsystem}
      */
-    public ChangeIntakePistonStateCommand() {
+    public ChangeIntakeStateCommand() {
         super(new RetractIntake(),
                 new ExtendIntake(),
-                () -> IntakePistonSubsystem.getInstance().isPistonExtended());
+                () -> IntakeRaiseSubsystem.getInstance().isIntakeLowered());
     }
 }

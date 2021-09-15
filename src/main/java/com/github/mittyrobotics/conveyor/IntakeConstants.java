@@ -27,7 +27,7 @@ package com.github.mittyrobotics.conveyor;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
- * Constants for the {@link IntakeSubsystem} and {@link IntakePistonSubsystem}
+ * Constants for the {@link IntakeSubsystem} and {@link IntakeRaiseSubsystem}
  */
 public class IntakeConstants {
     public static final int INTAKE_WHEEL_ID = 40;
@@ -35,8 +35,16 @@ public class IntakeConstants {
     public static final double INTAKE_SPEED_FAST = .45;
     public static final double INTAKE_SPEED_SLOW = .2;
     public static final double OUTTAKE_SPEED = -.5;
-    public static final int SOLENOID_FORWQRD_CHANNEL = 3;
-    public static final int SOLENOID_REVERSE_CHANNEL = 4;
+    public static final int INTAKE_RAISE_MOTOR_ID = 0;
+    public static final int INTAKE_LOWER_SWITCH_ID = 0;
+    public static final int INTAKE_RAISE_SWITCH_ID = 1;
+    public static final double INTAKE_RAISED_POSITION = 0;
+    public static final double INTAKE_LOWERED_POSITION = 4000;
+    public static final double INTAKE_KP = 0.1;
+    public static final double INTAKE_KI = 0;
+    public static final double INTAKE_KD = 0;
+    public static final boolean INTAKE_RAISE_INVERSION = false;
+    public static final NeutralMode INTAKE_RAISE_NEUTRAL_MODE = NeutralMode.Coast;
     public static final NeutralMode INTAKE_NEUTRAL_MODE = NeutralMode.Coast;
 
 }

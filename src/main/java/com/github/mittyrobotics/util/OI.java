@@ -24,14 +24,10 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.colorwheel.commands.ManualSpinColorWheelCommand;
-import com.github.mittyrobotics.colorwheel.commands.SpinWheelMacro;
-import com.github.mittyrobotics.colorwheel.commands.SpinnerDownCommand;
-import com.github.mittyrobotics.colorwheel.commands.SpinnerUpCommand;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
-import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
@@ -139,12 +135,14 @@ public class OI {
 
         TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
-        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
+        //SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
 
         ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
 
-        Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
-        spinWheelColor.whenPressed(new SpinWheelMacro());
+        IntakeRaiseSubsystem.getInstance().setDefaultCommand(new KeepIntakePosition());
+
+        /*Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
+        spinWheelColor.whenPressed(new SpinWheelMacro());*/
 
         Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
 //        autoTurret.whenHeld(new MinimalVisionCommand());
@@ -162,8 +160,8 @@ public class OI {
         manualShootSpeedDown
                 .whenPressed(new ChangeManualShooterSetpoint(-100));
 
-        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
-        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
+        Button changeIntake = new Button(() -> getXboxController().getBButton());
+        changeIntake.whenPressed(new ChangeIntakeStateCommand());
 
         Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
         intake.whenHeld(new IntakeBallCommand());
@@ -172,11 +170,11 @@ public class OI {
         outtake.whenHeld(new OuttakeRollersCommand());
         outtake.whenHeld(new ReverseConveyor());
 
-        Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
+        /*Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
 
         Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
-        colorPistonDown.whenPressed(new SpinnerDownCommand());
+        colorPistonDown.whenPressed(new SpinnerDownCommand());*/
     }
 
     /**

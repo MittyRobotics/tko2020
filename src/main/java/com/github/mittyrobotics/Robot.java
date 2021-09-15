@@ -27,7 +27,7 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.colorwheel.ColorPistonSubsystem;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
+import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
@@ -56,13 +56,11 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         SubsystemManager.getInstance().addSubsystems(
-                ColorPistonSubsystem.getInstance(),
                 ConveyorSubsystem.getInstance(),
                 DrivetrainSubsystem.getInstance(),
-                IntakePistonSubsystem.getInstance(),
+                IntakeRaiseSubsystem.getInstance(),
                 IntakeSubsystem.getInstance(),
                 ShooterSubsystem.getInstance(),
-                SpinnerSubsystem.getInstance(),
                 TurretSubsystem.getInstance()
         );
         SubsystemManager.getInstance().initHardware();

@@ -137,7 +137,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      * @param increase the amount to increase ball count by
      */
     public void updateBallCount(int increase){
-        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
+        if(IntakeRaiseSubsystem.getInstance().isPistonExtended()){
             ballCount = MathUtil.clamp(ballCount + increase, ConveyorConstants.MINIMUM_BALL_COUNT, ConveyorConstants.MAXIMUM_BALL_COUNT);
         }
     }
