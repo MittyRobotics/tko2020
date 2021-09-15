@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.drivetrain.commands;
 
-import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.Joystick;

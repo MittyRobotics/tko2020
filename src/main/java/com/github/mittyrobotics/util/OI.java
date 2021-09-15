@@ -32,7 +32,6 @@ import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
-import com.github.mittyrobotics.controls.controllers.XboxWheel;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;

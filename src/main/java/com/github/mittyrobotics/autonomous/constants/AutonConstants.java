@@ -24,7 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.constants;
 
-import com.github.mittyrobotics.datatypes.positioning.Position;
+import com.github.mittyrobotics.core.math.geometry.Vector2D;
 
 public class AutonConstants {
     //Field
@@ -44,7 +44,7 @@ public class AutonConstants {
     public static double DRIVETRAIN_TRACK_WIDTH = 26; //Inches
     public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
     public static double CAMERA_TURRET_OFFSET = 7.5; //Inches //TODO: Find this value
-    public static Position turretPositionRelativeToRobotCenter = new Position(24, 0); //Inches //Todo: Find this value
+    public static Vector2D turretPositionRelativeToRobotCenter = new Vector2D(24, 0); //Inches //Todo: Find this value
 
     public static double LOW_RANGE_SHOOTER_GAIN = 1;
     public static double MID_RANGE_SHOOTER_GAIN = 1;

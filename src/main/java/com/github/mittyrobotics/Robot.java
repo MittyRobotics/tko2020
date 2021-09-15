@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.util.OdometryManager;
 import com.github.mittyrobotics.colorwheel.ColorPistonSubsystem;
 import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
@@ -38,19 +37,12 @@ import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
  */
 public class Robot extends TimedRobot {
-
-    /**
-     * Command group for autonomous
-     */
-    Command autonCommandGroup;
-
     /**
      * Sets the Robot to loop at 20 ms cycle
      */
@@ -84,7 +76,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        OdometryManager.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
         OI.getInstance().updateOI();
     }
@@ -109,7 +100,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-        CommandScheduler.getInstance().cancel(autonCommandGroup);
         OI.getInstance().setupControls();
     }
 

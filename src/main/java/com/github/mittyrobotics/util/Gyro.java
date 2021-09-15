@@ -24,9 +24,11 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.datatypes.positioning.Rotation;
+import com.github.mittyrobotics.core.math.geometry.Rotation;
 import com.github.mittyrobotics.util.interfaces.IHardware;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
 
 /**
  * Gyro class in the form of a singleton
@@ -73,7 +75,7 @@ public class Gyro extends ADXRS450_Gyro implements IHardware {
      * @return {@link Rotation} angle
      */
     public Rotation getRotation() {
-        return new Rotation(getAngle360());
+        return new Rotation(degrees(getAngle360()));
     }
 
     /**

@@ -22,11 +22,13 @@
          * SOFTWARE.
          */
 
-        package com.github.mittyrobotics.autonomous.constants;
+package com.github.mittyrobotics.autonomous.constants;
 
-import com.github.mittyrobotics.datatypes.positioning.Position;
+import com.github.mittyrobotics.core.math.geometry.Vector2D;
 
-public class AutonCoordinates {
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
+
+ public class AutonCoordinates {
 
     // FIELD ORIENTATION: LANDSCAPE
 
@@ -35,47 +37,47 @@ public class AutonCoordinates {
     public static final double HALF_HEIGHT = HEIGHT / 2;
     public static final double BOTTOM_EDGE_TO_SCORING_ZONE_TIP = 94.66;
     public static final double BALL_DROP_TRIANGLE_TO_HORIZONTAL = 67.25;
-    public static final Position ZERO = new Position();
+    public static final Vector2D ZERO = new Vector2D();
 
-    public static final Position ROBOT_FRONT_TO_CENTER = new Position(-19,0);
-    public static final Position ROBOT_BACK_TO_CENTER = new Position(30,0);
+    public static final Vector2D ROBOT_FRONT_TO_CENTER = new Vector2D(-19,0);
+    public static final Vector2D ROBOT_BACK_TO_CENTER = new Vector2D(30,0);
 
     // ALLIANCE VALUES
-    public static final Position LOADING_STARTING_POINT = new Position(0, 60.75);
-    public static final Position SCORING_STARTING_POINT = new Position(0, -67.25);
-    public static final Position TRENCH_STARTING_POINT = new Position(0, -134.155);
+    public static final Vector2D LOADING_STARTING_POINT = new Vector2D(0, 60.75);
+    public static final Vector2D SCORING_STARTING_POINT = new Vector2D(0, -67.25);
+    public static final Vector2D TRENCH_STARTING_POINT = new Vector2D(0, -134.155);
 
-    public static final Position A_TRENCH_FRONT_CENTER = new Position(-86.63, -134.155);
-    public static final Position A_TRENCH_BACK_CENTER = new Position(-302.63, -134.155);
-    public static final Position SCORING_ZONE_TIP = new Position(90, -67.25); // unstable
-    public static final Position SCORING_TARGET = new Position(120f, -67.25);
+    public static final Vector2D A_TRENCH_FRONT_CENTER = new Vector2D(-86.63, -134.155);
+    public static final Vector2D A_TRENCH_BACK_CENTER = new Vector2D(-302.63, -134.155);
+    public static final Vector2D SCORING_ZONE_TIP = new Vector2D(90, -67.25); // unstable
+    public static final Vector2D SCORING_TARGET = new Vector2D(120f, -67.25);
 
-    public static final Position OPTIMAL_SHOOT_POSITION = new Position(-60.0, -67.25);
+    public static final Vector2D OPTIMAL_SHOOT_POSITION = new Vector2D(-60.0, -67.25);
 
     // Balls (party zone)
-    public static final Position BALL_1 = new Position(-130.25, -46.05);
-    public static final Position BALL_2 = new Position(-114.94, -39.71);
-    public static final Position BALL_3 = new Position(-107.83, -15.3);
-    public static final Position BALL_4 = new Position(-114.17, 0);
-    public static final Position BALL_5 = new Position(-120.51, 15.3);
+    public static final Vector2D BALL_1 = new Vector2D(-130.25, -46.05);
+    public static final Vector2D BALL_2 = new Vector2D(-114.94, -39.71);
+    public static final Vector2D BALL_3 = new Vector2D(-107.83, -15.3);
+    public static final Vector2D BALL_4 = new Vector2D(-114.17, 0);
+    public static final Vector2D BALL_5 = new Vector2D(-120.51, 15.3);
 
-    public static final Position BALL_BACK_TRENCH_INNER = new Position(-257.49, -125.155);
-    public static final Position BALL_BACK_TRENCH_OUTER = new Position(-257.49, -142.155);
+    public static final Vector2D BALL_BACK_TRENCH_INNER = new Vector2D(-257.49, -125.155);
+    public static final Vector2D BALL_BACK_TRENCH_OUTER = new Vector2D(-257.49, -142.155);
 
 
-    public static final Position SHOOTING_POINT_TRENCH = new Position(-259.49f, -134.155f);
-    public static final Position SHOOTING_POINT_PARTY = new Position(-121f, -44.24f);
+    public static final Vector2D SHOOTING_POINT_TRENCH = new Vector2D(-259.49f, -134.155f);
+    public static final Vector2D SHOOTING_POINT_PARTY = new Vector2D(-121f, -44.24f);
 
-    public static final Position PICKUP_LAST_TRENCH = new Position(-259.49, -134.155);
-    public static final Position PICKUP_3_TRENCH = new Position(-200, -134.155); //TODO: Find distance
-    public static final Position PICKUP_2_PARTY = new Position(-121.0, -44.24);
+    public static final Vector2D PICKUP_LAST_TRENCH = new Vector2D(-259.49, -134.155);
+    public static final Vector2D PICKUP_3_TRENCH = new Vector2D(-200, -134.155); //TODO: Find distance
+    public static final Vector2D PICKUP_2_PARTY = new Vector2D(-121.0, -44.24);
 
     //Opponent coordinates
-    public static final Position O_TRENCH_BACK_CENTER = new Position(-86.63, 134.155);
-    public static final Position O_TRENCH_FRONT_CENTER = new Position(-302.63, 134.155);
+    public static final Vector2D O_TRENCH_BACK_CENTER = new Vector2D(-86.63, 134.155);
+    public static final Vector2D O_TRENCH_FRONT_CENTER = new Vector2D(-302.63, 134.155);
 
-    public static final Position[] FIELD_WAYPOINTS =
-            new Position[]{ZERO, LOADING_STARTING_POINT, LOADING_STARTING_POINT,
+    public static final Vector2D[] FIELD_WAYPOINTS =
+            new Vector2D[]{ZERO, LOADING_STARTING_POINT, LOADING_STARTING_POINT,
                     SCORING_STARTING_POINT, TRENCH_STARTING_POINT, A_TRENCH_BACK_CENTER, A_TRENCH_FRONT_CENTER,
                     SCORING_ZONE_TIP,
                     BALL_1, BALL_2, BALL_3, BALL_4, BALL_5, O_TRENCH_BACK_CENTER, O_TRENCH_FRONT_CENTER};
