@@ -44,6 +44,7 @@ public class IntakeConstants {
     public static final double INTAKE_KI = 0;
     public static final double INTAKE_KD = 0;
     public static final boolean INTAKE_RAISE_INVERSION = false;
+    public static final double INTAKE_MANUAL_RAISE_SPEED = -0.1;
     public static final NeutralMode INTAKE_RAISE_NEUTRAL_MODE = NeutralMode.Coast;
     public static final NeutralMode INTAKE_NEUTRAL_MODE = NeutralMode.Coast;
 

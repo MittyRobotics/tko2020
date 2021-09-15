@@ -1,5 +1,6 @@
 package com.github.mittyrobotics.conveyor.commands;
 
+import com.github.mittyrobotics.conveyor.IntakeConstants;
 import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -14,7 +15,7 @@ public class ResetIntake extends CommandBase {
     @Override
     public void execute() {
         IntakeRaiseSubsystem.getInstance().raiseIntake();
-        IntakeRaiseSubsystem.getInstance().setPositionPID(IntakeRaiseSubsystem.getInstance().getPosition());
+        IntakeRaiseSubsystem.getInstance().overrideSetMotor(IntakeConstants.INTAKE_MANUAL_RAISE_SPEED);
     }
 
     @Override
