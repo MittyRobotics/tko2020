@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testInit() {
-        CommandScheduler.getInstance().schedule(new ResetIntake());
+        ResetIntake.getInstance().init();
     }
 
     /**
@@ -115,7 +115,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-
+        if(!ResetIntake.getInstance().getSwitch()) {
+            ResetIntake.getInstance().run();
+        } else {
+            ResetIntake.getInstance().end();
+        }
     }
 
 }
