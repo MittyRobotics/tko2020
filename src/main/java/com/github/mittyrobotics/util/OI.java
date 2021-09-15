@@ -129,7 +129,7 @@ public class OI {
 
     public void initAuton() {
         Button intakeLimitSwitch =
-                new Button(() -> !IntakeRaiseSubsystem.getInstance().getSwitch(0) && !IntakeRaiseSubsystem.getInstance().getSwitch(1));
+                new Button(() -> !IntakeRaiseSubsystem.getInstance().getLimitReached());
         intakeLimitSwitch.whenPressed(new KeepIntakePosition());
     }
 

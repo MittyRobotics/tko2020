@@ -97,10 +97,11 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
         resetEncoder();
 
         controller = new PIDController(IntakeConstants.INTAKE_KP, IntakeConstants.INTAKE_KI, IntakeConstants.INTAKE_KD);
-        controller.setSetpoint(IntakeConstants.INTAKE_LOWERED_POSITION);
 
         lowerSwitch = new DigitalInput(IntakeConstants.INTAKE_LOWER_SWITCH_ID);
         raiseSwitch = new DigitalInput(IntakeConstants.INTAKE_RAISE_SWITCH_ID);
+
+        lowerIntake();
     }
 
     @Override
@@ -160,10 +161,15 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
 
     public void testReset() {
         raiseIntake();
-        while(!getSwitch(1) && !getSwitch(0)) {
+        while(getLimitReached()) {
             overrideSetMotor(IntakeConstants.INTAKE_MANUAL_RAISE_SPEED);
         }
         stop();
         resetEncoder();
+    }
+
+    public boolean getLimitReached() {
+        return (isIntakeLowered() && getSwitch(0))
+                || (!isIntakeLowered() && getSwitch(1));
     }
 }
