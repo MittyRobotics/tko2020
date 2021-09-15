@@ -157,4 +157,13 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
     public void stop() {
         overrideSetMotor(0);
     }
+
+    public void testReset() {
+        raiseIntake();
+        while(!getSwitch(1) && !getSwitch(0)) {
+            overrideSetMotor(IntakeConstants.INTAKE_MANUAL_RAISE_SPEED);
+        }
+        stop();
+        resetEncoder();
+    }
 }

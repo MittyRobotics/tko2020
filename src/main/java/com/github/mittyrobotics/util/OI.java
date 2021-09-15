@@ -127,6 +127,12 @@ public class OI {
         return joystick2;
     }
 
+    public void initAuton() {
+        Button intakeLimitSwitch =
+                new Button(() -> !IntakeRaiseSubsystem.getInstance().getSwitch(0) && !IntakeRaiseSubsystem.getInstance().getSwitch(1));
+        intakeLimitSwitch.whenPressed(new KeepIntakePosition());
+    }
+
     /**
      * Setup controls
      */
@@ -148,10 +154,6 @@ public class OI {
         Button autoShoot =
                 new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
 //        autoShoot.whenHeld(new ShootMacro());
-
-        Button intakeLimitSwitch =
-                new Button(() -> !IntakeRaiseSubsystem.getInstance().getSwitch(0) && !IntakeRaiseSubsystem.getInstance().getSwitch(1));
-        intakeLimitSwitch.whenPressed(new KeepIntakePosition());
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
         manualShootSpeedUp
