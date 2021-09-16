@@ -24,8 +24,10 @@
 
 package com.github.mittyrobotics.util;
 
+import com.github.mittyrobotics.climber.ClimberSubsystem;
 import com.github.mittyrobotics.climber.commands.DeextendClimber;
 import com.github.mittyrobotics.climber.commands.ExtendClimber;
+import com.github.mittyrobotics.climber.commands.SetManualClimberPosition;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
@@ -174,6 +176,9 @@ public class OI {
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
         outtake.whenHeld(new OuttakeRollersCommand());
         outtake.whenHeld(new ReverseConveyor());
+
+        // TODO testing purposes, use to set encoder vals --> add to smartdash
+//        ClimberSubsystem.getInstance().setDefaultCommand(new SetManualClimberPosition());
 
         Button extendClimber = new Button(() -> getXboxController().getAButton());
         Button deextendClimber = new Button(() -> getXboxController().getBButton());

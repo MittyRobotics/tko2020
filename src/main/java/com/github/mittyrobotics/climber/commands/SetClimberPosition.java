@@ -24,18 +24,18 @@ public class SetClimberPosition extends CommandBase {
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         double val = controller.calculate(ClimberSubsystem.getInstance().getPosition());
         ClimberSubsystem.getInstance().setMotor(val);
     }
 
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         ClimberSubsystem.getInstance().brake();
     }
 
     @Override
-    public boolean isFinished(){
+    public boolean isFinished() {
         return (Math.abs(controller.getPositionError()) < ClimberConstants.CLIMBER_THRESHOLD);
     }
 }
