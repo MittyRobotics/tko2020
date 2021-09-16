@@ -56,16 +56,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         SubsystemManager.getInstance().addSubsystems(
-                ConveyorSubsystem.getInstance(),
-                DrivetrainSubsystem.getInstance(),
-                IntakeRaiseSubsystem.getInstance(),
-                IntakeSubsystem.getInstance(),
-                ShooterSubsystem.getInstance(),
-                TurretSubsystem.getInstance()
+                DrivetrainSubsystem.getInstance()
         );
         SubsystemManager.getInstance().initHardware();
-        Gyro.getInstance().initHardware();
-        Compressor.getInstance().initHardware();
     }
 
     /**
@@ -75,7 +68,6 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
-        OI.getInstance().updateOI();
     }
 
     /**
@@ -91,7 +83,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        OI.getInstance().initAuton();
+
     }
 
     /**
@@ -106,9 +98,7 @@ public class Robot extends TimedRobot {
      * Function for initializing test code
      */
     @Override
-    public void testInit() {
-        IntakeRaiseSubsystem.getInstance().testReset();
-    }
+    public void testInit() {}
 
     /**
      * Function for testing code

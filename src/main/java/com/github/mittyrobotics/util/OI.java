@@ -130,10 +130,6 @@ public class OI {
     }
 
     public void initAuton() {
-        Button intakeLimitSwitch =
-                new Button(() -> !IntakeRaiseSubsystem.getInstance().getLimitReached());
-        // TODO uncomment after testing intake
-       //intakeLimitSwitch.whenPressed(new KeepIntakePosition());
     }
 
     /**
@@ -141,76 +137,5 @@ public class OI {
      */
     public void setupControls() {
         DrivetrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
-
-        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
-
-        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
-
-
-        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
-//        autoTurret.whenHeld(new MinimalVisionCommand());
-
-        Button autoShoot =
-                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
-//        autoShoot.whenHeld(new ShootMacro());
-
-        Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
-        manualShootSpeedUp.whenPressed(new ChangeManualShooterSetpoint(100));
-
-        Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
-        // TODO uncomment after testing intake
-        //manualShootSpeedDown.whenPressed(new ChangeManualShooterSetpoint(-100));
-
-        Button changeIntake = new Button(() -> getXboxController().getBButton());
-        // TODO uncomment after testing intake
-        //changeIntake.whenPressed(new ChangeIntakeStateCommand());
-
-        Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
-        intake.whenHeld(new IntakeBallCommand());
-
-        Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        outtake.whenHeld(new OuttakeRollersCommand());
-        outtake.whenHeld(new ReverseConveyor());
-
-        // TODO testing purposes, use to set encoder vals --> add to smartdash
-        //ClimberSubsystem.getInstance().setDefaultCommand(new SetManualClimberPosition());
-
-        // TODO same for intake
-        //IntakeRaiseSubsystem.getInstance().setDefaultCommand(new SetManualIntakePosition());
-
-        /*Button extendClimber = new Button(() -> getXboxController().getAButton());
-        Button deextendClimber = new Button(() -> getXboxController().getBButton());
-        extendClimber.whenPressed(new ExtendClimber());
-        deextendClimber.whenPressed(new DeextendClimber());*/
-
-
-
-
-
-        // DEPRECATED COLOR WHEEL
-        /*Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
-        colorPistonUp.whenPressed(new SpinnerUpCommand());
-
-        Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
-        colorPistonDown.whenPressed(new SpinnerDownCommand());*/
-        /*Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
-        spinWheelColor.whenPressed(new SpinWheelMacro());*/
-        //SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
-    }
-
-    /**
-     * Tells if the shooter is in automatic shoot mode or manual shoot mode
-     *
-     * @return true if shooter is in auto mode
-     */
-    public boolean inAutoShootMode() {
-        return inAutoShootMode || DriverStation.getInstance().isAutonomous();
-    }
-
-    /**
-     * Updates OI variables
-     */
-    public void updateOI(){
-        inAutoShootMode = getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5;
     }
 }
