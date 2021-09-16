@@ -63,6 +63,7 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
     @Override
     public void updateDashboard() {
         SmartDashboard.putBoolean("Is Climber Raised", isClimberRaised());
+        SmartDashboard.putNumber("Climber Encoder", getPosition());
     }
 
     public void setClimberRaised(boolean raised) {
