@@ -1,19 +1,21 @@
 package com.github.mittyrobotics.climber;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class ClimberSubsystem extends SubsystemBase {
+public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     private static ClimberSubsystem instance;
 
     private PWM actuatorLock;
     private WPI_TalonSRX motor;
     private boolean drumUnlocked = false;
+    private boolean climberRaised = false;
 
     public ClimberSubsystem() {
         setName("ClimberSubsystem");
@@ -31,9 +33,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
         motor = new WPI_TalonSRX(ClimberConstants.MOTOR_ID);
         motor.configFactoryDefault();
-        motor.setNeutralMode(NeutralMode.Coast);
+
+        motor.setNeutralMode(ClimberConstants.CLIMBER_NEUTRAL_MODE);
         motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         resetEncoder();
+
+        brake();
 
     }
 
@@ -46,12 +51,26 @@ public class ClimberSubsystem extends SubsystemBase {
         return motor.getSelectedSensorPosition();
     }
 
-    public void setMotor(double percent) {
+    @Override
+    public void overrideSetMotor(double percent) {
         if(drumUnlocked) {
             motor.set(percent);
         } else {
             brake();
         }
+    }
+
+    @Override
+    public void updateDashboard() {
+        SmartDashboard.putBoolean("Is Climber Raised", isClimberRaised());
+    }
+
+    public void setClimberRaised(boolean raised) {
+        climberRaised = raised;
+    }
+
+    public boolean isClimberRaised() {
+        return climberRaised;
     }
 
     public void brake() {
