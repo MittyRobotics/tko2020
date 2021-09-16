@@ -13,7 +13,7 @@ public class KeepIntakePosition extends CommandBase {
 
     @Override
     public void execute() {
-        IntakeRaiseSubsystem.getInstance().setPositionPID(IntakeRaiseSubsystem.getInstance().getPosition());
+        IntakeRaiseSubsystem.getInstance().runPositionPID(IntakeRaiseSubsystem.getInstance().getPosition());
     }
 
     @Override

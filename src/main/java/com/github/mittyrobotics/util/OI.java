@@ -25,9 +25,7 @@
 package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.climber.ClimberSubsystem;
-import com.github.mittyrobotics.climber.commands.DeextendClimber;
-import com.github.mittyrobotics.climber.commands.ExtendClimber;
-import com.github.mittyrobotics.climber.commands.SetManualClimberPosition;
+import com.github.mittyrobotics.climber.commands.*;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;

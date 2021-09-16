@@ -71,7 +71,7 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     public void runPositionPID() {
         double val = controller.calculate(ClimberSubsystem.getInstance().getPosition());
-        overrideSetMotor(val);
+        setMotor(val);
     }
 
     public double getError() {
@@ -80,7 +80,12 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     @Override
     public void overrideSetMotor(double percent) {
-        if(drumUnlocked) {
+        motor.set(percent);
+    }
+
+    @Override
+    public void setMotor(double percent) {
+        if(drumUnlocked || climberRaised) {
             motor.set(percent);
         } else {
             brake();

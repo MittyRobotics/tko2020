@@ -26,7 +26,6 @@ package com.github.mittyrobotics.conveyor;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.github.mittyrobotics.conveyor.commands.KeepIntakePosition;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -112,8 +111,8 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
         raiseMotor.setSelectedSensorPosition(0);
     }
 
-    public void setPositionPID(double position) {
-        raiseMotor.set(controller.calculate(position));
+    public void runPositionPID(double position) {
+        setMotor(controller.calculate(position));
     }
 
     @Override
@@ -154,6 +153,11 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
     }
 
     @Override
+    public void setMotor(double percent) {
+        raiseMotor.set(percent);
+    }
+
+    @Override
     public void overrideSetMotor(double percent) {
         raiseMotor.set(percent);
     }
@@ -165,7 +169,7 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
     public void testReset() {
         raiseIntake();
         while(getLimitReached()) {
-            overrideSetMotor(IntakeConstants.INTAKE_MANUAL_RAISE_SPEED);
+            setMotor(IntakeConstants.INTAKE_MANUAL_RAISE_SPEED);
         }
         stop();
         resetEncoder();
