@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -11,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     private static ClimberSubsystem instance;
+
+    private PIDController controller;
 
     private PWM actuatorLock;
     private WPI_TalonSRX motor;
@@ -36,19 +39,43 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
 
         motor.setNeutralMode(ClimberConstants.CLIMBER_NEUTRAL_MODE);
         motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+
+        controller = new PIDController(ClimberConstants.POSITION_P, ClimberConstants.POSITION_I, ClimberConstants.POSITION_D);
+
         resetEncoder();
 
         brake();
 
     }
 
+    @Override
     public void resetEncoder() {
         motor.setSelectedSensorPosition(0);
     }
 
-
+    @Override
     public double getPosition() {
         return motor.getSelectedSensorPosition();
+    }
+
+    public void raiseClimber() {
+        controller.setSetpoint(ClimberConstants.CLIMBER_EXTENDED);
+        setClimberRaised(true);
+    }
+
+    public void lowerClimber() {
+        controller.setSetpoint(ClimberConstants.CLIMBER_DEEXTENDED);
+        setClimberRaised(false);
+    }
+
+    public void runPositionPID() {
+        double val = controller.calculate(ClimberSubsystem.getInstance().getPosition());
+        overrideSetMotor(val);
+    }
+
+    public double getError() {
+        return Math.abs(controller.getPositionError());
     }
 
     @Override

@@ -19,9 +19,9 @@ public class SetManualClimberPosition extends CommandBase {
     @Override
     public void execute() {
         if(OI.getInstance().getXboxController().getAButton()) {
-            ClimberSubsystem.getInstance().setMotor(0.2);
+            ClimberSubsystem.getInstance().overrideSetMotor(0.2);
         } else if(OI.getInstance().getXboxController().getBButton()) {
-            ClimberSubsystem.getInstance().setMotor(-0.2);
+            ClimberSubsystem.getInstance().overrideSetMotor(-0.2);
         } else {
             ClimberSubsystem.getInstance().brake();
         }
@@ -34,7 +34,6 @@ public class SetManualClimberPosition extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        ClimberSubsystem.getInstance().brake();
         return false;
     }
 

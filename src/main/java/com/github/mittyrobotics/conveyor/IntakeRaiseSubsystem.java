@@ -80,6 +80,7 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
     @Override
     public void updateDashboard() {
         SmartDashboard.putBoolean("Is Intake Extended", isIntakeLowered());
+        SmartDashboard.putNumber("Intake Encoder", getPosition());
     }
 
     /**

@@ -134,7 +134,8 @@ public class OI {
     public void initAuton() {
         Button intakeLimitSwitch =
                 new Button(() -> !IntakeRaiseSubsystem.getInstance().getLimitReached());
-        intakeLimitSwitch.whenPressed(new KeepIntakePosition());
+        // TODO uncomment after testing intake
+       //intakeLimitSwitch.whenPressed(new KeepIntakePosition());
     }
 
     /**
@@ -168,7 +169,8 @@ public class OI {
                 .whenPressed(new ChangeManualShooterSetpoint(-100));
 
         Button changeIntake = new Button(() -> getXboxController().getBButton());
-        changeIntake.whenPressed(new ChangeIntakeStateCommand());
+        // TODO uncomment after testing intake
+        //changeIntake.whenPressed(new ChangeIntakeStateCommand());
 
         Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
         intake.whenHeld(new IntakeBallCommand());
@@ -179,6 +181,9 @@ public class OI {
 
         // TODO testing purposes, use to set encoder vals --> add to smartdash
 //        ClimberSubsystem.getInstance().setDefaultCommand(new SetManualClimberPosition());
+
+        // TODO same for intake
+        //IntakeRaiseSubsystem.getInstance().setDefaultCommand(new SetManualIntakePosition());
 
         Button extendClimber = new Button(() -> getXboxController().getAButton());
         Button deextendClimber = new Button(() -> getXboxController().getBButton());
