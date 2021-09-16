@@ -26,7 +26,7 @@ public class SetClimberPosition extends CommandBase {
     @Override
     public void execute(){
         double val = controller.calculate(ClimberSubsystem.getInstance().getPosition());
-        ClimberSubsystem.getInstance().setMotor(val);
+        ClimberSubsystem.getInstance().overrideSetMotor(val);
     }
 
     @Override
