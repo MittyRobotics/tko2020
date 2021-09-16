@@ -23,6 +23,6 @@ public class KeepIntakePosition extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return IntakeRaiseSubsystem.getInstance().getSwitch(0) || IntakeRaiseSubsystem.getInstance().getSwitch(1);
+        return IntakeRaiseSubsystem.getInstance().getLimitReached();
     }
 }
