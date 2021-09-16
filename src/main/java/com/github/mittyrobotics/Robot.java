@@ -30,6 +30,8 @@ import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
+import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Compressor;
@@ -83,7 +85,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
     }
 
     /**
@@ -91,7 +93,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-        OI.getInstance().setupControls();
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
     }
 
     /**

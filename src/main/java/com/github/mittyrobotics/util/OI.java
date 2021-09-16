@@ -136,6 +136,5 @@ public class OI {
      * Setup controls
      */
     public void setupControls() {
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
     }
 }
