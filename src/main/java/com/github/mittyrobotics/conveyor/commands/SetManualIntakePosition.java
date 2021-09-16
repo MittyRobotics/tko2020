@@ -19,12 +19,15 @@ public class SetManualIntakePosition extends CommandBase {
 
     @Override
     public void execute() {
-        if(OI.getInstance().getXboxController().getAButton()) {
-            IntakeRaiseSubsystem.getInstance().overrideSetMotor(0.2);
-        } else if(OI.getInstance().getXboxController().getBButton()) {
-            IntakeRaiseSubsystem.getInstance().overrideSetMotor(-0.2);
-        } else {
-            IntakeRaiseSubsystem.getInstance().stop();
+        if(IntakeRaiseSubsystem.getInstance().getSwitch(0) || IntakeRaiseSubsystem.getInstance().getSwitch(1)) IntakeRaiseSubsystem.getInstance().stop();
+        else {
+            if (OI.getInstance().getXboxController().getAButton()) {
+                IntakeRaiseSubsystem.getInstance().overrideSetMotor(0.2);
+            } else if (OI.getInstance().getXboxController().getBButton()) {
+                IntakeRaiseSubsystem.getInstance().overrideSetMotor(-0.2);
+            } else {
+                IntakeRaiseSubsystem.getInstance().stop();
+            }
         }
     }
 
