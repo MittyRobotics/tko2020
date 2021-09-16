@@ -1,124 +1,71 @@
 package com.github.mittyrobotics.climber;
 
-import com.github.mittyrobotics.climber.commands.StopClimberCommand;
-import com.github.mittyrobotics.util.interfaces.IDualMotorSubsystem;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/**
- * Climber subsystem to climb
- */
-public class ClimberSubsystem extends SubsystemBase implements IDualMotorSubsystem {
 
-    /**
-     * {@link ClimberSubsystem} instance
-     */
+public class ClimberSubsystem extends SubsystemBase {
+
     private static ClimberSubsystem instance;
 
-    /**
-     * Climber {@link CANSparkMax}s
-     */
-    private CANSparkMax climberLeftSparkMaster, climberRightSparkMaster;
+    private PWM actuatorLock;
+    private WPI_TalonSRX motor;
+    private boolean drumUnlocked = false;
 
-    /**
-     * Calls {@link SubsystemBase} constructor and names the subsystem "Climber"
-     */
-    private ClimberSubsystem() {
-        super();
-        setName("Climber");
+    public ClimberSubsystem() {
+        setName("ClimberSubsystem");
     }
 
-    /**
-     * Returns the {@link ClimberSubsystem} instance.
-     *
-     * @return the {@link ClimberSubsystem} instance.
-     */
     public static ClimberSubsystem getInstance() {
-        if (instance == null) {
+        if(instance == null) {
             instance = new ClimberSubsystem();
         }
         return instance;
     }
 
-    /**
-     * Initializes the climber's hardware.
-     */
-    @Override
     public void initHardware() {
-        climberLeftSparkMaster =
-                new CANSparkMax(ClimberConstants.LEFT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        climberLeftSparkMaster.restoreFactoryDefaults();
-        climberLeftSparkMaster.setInverted(ClimberConstants.LEFT_SPARK_INVERSION);
+        actuatorLock = new PWM(ClimberConstants.ACTUATOR_ID);
 
-        climberRightSparkMaster =
-                new CANSparkMax(ClimberConstants.RIGHT_SPARK_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        climberRightSparkMaster.restoreFactoryDefaults();
-        climberRightSparkMaster.setInverted(ClimberConstants.RIGHT_SPARK_INVERSION);
-        setDefaultCommand(new StopClimberCommand());
+        motor = new WPI_TalonSRX(ClimberConstants.MOTOR_ID);
+        motor.configFactoryDefault();
+        motor.setNeutralMode(NeutralMode.Coast);
+        motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        resetEncoder();
+
     }
 
-    /**
-     * Update the climber's dashboard values
-     */
-    @Override
-    public void updateDashboard() {
-        SmartDashboard.putNumber("Left Encoder Position", getLeftEncoderPosition());
-        SmartDashboard.putNumber("Right Encoder Position", getRightEncoderPosition());
+    public void resetEncoder() {
+        motor.setSelectedSensorPosition(0);
     }
 
-    /**
-     * Sets each climber to move if the {@link RatchetSubsystem} is not locked
-     *
-     * @param leftPercent percent to set the left climber
-     *
-     * @param rightPercent percent to set the right climber
-     */
-    public void setSparks(double leftPercent, double rightPercent) {
-        if(RatchetSubsystem.getInstance().isLeftWinchLocked()){
-            leftPercent = 0;
+
+    public double getPosition() {
+        return motor.getSelectedSensorPosition();
+    }
+
+    public void setMotor(double percent) {
+        if(drumUnlocked) {
+            motor.set(percent);
+        } else {
+            brake();
         }
-        if(RatchetSubsystem.getInstance().isRightWinchLocked()){
-            rightPercent = 0;
-        }
-        overrideSetMotor(leftPercent, rightPercent);
     }
 
-    /**
-     * Stops the climber from moving
-     */
-    public void stopSparks() {
-        setSparks(0, 0);
+    public void brake() {
+        motor.set(0);
     }
 
-    /**
-     * Returns the left encoder position
-     *
-     * @return the left encoder position
-     */
-    public double getLeftEncoderPosition() {
-        return climberLeftSparkMaster.getEncoder().getPosition();
+    public void unlockDrum() {
+        drumUnlocked = true;
+        actuatorLock.setRaw(1);
     }
 
-    /**
-     * Returns the right encoder position
-     *
-     * @return the right encoder position
-     */
-    public double getRightEncoderPosition() {
-        return climberRightSparkMaster.getEncoder().getPosition();
+    public void lockDrum() {
+        drumUnlocked = false;
+        actuatorLock.setRaw(-1);
     }
 
-    /**
-     * Sets the climber to move regardless if the {@link RatchetSubsystem} is locked
-     *
-     * @param leftPercent the percent of the left motor
-     *
-     * @param rightPercent the percent of the right motor
-     */
-    public void overrideSetMotor(double leftPercent, double rightPercent) {
-        climberLeftSparkMaster.set(leftPercent);
-        climberRightSparkMaster.set(rightPercent);
-    }
 }
