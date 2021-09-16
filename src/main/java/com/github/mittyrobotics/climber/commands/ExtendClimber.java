@@ -8,7 +8,7 @@ public class ExtendClimber extends SequentialCommandGroup {
     public ExtendClimber() {
         addCommands(
                 new UnlockDrum(),
-                new SetClimberPosition(ClimberConstants.CLIMBER_EXTENDED),
+                new SetClimberPosition(true),
                 new LockDrum()
         );
     }

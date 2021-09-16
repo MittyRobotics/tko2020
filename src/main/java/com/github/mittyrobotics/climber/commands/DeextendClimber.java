@@ -8,7 +8,7 @@ public class DeextendClimber extends SequentialCommandGroup {
     public DeextendClimber() {
         addCommands(
                 new UnlockDrum(),
-                new SetClimberPosition(ClimberConstants.CLIMBER_DEEXTENDED),
+                new SetClimberPosition(false),
                 new LockDrum()
         );
     }
