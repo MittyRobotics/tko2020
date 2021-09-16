@@ -146,12 +146,8 @@ public class OI {
 
         TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
-        //SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
-
         ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
 
-        /*Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
-        spinWheelColor.whenPressed(new SpinWheelMacro());*/
 
         Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
 //        autoTurret.whenHeld(new MinimalVisionCommand());
@@ -161,12 +157,11 @@ public class OI {
 //        autoShoot.whenHeld(new ShootMacro());
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
-        manualShootSpeedUp
-                .whenPressed(new ChangeManualShooterSetpoint(100));
+        manualShootSpeedUp.whenPressed(new ChangeManualShooterSetpoint(100));
 
         Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
-        manualShootSpeedDown
-                .whenPressed(new ChangeManualShooterSetpoint(-100));
+        // TODO uncomment after testing intake
+        //manualShootSpeedDown.whenPressed(new ChangeManualShooterSetpoint(-100));
 
         Button changeIntake = new Button(() -> getXboxController().getBButton());
         // TODO uncomment after testing intake
@@ -180,21 +175,29 @@ public class OI {
         outtake.whenHeld(new ReverseConveyor());
 
         // TODO testing purposes, use to set encoder vals --> add to smartdash
-//        ClimberSubsystem.getInstance().setDefaultCommand(new SetManualClimberPosition());
+        //ClimberSubsystem.getInstance().setDefaultCommand(new SetManualClimberPosition());
 
         // TODO same for intake
         //IntakeRaiseSubsystem.getInstance().setDefaultCommand(new SetManualIntakePosition());
 
-        Button extendClimber = new Button(() -> getXboxController().getAButton());
+        /*Button extendClimber = new Button(() -> getXboxController().getAButton());
         Button deextendClimber = new Button(() -> getXboxController().getBButton());
         extendClimber.whenPressed(new ExtendClimber());
-        deextendClimber.whenPressed(new DeextendClimber());
+        deextendClimber.whenPressed(new DeextendClimber());*/
 
+
+
+
+
+        // DEPRECATED COLOR WHEEL
         /*Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
 
         Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
         colorPistonDown.whenPressed(new SpinnerDownCommand());*/
+        /*Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
+        spinWheelColor.whenPressed(new SpinWheelMacro());*/
+        //SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
     }
 
     /**
