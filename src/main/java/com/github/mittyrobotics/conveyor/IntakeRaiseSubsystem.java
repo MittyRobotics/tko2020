@@ -44,7 +44,7 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
     private static IntakeRaiseSubsystem instance;
 
     /**
-     * Intake piston's {@link WPI_TalonSRX}
+     * Intake piston's {@link CANSparkMax}
      */
     private CANSparkMax raiseMotor;
 
