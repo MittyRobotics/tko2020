@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * Drives the robot using arcade drive
  *
- * Uses the {@link XboxWheel} and the {@link Joystick}
+ * Uses the {@link com.github.mittyrobotics.util.XboxWheel} and the {@link Joystick}
  */
 public class ArcadeDriveCommand extends CommandBase {
 
@@ -84,22 +84,23 @@ public class ArcadeDriveCommand extends CommandBase {
         double e = 1 - turn;
 
 
+        if (isReversed) {
+            speed = -speed;
+        }
+        double newSpeed = (speed * e);
+        double newTurn = turn;
 
-        if (brake) {
+        SmartDashboard.putNumber("New Turn", newTurn);
+        SmartDashboard.putNumber("New Speed", newSpeed);
+        SmartDashboard.putNumber("Speed", speed);
+
+        if ((Math.abs(turn) < 0.05 && Math.abs(speed) < 0.05) || brake) {
             DrivetrainSubsystem.getInstance().brake();
         } else {
-            if (isReversed) {
-                speed = -speed;
-            }
-            double newSpeed = (speed * e);
-            double newTurn = turn;
 
-            SmartDashboard.putNumber("Turn", newTurn);
-            SmartDashboard.putNumber("Speed", newSpeed);
-
-            if (Math.abs(newSpeed) < 0.1) {
+            if (Math.abs(speed) < 0.1) {
                 DrivetrainSubsystem.getInstance().tankDrive(newTurn, -newTurn);
-            } else if (newSpeed >= 0) {
+            } else if (speed >= 0) {
                 if (isReversed) {
                     newTurn = -newTurn;
                 }
