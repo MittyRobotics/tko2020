@@ -27,6 +27,7 @@ package com.github.mittyrobotics.drivetrain.commands;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -71,6 +72,7 @@ public class ArcadeDriveCommand extends CommandBase {
         double turn = OI.getInstance().getXboxWheel().getX() * 450 / 120;
 
         double speed = -OI.getInstance().getJoystick2().getY();
+
         if (Math.abs(speed) < 0.1) {
             speed = 0;
         }
@@ -82,6 +84,7 @@ public class ArcadeDriveCommand extends CommandBase {
         double e = 1 - turn;
 
 
+
         if (brake) {
             DrivetrainSubsystem.getInstance().brake();
         } else {
@@ -91,9 +94,12 @@ public class ArcadeDriveCommand extends CommandBase {
             double newSpeed = (speed * e);
             double newTurn = turn;
 
-            if (Math.abs(speed) < 0.05) {
+            SmartDashboard.putNumber("Turn", newTurn);
+            SmartDashboard.putNumber("Speed", newSpeed);
+
+            if (Math.abs(newSpeed) < 0.1) {
                 DrivetrainSubsystem.getInstance().tankDrive(newTurn, -newTurn);
-            } else if (speed >= 0) {
+            } else if (newSpeed >= 0) {
                 if (isReversed) {
                     newTurn = -newTurn;
                 }

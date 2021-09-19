@@ -155,7 +155,10 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      * @param right percent output to move the right side
      */
     public void tankDrive(double left, double right) {
-        tankDrive(left, right, 0.1, 1);
+        SmartDashboard.putNumber("Left", left);
+        SmartDashboard.putNumber("Right", right);
+
+        tankDrive(left, right, 0.1, 0.3);
     }
 
     /**

@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
+//        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
     }
 
     /**
