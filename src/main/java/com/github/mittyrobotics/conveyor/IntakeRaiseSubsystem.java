@@ -24,9 +24,10 @@
 
 package com.github.mittyrobotics.conveyor;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,9 +44,9 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
     private static IntakeRaiseSubsystem instance;
 
     /**
-     * Intake piston's {@link WPI_TalonSRX}
+     * Intake piston's {@link CANSparkMax}
      */
-    private WPI_TalonSRX raiseMotor;
+    private CANSparkMax raiseMotor;
 
     private DigitalInput lowerSwitch, raiseSwitch;
 
@@ -89,13 +90,12 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
      */
     @Override
     public void initHardware() {
-        raiseMotor = new WPI_TalonSRX(IntakeConstants.INTAKE_RAISE_MOTOR_ID);
-        raiseMotor.configFactoryDefault();
+        raiseMotor = new CANSparkMax(IntakeConstants.INTAKE_RAISE_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        raiseMotor.restoreFactoryDefaults();
 
         raiseMotor.setInverted(IntakeConstants.INTAKE_RAISE_INVERSION);
-        raiseMotor.setNeutralMode(IntakeConstants.INTAKE_RAISE_NEUTRAL_MODE);
+        raiseMotor.setIdleMode(IntakeConstants.INTAKE_RAISE_NEUTRAL_MODE);
 
-        raiseMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         resetEncoder();
 
         controller = new PIDController(IntakeConstants.INTAKE_KP, IntakeConstants.INTAKE_KI, IntakeConstants.INTAKE_KD);
@@ -108,7 +108,7 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
 
     @Override
     public void resetEncoder() {
-        raiseMotor.setSelectedSensorPosition(0);
+        raiseMotor.getEncoder().setPosition(0);
     }
 
     public void runPositionPID(double position) {
@@ -117,7 +117,7 @@ public class IntakeRaiseSubsystem extends SubsystemBase implements IMotorSubsyst
 
     @Override
     public double getPosition() {
-        return raiseMotor.getSelectedSensorPosition();
+        return raiseMotor.getEncoder().getPosition();
     }
 
     public boolean getSwitch(int id) {
