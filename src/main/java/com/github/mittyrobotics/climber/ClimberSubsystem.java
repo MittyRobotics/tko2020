@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,7 +16,7 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     private PIDController controller;
 
-    private PWM actuatorLock;
+    private Servo actuatorLock;
     private WPI_TalonSRX motor;
     private boolean drumUnlocked = false;
     private boolean climberRaised = false;
@@ -32,7 +33,8 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     public void initHardware() {
-        actuatorLock = new PWM(ClimberConstants.ACTUATOR_ID);
+        actuatorLock = new Servo(ClimberConstants.ACTUATOR_ID);
+        actuatorLock.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 
         motor = new WPI_TalonSRX(ClimberConstants.MOTOR_ID);
         motor.configFactoryDefault();
@@ -112,12 +114,12 @@ public class ClimberSubsystem extends SubsystemBase implements IMotorSubsystem {
 
     public void unlockDrum() {
         drumUnlocked = true;
-        actuatorLock.setRaw(1);
+        actuatorLock.setSpeed(1);
     }
 
     public void lockDrum() {
         drumUnlocked = false;
-        actuatorLock.setRaw(-1);
+        actuatorLock.setSpeed(-1);
     }
 
 }
