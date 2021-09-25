@@ -64,11 +64,11 @@ public class TankDriveCommand extends CommandBase {
             if(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
                 speed *= DriveConstants.DRIVE_BOOST;
             }
-            left = speed - 2*turn/3;
-            right = speed + 2*turn/3;
+            left = speed - turn * DriveConstants.TURN_RATIO;
+            right = speed + turn * DriveConstants.TURN_RATIO;
             DrivetrainSubsystem.getInstance()
-                    .tankDrive(left*left*Math.signum(left),
-                            right*right*Math.signum(right), DriveConstants.DRIVE_THRESHOLD, DriveConstants.FINAL_MULTIPLIER);
+                    .tankDrive(left*left*Math.signum(left)*DriveConstants.FINAL_MULTIPLIER,
+                            right*right*Math.signum(right)*DriveConstants.FINAL_MULTIPLIER, DriveConstants.DRIVE_THRESHOLD, 1);
         }
     }
 
