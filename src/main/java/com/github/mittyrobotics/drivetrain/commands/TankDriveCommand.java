@@ -51,7 +51,7 @@ public class TankDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        if (OI.getInstance().getXboxController().getStickButton(GenericHID.Hand.kLeft)) {
+        if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.1) {
             DrivetrainSubsystem.getInstance().brake();
         } else {
             DrivetrainSubsystem.getInstance()

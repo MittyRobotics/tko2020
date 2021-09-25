@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
         );
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
-        Compressor.getInstance().initHardware();
+        //Compressor.getInstance().initHardware();
     }
 
     /**
@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testInit() {
-        IntakeRaiseSubsystem.getInstance().testReset();
+        //IntakeRaiseSubsystem.getInstance().testReset();
     }
 
     /**

@@ -31,6 +31,7 @@ import com.github.mittyrobotics.conveyor.IntakeRaiseSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
 import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
@@ -140,11 +141,11 @@ public class OI {
      * Setup controls
      */
     public void setupControls() {
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new ArcadeDriveCommand());
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
 
-        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
+        //TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
-        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
+        //ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
 
 
         Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
@@ -155,7 +156,7 @@ public class OI {
 //        autoShoot.whenHeld(new ShootMacro());
 
         Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
-        manualShootSpeedUp.whenPressed(new ChangeManualShooterSetpoint(100));
+        //manualShootSpeedUp.whenPressed(new ChangeManualShooterSetpoint(100));
 
         Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
         // TODO uncomment after testing intake
@@ -166,11 +167,11 @@ public class OI {
         //changeIntake.whenPressed(new ChangeIntakeStateCommand());
 
         Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
-        intake.whenHeld(new IntakeBallCommand());
+        //intake.whenHeld(new IntakeBallCommand());
 
         Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        outtake.whenHeld(new OuttakeRollersCommand());
-        outtake.whenHeld(new ReverseConveyor());
+        //outtake.whenHeld(new OuttakeRollersCommand());
+        //outtake.whenHeld(new ReverseConveyor());
 
         // TODO testing purposes, use to set encoder vals --> add to smartdash
         //ClimberSubsystem.getInstance().setDefaultCommand(new SetManualClimberPosition());
