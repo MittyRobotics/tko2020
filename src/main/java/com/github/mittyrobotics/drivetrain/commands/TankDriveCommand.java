@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.drivetrain.commands;
 
+import com.github.mittyrobotics.drivetrain.DriveConstants;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -51,12 +52,17 @@ public class TankDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.1) {
+        if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
             DrivetrainSubsystem.getInstance().brake();
         } else {
+            double left = OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
+            double right = OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
+            if(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
+                left *= DriveConstants.DRIVE_BOOST; right *= DriveConstants.DRIVE_BOOST;
+            }
             DrivetrainSubsystem.getInstance()
-                    .tankDrive(OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft),
-                            OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight), 0.1, 0.5);
+                    .tankDrive(left * left * Math.signum(left),
+                            right * right * Math.signum(right), DriveConstants.DRIVE_THRESHOLD, DriveConstants.DRIVE_MULTIPLIER);
         }
     }
 
