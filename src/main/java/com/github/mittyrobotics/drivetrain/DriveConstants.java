@@ -33,6 +33,8 @@ public class DriveConstants {
     public static final double DRIVE_MULTIPLIER = 0.5;
     public static final double DRIVE_BOOST = 1.5;
     public static final double DRIVE_TRIGGER_THRESHOLD = 0.1;
+    public static final double TURN_RATIO = 0.5;
+    public static final double FINAL_MULTIPLIER = 0.5;
 
     public static final double TICKS_PER_INCH = 642.83;
     public static final int LEFT_FALCON_MASTER_ID = 10;

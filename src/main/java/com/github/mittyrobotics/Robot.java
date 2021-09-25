@@ -56,15 +56,15 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         SubsystemManager.getInstance().addSubsystems(
-                ConveyorSubsystem.getInstance(),
-                DrivetrainSubsystem.getInstance(),
-                IntakeRaiseSubsystem.getInstance(),
-                IntakeSubsystem.getInstance(),
-                ShooterSubsystem.getInstance(),
-                TurretSubsystem.getInstance()
+//                ConveyorSubsystem.getInstance(),
+                DrivetrainSubsystem.getInstance()
+//                IntakeRaiseSubsystem.getInstance(),
+//                IntakeSubsystem.getInstance(),
+//                ShooterSubsystem.getInstance(),
+//                TurretSubsystem.getInstance()
         );
         SubsystemManager.getInstance().initHardware();
-        Gyro.getInstance().initHardware();
+//        Gyro.getInstance().initHardware();
         //Compressor.getInstance().initHardware();
     }
 

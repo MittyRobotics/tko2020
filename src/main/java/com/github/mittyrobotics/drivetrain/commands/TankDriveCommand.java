@@ -30,6 +30,7 @@ import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 /**
  * Tank Drive Command
@@ -52,17 +53,25 @@ public class TankDriveCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
+        if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
             DrivetrainSubsystem.getInstance().brake();
         } else {
             double left = OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
             double right = OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
-            if(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
-                left *= DriveConstants.DRIVE_BOOST; right *= DriveConstants.DRIVE_BOOST;
+
+            left *= DriveConstants.DRIVE_MULTIPLIER;
+            right *= DriveConstants.DRIVE_MULTIPLIER;
+
+            double speed = left + right;
+            double turn = left - right;
+            if(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
+                speed *= DriveConstants.DRIVE_BOOST;
             }
-            DrivetrainSubsystem.getInstance()
-                    .tankDrive(left * left * Math.signum(left),
-                            right * right * Math.signum(right), DriveConstants.DRIVE_THRESHOLD, DriveConstants.DRIVE_MULTIPLIER);
+            left = speed - turn*DriveConstants.TURN_RATIO;
+            right = speed + turn*DriveConstants.TURN_RATIO;
+            //DrivetrainSubsystem.getInstance()
+            //        .tankDrive(left,
+            //                right, DriveConstants.DRIVE_THRESHOLD, DriveConstants.FINAL_MULTIPLIER);
         }
     }
 
