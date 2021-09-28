@@ -144,9 +144,6 @@ public class OI {
 
         ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
 
-        Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
-        spinWheelColor.whenPressed(new SpinWheelMacro());
-
         Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
 //        autoTurret.whenHeld(new MinimalVisionCommand());
 
@@ -173,11 +170,14 @@ public class OI {
         outtake.whenHeld(new OuttakeRollersCommand());
         outtake.whenHeld(new ReverseConveyor());
 
-        Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
+        /*Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());
 
         Button colorPistonDown = new Button(() -> getJoystick1().getY() < -0.5);
         colorPistonDown.whenPressed(new SpinnerDownCommand());
+
+        Button spinWheelColor = new Button(() -> getJoystick1().getTrigger());
+        spinWheelColor.whenPressed(new SpinWheelMacro());*/
     }
 
     /**
