@@ -7,6 +7,19 @@ public class XboxWheel extends GenericHID {
         super(port);
     }
 
+    private enum Axises {
+        Wheel(0),
+        Gas(1),
+        Brake(2),
+        Clutch(3);
+
+        int value;
+
+        Axises(int i) {
+            value = i;
+        }
+    }
+
     @Override
     public double getX(Hand hand) {
         return getRawAxis(Axises.Wheel.value);
@@ -176,19 +189,6 @@ public class XboxWheel extends GenericHID {
         int value;
 
         Buttons(int i) {
-            value = i;
-        }
-    }
-
-    private enum Axises {
-        Wheel(0),
-        Gas(1),
-        Brake(2),
-        Clutch(3);
-
-        int value;
-
-        Axises(int i) {
             value = i;
         }
     }
