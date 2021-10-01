@@ -29,6 +29,7 @@ import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
+import com.github.mittyrobotics.shooter.commands.AutoShootMacro;
 import com.github.mittyrobotics.shooter.commands.ManualTurretShooter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -152,7 +153,7 @@ public class OI {
 
         // automatically shoot and advance conveyor when right trigger held
         Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
-        conveyorAndShoot.whenHeld(new VisionTurretAim()); // TODO need to change this function to owen's shoot macro
+        conveyorAndShoot.whenHeld(new AutoShootMacro());
 
         // intake balls when right bumper held
         Button intake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kRight));
