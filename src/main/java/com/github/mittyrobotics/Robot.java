@@ -145,13 +145,13 @@ public class Robot extends TimedRobot {
 
 //        System.out.println(ConveyorSubsystem.getInstance().getBallCount());
 //
-        if(OI.getInstance().getJoystick1().getTriggerPressed()) {
-            System.out.println( " | in");
-            IntakePistonSubsystem.getInstance().retractPiston();
-        } else if(OI.getInstance().getJoystick2().getTriggerPressed()) {
-            System.out.println(" | out");
-            IntakePistonSubsystem.getInstance().extendPiston();
-        }
+//        if(OI.getInstance().getJoystick1().getTriggerPressed()) {
+//            System.out.println( " | in");
+//            IntakePistonSubsystem.getInstance().retractPiston();
+//        } else if(OI.getInstance().getJoystick2().getTriggerPressed()) {
+//            System.out.println(" | out");
+//            IntakePistonSubsystem.getInstance().extendPiston();
+//        }
 
     }
 

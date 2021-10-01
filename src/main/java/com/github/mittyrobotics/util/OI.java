@@ -134,6 +134,9 @@ public class OI {
 
         IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallCommand());
 
+        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
+        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
+
 //        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 //
 //        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
@@ -152,8 +155,6 @@ public class OI {
 //        manualShootSpeedDown
 //                .whenPressed(new ChangeManualShooterSetpoint(-100));
 //
-        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
-        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 //
 //        Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
 //        intake.whenHeld(new IntakeBallCommand());
