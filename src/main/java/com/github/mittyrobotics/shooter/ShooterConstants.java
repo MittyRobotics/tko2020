@@ -34,7 +34,7 @@ public class ShooterConstants {
     public static final double SHOOTER_D = 0;
     public static final int SHOOTER_SPARK_MASTER_ID = 31;
     public static final int SHOOTER_SPARK_FOLLOWER_ID = 32;
-    public static final boolean SHOOTER_SPARK_MASTER_INVERSION = true;
-    public static final boolean SHOOTER_SPARK_FOLLOWER_INVERSION = false;
+    public static final boolean SHOOTER_SPARK_MASTER_INVERSION = false;
+    public static final boolean SHOOTER_SPARK_FOLLOWER_INVERSION = true;
     public static final int DEFAULT_MANUAL_SHOOTER_SPEED = 4000;
 }

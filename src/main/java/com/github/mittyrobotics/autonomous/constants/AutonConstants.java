@@ -36,7 +36,7 @@ public class AutonConstants {
 
     //Vision
     public static double LIMELIGHT_HEIGHT = 21; //TODO: Find this value
-    public static double LIMELIGHT_PITCH = 25; //TODO: Find this value
+    public static double LIMELIGHT_PITCH = 15; //TODO: Find this value
     public static double SAFE_VISION_ANGLE_THRESHOLD = 2; //TODO: Find this value
     public static double VISION_SCAN_PERCENT_OUTPUT = .5;
 
@@ -47,8 +47,8 @@ public class AutonConstants {
     public static Vector2D turretPositionRelativeToRobotCenter = new Vector2D(24, 0); //Inches //Todo: Find this value
 
     public static double LOW_RANGE_SHOOTER_GAIN = 1;
-    public static double MID_RANGE_SHOOTER_GAIN = 1;
-    public static double HIGH_RANGE_SHOOTER_GAIN = 1;
+    public static double MID_RANGE_SHOOTER_GAIN = .8;
+    public static double HIGH_RANGE_SHOOTER_GAIN = .8;
 
     //Shooter //TODO: Tune these
     //TODO: Convert real distances into vision distance

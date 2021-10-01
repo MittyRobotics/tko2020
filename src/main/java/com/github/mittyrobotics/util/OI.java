@@ -138,37 +138,38 @@ public class OI {
     public void setupControls() {
         DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
 
-        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
-        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
-
-        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
-
-        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
+//        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
+//
+//        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
+//
+//        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
+//
+//        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
 //        autoTurret.whenHeld(new MinimalVisionCommand());
-
-        Button autoShoot =
-                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
+//
+//        Button autoShoot =
+//                new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.5);
 //        autoShoot.whenHeld(new ShootMacro());
-
-
-        Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
-        manualShootSpeedUp
-                .whenPressed(new ChangeManualShooterSetpoint(100));
-
-        Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
-        manualShootSpeedDown
-                .whenPressed(new ChangeManualShooterSetpoint(-100));
-
-        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
-        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
-
-        Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
-        intake.whenHeld(new IntakeBallCommand());
-
-        Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
-        outtake.whenHeld(new OuttakeRollersCommand());
-        outtake.whenHeld(new ReverseConveyor());
+//
+//
+//        Button manualShootSpeedUp = new Button(() -> getXboxController().getYButton());
+//        manualShootSpeedUp
+//                .whenPressed(new ChangeManualShooterSetpoint(100));
+//
+//        Button manualShootSpeedDown = new Button(() -> getXboxController().getAButton());
+//        manualShootSpeedDown
+//                .whenPressed(new ChangeManualShooterSetpoint(-100));
+//
+//        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
+//        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
+//
+//        Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
+//        intake.whenHeld(new IntakeBallCommand());
+//
+//        Button outtake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kRight));
+//        outtake.whenHeld(new OuttakeRollersCommand());
+//        outtake.whenHeld(new ReverseConveyor());
 
         /*Button colorPistonUp = new Button(() -> getJoystick1().getY() > 0.5);
         colorPistonUp.whenPressed(new SpinnerUpCommand());

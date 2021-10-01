@@ -90,7 +90,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         turretTalon.config_kD(0, TurretConstants.TURRET_D);
       limitSwitchLeft = new DigitalInput(TurretConstants.TURRET_SWITCH_ID);
       limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
-        turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
         turretTalon.setSensorPhase(TurretConstants.TURRET_ENCODER_INVERSION);
 
         //Initialize PIDController
@@ -199,7 +199,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public boolean getLeftSwitch() {
-        return limitSwitchLeft.get();
+        return !limitSwitchLeft.get();
     }
 
     /**
@@ -209,7 +209,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public boolean getRightSwitch() {
-        return limitSwitchRight.get();
+        return !limitSwitchRight.get();
     }
 
     /**
@@ -218,7 +218,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @return the turret's robot-relative angle
      */
     public double getAngle() {
-        return turretTalon.getSelectedSensorPosition() / TurretConstants.TICKS_PER_ANGLE;
+//        return turretTalon.getSelectedSensorPosition() / TurretConstants.TICKS_PER_ANGLE;
+        return turretTalon.getSelectedSensorPosition();
     }
 
     /**

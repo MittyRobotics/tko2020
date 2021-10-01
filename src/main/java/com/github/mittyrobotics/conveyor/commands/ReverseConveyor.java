@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.conveyor.commands;
 
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
@@ -39,6 +40,11 @@ public class ReverseConveyor extends RunCommand {
      */
     public ReverseConveyor() {
         super(() -> ConveyorSubsystem.getInstance().outtakeBall(), ConveyorSubsystem.getInstance());
+    }
+
+    @Override
+    public boolean isFinished() {
+        return OI.getInstance().getJoystick1().getTopPressed();
     }
 
     /**

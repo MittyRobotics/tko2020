@@ -79,8 +79,8 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      */
     @Override
     public void initHardware() {
-        conveyorTalonBottom = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_TOP_ID);
-        conveyorTalonTop = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_BOTTOM_ID);
+        conveyorTalonBottom = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_BOTTOM_ID);
+        conveyorTalonTop = new WPI_TalonSRX(ConveyorConstants.CONVEYOR_TOP_ID);
         conveyorTalonBottom.configFactoryDefault();
         conveyorTalonTop.configFactoryDefault();
         conveyorTalonBottom.setInverted(ConveyorConstants.CONVEYOR_TOP_INVERSION);
@@ -99,7 +99,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      * @return if a ball is detected
      */
     public boolean isBallDetected(){
-        return ballSensor.get();
+        return !ballSensor.get();
     }
 
     /**
@@ -137,9 +137,9 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      * @param increase the amount to increase ball count by
      */
     public void updateBallCount(int increase){
-        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
+//        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
             ballCount = MathUtil.clamp(ballCount + increase, ConveyorConstants.MINIMUM_BALL_COUNT, ConveyorConstants.MAXIMUM_BALL_COUNT);
-        }
+//        }
     }
 
     /**
@@ -161,6 +161,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      */
     public void outtakeBall(){
         setMotor(ConveyorConstants.OUTTAKE_SPEED);
+        IntakeSubsystem.getInstance().overrideSetMotor(0.6);
     }
 
     /**
@@ -176,6 +177,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
             overrideSetMotor(speed);
         }
     }
+
 
     /**
      * Runs the conveyor at the speed to shoot balls (ignores ball count since releasing balls)

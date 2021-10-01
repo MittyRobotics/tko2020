@@ -22,20 +22,36 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.shooter;
+package com.github.mittyrobotics.conveyor.commands;
+
+import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
- * Constants for the {@link TurretSubsystem}
+ * Reverses the {@link ConveyorSubsystem} for outtaking balls
  */
-public class TurretConstants {
-    public static final int Turret_Talon_ID = 30;
-    public static final boolean TURRET_TALON_INVERSION = false;
-    public static final boolean TURRET_ENCODER_INVERSION = false;
-    public static final double TURRET_P = .003;
-    public static final double TURRET_I = 0;
-    public static final double TURRET_D = 0;
-    public static final int TURRET_SWITCH_ID = 1;
-    public static final int TURRET_SWITCH_2_ID = 0;
-    public static final double TICKS_PER_ANGLE = 10.7;
-    public static final double REVOLUTION_TICKS = 3911;
+public class ShootBalls extends RunCommand {
+
+    /**
+     * Reverses the {@link ConveyorSubsystem} at the designated speed to outtake balls from the conveyor
+     *
+     * Requires the {@link ConveyorSubsystem}
+     */
+    public ShootBalls() {
+        super(() -> ConveyorSubsystem.getInstance().shootBall(), ConveyorSubsystem.getInstance());
+    }
+
+    @Override
+    public boolean isFinished() {
+        return OI.getInstance().getJoystick1().getTopPressed();
+    }
+
+    /**
+     * Stops the conveyor from moving when the command ends
+     */
+    @Override
+    public void end(boolean interrupted) {
+        ConveyorSubsystem.getInstance().stopMotor();
+    }
 }
