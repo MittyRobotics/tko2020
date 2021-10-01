@@ -134,8 +134,16 @@ public class OI {
 
         IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallCommand());
 
-        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
+        Button changeIntakePiston = new Button(() -> getJoystick1().getRawButtonPressed(2));
         changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
+
+        Button lowerBallCount = new Button(() -> getJoystick1().getRawButtonPressed(3));
+        lowerBallCount.whenPressed(new ChangeBallCount(-1));
+
+        Button raiseBallCount = new Button(() -> getJoystick1().getRawButtonPressed(4));
+        raiseBallCount.whenPressed(new ChangeBallCount(1));
+
+
 
 //        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 //
