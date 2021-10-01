@@ -24,10 +24,7 @@
 
 package com.github.mittyrobotics.conveyor.commands;
 
-import com.github.mittyrobotics.conveyor.ConveyorConstants;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
-import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import com.github.mittyrobotics.conveyor.*;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -69,6 +66,7 @@ public class AutoConveyorCommand extends CommandBase {
     public void execute() {
         if(OI.getInstance().getJoystick1().getTrigger()) {
             ConveyorSubsystem.getInstance().outtakeBall();
+            IntakeSubsystem.getInstance().setMotor(IntakeConstants.OUTTAKE_SPEED);
         } else if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
             if (ConveyorSubsystem.getInstance().isBallDetected()) {
                 state = State.SENSING;

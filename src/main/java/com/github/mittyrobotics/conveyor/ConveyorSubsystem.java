@@ -161,7 +161,6 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      */
     public void outtakeBall(){
         setMotor(ConveyorConstants.OUTTAKE_SPEED);
-        IntakeSubsystem.getInstance().setMotor(IntakeConstants.OUTTAKE_SPEED);
     }
 
     /**
