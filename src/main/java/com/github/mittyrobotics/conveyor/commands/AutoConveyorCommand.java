@@ -28,9 +28,10 @@ import com.github.mittyrobotics.conveyor.ConveyorConstants;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoIntakeCommand extends CommandBase {
+public class AutoConveyorCommand extends CommandBase {
 
     /**
      * Current and previous state of the state machine
@@ -47,7 +48,7 @@ public class AutoIntakeCommand extends CommandBase {
      *
      * Requires the {@link ConveyorSubsystem}
      */
-    public AutoIntakeCommand() {
+    public AutoConveyorCommand() {
         addRequirements(ConveyorSubsystem.getInstance(), IntakeSubsystem.getInstance());
     }
 
@@ -66,7 +67,9 @@ public class AutoIntakeCommand extends CommandBase {
      */
     @Override
     public void execute() {
-//        if(IntakePistonSubsystem.getInstance().isPistonExtended()) {
+        if(OI.getInstance().getJoystick1().getTrigger()) {
+            ConveyorSubsystem.getInstance().outtakeBall();
+        } else if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
             if (ConveyorSubsystem.getInstance().isBallDetected()) {
                 state = State.SENSING;
                 if (prevState != State.SENSING) {
@@ -94,7 +97,7 @@ public class AutoIntakeCommand extends CommandBase {
                 ConveyorSubsystem.getInstance().stopMotor();
             }
             prevState = state;
-//        }
+        }
     }
 
     /**

@@ -24,37 +24,43 @@
 
 package com.github.mittyrobotics.conveyor.commands;
 
+import com.github.mittyrobotics.conveyor.ConveyorConstants;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * Intakes a ball into the {@link ConveyorSubsystem}
- */
-public class IntakeBallCommand extends RunCommand {
-    /**
-     * Intakes the ball at the default fast and slow speeds
-     *
-     * Requires the {@link IntakeSubsystem}
-     */
+public class IntakeBallCommand extends CommandBase {
+
     public IntakeBallCommand() {
-        super(() -> IntakeSubsystem.getInstance().setIntaking(), IntakeSubsystem.getInstance());
+        addRequirements(IntakeSubsystem.getInstance());
+    }
+
+    @Override
+    public void initialize() {
+    }
+
+    @Override
+    public void execute() {
+        if(!OI.getInstance().getJoystick1().getTrigger()) {
+            if(Math.abs(OI.getInstance().getJoystick1().getY()) < 0.1) {
+                IntakeSubsystem.getInstance().setMotor(OI.getInstance().getJoystick1().getY() * 0.6);
+            }
+        } else {
+            IntakeSubsystem.getInstance().setIntaking(0.6, 0.6);
+        }
     }
 
     /**
-     * Intakes the ball at the inputted fast and slow speeds
+     * Returns if the command should end
      *
-     * Requires the {@link IntakeSubsystem}
-     */
-    public IntakeBallCommand(double speedFast, double speedSlow) {
-        super(() -> IntakeSubsystem.getInstance().setIntaking(speedFast, speedSlow), IntakeSubsystem.getInstance());
-    }
-
-    /**
-     * Stops the intake when the command ends
+     * @return false because this is a default command
      */
     @Override
-    public void end(boolean interrupted) {
-        IntakeSubsystem.getInstance().stopMotor();
+    public boolean isFinished() {
+        return false;
     }
+
+
 }

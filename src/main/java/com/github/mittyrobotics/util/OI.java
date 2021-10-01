@@ -24,19 +24,11 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.colorwheel.commands.ManualSpinColorWheelCommand;
-import com.github.mittyrobotics.colorwheel.commands.SpinWheelMacro;
-import com.github.mittyrobotics.colorwheel.commands.SpinnerDownCommand;
-import com.github.mittyrobotics.colorwheel.commands.SpinnerUpCommand;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
-import com.github.mittyrobotics.drivetrain.commands.ArcadeDriveCommand;
-import com.github.mittyrobotics.colorwheel.SpinnerSubsystem;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
-import com.github.mittyrobotics.shooter.TurretSubsystem;
-import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
-import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -138,12 +130,11 @@ public class OI {
     public void setupControls() {
         DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
 
+        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
+
+        IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallCommand());
 
 //        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
-//
-//        SpinnerSubsystem.getInstance().setDefaultCommand(new ManualSpinColorWheelCommand());
-//
-//        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorIndexCommand());
 //
 //        Button autoTurret = new Button(() -> getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.5);
 //        autoTurret.whenHeld(new MinimalVisionCommand());
@@ -161,8 +152,8 @@ public class OI {
 //        manualShootSpeedDown
 //                .whenPressed(new ChangeManualShooterSetpoint(-100));
 //
-//        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
-//        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
+        Button changeIntakePiston = new Button(() -> getXboxController().getBButton());
+        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 //
 //        Button intake = new Button(() -> getXboxController().getBumper(GenericHID.Hand.kLeft));
 //        intake.whenHeld(new IntakeBallCommand());
