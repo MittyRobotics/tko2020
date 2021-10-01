@@ -24,10 +24,7 @@
 
 package com.github.mittyrobotics.conveyor.commands;
 
-import com.github.mittyrobotics.conveyor.ConveyorConstants;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
-import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import com.github.mittyrobotics.conveyor.*;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -45,10 +42,10 @@ public class IntakeBallCommand extends CommandBase {
     public void execute() {
         if(!OI.getInstance().getJoystick1().getTrigger()) {
             if(Math.abs(OI.getInstance().getJoystick1().getY()) < 0.1) {
-                IntakeSubsystem.getInstance().setMotor(OI.getInstance().getJoystick1().getY() * 0.6);
+                IntakeSubsystem.getInstance().setMotor(OI.getInstance().getJoystick1().getY() * IntakeConstants.INTAKE_SPEED_FAST);
             }
         } else {
-            IntakeSubsystem.getInstance().setIntaking(0.6, 0.6);
+            IntakeSubsystem.getInstance().setIntaking(IntakeConstants.INTAKE_SPEED_FAST, IntakeConstants.INTAKE_SPEED_FAST);
         }
     }
 

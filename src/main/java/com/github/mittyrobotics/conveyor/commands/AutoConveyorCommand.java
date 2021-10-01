@@ -84,7 +84,7 @@ public class AutoConveyorCommand extends CommandBase {
                     if(ConveyorSubsystem.getInstance().getBallCount() == ConveyorConstants.MAXIMUM_BALL_COUNT-1) {
                         counter = 0;
                     } else {
-                        counter = (.2) / (0.02);
+                        counter = (ConveyorConstants.BUFFER_TIME) / (0.02);
                     }
                 }
             } else if (state == State.INDEXING) {
