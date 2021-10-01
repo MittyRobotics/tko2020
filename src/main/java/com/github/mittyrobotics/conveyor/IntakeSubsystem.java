@@ -106,27 +106,9 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
         intakeWheel.set(percent);
     }
 
-    /**
-     * Calls the {@link #setIntaking(double, double)} using the default values
-     */
-    public void setIntaking() {
-        setIntaking(IntakeConstants.INTAKE_SPEED_FAST, IntakeConstants.INTAKE_SPEED_SLOW);
-    }
-
-    /**
-     * Sets the subsystem to intake at given speeds if less the {@link ConveyorSubsystem} can take in more balls
-     *
-     * @param speedFast the speed to run if a ball is not detected (need to get the ball into the conveyor)
-     *
-     * @param speedSlow the speed to run if the ball is detected (needs a slight push to get into the conveyor)
-     */
-    public void setIntaking(double speedFast, double speedSlow) {
+    public void setIntaking(double speed) {
         if (ConveyorSubsystem.getInstance().getBallCount() < ConveyorConstants.MAXIMUM_BALL_COUNT) {
-            if (!ConveyorSubsystem.getInstance().isBallDetected()) {
-                setMotor(speedFast);
-            } else {
-                setMotor(speedSlow);
-            }
+            setMotor(speed);
         } else {
             stopMotor();
         }

@@ -64,10 +64,10 @@ public class AutoConveyorCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        if(OI.getInstance().getJoystick1().getTrigger()) {
-            ConveyorSubsystem.getInstance().outtakeBall();
-            IntakeSubsystem.getInstance().setMotor(IntakeConstants.OUTTAKE_SPEED);
-        } else if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+//        if(OI.getInstance().getJoystick1().getTrigger()) {
+//            ConveyorSubsystem.getInstance().outtakeBall();
+//            IntakeSubsystem.getInstance().setMotor(IntakeConstants.OUTTAKE_SPEED);
+        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
             if (ConveyorSubsystem.getInstance().isBallDetected()) {
                 state = State.SENSING;
                 if (prevState != State.SENSING) {

@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.shooter.commands;
 
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
@@ -32,14 +33,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
  */
 public class ChangeManualShooterSetpoint extends InstantCommand {
 
-    /**
-     * Changes the manual setpoint of the shooter
-     *
-     * Requires the {@link ShooterSubsystem}
-     *
-     * @param change the amount to change the setpoint
-     */
-    public ChangeManualShooterSetpoint(double change) {
-        super(()->ShooterSubsystem.getInstance().changeManualRPMSetpoint(change), ShooterSubsystem.getInstance());
+    public ChangeManualShooterSetpoint() {
+        super(() -> {
+            if(OI.getInstance().getXboxController2().getPOV() == 0) {
+                ShooterSubsystem.getInstance().changeManualRPMSetpoint(20);
+            } else if(OI.getInstance().getXboxController2().getPOV() == 180) {
+                ShooterSubsystem.getInstance().changeManualRPMSetpoint(-20);
+            }
+        });
     }
 }

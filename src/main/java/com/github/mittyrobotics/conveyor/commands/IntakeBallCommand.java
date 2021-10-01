@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class IntakeBallCommand extends RunCommand {
 
     public IntakeBallCommand() {
-        super(() -> IntakeSubsystem.getInstance().setIntaking(IntakeConstants.INTAKE_SPEED_FAST, IntakeConstants.INTAKE_SPEED_FAST), IntakeSubsystem.getInstance());
+        super(() -> IntakeSubsystem.getInstance().setIntaking(IntakeConstants.INTAKE_SPEED_FAST), IntakeSubsystem.getInstance());
     }
 
     @Override
