@@ -27,36 +27,17 @@ package com.github.mittyrobotics.conveyor.commands;
 import com.github.mittyrobotics.conveyor.*;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-public class IntakeBallCommand extends CommandBase {
+public class IntakeBallCommand extends RunCommand {
 
     public IntakeBallCommand() {
-        addRequirements(IntakeSubsystem.getInstance());
+        super(() -> IntakeSubsystem.getInstance().setIntaking(IntakeConstants.INTAKE_SPEED_FAST, IntakeConstants.INTAKE_SPEED_FAST), IntakeSubsystem.getInstance());
     }
 
     @Override
-    public void initialize() {
-    }
-
-    @Override
-    public void execute() {
-        if(!OI.getInstance().getJoystick1().getTrigger()) {
-            if(Math.abs(OI.getInstance().getJoystick1().getY()) < 0.1) {
-                IntakeSubsystem.getInstance().setMotor(OI.getInstance().getJoystick1().getY() * IntakeConstants.INTAKE_SPEED_FAST);
-            }
-        } else {
-            IntakeSubsystem.getInstance().setIntaking(IntakeConstants.INTAKE_SPEED_FAST, IntakeConstants.INTAKE_SPEED_FAST);
-        }
-    }
-
-    /**
-     * Returns if the command should end
-     *
-     * @return false because this is a default command
-     */
-    @Override
-    public boolean isFinished() {
-        return false;
+    public void end(boolean interrupted) {
+        IntakeSubsystem.getInstance().setMotor(0);
     }
 
 

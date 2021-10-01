@@ -132,7 +132,11 @@ public class OI {
 
         ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
 
-        IntakeSubsystem.getInstance().setDefaultCommand(new IntakeBallCommand());
+        Button intake = new Button(() -> getJoystick1().getRawButtonPressed(0));
+        intake.whenPressed(new IntakeBallCommand());
+
+        Button outtake = new Button(() -> getJoystick1().getRawButtonPressed(1));
+        outtake.whenPressed(new OuttakeBallCommand());
 
         Button changeIntakePiston = new Button(() -> getJoystick1().getRawButtonPressed(2));
         changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
