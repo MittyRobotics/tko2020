@@ -26,6 +26,8 @@ package com.github.mittyrobotics.conveyor.commands;
 
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
@@ -45,6 +47,11 @@ public class UnloadConveyorCommand extends RunCommand {
     /**
      * Stops the conveyor from moving when the command ends
      */
+    @Override
+    public boolean isFinished() {
+        return !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
+    }
+
     @Override
     public void end(boolean interrupted) {
         ConveyorSubsystem.getInstance().stopMotor();

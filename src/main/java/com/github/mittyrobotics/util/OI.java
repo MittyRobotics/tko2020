@@ -118,7 +118,7 @@ public class OI {
 
         // automatically shoot and advance conveyor when right trigger held
         Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
-        conveyorAndShoot.whenHeld(new AutoShootMacro());
+        conveyorAndShoot.whenPressed(new UnloadConveyorCommand());
 
         // intake balls when right bumper held
         Button intake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kRight));
