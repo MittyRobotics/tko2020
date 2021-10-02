@@ -26,19 +26,24 @@ package com.github.mittyrobotics.conveyor.commands;
 
 import com.github.mittyrobotics.conveyor.*;
 import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class IntakeBallCommand extends RunCommand {
 
     public IntakeBallCommand() {
-        super(() -> IntakeSubsystem.getInstance().setIntaking(IntakeConstants.INTAKE_SPEED_FAST), IntakeSubsystem.getInstance());
+        super(() -> IntakeSubsystem.getInstance().overrideSetMotor(IntakeConstants.INTAKE_SPEED_FAST));
+
     }
 
     @Override
     public void end(boolean interrupted) {
-        IntakeSubsystem.getInstance().setMotor(0);
+        IntakeSubsystem.getInstance().overrideSetMotor(0);
     }
 
-
+    @Override
+    public boolean isFinished() {
+        return !OI.getInstance().getXboxController2().getBumper(GenericHID.Hand.kRight);
+    }
 }

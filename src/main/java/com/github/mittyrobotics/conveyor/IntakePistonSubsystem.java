@@ -34,6 +34,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsystem {
 
+    boolean isExtended = false;
+
     /**
      * {@link IntakeSubsystem} instance
      */
@@ -90,7 +92,7 @@ public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsy
      */
     @Override
     public boolean isPistonExtended() {
-        return intakePiston.get() != DoubleSolenoid.Value.kReverse;
+        return intakePiston.get() == DoubleSolenoid.Value.kReverse;
     }
 
 
@@ -107,7 +109,7 @@ public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsy
      */
     @Override
     public void extendPiston() {
-        intakePiston.set(DoubleSolenoid.Value.kForward);
+        intakePiston.set(DoubleSolenoid.Value.kReverse);
 //        ConveyorSubsystem.getInstance().resetBallCount();
     }
 
@@ -116,7 +118,7 @@ public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsy
      */
     @Override
     public void retractPiston() {
-        intakePiston.set(DoubleSolenoid.Value.kReverse);
+        intakePiston.set(DoubleSolenoid.Value.kForward);
 //        ConveyorSubsystem.getInstance().resetBallCount();
     }
 }

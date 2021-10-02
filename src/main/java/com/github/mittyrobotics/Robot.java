@@ -27,6 +27,9 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import com.github.mittyrobotics.conveyor.commands.ChangeIntakePistonStateCommand;
+import com.github.mittyrobotics.conveyor.commands.ExtendIntake;
+import com.github.mittyrobotics.conveyor.commands.RetractIntake;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
@@ -34,7 +37,9 @@ import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
@@ -96,7 +101,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-
+//        CommandScheduler.getInstance().schedule(new RetractIntake());
     }
 
     /**
@@ -105,6 +110,9 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         OI.getInstance().setupControls();
+//        CommandScheduler.getInstance().schedule(new ExtendIntake());
+
+
 
 //        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoIntakeCommand());
 

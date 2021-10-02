@@ -8,6 +8,7 @@ import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class VisionTurretAim extends CommandBase {
@@ -75,7 +76,7 @@ public class VisionTurretAim extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return false;
+        return !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
     }
 
     @Override

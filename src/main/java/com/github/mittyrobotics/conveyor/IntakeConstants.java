@@ -32,9 +32,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 public class IntakeConstants {
     public static final int INTAKE_WHEEL_ID = 40;
     public static final boolean INTAKE_WHEEL_INVERSION = false;
-    public static final double INTAKE_SPEED_FAST = .6;
-    public static final double INTAKE_SPEED_SLOW = .4;
-    public static final double OUTTAKE_SPEED = -.6;
+    public static final double INTAKE_SPEED_FAST = -.6;
+    public static final double INTAKE_SPEED_SLOW = -.4;
+    public static final double OUTTAKE_SPEED = .6;
     public static final int SOLENOID_FORWQRD_CHANNEL = 0;
     public static final int SOLENOID_REVERSE_CHANNEL = 7;
     public static final NeutralMode INTAKE_NEUTRAL_MODE = NeutralMode.Coast;
