@@ -5,9 +5,9 @@ import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class ChangeBallCount extends InstantCommand {
+public class ResetBallCount extends InstantCommand {
 
-    public ChangeBallCount(int increase){
-        super(()-> ConveyorSubsystem.getInstance().updateBallCount(increase), ConveyorSubsystem.getInstance());
+    public ResetBallCount() {
+        super(()-> ConveyorSubsystem.getInstance().resetBallCount(), ConveyorSubsystem.getInstance());
     }
 }
