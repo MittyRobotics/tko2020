@@ -30,7 +30,7 @@ package com.github.mittyrobotics.drivetrain;
 public class DriveConstants {
 
     public static final double DRIVE_THRESHOLD = 0.02;
-    public static final double DRIVE_BOOST = 1.3;
+    public static final double DRIVE_BOOST = 1.4;
     public static final double DRIVE_TRIGGER_THRESHOLD = 0.1;
     public static final double TURN_RATIO = 0.55;
     public static final double FINAL_MULTIPLIER = 0.5;
