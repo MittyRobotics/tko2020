@@ -44,6 +44,8 @@ public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsy
      */
     private DoubleSolenoid intakePiston;
 
+    private boolean extended;
+
     /**
      * Calls {@link SubsystemBase} constructor and names the subsystem "Intake Piston"
      */
@@ -89,6 +91,15 @@ public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsy
     @Override
     public boolean isPistonExtended() {
         return intakePiston.get() != DoubleSolenoid.Value.kReverse;
+    }
+
+
+    public boolean getPistonExtended() {
+        return extended;
+    }
+
+    public void setPistonExtended(boolean extended) {
+        this.extended = extended;
     }
 
     /**

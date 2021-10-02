@@ -26,6 +26,8 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
+import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
@@ -169,7 +171,7 @@ public class OI {
 
         // extend/retract intake with Y button
         Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
-        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
+        changeIntakePiston.whenPressed(new WaitExtendIntake(IntakePistonSubsystem.getInstance().getPistonExtended()));
 
         // lower ball count manually with left d-pad
         Button lowerBallCount = new Button(() -> getXboxController2().getPOV() == 270);
