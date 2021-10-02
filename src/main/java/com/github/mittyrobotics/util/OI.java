@@ -26,6 +26,7 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
