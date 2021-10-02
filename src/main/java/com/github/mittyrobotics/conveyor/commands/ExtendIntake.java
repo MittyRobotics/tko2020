@@ -15,6 +15,6 @@ public class ExtendIntake extends InstantCommand {
      * Requires the {@link IntakePistonSubsystem}
      */
     public ExtendIntake(){
-        super(()-> IntakePistonSubsystem.getInstance().extendPiston(), IntakePistonSubsystem.getInstance());
+        super(()-> IntakePistonSubsystem.getInstance().retractPiston(), IntakePistonSubsystem.getInstance());
     }
 }
