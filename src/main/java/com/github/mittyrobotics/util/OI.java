@@ -145,10 +145,10 @@ public class OI {
 //        resetBallCount.whenPressed(new ResetBallCount());
 
         Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);
-        increaseGain.whenPressed(new GainAdjustCommand(true));
+        increaseGain.whenPressed(new GainAdjustCommand(.1));
 
         Button decreaseGain = new Button(() -> getXboxController2().getPOV() == 180);
-        decreaseGain.whenPressed(new GainAdjustCommand(false));
+        decreaseGain.whenPressed(new GainAdjustCommand(-.1));
 
     }
 
