@@ -26,6 +26,7 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
@@ -35,6 +36,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
@@ -134,6 +136,17 @@ public class OI {
         return joystick2;
     }
 
+    public void updateControls(){
+        // intake balls when right bumper held
+        Button intake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kRight));
+        intake.whenPressed(new IntakeBallCommand());
+
+
+        // outtake balls when left bumper held
+        Button outtake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kLeft));
+        outtake.whenHeld(new OuttakeBallCommand());
+    }
+
     /**
      * Setup controls
      */
@@ -149,7 +162,7 @@ public class OI {
 
         // automatically aim turret at vision target when left trigger held
         Button autoTurret = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
-        autoTurret.whenHeld(new VisionTurretAim());
+        autoTurret.whenPressed(new VisionTurretAim());
 
         // automatically shoot and advance conveyor when right trigger held
         Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
@@ -165,7 +178,7 @@ public class OI {
 
         // override conveyor indexing and intake to outtake, when X button pressed
         Button conveyorOverride = new Button(() -> getXboxController2().getXButton());
-        conveyorOverride.whenHeld(new ConveyorOverrideOuttake());
+        conveyorOverride.whenPressed(new ConveyorOverrideOuttake());
 
         // extend/retract intake with Y button
         Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
@@ -182,6 +195,8 @@ public class OI {
         // hold A to override turret and shooter. turret is controlled with left joystick x-axis, shooter is controlled by up/down d-pad
         Button overrideTurretShooter = new Button(() -> getXboxController2().getAButton());
         overrideTurretShooter.whenHeld(new ManualTurretShooter());
+
+
 
 
 //        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
