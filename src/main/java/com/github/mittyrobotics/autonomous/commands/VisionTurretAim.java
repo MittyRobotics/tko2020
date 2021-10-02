@@ -13,14 +13,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class VisionTurretAim extends CommandBase {
 
-    /**
-     * Calls the constructor of {@link CommandBase}
-     *
-     * Requires the {@link ConveyorSubsystem}
-     */
+    private boolean auton;
+
     public VisionTurretAim() {
+        this(false);
+    }
+
+
+    public VisionTurretAim(boolean auton) {
+        this.auton = auton;
         addRequirements(ShooterSubsystem.getInstance(),TurretSubsystem.getInstance());
     }
+
+
 
     /**
      * Initializes the starting states and setpoints
@@ -53,7 +58,6 @@ public class VisionTurretAim extends CommandBase {
     private double calculateDistance(double pitch){
             return (AutonConstants.HIGH_TARGET_HEIGHT - AutonConstants.LIMELIGHT_HEIGHT) /
                     Math.tan(Math.toRadians(pitch + AutonConstants.LIMELIGHT_PITCH));
-
     }
 
     private double getRPMFromTable(double distance){
@@ -76,7 +80,7 @@ public class VisionTurretAim extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
+        return !auton && !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
     }
 
     @Override

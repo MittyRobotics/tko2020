@@ -45,6 +45,7 @@ public class AutonConstants {
     public static double SHOOTER_OUTPUT_HEIGHT = 22; //Inches
     public static double CAMERA_TURRET_OFFSET = 7.5; //Inches //TODO: Find this value
     public static Vector2D turretPositionRelativeToRobotCenter = new Vector2D(24, 0); //Inches //Todo: Find this value
+    public static Vector2D TURRET_ON_ROBOT = new Vector2D(7, 0); //Inches //Todo: Find this value
 
     public static double LOW_RANGE_SHOOTER_GAIN = 1;
     public static double MID_RANGE_SHOOTER_GAIN = .8;
