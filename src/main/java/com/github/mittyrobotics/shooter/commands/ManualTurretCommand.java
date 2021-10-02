@@ -46,4 +46,9 @@ public class ManualTurretCommand extends RunCommand {
                         .getX(GenericHID.Hand.kLeft)),
                 TurretSubsystem.getInstance());
     }
+
+    @Override
+    public boolean isFinished() {
+        return !OI.getInstance().getXboxController2().getAButton();
+    }
 }

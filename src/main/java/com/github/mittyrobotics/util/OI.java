@@ -30,8 +30,9 @@ import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
-import com.github.mittyrobotics.shooter.commands.AutoShootMacro;
-import com.github.mittyrobotics.shooter.commands.ManualTurretShooter;
+import com.github.mittyrobotics.shooter.TurretSubsystem;
+import com.github.mittyrobotics.shooter.commands.GainAdjustCommand;
+import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -112,6 +113,9 @@ public class OI {
         // automatically index balls (no operator control by default)
         ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
 
+        // automatic manual control for turret
+        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
+
         // automatically aim turret at vision target when left trigger held
         Button autoTurret = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
         autoTurret.whenPressed(new VisionTurretAim());
@@ -137,12 +141,14 @@ public class OI {
         changeIntakePiston.whenPressed(new WaitExtendIntake(IntakePistonSubsystem.getInstance().getPistonExtended()));
 
         // lower ball count manually with left d-pad
-        Button resetBallCount = new Button(() -> getXboxController2().getPOV() == 270);
+        Button resetBallCount = new Button(() -> getXboxController2().getBButton());
         resetBallCount.whenPressed(new ResetBallCount());
 
-        // hold A to override turret and shooter. turret is controlled with left joystick x-axis, shooter is controlled by up/down d-pad
-        Button overrideTurretShooter = new Button(() -> getXboxController2().getAButton());
-        overrideTurretShooter.whenPressed(new ManualTurretShooter());
+        Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);
+        increaseGain.whenPressed(new GainAdjustCommand(true));
+
+        Button decreaseGain = new Button(() -> getXboxController2().getPOV() == 180);
+        decreaseGain.whenPressed(new GainAdjustCommand(false));
 
     }
 
