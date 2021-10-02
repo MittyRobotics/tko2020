@@ -24,6 +24,8 @@
 
 package com.github.mittyrobotics;
 
+import com.github.mittyrobotics.autonomous.Autonomous;
+import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
@@ -34,6 +36,7 @@ import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Compressor;
+import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.*;
@@ -49,14 +52,12 @@ public class Robot extends TimedRobot {
      * Sets the Robot to loop at 20 ms cycle
      */
 
-//    WPI_TalonSRX t;
-    DoubleSolenoid s;
 
     public Robot() {
         super(0.02);
     }
 
-    DigitalInput b;
+    private final Command autonCommand = new Ball3Auton();
 
     /**
      * Initializes all the hardware
@@ -64,17 +65,15 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         SubsystemManager.getInstance().addSubsystems(
-                //ColorPistonSubsystem.getInstance(),
                 ConveyorSubsystem.getInstance(),
                 DrivetrainSubsystem.getInstance(),
                 IntakePistonSubsystem.getInstance(),
                 IntakeSubsystem.getInstance(),
                 ShooterSubsystem.getInstance(),
-                //SpinnerSubsystem.getInstance(),
                 TurretSubsystem.getInstance()
         );
         SubsystemManager.getInstance().initHardware();
-//        Gyro.getInstance().initHardware();
+        Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
     }
 
@@ -85,7 +84,6 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
-//        OI.getInstance().updateOI();
     }
 
     /**
@@ -101,7 +99,12 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-//        CommandScheduler.getInstance().schedule(new RetractIntake());
+        autonCommand.schedule();
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+
     }
 
     /**
@@ -109,57 +112,12 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
+        autonCommand.end(true);
         OI.getInstance().setupControls();
-//        CommandScheduler.getInstance().schedule(new ExtendIntake());
-
-
-
-//        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoIntakeCommand());
-
-//        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
-//        Button spinWheelColor = new Button(() -> OI.getInstance().getJoystick2().getTriggerPressed());
-//        spinWheelColor.whenPressed(new VisionTurretAim());
-//        CommandScheduler.getInstance().schedule(new VisionTurretAim());
-//        IntakePistonSubsystem.getInstance().extendPiston();
-//        IntakePistonSubsystem.getInstance().extendPiston();
     }
 
     @Override
     public void teleopPeriodic() {
-//        System.out.println(b.get());
-//        if(b.get()) {
-//            ConveyorSubsystem.getInstance().overrideSetMotor(0);
-//        } else {
-//            ConveyorSubsystem.getInstance().overrideSetMotor(-0.3);
-//
-//        }
-
-//        System.out.println(ConveyorSubsystem.getInstance().isBallDetected());
-//
-//        double val = OI.getInstance().getJoystick1().getY();
-//        IntakeSubsystem.getInstance().overrideSetMotor(val * 0.5);
-
-//        double val2 = OI.getInstance().getJoystick2().getY();
-//        ConveyorSubsystem.getInstance().overrideSetMotor(val2 * 0.5);
-
-//        if(OI.getInstance().getJoystick1().getTriggerPressed()) {
-//            CommandScheduler.getInstance().schedule(new ReverseConveyor());
-//        }
-
-//        if(OI.getInstance().getJoystick2().getTriggerPressed()) {
-//            CommandScheduler.getInstance().schedule(new ShootBalls());
-//        }
-
-
-//        System.out.println(ConveyorSubsystem.getInstance().getBallCount());
-//
-//        if(OI.getInstance().getJoystick1().getTriggerPressed()) {
-//            System.out.println( " | in");
-//            IntakePistonSubsystem.getInstance().retractPiston();
-//        } else if(OI.getInstance().getJoystick2().getTriggerPressed()) {
-//            System.out.println(" | out");
-//            IntakePistonSubsystem.getInstance().extendPiston();
-//        }
 
     }
 
@@ -168,8 +126,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testInit() {
-//        IntakePistonSubsystem.getInstance().retractPiston();
-//        IntakePistonSubsystem.getInstance().retractPiston();
     }
 
     /**
@@ -177,14 +133,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-//        t.set(-0.2);
-
-//        DrivetrainSubsystem.getInstance().ov
-//        errideSetMotor(.2, .2);
-
-//        if(j.getTriggerPressed()) {
-//            CommandScheduler.getInstance().schedule(new JerkLowerIntake());
-//        }
     }
 
 }

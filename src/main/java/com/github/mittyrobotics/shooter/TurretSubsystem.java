@@ -59,6 +59,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     private double maxPercent;
 
+    private double encoderCalibration;
+
     private TurretSubsystem() {
         super();
         setName("Turret");
@@ -98,6 +100,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
                 new PIDController(TurretConstants.TURRET_P, TurretConstants.TURRET_I, TurretConstants.TURRET_D);
         turretController.enableContinuousInput(0, TurretConstants.REVOLUTION_TICKS - 1);
 
+        encoderCalibration = turretTalon.getSelectedSensorPosition();
     }
 
     /**
@@ -218,8 +221,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @return the turret's robot-relative angle
      */
     public double getAngle() {
-//        return turretTalon.getSelectedSensorPosition() / TurretConstants.TICKS_PER_ANGLE;
-        return turretTalon.getSelectedSensorPosition();
+        return (turretTalon.getSelectedSensorPosition() - encoderCalibration) / TurretConstants.TICKS_PER_ANGLE;
+//        return turretTalon.getSelectedSensorPosition();
     }
 
     /**
