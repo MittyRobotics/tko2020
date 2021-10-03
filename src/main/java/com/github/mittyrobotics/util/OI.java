@@ -138,7 +138,7 @@ public class OI {
 
         // extend/retract intake with Y button
         Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
-        changeIntakePiston.whenPressed(new WaitExtendIntake(IntakePistonSubsystem.getInstance().getPistonExtended()));
+        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 
         // lower ball count manually with left d-pad
 //        Button resetBallCount = new Button(() -> getXboxController2().getBButton());

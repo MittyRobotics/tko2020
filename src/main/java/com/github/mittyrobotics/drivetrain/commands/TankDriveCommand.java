@@ -56,8 +56,8 @@ public class TankDriveCommand extends CommandBase {
         if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
             DrivetrainSubsystem.getInstance().brake();
         } else {
-            double right = OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
-            double left = OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
+            double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
+            double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
 
             double speed = (left + right)/2;
             double turn = left - right;

@@ -89,11 +89,8 @@ public class IntakeSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @param percent the percentage to run the motor at
      */
     public void setMotor(double percent) {
-        if (IntakePistonSubsystem.getInstance().getPistonExtended()) {
-            overrideSetMotor(percent);
-        } else {
-            overrideSetMotor(0);
-        }
+        overrideSetMotor(percent);
+
     }
 
     /**

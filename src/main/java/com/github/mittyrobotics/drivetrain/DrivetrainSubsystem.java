@@ -104,6 +104,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         leftDrive[0].setSensorPhase(DriveConstants.LEFT_ENCODER_INVERSION);
         rightDrive[0].setSensorPhase(DriveConstants.RIGHT_ENCODER_INVERSION);
 
+        rightDrive[0].setSelectedSensorPosition(0);
+        leftDrive[0].setSelectedSensorPosition(0);
         setNeutralMode(NeutralMode.Coast);
     }
 
@@ -116,6 +118,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         SmartDashboard.putNumber("Drive Velocity Right", getRightVelocity());
         SmartDashboard.putNumber("Drive Velocity Left Setpoint", getLeftVelSetpoint());
         SmartDashboard.putNumber("Drive Velocity Right Setpoint", getRightVelSetpoint());
+        SmartDashboard.putNumber("Drive Position Left", getLeftPosition());
+        SmartDashboard.putNumber("Drive Position Right", getRightPosition());
         SmartDashboard.putNumber("Gyro Angle", Gyro.getInstance().getAngle360());
     }
 

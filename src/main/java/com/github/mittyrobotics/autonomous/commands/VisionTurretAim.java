@@ -25,8 +25,6 @@ public class VisionTurretAim extends CommandBase {
         addRequirements(ShooterSubsystem.getInstance(),TurretSubsystem.getInstance());
     }
 
-
-
     /**
      * Initializes the starting states and setpoints
      */

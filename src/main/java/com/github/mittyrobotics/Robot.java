@@ -26,6 +26,8 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.Autonomous;
 import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
+import com.github.mittyrobotics.autonomous.commands.PIDDrive;
+import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
@@ -40,6 +42,7 @@ import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -72,9 +75,11 @@ public class Robot extends TimedRobot {
                 ShooterSubsystem.getInstance(),
                 TurretSubsystem.getInstance()
         );
-        SubsystemManager.getInstance().initHardware();
-        Gyro.getInstance().initHardware();
+        SubsystemManager.getInstance()
+                .initHardware();
+//        Gyro.getInstance().initHardware();
         Compressor.getInstance().initHardware();
+        SmartDashboard.putNumber("shootGain", AutonConstants.RANGE_SHOOTER_GAIN);
     }
 
     /**
@@ -91,7 +96,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-        DrivetrainSubsystem.getInstance().brake();
+//        DrivetrainSubsystem.getInstance().brake();
     }
 
     /**

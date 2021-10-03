@@ -46,6 +46,6 @@ public class DriveConstants {
     public static final boolean LEFT_FACLON_SLAVE_INVERSION = true;
     public static final boolean RIGHT_FACLON_MASTER_INVERSION = false;
     public static final boolean RIGHT_FACLON_SLAVE_INVERSION = false;
-    public static final boolean LEFT_ENCODER_INVERSION = false;
-    public static final boolean RIGHT_ENCODER_INVERSION = false;
+    public static final boolean LEFT_ENCODER_INVERSION = true;
+    public static final boolean RIGHT_ENCODER_INVERSION = true;
 }
