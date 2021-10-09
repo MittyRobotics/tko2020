@@ -25,14 +25,23 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.Odometry;
+import com.github.mittyrobotics.autonomous.commands.PathFollowingCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.core.math.geometry.Rotation;
+import com.github.mittyrobotics.core.math.geometry.Transform;
+import com.github.mittyrobotics.core.math.geometry.Vector2D;
+import com.github.mittyrobotics.core.math.spline.Path;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.motion.profiles.PathTrajectory;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
@@ -97,6 +106,16 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 //        autonCommand.schedule();
+        Path path = Path.Companion.quinticHermitePath(new Transform[]{
+                new Transform(new Vector2D(inches(0.0), inches(0.0)), new Rotation(degrees(0))),
+                new Transform(new Vector2D(inches(50.0), inches(0.0)), new Rotation(degrees(0)))
+        });
+
+        PathTrajectory trajectory = new PathTrajectory(path, inches(50.0), inches(50.0),
+                0.5, 0, 0,
+                0, inches(50.0));
+
+        new PathFollowingCommand(trajectory).schedule();
     }
 
     @Override

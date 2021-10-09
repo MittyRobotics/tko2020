@@ -1,8 +1,10 @@
 package com.github.mittyrobotics.autonomous.commands;
 
+import com.github.mittyrobotics.autonomous.Odometry;
+import com.github.mittyrobotics.core.math.geometry.Transform;
 import com.github.mittyrobotics.core.math.geometry.Vector2D;
 import com.github.mittyrobotics.core.math.kinematics.DifferentialDriveState;
-import com.github.mittyrobotics.core.math.spline.Path;
+import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.motion.State;
 import com.github.mittyrobotics.motion.profiles.PathTrajectory;
 import edu.wpi.first.wpilibj.Timer;
@@ -14,37 +16,34 @@ import static com.github.mittyrobotics.motion.controllers.PurePursuitKt.purePurs
 public class PathFollowingCommand extends CommandBase {
 
     private PathTrajectory trajectory;
-    private double initialTime;
+    private double time;
+
     private final double LOOKAHEADDISTANCE = inches(20.0);
+    private final double TRACKWIDTH = inches(25);
+    private final double THRESHOLD = inches(0.5);
 
     public PathFollowingCommand(PathTrajectory trajectory) {
         this.trajectory = trajectory;
-    }
-
-    @Override
-    public void initialize() {
-        initialTime = Timer.getFPGATimestamp();
+        this.time = Timer.getFPGATimestamp();
     }
 
     @Override
     public void execute() {
-        double dt = Timer.getFPGATimestamp() - initialTime;
-
+        double dt = Timer.getFPGATimestamp() - time;
+        this.time = Timer.getFPGATimestamp();
         State state = trajectory.next(dt);
+
+        Transform robotTransform = new Transform(Odometry.getInstance().getRobotVector(), Odometry.getInstance().getRobotRotation());
+
         Vector2D lookAheadPosition = trajectory.getTransform(LOOKAHEADDISTANCE).getVector();
 
-        DifferentialDriveState dds = purePursuit()
+        DifferentialDriveState driveState = purePursuit(robotTransform, lookAheadPosition, state.get(0), TRACKWIDTH);
 
-        initialTime = Timer.getFPGATimestamp();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        super.end(interrupted);
+        DrivetrainSubsystem.getInstance().tankVelocity(driveState.getLeft(), driveState.getRight());
     }
 
     @Override
     public boolean isFinished() {
-        return super.isFinished();
+        return trajectory.isFinished(THRESHOLD);
     }
 }
