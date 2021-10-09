@@ -33,6 +33,7 @@ import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Compressor;
+import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -61,17 +62,17 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         SubsystemManager.getInstance().addSubsystems(
-                ConveyorSubsystem.getInstance(),
+//                ConveyorSubsystem.getInstance(),
                 DrivetrainSubsystem.getInstance(),
-                IntakePistonSubsystem.getInstance(),
-                IntakeSubsystem.getInstance(),
+//                IntakePistonSubsystem.getInstance(),
+//                IntakeSubsystem.getInstance(),
                 ShooterSubsystem.getInstance(),
                 TurretSubsystem.getInstance()
         );
         SubsystemManager.getInstance()
                 .initHardware();
-//        Gyro.getInstance().initHardware();
-        Compressor.getInstance().initHardware();
+        Gyro.getInstance().initHardware();
+//        Compressor.getInstance().initHardware();
         SmartDashboard.putNumber("shootGain", AutonConstants.RANGE_SHOOTER_GAIN);
     }
 

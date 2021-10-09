@@ -139,10 +139,6 @@ public class OI {
         Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
         changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 
-        // lower ball count manually with left d-pad
-//        Button resetBallCount = new Button(() -> getXboxController2().getBButton());
-//        resetBallCount.whenPressed(new ResetBallCount());
-
         Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);
         increaseGain.whenPressed(new GainAdjustCommand(.1));
 
