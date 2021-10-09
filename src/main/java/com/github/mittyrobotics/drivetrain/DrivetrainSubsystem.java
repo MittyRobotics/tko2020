@@ -26,6 +26,7 @@ package com.github.mittyrobotics.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDualMotorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -120,6 +121,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         SmartDashboard.putNumber("Drive Velocity Right Setpoint", getRightVelSetpoint());
         SmartDashboard.putNumber("Drive Position Left", getLeftPosition());
         SmartDashboard.putNumber("Drive Position Right", getRightPosition());
+        SmartDashboard.putNumber("Drive X", Odometry.getInstance().getRobotVector().getX());
+        SmartDashboard.putNumber("Drive Y", Odometry.getInstance().getRobotVector().getY());
         SmartDashboard.putNumber("Gyro Angle", Gyro.getInstance().getAngle360());
     }
 

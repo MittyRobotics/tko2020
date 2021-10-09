@@ -104,40 +104,40 @@ public class OI {
         // --------------------------
 
         // automatically index balls (no operator control by default)
-        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
+//        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
 
         // automatic manual control for turret
-        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
+//        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
         // automatically aim turret at vision target when left trigger held
-        Button autoTurret = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
-        autoTurret.whenPressed(new VisionTurretAim());
+//        Button autoTurret = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
+//        autoTurret.whenPressed(new VisionTurretAim());
 
         // automatically shoot and advance conveyor when right trigger held
-        Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
-        conveyorAndShoot.whenPressed(new UnloadConveyorCommand());
+//        Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
+//        conveyorAndShoot.whenPressed(new UnloadConveyorCommand());
 
         // intake balls when right bumper held
-        Button intake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kRight));
-        intake.whenPressed(new IntakeBallCommand());
+//        Button intake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kRight));
+//        intake.whenPressed(new IntakeBallCommand());
 
         // outtake balls when left bumper held
-        Button outtake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kLeft));
-        outtake.whenPressed(new OuttakeBallCommand());
+//        Button outtake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kLeft));
+//        outtake.whenPressed(new OuttakeBallCommand());
 
         // override conveyor indexing and intake to outtake, when X button pressed
-        Button conveyorOverride = new Button(() -> getXboxController2().getXButton());
-        conveyorOverride.whenPressed(new ConveyorOverrideOuttake());
+//        Button conveyorOverride = new Button(() -> getXboxController2().getXButton());
+//        conveyorOverride.whenPressed(new ConveyorOverrideOuttake());
 
         // extend/retract intake with Y button
-        Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
-        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
+//        Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
+//        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 
-        Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);
-        increaseGain.whenPressed(new GainAdjustCommand(.1));
+//        Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);
+//        increaseGain.whenPressed(new GainAdjustCommand(.1));
 
-        Button decreaseGain = new Button(() -> getXboxController2().getPOV() == 180);
-        decreaseGain.whenPressed(new GainAdjustCommand(-.1));
+//        Button decreaseGain = new Button(() -> getXboxController2().getPOV() == 180);
+//        decreaseGain.whenPressed(new GainAdjustCommand(-.1));
 
     }
 

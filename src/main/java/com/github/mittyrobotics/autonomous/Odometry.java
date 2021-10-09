@@ -12,8 +12,12 @@ public class Odometry {
     private double lastRightEncoder = 0;
     private double calibrateGyroVal = 0;
 
-    public Odometry(){
+    private static Odometry instance = new Odometry();
 
+    private Vector2D robotVector = new Vector2D();
+
+    public static Odometry getInstance(){
+        return instance;
     }
 
     public void update(double leftEncoder, double rightEncoder, double gyro){
@@ -37,6 +41,8 @@ public class Odometry {
 
         //Get delta position
         deltaPosition = new Vector2D(deltaX, deltaY);
+
+        robotVector = robotVector.plus(deltaPosition);
     }
 
     public void zeroEncoders(double leftEncoder, double rightEncoder){
@@ -52,11 +58,19 @@ public class Odometry {
         calibrateGyroVal = gyro - heading;
     }
 
+    public void zeroPosition(){
+        this.robotVector = new Vector2D();
+    }
+
     public Vector2D getDeltaPosition(){
         return deltaPosition;
     }
 
     public Rotation getRobotRotation(){
         return robotRotation;
+    }
+
+    public Vector2D getRobotVector() {
+        return robotVector;
     }
 }

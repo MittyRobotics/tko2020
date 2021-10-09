@@ -24,17 +24,14 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
+import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
-import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -50,7 +47,7 @@ public class Robot extends TimedRobot {
         super(0.02);
     }
 
-    private final Command autonCommand = new Ball3Auton();
+//    private final Command autonCommand = new Ball3Auton();
 
     /**
      * Initializes all the hardware
@@ -59,17 +56,21 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         SubsystemManager.getInstance().addSubsystems(
 //                ConveyorSubsystem.getInstance(),
-                DrivetrainSubsystem.getInstance(),
+                DrivetrainSubsystem.getInstance()
 //                IntakePistonSubsystem.getInstance(),
 //                IntakeSubsystem.getInstance(),
-                ShooterSubsystem.getInstance(),
-                TurretSubsystem.getInstance()
+//                ShooterSubsystem.getInstance(),
+//                TurretSubsystem.getInstance()
         );
         SubsystemManager.getInstance()
                 .initHardware();
         Gyro.getInstance().initHardware();
+        Gyro.getInstance().calibrate();
 //        Compressor.getInstance().initHardware();
         SmartDashboard.putNumber("shootGain", AutonConstants.RANGE_SHOOTER_GAIN);
+        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
+        Odometry.getInstance().zeroPosition();
     }
 
     /**
@@ -79,6 +80,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
+        Odometry.getInstance().update(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition(), Gyro.getInstance().getAngle360());
     }
 
     /**
@@ -94,7 +96,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        autonCommand.schedule();
+//        autonCommand.schedule();
     }
 
     @Override
@@ -107,7 +109,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-        autonCommand.end(true);
+//        autonCommand.end(true);
         OI.getInstance().setupControls();
     }
 
@@ -128,6 +130,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+        DrivetrainSubsystem.getInstance().tankVelocity(50, 50);
     }
 
 }
