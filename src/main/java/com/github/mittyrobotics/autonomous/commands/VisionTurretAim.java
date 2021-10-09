@@ -2,9 +2,6 @@ package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.Limelight;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.conveyor.ConveyorConstants;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;

@@ -24,9 +24,7 @@
 
 package com.github.mittyrobotics.autonomous.constants;
 
-import com.github.mittyrobotics.core.math.geometry.Vector2D;
-
-import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
+ import com.github.mittyrobotics.core.math.geometry.Vector2D;
 
  public class AutonCoordinates {
 

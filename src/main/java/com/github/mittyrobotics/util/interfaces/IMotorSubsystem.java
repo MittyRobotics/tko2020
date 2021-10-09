@@ -36,7 +36,7 @@ public interface IMotorSubsystem extends ISubsystem {
     }
 
     /**
-     * Sets the motor to run at a certain percent (using duty cylce)
+     * Sets the motor to run at a certain percent (using duty cycle)
      *
      * @param percent the percentage to run the motor at
      */

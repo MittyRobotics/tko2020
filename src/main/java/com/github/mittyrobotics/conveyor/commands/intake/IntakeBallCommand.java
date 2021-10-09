@@ -22,29 +22,28 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.conveyor.commands;
+package com.github.mittyrobotics.conveyor.commands.intake;
 
+import com.github.mittyrobotics.conveyor.IntakeConstants;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
-/**
- * Sets the Intake to spin at the correct speed to shoot
- */
-public class IntakeBallShootingCommand extends RunCommand {
+public class IntakeBallCommand extends RunCommand {
 
-    /**
-     * Sets the Intake to spin at the correct speed when the {@link ShooterSubsystem} is running
-     */
-    public IntakeBallShootingCommand() {
-        super(() -> IntakeSubsystem.getInstance().setIntakingShooting(), IntakeSubsystem.getInstance());
+    public IntakeBallCommand() {
+        super(() -> IntakeSubsystem.getInstance().overrideSetMotor(IntakeConstants.INTAKE_SPEED_FAST));
+
     }
 
-    /**
-     * Stops the intake when the command ends
-     */
     @Override
     public void end(boolean interrupted) {
-        IntakeSubsystem.getInstance().stopMotor();
+        IntakeSubsystem.getInstance().overrideSetMotor(0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !OI.getInstance().getXboxController2().getBumper(GenericHID.Hand.kRight);
     }
 }

@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.conveyor.commands;
+package com.github.mittyrobotics.conveyor.commands.intake;
 
-import com.github.mittyrobotics.conveyor.*;
+import com.github.mittyrobotics.conveyor.IntakeConstants;
+import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class OuttakeBallCommand extends RunCommand {

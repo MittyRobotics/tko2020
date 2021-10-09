@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.conveyor.commands;
+package com.github.mittyrobotics.conveyor.commands.intake;
 
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;

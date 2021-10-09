@@ -4,7 +4,7 @@ import com.github.mittyrobotics.autonomous.Autonomous;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeConstants;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
-import com.github.mittyrobotics.conveyor.commands.ExtendIntake;
+import com.github.mittyrobotics.conveyor.commands.intake.ExtendIntake;
 import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingShooterControlLoop;
 import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingTurretControlLoop;
 import edu.wpi.first.wpilibj2.command.InstantCommand;

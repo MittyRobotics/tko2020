@@ -26,7 +26,12 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.commands.*;
+import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
+import com.github.mittyrobotics.conveyor.commands.ConveyorOverrideOuttake;
+import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
+import com.github.mittyrobotics.conveyor.commands.intake.ChangeIntakePistonStateCommand;
+import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
+import com.github.mittyrobotics.conveyor.commands.intake.OuttakeBallCommand;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
 import com.github.mittyrobotics.shooter.TurretSubsystem;

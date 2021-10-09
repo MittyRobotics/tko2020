@@ -26,13 +26,9 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
-import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
-import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;

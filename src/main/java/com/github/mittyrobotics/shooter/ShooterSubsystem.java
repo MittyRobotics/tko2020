@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.shooter;
 
-import com.github.mittyrobotics.shooter.commands.StopShooterCommand;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

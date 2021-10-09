@@ -1,12 +1,6 @@
 package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakeConstants;
-import com.github.mittyrobotics.conveyor.IntakeSubsystem;
-import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
-import com.github.mittyrobotics.conveyor.commands.ExtendIntake;
-import com.github.mittyrobotics.conveyor.commands.WaitExtendIntake;
-import com.github.mittyrobotics.drivetrain.DriveConstants;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;

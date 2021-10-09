@@ -30,7 +30,6 @@ import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
 
 /**
  * Tank Drive Command
