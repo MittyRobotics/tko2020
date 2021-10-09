@@ -93,17 +93,6 @@ public class OI {
         return xboxController2;
     }
 
-    public void updateControls(){
-        // intake balls when right bumper held
-        Button intake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kRight));
-        intake.whenPressed(new IntakeBallCommand());
-
-
-        // outtake balls when left bumper held
-        Button outtake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kLeft));
-        outtake.whenHeld(new OuttakeBallCommand());
-    }
-
     /**
      * Setup controls
      */

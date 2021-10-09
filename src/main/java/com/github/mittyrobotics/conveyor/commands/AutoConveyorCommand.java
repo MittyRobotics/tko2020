@@ -35,7 +35,7 @@ public class AutoConveyorCommand extends CommandBase {
     /**
      * Current and previous state of the state machine
      */
-    private State state, prevState;
+    private State state;
 
     /**
      * Current target position for the conveyor
@@ -56,7 +56,6 @@ public class AutoConveyorCommand extends CommandBase {
      */
     @Override
     public void initialize() {
-        prevState = State.STOPPING;
         state = State.STOPPING;
         counter = 0;
     }
@@ -86,7 +85,6 @@ public class AutoConveyorCommand extends CommandBase {
             } else {
                 ConveyorSubsystem.getInstance().stopMotor();
             }
-            prevState = state;
         }
     }
 
