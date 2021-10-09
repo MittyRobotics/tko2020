@@ -26,7 +26,6 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.commands.*;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
@@ -73,7 +72,7 @@ public class OI {
     /**
      * Returns the {@link XboxController} instance
      *
-     * @return {@link XboxWheel} instance
+     * @return {@link XboxController} instance
      */
     public XboxController getXboxController() {
         if (xboxController == null) {
