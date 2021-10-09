@@ -18,8 +18,5 @@ public class ConveyorConstants {
     public static final boolean CONVEYOR_BOTTOM_INVERSION = false;
     public static final boolean CONVEYOR_ENCODER_INVERSION = true;
     public static final int BALL_SENSOR_ID = 6;
-    public static final int MINIMUM_BALL_COUNT = -2000000000;
-    public static final int MAXIMUM_BALL_COUNT = 2000000000;
     public static final NeutralMode CONVEYOR_NEUTRAL_MODE = NeutralMode.Brake;
-    public static final double INDEXING_SETPOINT = 9;
 }

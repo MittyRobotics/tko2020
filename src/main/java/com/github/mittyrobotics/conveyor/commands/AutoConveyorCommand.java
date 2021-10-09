@@ -69,20 +69,13 @@ public class AutoConveyorCommand extends CommandBase {
         if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
             if (ConveyorSubsystem.getInstance().isBallDetected()) {
                 state = State.SENSING;
-                if (prevState != State.SENSING) {
-                    ConveyorSubsystem.getInstance().updateBallCount(1);
-                }
             }
 
             if (state == State.SENSING) {
                 ConveyorSubsystem.getInstance().overrideSetMotor(ConveyorConstants.INDEX_SPEED);
                 if (!ConveyorSubsystem.getInstance().isBallDetected()) {
                     state = State.INDEXING;
-                    if(ConveyorSubsystem.getInstance().getBallCount() == ConveyorConstants.MAXIMUM_BALL_COUNT-1) {
-                        counter = 0;
-                    } else {
-                        counter = (ConveyorConstants.BUFFER_TIME) / (0.02);
-                    }
+                    counter = (ConveyorConstants.BUFFER_TIME) / (0.02);
                 }
             } else if (state == State.INDEXING) {
                 ConveyorSubsystem.getInstance().overrideSetMotor(ConveyorConstants.INDEX_SPEED);

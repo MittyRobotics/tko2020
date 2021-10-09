@@ -32,7 +32,6 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     /**
      * Counter of the current # of balls in the conveyor
      */
-    private int ballCount;
 
     /**
      * Calls {@link SubsystemBase} constructor and names the subsystem "Conveyor"
@@ -70,7 +69,6 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Ball Count: ", ballCount);
         SmartDashboard.putBoolean("Ball Detected: ", isBallDetected());
     }
 
@@ -90,7 +88,6 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
         conveyorTalonBottom.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
         conveyorTalonTop.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
         ballSensor = new DigitalInput(ConveyorConstants.BALL_SENSOR_ID);
-        ballCount = 0;
     }
 
     /**
@@ -121,42 +118,6 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
     }
 
     /**
-     * Returns the current number of balls stored
-     *
-     * @return the current number of balls stored
-     */
-    public int getBallCount(){
-        return ballCount;
-    }
-
-    /**
-     * Updates the ball count by an input if the piston is extended
-     *
-     * Clamps values between the minimum and maximum balls that can be stored
-     *
-     * @param increase the amount to increase ball count by
-     */
-    public void updateBallCount(int increase){
-//        if(IntakePistonSubsystem.getInstance().isPistonExtended()){
-            ballCount = MathUtil.clamp(ballCount + increase, ConveyorConstants.MINIMUM_BALL_COUNT, ConveyorConstants.MAXIMUM_BALL_COUNT);
-//        }
-    }
-
-    /**
-     * Resets the ball count to 0
-     */
-    public void resetBallCount(){
-        ballCount = 0;
-    }
-
-    /**
-     * Sets the conveyor to the speed to index a ball
-     */
-    public void indexBall(){
-        setMotor(ConveyorConstants.INDEX_SPEED);
-    }
-
-    /**
      * Sets the conveyor to the speed to outtake a ball
      */
     public void outtakeBall(){
@@ -170,11 +131,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      */
     @Override
     public void setMotor(double speed){
-        if(getBallCount() > ConveyorConstants.MAXIMUM_BALL_COUNT - 1 && speed > 0){
-            overrideSetMotor(0);
-        } else {
-            overrideSetMotor(speed);
-        }
+        overrideSetMotor(speed);
     }
 
 
