@@ -27,6 +27,7 @@ package com.github.mittyrobotics;
 import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.autonomous.commands.PathFollowingCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.autonomous.test.TestCommand;
 import com.github.mittyrobotics.core.math.geometry.Rotation;
 import com.github.mittyrobotics.core.math.geometry.Transform;
 import com.github.mittyrobotics.core.math.geometry.Vector2D;
@@ -149,7 +150,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-        DrivetrainSubsystem.getInstance().tankVelocity(50, 50);
     }
 
 }
