@@ -28,9 +28,9 @@ public class TestCommand extends SequentialCommandGroup {
                     new InstantCommand(() -> ConveyorSubsystem.getInstance().outtakeBall(), ConveyorSubsystem.getInstance()),
                     new WaitCommand(2),
                     new InstantCommand(() -> ConveyorSubsystem.getInstance().stopMotor(), ConveyorSubsystem.getInstance()),
-                    new InstantCommand(() -> ShooterSubsystem.getInstance().setShooterRpm(4000), ShooterSubsystem.getInstance()),
-                    new WaitCommand(6),
-                    new InstantCommand(() -> ShooterSubsystem.getInstance().stopMotor(), ShooterSubsystem.getInstance())
+                    new TurretTest(0.2),
+                    new TurretTest(-0.2),
+                    new VisionTurretAim(true)
             )
         );
     }
