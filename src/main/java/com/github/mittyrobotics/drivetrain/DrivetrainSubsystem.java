@@ -149,6 +149,13 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         overrideSetMotor(left * multiplier, right * multiplier);
     }
 
+    public void setMode(NeutralMode mode) {
+        leftDrive[0].setNeutralMode(mode);
+        leftDrive[1].setNeutralMode(mode);
+        rightDrive[0].setNeutralMode(mode);
+        rightDrive[1].setNeutralMode(mode);
+    }
+
     /**
      * Drives the robot using tank drive
      *

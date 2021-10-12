@@ -1,5 +1,6 @@
 package com.github.mittyrobotics.autonomous.commands;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeConstants;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
@@ -20,9 +21,9 @@ public class Ball3Auton extends SequentialCommandGroup {
                         parallel(
                                 new VisionTurretAim(true),
                                 sequence(
-                                        new WaitCommand(1),
+                                        new InstantCommand(() -> DrivetrainSubsystem.getInstance().setMode(NeutralMode.Brake)),
                                         new InstantCommand(()-> DrivetrainSubsystem.getInstance().overrideSetMotor(-.2, -.2)),
-                                        new WaitCommand(1),
+                                        new WaitCommand(.5),
                                         new InstantCommand(()-> DrivetrainSubsystem.getInstance().stopMotor()),
                                         new WaitCommand(2),
                                         new InstantCommand(() -> ConveyorSubsystem.getInstance().shootBall(), ConveyorSubsystem.getInstance()),

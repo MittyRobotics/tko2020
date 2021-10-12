@@ -26,6 +26,7 @@ package com.github.mittyrobotics.conveyor.commands;
 
 import com.github.mittyrobotics.conveyor.*;
 import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoConveyorCommand extends CommandBase {
@@ -67,7 +68,7 @@ public class AutoConveyorCommand extends CommandBase {
 //        if(OI.getInstance().getJoystick1().getTrigger()) {
 //            ConveyorSubsystem.getInstance().outtakeBall();
 //            IntakeSubsystem.getInstance().setMotor(IntakeConstants.OUTTAKE_SPEED);
-        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+        if (IntakePistonSubsystem.getInstance().isPistonExtended() && OI.getInstance().getXboxController2().getBumper(GenericHID.Hand.kRight)) {
             if (ConveyorSubsystem.getInstance().isBallDetected()) {
                 state = State.SENSING;
                 if (prevState != State.SENSING) {
@@ -95,6 +96,9 @@ public class AutoConveyorCommand extends CommandBase {
                 ConveyorSubsystem.getInstance().stopMotor();
             }
             prevState = state;
+        }
+        else {
+            ConveyorSubsystem.getInstance().stopMotor();
         }
     }
 

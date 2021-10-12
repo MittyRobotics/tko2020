@@ -42,6 +42,5 @@ public class ChangeIntakePistonStateCommand extends ConditionalCommand {
         super(new RetractIntake(),
                 new ExtendIntake(),
                 IntakePistonSubsystem.getInstance()::isPistonExtended);
-        System.out.println("here");
     }
 }

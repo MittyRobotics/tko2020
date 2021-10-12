@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.util;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
@@ -104,6 +105,8 @@ public class OI {
      * Setup controls
      */
     public void setupControls() {
+
+        DrivetrainSubsystem.getInstance().setMode(NeutralMode.Coast);
         // DRIVER CONTROLS
         DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
 

@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
  */
 public class ConveyorConstants {
     public static final double TICKS_PER_CYCLE = 52900;
-    public static final double INDEX_SPEED = -0.4;
+    public static final double INDEX_SPEED = -0.6; //0.4
     public static final double OUTTAKE_SPEED = 0.6;
     public static final double SHOOT_SPEED = -.5;
     public static final int CONVEYOR_TOP_ID = 41;

@@ -47,7 +47,7 @@ public class AutonConstants {
     public static Vector2D turretPositionRelativeToRobotCenter = new Vector2D(24, 0); //Inches //Todo: Find this value
     public static Vector2D TURRET_ON_ROBOT = new Vector2D(7, 0); //Inches //Todo: Find this value
 
-    public static double RANGE_SHOOTER_GAIN = 1.9;
+    public static double RANGE_SHOOTER_GAIN = 1.0;
 
     public static double LOW_RANGE_SHOOTER_GAIN = 1.0*RANGE_SHOOTER_GAIN;
     public static double MID_RANGE_SHOOTER_GAIN = 1.05*RANGE_SHOOTER_GAIN;

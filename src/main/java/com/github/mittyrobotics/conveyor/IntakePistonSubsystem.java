@@ -46,7 +46,7 @@ public class IntakePistonSubsystem extends SubsystemBase implements IPistonSubsy
      */
     private DoubleSolenoid intakePiston;
 
-    private boolean extended;
+    private boolean extended = false;
 
     /**
      * Calls {@link SubsystemBase} constructor and names the subsystem "Intake Piston"
