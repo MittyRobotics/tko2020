@@ -24,15 +24,27 @@
 
 package com.github.mittyrobotics;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.Odometry;
+import com.github.mittyrobotics.autonomous.commands.PathFollowingCommand;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
+import com.github.mittyrobotics.core.math.geometry.Rotation;
+import com.github.mittyrobotics.core.math.geometry.Transform;
+import com.github.mittyrobotics.core.math.geometry.Vector2D;
+import com.github.mittyrobotics.core.math.spline.Path;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.motion.profiles.PathTrajectory;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import javax.swing.text.Position;
+
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
@@ -97,6 +109,22 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 //        autonCommand.schedule();
+        DrivetrainSubsystem.getInstance().resetEncoder();
+        Gyro.getInstance().reset();
+        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
+        Odometry.getInstance().zeroPosition();
+        Path path = Path.Companion.quinticHermitePath(new Transform[] {
+                new Transform(new Vector2D(0.0, 0.0), new Rotation(0)),
+                new Transform(new Vector2D(inches(80), inches(0)), new Rotation(0)),
+                new Transform(new Vector2D(inches(0), inches(0)), new Rotation(0)),
+        });
+
+        PathTrajectory trajectory = new PathTrajectory(path, inches(100), inches(100),
+                Double.POSITIVE_INFINITY, 0, 0, 0, inches(50));
+
+        new PathFollowingCommand(trajectory).schedule();
+        DrivetrainSubsystem.getInstance().setMode(NeutralMode.Brake);
     }
 
     @Override

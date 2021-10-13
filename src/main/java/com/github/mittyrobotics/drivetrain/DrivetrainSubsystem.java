@@ -80,6 +80,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         return instance;
     }
 
+
+
     /**
      * Initialize the drivetrain's hardware
      */
@@ -124,6 +126,13 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         SmartDashboard.putNumber("Drive X", Odometry.getInstance().getRobotVector().getX());
         SmartDashboard.putNumber("Drive Y", Odometry.getInstance().getRobotVector().getY());
         SmartDashboard.putNumber("Gyro Angle", Gyro.getInstance().getAngle360());
+    }
+
+    public void setMode(NeutralMode mode) {
+        leftDrive[0].setNeutralMode(mode);
+        leftDrive[1].setNeutralMode(mode);
+        rightDrive[0].setNeutralMode(mode);
+        rightDrive[1].setNeutralMode(mode);
     }
 
     /**
