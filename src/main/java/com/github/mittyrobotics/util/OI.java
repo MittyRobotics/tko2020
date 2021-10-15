@@ -24,6 +24,7 @@
 
 package com.github.mittyrobotics.util;
 
+import com.github.mittyrobotics.autonomous.commands.ManualVisionTurretAim;
 import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
@@ -34,7 +35,9 @@ import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
 import com.github.mittyrobotics.conveyor.commands.intake.OuttakeBallCommand;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
+import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
 import com.github.mittyrobotics.shooter.commands.GainAdjustCommand;
 import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -91,6 +94,15 @@ public class OI {
             xboxController2 = new XboxController(OIConstants.XBOX_CONTROLLER_2_ID);
         }
         return xboxController2;
+    }
+
+    public void testSetupControls() {
+        ShooterSubsystem.getInstance().setDefaultCommand(new ManualVisionTurretAim());
+
+        Button lowerSetpoint = new Button(() -> getXboxController().getAButton());
+        Button raiseSetpoint = new Button(() -> getXboxController().getBButton());
+        lowerSetpoint.whenPressed(new ChangeManualShooterSetpoint(-10));
+        raiseSetpoint.whenPressed(new ChangeManualShooterSetpoint(10));
     }
 
     /**

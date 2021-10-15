@@ -40,6 +40,7 @@ import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.motion.profiles.PathTrajectory;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
+import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
@@ -80,11 +81,10 @@ public class Robot extends TimedRobot {
                 ShooterSubsystem.getInstance(),
                 TurretSubsystem.getInstance()
         );
-        SubsystemManager.getInstance()
-                .initHardware();
+        SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Gyro.getInstance().calibrate();
-//        Compressor.getInstance().initHardware();
+        Compressor.getInstance().initHardware();
 //        SmartDashboard.putNumber("shootGain", AutonConstants.RANGE_SHOOTER_GAIN);
 //        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
 //        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
@@ -145,7 +145,11 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
 //        autonCommand.end(true);
 //        OI.getInstance().setupControls();
-        testCommand.schedule();
+        
+        OI.getInstance().testSetupControls();
+
+//        testCommand.schedule();
+
     }
 
     @Override

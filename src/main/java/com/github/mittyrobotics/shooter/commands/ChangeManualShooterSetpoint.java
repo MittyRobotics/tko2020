@@ -33,13 +33,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
  */
 public class ChangeManualShooterSetpoint extends InstantCommand {
 
-    public ChangeManualShooterSetpoint() {
+    public ChangeManualShooterSetpoint(int change) {
         super(() -> {
-            if(OI.getInstance().getXboxController2().getPOV() == 0) {
-                ShooterSubsystem.getInstance().changeManualRPMSetpoint(20);
-            } else if(OI.getInstance().getXboxController2().getPOV() == 180) {
-                ShooterSubsystem.getInstance().changeManualRPMSetpoint(-20);
-            }
+            ShooterSubsystem.getInstance().changeManualRPMSetpoint(change);
         });
     }
 }
