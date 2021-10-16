@@ -34,6 +34,7 @@ import com.github.mittyrobotics.conveyor.commands.intake.ChangeIntakePistonState
 import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
 import com.github.mittyrobotics.conveyor.commands.intake.OuttakeBallCommand;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.drivetrain.commands.ManualTankDriveCommand;
 import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
@@ -97,12 +98,11 @@ public class OI {
     }
 
     public void testSetupControls() {
-        ShooterSubsystem.getInstance().setDefaultCommand(new ManualVisionTurretAim());
 
-        Button lowerSetpoint = new Button(() -> getXboxController().getAButton());
-        Button raiseSetpoint = new Button(() -> getXboxController().getBButton());
-        lowerSetpoint.whenPressed(new ChangeManualShooterSetpoint(-10));
-        raiseSetpoint.whenPressed(new ChangeManualShooterSetpoint(10));
+        Button lowerSetpoint = new Button(() -> getXboxController().getBumperPressed(GenericHID.Hand.kLeft));
+        Button raiseSetpoint = new Button(() -> getXboxController().getBumperPressed(GenericHID.Hand.kRight));
+        lowerSetpoint.whenPressed(new ChangeManualShooterSetpoint(-50));
+        raiseSetpoint.whenPressed(new ChangeManualShooterSetpoint(50));
     }
 
     /**
@@ -110,13 +110,13 @@ public class OI {
      */
     public void setupControls() {
         // DRIVER CONTROLS
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
 
         // OPERATOR CONTROLS
         // --------------------------
 
         // automatically index balls (no operator control by default)
-//        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
+        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
 
         // automatic manual control for turret
 //        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
@@ -126,20 +126,20 @@ public class OI {
 //        autoTurret.whenPressed(new VisionTurretAim());
 
         // automatically shoot and advance conveyor when right trigger held
-//        Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
-//        conveyorAndShoot.whenPressed(new UnloadConveyorCommand());
+        Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
+        conveyorAndShoot.whenPressed(new UnloadConveyorCommand());
 
         // intake balls when right bumper held
-//        Button intake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kRight));
-//        intake.whenPressed(new IntakeBallCommand());
+        Button intake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kRight));
+        intake.whenPressed(new IntakeBallCommand());
 
         // outtake balls when left bumper held
-//        Button outtake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kLeft));
-//        outtake.whenPressed(new OuttakeBallCommand());
+        Button outtake = new Button(() -> getXboxController2().getBumperPressed(GenericHID.Hand.kLeft));
+        outtake.whenPressed(new OuttakeBallCommand());
 
         // override conveyor indexing and intake to outtake, when X button pressed
-//        Button conveyorOverride = new Button(() -> getXboxController2().getXButton());
-//        conveyorOverride.whenPressed(new ConveyorOverrideOuttake());
+        Button conveyorOverride = new Button(() -> getXboxController2().getXButton());
+        conveyorOverride.whenPressed(new ConveyorOverrideOuttake());
 
         // extend/retract intake with Y button
 //        Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());

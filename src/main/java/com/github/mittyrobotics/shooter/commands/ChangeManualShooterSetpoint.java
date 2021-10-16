@@ -36,6 +36,7 @@ public class ChangeManualShooterSetpoint extends InstantCommand {
     public ChangeManualShooterSetpoint(int change) {
         super(() -> {
             ShooterSubsystem.getInstance().changeManualRPMSetpoint(change);
+            System.out.println("Pressed");
         });
     }
 }

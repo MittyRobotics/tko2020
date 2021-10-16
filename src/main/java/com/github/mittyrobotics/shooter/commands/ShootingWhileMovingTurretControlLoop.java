@@ -2,6 +2,7 @@ package com.github.mittyrobotics.shooter.commands;
 
 import com.github.mittyrobotics.autonomous.Autonomous;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ShootingWhileMovingTurretControlLoop extends CommandBase {
@@ -29,6 +30,7 @@ public class ShootingWhileMovingTurretControlLoop extends CommandBase {
     @Override
     public void execute(){
         TurretSubsystem.getInstance().setMotor(Autonomous.getInstance().getAutoTurretOutput());
+        SmartDashboard.putNumber("turret-control-loop", Autonomous.getInstance().getAutoTurretOutput());
     }
 
     /**

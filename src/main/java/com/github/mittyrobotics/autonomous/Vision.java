@@ -52,11 +52,13 @@ public class Vision implements IDashboard {
 
         //Calculate camera transform relative to target
         Transform cameraTransform = Vision.getInstance().calculateCameraRelativeTransform(latestTarget);
+
         //Calculate turret transform relative to target
         Transform turretTransform = Vision.getInstance().calculateTurretRelativeTransform(cameraTransform);
 
         //Calculate turret transform relative to field
         Transform transformEstimate = Vision.getInstance().calculateTurretFieldTransform(turretTransform, turretRotation, robotRotation);
+        System.out.println(transformEstimate);
         cameraTransform.setX(xFilter.calculate(latestTurretTransformEstimate.getX()));
         cameraTransform.setY(yFilter.calculate(latestTurretTransformEstimate.getY()));
 

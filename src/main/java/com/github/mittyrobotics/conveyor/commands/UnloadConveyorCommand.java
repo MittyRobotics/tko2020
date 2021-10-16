@@ -34,22 +34,29 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
  * Moves the {@link ConveyorSubsystem} at the designated speed to shoot balls
  */
 public class UnloadConveyorCommand extends RunCommand {
+    private boolean auton = false;
 
     /**
      * Moves the {@link ConveyorSubsystem} at the designated speed to move balls into the {@link ShooterSubsystem}
-     *
+     * <p>
      * Requires the {@link ConveyorSubsystem}
      */
     public UnloadConveyorCommand() {
-        super(()->ConveyorSubsystem.getInstance().shootBall(), ConveyorSubsystem.getInstance());
+        this(false);
     }
+
+    public UnloadConveyorCommand(boolean auton) {
+        super(() -> ConveyorSubsystem.getInstance().shootBall(), ConveyorSubsystem.getInstance());
+        this.auton = auton;
+    }
+
 
     /**
      * Stops the conveyor from moving when the command ends
      */
     @Override
     public boolean isFinished() {
-        return !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
+        return !auton && !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
     }
 
     @Override

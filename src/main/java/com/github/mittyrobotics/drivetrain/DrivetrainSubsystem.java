@@ -109,6 +109,11 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
 
         rightDrive[0].setSelectedSensorPosition(0);
         leftDrive[0].setSelectedSensorPosition(0);
+
+        leftDrive[0].configOpenloopRamp(3);
+        rightDrive[0].configOpenloopRamp(3);
+        leftDrive[1].configOpenloopRamp(3);
+        rightDrive[1].configOpenloopRamp(3);
         setNeutralMode(NeutralMode.Coast);
     }
 
@@ -201,7 +206,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      */
     @Override
     public double getLeftVelocity() {
-        return (leftDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH * 10);
+        return ((leftDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH) * 10);
     }
 
     /**
@@ -211,7 +216,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      */
     @Override
     public double getRightVelocity() {
-        return (rightDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH * 10);
+        return ((rightDrive[0].getSelectedSensorVelocity() / DriveConstants.TICKS_PER_INCH) * 10);
     }
 
     /**
@@ -267,6 +272,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         double errorLeft = leftVel - measuredLeft;
         //0.01
         double FBLeft = DriveConstants.DRIVE_FALCON_P * errorLeft;
+        SmartDashboard.putNumber("FBLeft", FBLeft);
+        SmartDashboard.putNumber("ErrorLeft", errorLeft);
         left = (FFLeft + FBLeft);
         left = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, left));
 

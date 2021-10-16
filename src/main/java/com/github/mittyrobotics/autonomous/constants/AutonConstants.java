@@ -35,8 +35,8 @@ public class AutonConstants {
     public static double HIGH_TARGET_MAX_HEIGHT = 9.438 - (7.0 / 12.0 / 2.0); //ft
 
     //Vision
-    public static double LIMELIGHT_HEIGHT = 21; //TODO: Find this value
-    public static double LIMELIGHT_PITCH = 15; //TODO: Find this value
+    public static double LIMELIGHT_HEIGHT = 20.5; //TODO: Find this value
+    public static double LIMELIGHT_PITCH = 20; //TODO: Find this value
     public static double SAFE_VISION_ANGLE_THRESHOLD = 2; //TODO: Find this value
     public static double VISION_SCAN_PERCENT_OUTPUT = .5;
 
@@ -47,11 +47,11 @@ public class AutonConstants {
     public static Vector2D turretPositionRelativeToRobotCenter = new Vector2D(24, 0); //Inches //Todo: Find this value
     public static Vector2D TURRET_ON_ROBOT = new Vector2D(7, 0); //Inches //Todo: Find this value
 
-    public static double RANGE_SHOOTER_GAIN = 1.9;
+    public static double RANGE_SHOOTER_GAIN = 1.0;
 
     public static double LOW_RANGE_SHOOTER_GAIN = 1.0*RANGE_SHOOTER_GAIN;
-    public static double MID_RANGE_SHOOTER_GAIN = 1.05*RANGE_SHOOTER_GAIN;
-    public static double HIGH_RANGE_SHOOTER_GAIN = 1.1*RANGE_SHOOTER_GAIN;
+    public static double MID_RANGE_SHOOTER_GAIN = 1.0*RANGE_SHOOTER_GAIN;
+    public static double HIGH_RANGE_SHOOTER_GAIN = 1.0*RANGE_SHOOTER_GAIN;
 
     //Shooter //TODO: Tune these
     //TODO: Convert real distances into vision distance
@@ -61,21 +61,21 @@ public class AutonConstants {
      * Elements are in the format {distance, RPM}
      */
     public static double[][] SHOOTER_RPM_TABLE = {
-            {10, 3700 * LOW_RANGE_SHOOTER_GAIN},
-            {11, 3700 * LOW_RANGE_SHOOTER_GAIN},
-            {12, 3450 * LOW_RANGE_SHOOTER_GAIN},
-            {13, 3500 * LOW_RANGE_SHOOTER_GAIN},
-            {14, 3500 * LOW_RANGE_SHOOTER_GAIN},
-            {15, 3550 * LOW_RANGE_SHOOTER_GAIN},
-            {16, 3800 * MID_RANGE_SHOOTER_GAIN},
-            {17, 3850 * MID_RANGE_SHOOTER_GAIN},
-            {18, 3850 * MID_RANGE_SHOOTER_GAIN},
-            {19, 3900 * MID_RANGE_SHOOTER_GAIN},
-            {20, 3950 * MID_RANGE_SHOOTER_GAIN},
-            {21, 4000 * HIGH_RANGE_SHOOTER_GAIN},
-            {22, 4050 * HIGH_RANGE_SHOOTER_GAIN},
-            {23, 4100 * HIGH_RANGE_SHOOTER_GAIN},
-            {24, 4150 * HIGH_RANGE_SHOOTER_GAIN},
-            {25, 4200 * HIGH_RANGE_SHOOTER_GAIN}
+            {10, 4000 * LOW_RANGE_SHOOTER_GAIN},
+            {11, 4000 * LOW_RANGE_SHOOTER_GAIN},
+            {12, 3900 * LOW_RANGE_SHOOTER_GAIN},
+            {13, 3900 * LOW_RANGE_SHOOTER_GAIN},
+            {14, 3700 * LOW_RANGE_SHOOTER_GAIN},
+            {15, 3600 * LOW_RANGE_SHOOTER_GAIN},
+            {16, 3500 * MID_RANGE_SHOOTER_GAIN},
+            {17, 3550 * MID_RANGE_SHOOTER_GAIN},
+            {18, 3600 * MID_RANGE_SHOOTER_GAIN},
+            {19, 3650 * MID_RANGE_SHOOTER_GAIN},
+            {20, 3650 * MID_RANGE_SHOOTER_GAIN},
+            {21, 3700 * HIGH_RANGE_SHOOTER_GAIN},
+            {22, 3700 * HIGH_RANGE_SHOOTER_GAIN},
+            {23, 3750 * HIGH_RANGE_SHOOTER_GAIN},
+            {24, 3750 * HIGH_RANGE_SHOOTER_GAIN},
+            {25, 3800 * HIGH_RANGE_SHOOTER_GAIN}
     };
 }

@@ -108,8 +108,8 @@ public class ShooterSubsystem extends SubsystemBase implements IMotorSubsystem {
         followerPIDController.setD(ShooterConstants.SHOOTER_D);
         manualRPMSetpoint = ShooterConstants.DEFAULT_MANUAL_SHOOTER_SPEED;
 
-        shooterSparkMaster.setClosedLoopRampRate(1);
-        shooterSparkFollower.setClosedLoopRampRate(1);
+        shooterSparkMaster.setClosedLoopRampRate(.8);
+        shooterSparkFollower.setClosedLoopRampRate(.8);
 //        setDefaultCommand(new StopShooterCommand());
     }
 

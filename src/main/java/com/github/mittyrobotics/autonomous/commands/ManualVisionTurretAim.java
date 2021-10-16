@@ -2,7 +2,6 @@ package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.Limelight;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -12,7 +11,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualVisionTurretAim extends CommandBase {
 
 
-    public ManualVisionTurretAim() {}
+    public ManualVisionTurretAim() {
+        addRequirements(TurretSubsystem.getInstance());
+    }
 
 
     /**
@@ -37,14 +38,13 @@ public class ManualVisionTurretAim extends CommandBase {
 
         double distance = calculateDistance(pitch);
 //        double rpm = getRPMFromTable(distance);
-        System.out.println("Distance: " + distance);
-        System.out.println("RPM: " + ShooterSubsystem.getInstance().getManualRPMSetpoint());
+//        System.out.println("Distance: " + distance);
+//        System.out.println("RPM: " + ShooterSubsystem.getInstance().getManualRPMSetpoint());
 
         SmartDashboard.putNumber("Distance", distance);
-        SmartDashboard.putNumber("RPM", ShooterSubsystem.getInstance().getManualRPMSetpoint());
 
         TurretSubsystem.getInstance().setMotor(percent);
-        ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getManualRPMSetpoint());
+//        ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getManualRPMSetpoint());
     }
 
 
@@ -79,8 +79,6 @@ public class ManualVisionTurretAim extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         TurretSubsystem.getInstance().stopMotor();
-        ShooterSubsystem.getInstance().setShooterRpm(0);
-        ShooterSubsystem.getInstance().stopMotor();
     }
 
 }

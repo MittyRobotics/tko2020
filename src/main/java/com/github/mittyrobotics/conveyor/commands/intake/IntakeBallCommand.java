@@ -31,10 +31,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class IntakeBallCommand extends RunCommand {
-
+    private boolean auton = false;
     public IntakeBallCommand() {
-        super(() -> IntakeSubsystem.getInstance().overrideSetMotor(IntakeConstants.INTAKE_SPEED_FAST));
+        this(false);
 
+    }
+    public IntakeBallCommand(boolean auton) {
+        super(() -> IntakeSubsystem.getInstance().overrideSetMotor(IntakeConstants.INTAKE_SPEED_FAST));
+        this.auton = auton;
     }
 
     @Override
@@ -44,6 +48,6 @@ public class IntakeBallCommand extends RunCommand {
 
     @Override
     public boolean isFinished() {
-        return !OI.getInstance().getXboxController2().getBumper(GenericHID.Hand.kRight);
+        return !auton && !OI.getInstance().getXboxController2().getBumper(GenericHID.Hand.kRight);
     }
 }

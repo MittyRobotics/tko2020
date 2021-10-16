@@ -10,6 +10,8 @@ import com.github.mittyrobotics.util.Gyro;
 import edu.wpi.first.wpilibj.Timer;
 import org.ejml.simple.SimpleMatrix;
 
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
+
 public class RobotPositionTracker {
     private static RobotPositionTracker instance;
     public static RobotPositionTracker getInstance() {
@@ -176,6 +178,6 @@ public class RobotPositionTracker {
 
     public DifferentialDriveState getFilterState() {
         SimpleMatrix xHat = filter.getxHat();
-        return DifferentialDriveState.Companion.fromWheels(xHat.get(2), xHat.get(3), AutonConstants.DRIVETRAIN_TRACK_WIDTH);
+        return DifferentialDriveState.Companion.fromWheels(inches(DrivetrainSubsystem.getInstance().getLeftVelocity()), inches(DrivetrainSubsystem.getInstance().getRightVelocity()), inches(AutonConstants.DRIVETRAIN_TRACK_WIDTH));
     }
 }

@@ -108,7 +108,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     @Override
     public void updateDashboard() {
-        SmartDashboard.putNumber("Turret Position", getPosition());
+        SmartDashboard.putNumber("Turret Position", getAngle());
+        SmartDashboard.putNumber("Turret Velocity", getVelocity());
     }
 
     /**
@@ -117,7 +118,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @param percent the turret motor percent output.
      */
     public void setMotor(double percent) {
-        if ((getLeftSwitch() && percent < 0) || (getRightSwitch() && percent >0)) {
+        if (((getLeftSwitch() || getAngle() >= 90) && percent > 0) || ((getRightSwitch()|| getAngle() <= -90) && percent < 0)) {
             overrideSetMotor(0);
         } else {
             overrideSetMotor(percent);
@@ -130,9 +131,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      * @param angle the robot-relative angle to set the turret to.
      */
     public void setTurretAngle(double angle) {
-        angle = capAngleSetpoint(angle);
-        angle *= TurretConstants.TICKS_PER_ANGLE;
-        turretController.setSetpoint(angle);
+        turretTalon.setSelectedSensorPosition(0);
     }
 
     /**
@@ -225,6 +224,11 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
 //        return turretTalon.getSelectedSensorPosition();
     }
 
+    @Override
+    public double getVelocity() {
+        return (turretTalon.getSelectedSensorVelocity()/TurretConstants.TICKS_PER_ANGLE) * 10;
+    }
+
     /**
      * Returns the turret's {@link PIDController} error.
      * <p>
@@ -234,6 +238,32 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
      */
     public double getError() {
         return turretController.getPositionError();
+    }
+
+
+    private double vP = 0.002;
+    private double vFF = 0.5/111.2068;
+    public double turretVelocity(double velocity){
+        double vE = velocity-getVelocity();
+        return velocity * vFF + vE * vP;
+    }
+
+    private double pP = 0.04;
+    private double pD = 0.002;
+    private double lastE = 0;
+    public double turretPID(double angle){
+        double pE = angle-getAngle();
+        double v = pE*pP + ((pE-lastE)/0.02)*pD;
+        lastE = pE;
+        return v;
+    }
+
+    public double turretCascadeControl(double angle, double velocity){
+        double p = turretPID(angle) * 100;
+
+        double vel = Math.min(Math.abs(p), Math.abs(velocity)) * Math.signum(p);
+        double v = turretVelocity(vel);
+        return v;
     }
 
     /**

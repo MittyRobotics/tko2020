@@ -36,14 +36,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  *
  * Uses the {@link XboxController}
  */
-public class TankDriveCommand extends CommandBase {
+public class ManualTankDriveCommand extends CommandBase {
 
     /**
      * Calls the constructor of {@link CommandBase}
      *
      * Requires the {@link DrivetrainSubsystem}
      */
-    public TankDriveCommand() {
+    public ManualTankDriveCommand() {
         addRequirements(DrivetrainSubsystem.getInstance());
     }
 
@@ -55,19 +55,14 @@ public class TankDriveCommand extends CommandBase {
         if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
             DrivetrainSubsystem.getInstance().brake();
         } else {
-            double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
-            double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
+            double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
+            double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
 
-            double speed = (left + right)/2;
-            double turn = left - right;
-            if(OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
-                speed *= DriveConstants.DRIVE_BOOST;
-            }
-            left = speed - turn * DriveConstants.TURN_RATIO;
-            right = speed + turn * DriveConstants.TURN_RATIO;
+
+
             DrivetrainSubsystem.getInstance()
-                    .tankDrive(left*left*Math.signum(left)*DriveConstants.FINAL_MULTIPLIER,
-                            right*right*Math.signum(right)*DriveConstants.FINAL_MULTIPLIER, DriveConstants.DRIVE_THRESHOLD, 1);
+                    .tankDrive(left,
+                            right, DriveConstants.DRIVE_THRESHOLD, 0.4);
         }
     }
 
