@@ -164,9 +164,9 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
 
-        OI.getInstance().testSetupControls();
+//        OI.getInstance().setupControls();
 
-        DrivetrainSubsystem.getInstance().setMode(NeutralMode.Brake);
+//        DrivetrainSubsystem.getInstance().setMode(NeutralMode.Brake);
 
 //        new UnloadConveyorCommand(true).schedule();
 //        new IntakeBallCommand(true).schedule();
@@ -191,7 +191,6 @@ public class Robot extends TimedRobot {
         } else {
             double left = -OI.getInstance().getXboxController2().getY(GenericHID.Hand.kLeft);
             double right = -OI.getInstance().getXboxController2().getY(GenericHID.Hand.kRight);
-
 
             DrivetrainSubsystem.getInstance()
                     .tankDrive(left,

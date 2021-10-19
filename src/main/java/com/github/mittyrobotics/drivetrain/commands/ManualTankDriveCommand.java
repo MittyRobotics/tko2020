@@ -60,8 +60,7 @@ public class ManualTankDriveCommand extends CommandBase {
 
 
             DrivetrainSubsystem.getInstance()
-                    .tankDrive(left,
-                            right, DriveConstants.DRIVE_THRESHOLD, 0.4);
+                    .tankDrive(left, right, DriveConstants.DRIVE_THRESHOLD, 0.4);
         }
     }
 
