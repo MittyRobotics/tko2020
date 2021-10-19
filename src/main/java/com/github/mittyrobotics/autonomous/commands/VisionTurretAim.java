@@ -7,6 +7,7 @@ import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class VisionTurretAim extends CommandBase {
 
@@ -19,7 +20,7 @@ public class VisionTurretAim extends CommandBase {
 
     public VisionTurretAim(boolean auton) {
         this.auton = auton;
-        addRequirements(ShooterSubsystem.getInstance(),TurretSubsystem.getInstance());
+        addRequirements(TurretSubsystem.getInstance());
     }
 
     /**
@@ -36,17 +37,17 @@ public class VisionTurretAim extends CommandBase {
     @Override
     public void execute() {
         Limelight.getInstance().updateLimelightValues();
-        double yaw = Limelight.getInstance().getYawToTarget();
+        double yaw = Limelight.getInstance().getYawToTarget() + AutonConstants.LIMELIGHT_HORIZONTAL_PID_CORRECTION * Math.signum(Limelight.getInstance().getYawToTarget());
         double pitch = Limelight.getInstance().getPitchToTarget();
         System.out.println("yaw:" + yaw);
-        double p = 0.03;
+        double p = -0.04;
         double percent = p*yaw;
 
         double distance = calculateDistance(pitch);
-        double rpm = getRPMFromTable(distance);
+//        double rpm = getRPMFromTable(distance);
         System.out.println("Distance: " + distance);
         TurretSubsystem.getInstance().setMotor(percent);
-        ShooterSubsystem.getInstance().setShooterRpm(rpm);
+//        ShooterSubsystem.getInstance().setShooterRpm(rpm);
     }
 
 
@@ -81,8 +82,8 @@ public class VisionTurretAim extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         TurretSubsystem.getInstance().stopMotor();
-        ShooterSubsystem.getInstance().setShooterRpm(0);
-        ShooterSubsystem.getInstance().stopMotor();
+//        ShooterSubsystem.getInstance().setShooterRpm(0);
+//        ShooterSubsystem.getInstance().stopMotor();
     }
 
 }

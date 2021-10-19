@@ -37,6 +37,8 @@ public class AutonConstants {
     //Vision
     public static double LIMELIGHT_HEIGHT = 20.5; //TODO: Find this value
     public static double LIMELIGHT_PITCH = 20; //TODO: Find this value
+
+    public static double LIMELIGHT_HORIZONTAL_PID_CORRECTION = 1.0;
     public static double SAFE_VISION_ANGLE_THRESHOLD = 2; //TODO: Find this value
     public static double VISION_SCAN_PERCENT_OUTPUT = .5;
 

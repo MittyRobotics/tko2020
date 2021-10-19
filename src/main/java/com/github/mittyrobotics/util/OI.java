@@ -99,6 +99,9 @@ public class OI {
 
     public void testSetupControls() {
 
+//        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
+
+
         Button lowerSetpoint = new Button(() -> getXboxController().getBumperPressed(GenericHID.Hand.kLeft));
         Button raiseSetpoint = new Button(() -> getXboxController().getBumperPressed(GenericHID.Hand.kRight));
         lowerSetpoint.whenPressed(new ChangeManualShooterSetpoint(-50));
