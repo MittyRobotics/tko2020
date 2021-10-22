@@ -46,20 +46,21 @@ public class Autonomous implements IDashboard {
     private final double VISION_P = .6;
     private final double VISION_D = .0; //0.07
     private final double LINEAR_VELOCITY_Y_GAIN = .3/100.0;
-    private final double LINEAR_VELOCITY_X_GAIN = 15;
+    private final double LINEAR_VELOCITY_X_GAIN = 7;
     private final double LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN = 1.1;
     private final double COUNTERACT_VELOCITY_FUDGE_GAIN = 1.1;
     private double TURRET_VELOCITY_F = (12.0)/500; // TODO: Tune!!
     private final double TURRET_VELOCITY_P = 0;
 
     public void run(){
+        Vision.getInstance().run();
         //Update delta time
         double time = Timer.getFPGATimestamp();
         double dt = lastTime == 0? 0.02:time-lastTime;
         lastTime = time;
 
         //Get vision angle and vision angle velocity from Vision
-        double visionAngle = Math.toDegrees(visionAngleFilter.calculate(Vision.getInstance().getLatestTarget().yaw.getRadians()));
+        double visionAngle = -Limelight.getInstance().getYawToTarget();
         double visionAngleVelocity = (visionAngle-lastVisionAngle)/dt;
         lastVisionAngle = visionAngle;
 
@@ -101,16 +102,18 @@ public class Autonomous implements IDashboard {
     private double calculateShooter(double visionDistance, Transform fieldVelocity){
         //Shooter calculations
         double visionRPM = getRPMFromTable(visionDistance);
-        double fieldVelocityRPM = Math.abs(fieldVelocity.getVector().getX())* LINEAR_VELOCITY_X_GAIN;
+        double fieldVelocityRPM = -fieldVelocity.getVector().getX() * LINEAR_VELOCITY_X_GAIN;
         return visionRPM + fieldVelocityRPM;
     }
 
     private double calculateTurret(double visionAngle, double visionAngleVelocity, double linearRotationVelocity, Transform fieldVelocity, double dt){
         //Calculate Y motion offset
-        double yVelocityOffset = -fieldVelocity.getVector().getY()* LINEAR_VELOCITY_Y_GAIN* Math.signum(fieldVelocity.getVector().getX());
+        double yVelocityOffset = -fieldVelocity.getVector().getY()* LINEAR_VELOCITY_Y_GAIN;
         //Add x motion offset to vision angle
-        double offsetVision = visionAngle + yVelocityOffset;
-        System.out.println("ov " + offsetVision);
+        double offsetVision =  -Limelight.getInstance().getYawToTarget() + yVelocityOffset;
+//        double offsetVision = -Limelight.getInstance().getYawToTarget();
+        System.out.println(" va: " + offsetVision);
+        System.out.println(" fv: " + fieldVelocity.getVector());
         //Calculate vision angle PID
 //        double pidVoltage = offsetVision * VISION_P + visionAngleVelocity * VISION_D;
 

@@ -28,6 +28,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      * Conveyor {@link DigitalInput} to detect when balls enter
      */
     private DigitalInput ballSensor;
+    private DigitalInput shooterBallSensor;
 
     /**
      * Counter of the current # of balls in the conveyor
@@ -88,6 +89,7 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
         conveyorTalonBottom.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
         conveyorTalonTop.setNeutralMode(ConveyorConstants.CONVEYOR_NEUTRAL_MODE);
         ballSensor = new DigitalInput(ConveyorConstants.BALL_SENSOR_ID);
+        shooterBallSensor = new DigitalInput(ConveyorConstants.SHOOTER_BALL_SENSOR_ID);
     }
 
     /**
@@ -97,6 +99,10 @@ public class ConveyorSubsystem extends SubsystemBase implements IMotorSubsystem 
      */
     public boolean isBallDetected(){
         return !ballSensor.get();
+    }
+
+    public boolean isShooterBallDetected() {
+        return !shooterBallSensor.get();
     }
 
     /**

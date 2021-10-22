@@ -58,7 +58,7 @@ public class Vision implements IDashboard {
 
         //Calculate turret transform relative to field
         Transform transformEstimate = Vision.getInstance().calculateTurretFieldTransform(turretTransform, turretRotation, robotRotation);
-        System.out.println(transformEstimate);
+//        System.out.println(transformEstimate);
         cameraTransform.setX(xFilter.calculate(latestTurretTransformEstimate.getX()));
         cameraTransform.setY(yFilter.calculate(latestTurretTransformEstimate.getY()));
 
@@ -66,7 +66,7 @@ public class Vision implements IDashboard {
                 || Math.abs(transformEstimate.getVector().minus(latestRobotTransformEstimate.getVector()).getX()) > 30) &&
                 (latestRobotTransformEstimate.getX() != 0 && latestRobotTransformEstimate.getY() != 0)){
             System.out.println("Warning: Inacurate Vision Data");
-            visionSafe = false;
+            visionSafe = true;
         }
         else{
             visionSafe = true;

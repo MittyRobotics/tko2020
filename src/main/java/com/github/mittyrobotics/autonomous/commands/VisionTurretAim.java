@@ -37,7 +37,7 @@ public class VisionTurretAim extends CommandBase {
     @Override
     public void execute() {
         Limelight.getInstance().updateLimelightValues();
-        double yaw = Limelight.getInstance().getYawToTarget() + AutonConstants.LIMELIGHT_HORIZONTAL_PID_CORRECTION * Math.signum(Limelight.getInstance().getYawToTarget());
+        double yaw = Limelight.getInstance().getYawToTarget(); //+ AutonConstants.LIMELIGHT_HORIZONTAL_PID_CORRECTION * Math.signum(Limelight.getInstance().getYawToTarget());
         double pitch = Limelight.getInstance().getPitchToTarget();
         System.out.println("yaw:" + yaw);
         double p = -0.04;

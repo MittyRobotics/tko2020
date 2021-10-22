@@ -33,11 +33,15 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class IntakeBallCommand extends RunCommand {
     private boolean auton = false;
     public IntakeBallCommand() {
-        this(false);
+        this(false, IntakeConstants.INTAKE_SPEED_FAST);
 
     }
+
     public IntakeBallCommand(boolean auton) {
-        super(() -> IntakeSubsystem.getInstance().overrideSetMotor(IntakeConstants.INTAKE_SPEED_FAST));
+        this(auton, IntakeConstants.INTAKE_SPEED_FAST);
+    }
+    public IntakeBallCommand(boolean auton, double speed) {
+        super(() -> IntakeSubsystem.getInstance().overrideSetMotor(speed));
         this.auton = auton;
     }
 

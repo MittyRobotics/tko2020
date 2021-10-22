@@ -109,11 +109,11 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
 
         rightDrive[0].setSelectedSensorPosition(0);
         leftDrive[0].setSelectedSensorPosition(0);
-
-        leftDrive[0].configOpenloopRamp(3);
-        rightDrive[0].configOpenloopRamp(3);
-        leftDrive[1].configOpenloopRamp(3);
-        rightDrive[1].configOpenloopRamp(3);
+//
+//        leftDrive[0].configOpenloopRamp(3);
+//        rightDrive[0].configOpenloopRamp(3);
+//        leftDrive[1].configOpenloopRamp(3);
+//        rightDrive[1].configOpenloopRamp(3);
         setNeutralMode(NeutralMode.Coast);
     }
 
@@ -230,7 +230,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      */
     @Override
     public void overrideSetMotor(double leftPercent, double rightPercent) {
-        setNeutralMode(NeutralMode.Coast);
+//        setNeutralMode(NeutralMode.Coast);
         leftDrive[0].set(leftPercent);
         leftDrive[1].set(leftPercent);
         rightDrive[0].set(rightPercent);
@@ -254,7 +254,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
      * @param rightVel right velocity in inches / sec
      */
     public void tankVelocity(double leftVel, double rightVel) {
-        setNeutralMode(NeutralMode.Coast);
+//        setNeutralMode(NeutralMode.Coast);
         double left;
         double right;
 
@@ -335,5 +335,9 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
     public void brake(){
         overrideSetMotor(0, 0);
         setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void coast(){
+        setNeutralMode(NeutralMode.Coast);
     }
 }

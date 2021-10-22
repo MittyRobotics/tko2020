@@ -26,6 +26,7 @@ package com.github.mittyrobotics.shooter;
 
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -94,7 +95,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
       limitSwitchRight = new DigitalInput(TurretConstants.TURRET_SWITCH_2_ID);
         turretTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
         turretTalon.setSensorPhase(TurretConstants.TURRET_ENCODER_INVERSION);
-
+        turretTalon.setNeutralMode(NeutralMode.Coast);
+        turretTalon.setSelectedSensorPosition(0);
         //Initialize PIDController
         turretController =
                 new PIDController(TurretConstants.TURRET_P, TurretConstants.TURRET_I, TurretConstants.TURRET_D);
@@ -248,8 +250,8 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
         return velocity * vFF + vE * vP;
     }
 
-    private double pP = 0.04;
-    private double pD = 0.002;
+    private double pP = 0.03;
+    private double pD = 0.0019;
     private double lastE = 0;
     public double turretPID(double angle){
         double pE = angle-getAngle();

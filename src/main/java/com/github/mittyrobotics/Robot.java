@@ -29,10 +29,7 @@ import com.github.mittyrobotics.autonomous.Autonomous;
 import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.autonomous.RobotPositionTracker;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.commands.ManualVisionTurretAim;
-import com.github.mittyrobotics.autonomous.commands.PathFollowingCommand;
-import com.github.mittyrobotics.autonomous.commands.ShootingMovingTest;
-import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
+import com.github.mittyrobotics.autonomous.commands.*;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.test.TestCommand;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
@@ -46,6 +43,7 @@ import com.github.mittyrobotics.core.math.geometry.Vector2D;
 import com.github.mittyrobotics.core.math.spline.Path;
 import com.github.mittyrobotics.drivetrain.DriveConstants;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.drivetrain.commands.ManualTankDriveCommand;
 import com.github.mittyrobotics.motion.profiles.PathTrajectory;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
@@ -55,8 +53,10 @@ import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -74,6 +74,10 @@ public class Robot extends TimedRobot {
      * Sets the Robot to loop at 20 ms cycle
      */
 //    TestCommand testCommand = new TestCommand(true, false);
+
+//    DigitalInput input;
+
+    XboxController controller = new XboxController(0);
 
     public Robot() {
         super(0.02);
@@ -98,13 +102,15 @@ public class Robot extends TimedRobot {
         Gyro.getInstance().initHardware();
         Gyro.getInstance().calibrate();
         Compressor.getInstance().initHardware();
-//        RobotPositionTracker.getInstance().init(.02);
-//        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+        RobotPositionTracker.getInstance().init(.02);
+        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
 //
 //        SmartDashboard.putNumber("shootGain", AutonConstants.RANGE_SHOOTER_GAIN);
-//        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-//        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
-//        Odometry.getInstance().zeroPosition();
+        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
+        Odometry.getInstance().zeroPosition();
+
+//        input = new DigitalInput(6);
     }
 
     /**
@@ -115,7 +121,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
         SubsystemManager.getInstance().updateDashboard();
 
-//        Odometry.getInstance().update(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition(), Gyro.getInstance().getAngle360());
+        Odometry.getInstance().update(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition(), Gyro.getInstance().getAngle360());
     }
 
     /**
@@ -123,7 +129,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-        DrivetrainSubsystem.getInstance().brake();
+        DrivetrainSubsystem.getInstance().coast();
     }
 
     /**
@@ -132,23 +138,13 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 
-//        DrivetrainSubsystem.getInstance().overrideSetMotor(0.4, 0.4);
-//        autonCommand.schedule();
-//        DrivetrainSubsystem.getInstance().resetEncoder();
-//        Gyro.getInstance().reset();
-//        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-//        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
-//        Odometry.getInstance().zeroPosition();
-//        Path path = Path.Companion.quinticHermitePath(new Transform[] {
-//                new Transform(new Vector2D(0.0, 0.0), new Rotation(0)),
-//                new Transform(new Vector2D(inches(100), inches(50)), new Rotation(degrees(45))),
-//        });
-//
-//        PathTrajectory trajectory = new PathTrajectory(path, inches(100), inches(100),
-//                0.5, 0, 0, 0, inches(50));
-//
-//        new PathFollowingCommand(trajectory).schedule();
-//        DrivetrainSubsystem.getInstance().setMode(NeutralMode.Brake);
+        DrivetrainSubsystem.getInstance().resetEncoder();
+        Gyro.getInstance().reset();
+        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
+        Odometry.getInstance().zeroPosition();
+
+        new Ball6Auton().schedule();
 //        new ShootingWhileMovingTurretControlLoop().schedule();
     }
 
@@ -156,6 +152,10 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
 //        TurretSubsystem.getInstance().setMotor(TurretSubsystem.getInstance().turretPID(45));
 //        DrivetrainSubsystem.getInstance().tankVelocity(50, 50);
+        Vision.getInstance().run();
+        Autonomous.getInstance().run();
+        Autonomous.getInstance().updateDashboard();
+        RobotPositionTracker.getInstance().updateOdometry();
     }
 
     /**
@@ -163,17 +163,19 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
+        ShooterSubsystem.getInstance().setShooterRpm(4000);
+//        OI.getInstance().testSetupControls();
 
-        OI.getInstance().testSetupControls();
-
-        DrivetrainSubsystem.getInstance().setMode(NeutralMode.Brake);
-
+//        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
 //        new UnloadConveyorCommand(true).schedule();
 //        new IntakeBallCommand(true).schedule();
 
 //        new ShootingMovingTest().schedule();
 //        new VisionTurretAim(true).schedule();
 //        new ShootingWhileMovingTurretControlLoop().schedule();
+
+
+
     }
 
     @Override
@@ -186,17 +188,10 @@ public class Robot extends TimedRobot {
 //        DrivetrainSubsystem.getInstance().tankVelocity(50, 0);
 //        ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getManualRPMSetpoint());
 
-        if (OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > DriveConstants.DRIVE_TRIGGER_THRESHOLD) {
-            DrivetrainSubsystem.getInstance().brake();
-        } else {
-            double left = -OI.getInstance().getXboxController2().getY(GenericHID.Hand.kLeft);
-            double right = -OI.getInstance().getXboxController2().getY(GenericHID.Hand.kRight);
+//        System.out.println(input.get());
 
-
-            DrivetrainSubsystem.getInstance()
-                    .tankDrive(left,
-                            right, DriveConstants.DRIVE_THRESHOLD, 0.4);
-        }
+//        DrivetrainSubsystem.getInstance().setMotor(0.3, 0.3);
+//        System.out.println(DrivetrainSubsystem.getInstance().getLeftPosition() + " | " + DrivetrainSubsystem.getInstance().getRightPosition());
     }
 
     /**

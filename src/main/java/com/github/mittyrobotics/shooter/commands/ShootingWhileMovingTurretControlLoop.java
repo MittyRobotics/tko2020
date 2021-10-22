@@ -31,6 +31,7 @@ public class ShootingWhileMovingTurretControlLoop extends CommandBase {
     public void execute(){
         TurretSubsystem.getInstance().setMotor(Autonomous.getInstance().getAutoTurretOutput());
         SmartDashboard.putNumber("turret-control-loop", Autonomous.getInstance().getAutoTurretOutput());
+        System.out.println("This is running");
     }
 
     /**

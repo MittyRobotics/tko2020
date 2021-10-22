@@ -37,7 +37,7 @@ public class ShootingMovingTest extends SequentialCommandGroup {
                 parallel(
                         new ShootingWhileMovingTurretControlLoop(),
                         new ShootingWhileMovingShooterControlLoop(),
-                        new PathFollowingCommand(trajectory),
+                        new PathFollowingCommand(trajectory, true),
                         sequence(
                                 new WaitCommand(1),
                                 parallel(
