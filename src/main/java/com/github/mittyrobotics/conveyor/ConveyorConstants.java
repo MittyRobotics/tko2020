@@ -19,5 +19,5 @@ public class ConveyorConstants {
     public static final boolean CONVEYOR_ENCODER_INVERSION = true;
     public static final int BALL_SENSOR_ID = 6;
     public static final NeutralMode CONVEYOR_NEUTRAL_MODE = NeutralMode.Brake;
-    public static final int SHOOTER_BALL_SENSOR_ID = 9;
+    public static final int SHOOTER_BALL_SENSOR_ID = 4;
 }

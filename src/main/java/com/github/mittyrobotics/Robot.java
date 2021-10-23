@@ -42,8 +42,10 @@ import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingShooterContr
 import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingTurretControlLoop;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
+import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -59,7 +61,7 @@ public class Robot extends TimedRobot {
      */
 //    TestCommand testCommand = new TestCommand(true, false);
 
-    DigitalInput input1, input2;
+//    DigitalInput input1, input2;
 
     public Robot() {
         super(0.02);
@@ -94,7 +96,7 @@ public class Robot extends TimedRobot {
 
 //        input1 = new DigitalInput(6);
 //        input2 = new DigitalInput(9);
-        input1 = new DigitalInput(4);
+//        input1 = new DigitalInput(4);
 
     }
 
@@ -152,10 +154,10 @@ public class Robot extends TimedRobot {
 //
 //        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
 //        new IntakeBallCommand(true).schedule();
-        new ShootingWhileMovingTurretControlLoop().schedule();
-        new ShootingWhileMovingShooterControlLoop().schedule();
-
-        new UnloadConveyorCommand(true).schedule();
+//        new ShootingWhileMovingTurretControlLoop().schedule();
+//        new ShootingWhileMovingShooterControlLoop().schedule();
+//
+//        new UnloadConveyorCommand(true).schedule();
     }
 
     @Override
@@ -167,6 +169,9 @@ public class Robot extends TimedRobot {
 
 //        SmartDashboard.putBoolean("ID 6", input1.get());
 //        SmartDashboard.putBoolean("ID 9", input2.get());
+
+        ConveyorSubsystem.getInstance().overrideSetMotor(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
+
     }
 
     /**
@@ -182,7 +187,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-        System.out.println(input1.get());
+//        System.out.println(input1.get());
     }
 
 }
