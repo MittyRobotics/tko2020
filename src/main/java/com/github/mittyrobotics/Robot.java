@@ -79,8 +79,6 @@ public class Robot extends TimedRobot {
 
 //    DigitalInput input;
 
-    XboxController controller = new XboxController(0);
-
     public Robot() {
         super(0.02);
     }
@@ -152,8 +150,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-//        TurretSubsystem.getInstance().setMotor(TurretSubsystem.getInstance().turretPID(45));
-//        DrivetrainSubsystem.getInstance().tankVelocity(50, 50);
         Vision.getInstance().run();
         Autonomous.getInstance().run();
         Autonomous.getInstance().updateDashboard();
@@ -165,40 +161,18 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-//        new InstantCommand(()->ConveyorSubsystem.getInstance().overrideSetMotor(.5)).schedule();
-//        new AutoConveyorCommand().schedule();
-//        new IntakeBallCommand(true).schedule();
-//        OI.getInstance().testSetupControls();
-
-
-
-//        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
-//        new UnloadConveyorCommand(true).schedule();
-//        new IntakeBallCommand(true).schedule();
-
 //        new ShootingMovingTest().schedule();
 //        new VisionTurretAim(true).schedule();
 //        new ShootingWhileMovingTurretControlLoop().schedule();
-
-
 
     }
 
     @Override
     public void teleopPeriodic() {
-        TurretSubsystem.getInstance().setMotor(TurretSubsystem.getInstance().turretPID(45));
 //        Vision.getInstance().run();
 //        Autonomous.getInstance().run();
 //        Autonomous.getInstance().updateDashboard();
 //        RobotPositionTracker.getInstance().updateOdometry();
-
-//        DrivetrainSubsystem.getInstance().tankVelocity(50, 0);
-//        ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance().getManualRPMSetpoint());
-
-//        System.out.println(input.get());
-
-//        DrivetrainSubsystem.getInstance().setMotor(0.3, 0.3);
-//        System.out.println(DrivetrainSubsystem.getInstance().getLeftPosition() + " | " + DrivetrainSubsystem.getInstance().getRightPosition());
     }
 
     /**
@@ -213,7 +187,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-//        DrivetrainSubsystem.getInstance().tankVelocity(50, 50);
     }
 
 }

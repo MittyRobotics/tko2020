@@ -37,4 +37,5 @@ public class ShooterConstants {
     public static final boolean SHOOTER_SPARK_MASTER_INVERSION = false;
     public static final boolean SHOOTER_SPARK_FOLLOWER_INVERSION = true;
     public static final int DEFAULT_MANUAL_SHOOTER_SPEED = 4000;
+    public static final int SHOOTER_SETPOINT_CHECK_THREHOLD = 100;
 }
