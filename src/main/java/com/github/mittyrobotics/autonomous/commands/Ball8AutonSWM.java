@@ -28,30 +28,30 @@ public class Ball8AutonSWM extends SequentialCommandGroup {
         });
         Path path2r = Path.Companion.quinticHermitePath(new Transform[]{
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(180))),
-                new Transform(new Vector2D(inches(-65), inches(-12)), new Rotation(degrees(180))),
+                new Transform(new Vector2D(inches(-55), inches(-12)), new Rotation(degrees(180))),
         });
         Path path3f = Path.Companion.quinticHermitePath(new Transform[]{
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(0))),
-                new Transform(new Vector2D(inches(65), inches(12)), new Rotation(degrees(0))),
+                new Transform(new Vector2D(inches(55), inches(12)), new Rotation(degrees(0))),
         });
         Path path4r = Path.Companion.quinticHermitePath(new Transform[]{
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(180))),
-                new Transform(new Vector2D(inches(-65), inches(8)), new Rotation(degrees(180))),
+                new Transform(new Vector2D(inches(-55), inches(8)), new Rotation(degrees(180))),
         });
         Path path5f = Path.Companion.quinticHermitePath(new Transform[]{
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(0))),
-                new Transform(new Vector2D(inches(80), inches(-8)), new Rotation(degrees(0))),
+                new Transform(new Vector2D(inches(70), inches(-8)), new Rotation(degrees(0))),
         });
-        PathTrajectory trajectory1 = new PathTrajectory(path1r, inches(70), inches(80),
-                Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
+        PathTrajectory trajectory1 = new PathTrajectory(path1r, inches(70), inches(70),
+                Double.POSITIVE_INFINITY, 0, 0, 0, inches(70));
         PathTrajectory trajectory2 = new PathTrajectory(path2r, inches(70), inches(80),
-                Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
+                Double.POSITIVE_INFINITY, 0, 0, 0, inches(70));
         PathTrajectory trajectory3 = new PathTrajectory(path3f, inches(70), inches(80),
-                Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
+                Double.POSITIVE_INFINITY, 0, 0, 0, inches(70));
         PathTrajectory trajectory4 = new PathTrajectory(path4r, inches(70), inches(80),
-                Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
+                Double.POSITIVE_INFINITY, 0, 0, 0, inches(70));
         PathTrajectory trajectory5 = new PathTrajectory(path5f, inches(70), inches(80),
-                Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
+                Double.POSITIVE_INFINITY, 0, 0, 0, inches(70));
         PathFollowingCommand command1 = new PathFollowingCommand(trajectory1, true);
         PathFollowingCommand command2 = new PathFollowingCommand(trajectory2, true);
         PathFollowingCommand command3 = new PathFollowingCommand(trajectory3, false);
