@@ -22,11 +22,9 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.conveyor.commands;
+package com.github.mittyrobotics.conveyor.commands.intake;
 
-import com.github.mittyrobotics.conveyor.ConveyorConstants;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.shooter.ShooterConstants;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
@@ -36,7 +34,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class UnloadConveyorSafeCommand extends CommandBase {
 
-    private double counter;
     private boolean auton;
 
     public UnloadConveyorSafeCommand() {
@@ -56,7 +53,7 @@ public class UnloadConveyorSafeCommand extends CommandBase {
             System.out.println("Shooter too slow!!");
         }
     }
-    
+
     @Override
     public boolean isFinished() {
         return !auton && !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
