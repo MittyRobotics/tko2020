@@ -156,8 +156,8 @@ public class Robot extends TimedRobot {
 //        new IntakeBallCommand(true).schedule();
 //        new ShootingWhileMovingTurretControlLoop().schedule();
 //        new ShootingWhileMovingShooterControlLoop().schedule();
-//
-//        new UnloadConveyorCommand(true).schedule();
+
+
     }
 
     @Override
@@ -170,8 +170,7 @@ public class Robot extends TimedRobot {
 //        SmartDashboard.putBoolean("ID 6", input1.get());
 //        SmartDashboard.putBoolean("ID 9", input2.get());
 
-        ConveyorSubsystem.getInstance().overrideSetMotor(OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight));
-
+//        new IntakeBallCommand(true, -0.8).schedule();
     }
 
     /**

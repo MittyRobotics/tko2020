@@ -66,7 +66,7 @@ public class Ball8AutonSWM extends SequentialCommandGroup {
                                 sequence(
                                         race(
                                                 parallel(
-                                                        new IntakeBallCommand(true, -0.7),
+                                                        new IntakeBallCommand(true, -0.9),
                                                         sequence(
                                                                 new InstantCommand(() -> ConveyorSubsystem.getInstance().overrideSetMotor(0)),
                                                                 new WaitCommand(2.0),
