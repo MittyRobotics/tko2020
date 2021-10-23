@@ -46,8 +46,9 @@ public class Autonomous implements IDashboard {
     private final double VISION_P = .6;
     private final double VISION_D = .0; //0.07
     private final double LINEAR_VELOCITY_Y_GAIN = .3/100.0;
-    private final double LINEAR_VELOCITY_X_GAIN = 7;
-    private final double LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN = 1.1;
+    private final double LINEAR_VELOCITY_X_BACKWARD_GAIN = 12;
+    private final double LINEAR_VELOCITY_X_FORWARD_GAIN = 1.5;
+    private final double LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN = 0;
     private final double COUNTERACT_VELOCITY_FUDGE_GAIN = 1.1;
     private double TURRET_VELOCITY_F = (12.0)/500; // TODO: Tune!!
     private final double TURRET_VELOCITY_P = 0;
@@ -96,21 +97,23 @@ public class Autonomous implements IDashboard {
         double linearRotationVelocity = -(nextFieldRotation-currentFieldRotation)/dt;
         //Calculate shooter RPM and turret output
         autoShooterRPM = calculateShooter(visionDistance, fieldVelocity);
-        autoTurretOutput = calculateTurret(visionAngle, visionAngleVelocity, linearRotationVelocity, fieldVelocity, dt);
+        autoTurretOutput = calculateTurret(visionAngle, visionAngleVelocity, linearRotationVelocity, fieldVelocity, visionDistance, dt);
     }
 
     private double calculateShooter(double visionDistance, Transform fieldVelocity){
         //Shooter calculations
         double visionRPM = getRPMFromTable(visionDistance);
-        double fieldVelocityRPM = -fieldVelocity.getVector().getX() * LINEAR_VELOCITY_X_GAIN;
+        double fieldVelocityRPM = -fieldVelocity.getVector().getX() *
+                ((fieldVelocity.getVector().getX()>0)?
+                        LINEAR_VELOCITY_X_FORWARD_GAIN:LINEAR_VELOCITY_X_BACKWARD_GAIN);
         return visionRPM + fieldVelocityRPM;
     }
 
-    private double calculateTurret(double visionAngle, double visionAngleVelocity, double linearRotationVelocity, Transform fieldVelocity, double dt){
+    private double calculateTurret(double visionAngle, double visionAngleVelocity, double linearRotationVelocity, Transform fieldVelocity, double distance, double dt){
         //Calculate Y motion offset
-        double yVelocityOffset = -fieldVelocity.getVector().getY()* LINEAR_VELOCITY_Y_GAIN;
+        double yVelocityOffset = -fieldVelocity.getVector().getY()* LINEAR_VELOCITY_Y_GAIN * 0;
         //Add x motion offset to vision angle
-        double offsetVision =  -Limelight.getInstance().getYawToTarget() + yVelocityOffset;
+        double offsetVision =  -Limelight.getInstance().getYawToTarget() + yVelocityOffset - 3.5*0 * (Math.abs(fieldVelocity.getVector().magnitude()) > 20?1:0)*((distance > 200)?0.5:1);
 //        double offsetVision = -Limelight.getInstance().getYawToTarget();
         System.out.println(" va: " + offsetVision);
         System.out.println(" fv: " + fieldVelocity.getVector());
@@ -125,7 +128,8 @@ public class Autonomous implements IDashboard {
         SmartDashboard.putNumber("frv", counteractFieldRotationVelocity);
         SmartDashboard.putNumber("trv", TurretSubsystem.getInstance().getVelocity());
         //Counteract the linear movement velocity
-        double counteractLinearMovementVelocity = linearRotationVelocity* LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN;
+        double counteractLinearMovementVelocity = linearRotationVelocity * LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN;
+        System.out.println(" lrv: " + linearRotationVelocity);
 
 //        if(DriverStation.getInstance().isEnabled()){
 //            System.out.println(linearRotationVelocity + " " + counteractLinearMovementVelocity + " " + counteractFieldRotationVelocity + " " + fieldVelocity ) ;
@@ -134,7 +138,7 @@ public class Autonomous implements IDashboard {
         //Calculate final counteraction velocity with countracted field rotation and counteracted linear movement
 //        double desiredVelocity = counteractFieldRotationVelocity+counteractLinearMovementVelocity;
 
-        double desiredVelocity = counteractFieldRotationVelocity ;
+        double desiredVelocity = counteractFieldRotationVelocity + counteractLinearMovementVelocity*0;
         double velVoltage = TurretSubsystem.getInstance().turretVelocity(desiredVelocity);
 //        //Turret PF loop
 //        double velVoltage = desiredVelocity* TURRET_VELOCITY_F +

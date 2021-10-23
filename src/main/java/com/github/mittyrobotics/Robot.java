@@ -35,6 +35,7 @@ import com.github.mittyrobotics.autonomous.test.TestCommand;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
 import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
 import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
 import com.github.mittyrobotics.core.math.geometry.Rotation;
@@ -59,6 +60,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 import javax.swing.text.Position;
@@ -163,8 +165,12 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-        ShooterSubsystem.getInstance().setShooterRpm(4000);
+//        new InstantCommand(()->ConveyorSubsystem.getInstance().overrideSetMotor(.5)).schedule();
+//        new AutoConveyorCommand().schedule();
+//        new IntakeBallCommand(true).schedule();
 //        OI.getInstance().testSetupControls();
+
+
 
 //        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
 //        new UnloadConveyorCommand(true).schedule();
@@ -180,6 +186,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
+        TurretSubsystem.getInstance().setMotor(TurretSubsystem.getInstance().turretPID(45));
 //        Vision.getInstance().run();
 //        Autonomous.getInstance().run();
 //        Autonomous.getInstance().updateDashboard();

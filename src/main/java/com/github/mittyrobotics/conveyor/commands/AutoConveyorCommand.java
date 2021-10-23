@@ -65,13 +65,15 @@ public class AutoConveyorCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+//        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
 //            if(!ConveyorSubsystem.getInstance().isShooterBallDetected()) {
+            System.out.println("sensing " + ConveyorSubsystem.getInstance().isBallDetected());
                 if (ConveyorSubsystem.getInstance().isBallDetected()) {
                     state = State.SENSING;
                 }
 
                 if (state == State.SENSING) {
+
                     ConveyorSubsystem.getInstance().overrideSetMotor(ConveyorConstants.INDEX_SPEED);
                     if (!ConveyorSubsystem.getInstance().isBallDetected()) {
                         state = State.INDEXING;
@@ -86,7 +88,7 @@ public class AutoConveyorCommand extends CommandBase {
                 } else {
                     ConveyorSubsystem.getInstance().stopMotor();
                 }
-            }
+//            }
 //        }
     }
 

@@ -251,7 +251,7 @@ public class TurretSubsystem extends SubsystemBase implements IMotorSubsystem {
     }
 
     private double pP = 0.03;
-    private double pD = 0.0019;
+    private double pD = 0.002;
     private double lastE = 0;
     public double turretPID(double angle){
         double pE = angle-getAngle();

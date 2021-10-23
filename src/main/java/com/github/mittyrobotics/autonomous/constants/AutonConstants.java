@@ -63,21 +63,22 @@ public class AutonConstants {
      * Elements are in the format {distance, RPM}
      */
     public static double[][] SHOOTER_RPM_TABLE = {
-            {10, 4000 * LOW_RANGE_SHOOTER_GAIN},
-            {11, 4000 * LOW_RANGE_SHOOTER_GAIN},
-            {12, 3900 * LOW_RANGE_SHOOTER_GAIN},
-            {13, 3900 * LOW_RANGE_SHOOTER_GAIN},
-            {14, 3700 * LOW_RANGE_SHOOTER_GAIN},
-            {15, 3600 * LOW_RANGE_SHOOTER_GAIN},
-            {16, 3500 * MID_RANGE_SHOOTER_GAIN},
-            {17, 3550 * MID_RANGE_SHOOTER_GAIN},
-            {18, 3600 * MID_RANGE_SHOOTER_GAIN},
-            {19, 3650 * MID_RANGE_SHOOTER_GAIN},
-            {20, 3650 * MID_RANGE_SHOOTER_GAIN},
-            {21, 3700 * HIGH_RANGE_SHOOTER_GAIN},
-            {22, 3700 * HIGH_RANGE_SHOOTER_GAIN},
-            {23, 3750 * HIGH_RANGE_SHOOTER_GAIN},
-            {24, 3750 * HIGH_RANGE_SHOOTER_GAIN},
-            {25, 3800 * HIGH_RANGE_SHOOTER_GAIN}
+            {10, 3950 * LOW_RANGE_SHOOTER_GAIN},
+            {11, 4050 * LOW_RANGE_SHOOTER_GAIN},
+            {12, 3835 * LOW_RANGE_SHOOTER_GAIN},
+            {13, 3750 * LOW_RANGE_SHOOTER_GAIN},
+            {14, 3710 * LOW_RANGE_SHOOTER_GAIN},
+            {15, 3700 * MID_RANGE_SHOOTER_GAIN},
+            {16, 3600 * MID_RANGE_SHOOTER_GAIN},
+            {17, 3590 * MID_RANGE_SHOOTER_GAIN},
+            {18, 3540 * MID_RANGE_SHOOTER_GAIN},
+            {19, 3560 * MID_RANGE_SHOOTER_GAIN},
+            {20, 3600 * MID_RANGE_SHOOTER_GAIN},
+            {21, 3670 * HIGH_RANGE_SHOOTER_GAIN},
+            {22, 3740 * HIGH_RANGE_SHOOTER_GAIN},
+            {23, 3780 * HIGH_RANGE_SHOOTER_GAIN},
+            {24, 3790 * HIGH_RANGE_SHOOTER_GAIN},
+            {25, 3830 * HIGH_RANGE_SHOOTER_GAIN}
     };
+
 }
