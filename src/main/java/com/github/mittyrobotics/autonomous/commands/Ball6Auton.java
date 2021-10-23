@@ -34,9 +34,9 @@ public class Ball6Auton extends SequentialCommandGroup {
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(0))),
                 new Transform(new Vector2D(inches(100), inches(50)), new Rotation(degrees(45))),
         });
-        PathTrajectory trajectory1 = new PathTrajectory(path1, inches(80), inches(30),
+        PathTrajectory trajectory1 = new PathTrajectory(path1, inches(80), inches(50),
                 0.5, 0, 0, 0, inches(80));
-        PathTrajectory trajectory2 = new PathTrajectory(path2, inches(80), inches(30),
+        PathTrajectory trajectory2 = new PathTrajectory(path2, inches(80), inches(50),
                 0.5, 0, 0, 0, inches(80));
         PathFollowingCommand command1 = new PathFollowingCommand(trajectory1, true);
         PathFollowingCommand command2 = new PathFollowingCommand(trajectory2, false);
