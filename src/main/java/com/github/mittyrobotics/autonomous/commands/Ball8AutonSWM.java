@@ -42,15 +42,15 @@ public class Ball8AutonSWM extends SequentialCommandGroup {
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(0))),
                 new Transform(new Vector2D(inches(80), inches(-8)), new Rotation(degrees(0))),
         });
-        PathTrajectory trajectory1 = new PathTrajectory(path1r, inches(80), inches(70),
-                Double.POSITIVE_INFINITY, 0, 0, 0, inches(80));
-        PathTrajectory trajectory2 = new PathTrajectory(path2r, inches(100), inches(100),
+        PathTrajectory trajectory1 = new PathTrajectory(path1r, inches(70), inches(80),
                 Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
-        PathTrajectory trajectory3 = new PathTrajectory(path3f, inches(100), inches(100),
-                Double.POSITIVE_INFINITY, 0, 0, 0, inches(80));
-        PathTrajectory trajectory4 = new PathTrajectory(path4r, inches(100), inches(100),
+        PathTrajectory trajectory2 = new PathTrajectory(path2r, inches(70), inches(80),
                 Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
-        PathTrajectory trajectory5 = new PathTrajectory(path5f, inches(100), inches(100),
+        PathTrajectory trajectory3 = new PathTrajectory(path3f, inches(70), inches(80),
+                Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
+        PathTrajectory trajectory4 = new PathTrajectory(path4r, inches(70), inches(80),
+                Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
+        PathTrajectory trajectory5 = new PathTrajectory(path5f, inches(70), inches(80),
                 Double.POSITIVE_INFINITY, 0, 0, 0, inches(100));
         PathFollowingCommand command1 = new PathFollowingCommand(trajectory1, true);
         PathFollowingCommand command2 = new PathFollowingCommand(trajectory2, true);
@@ -66,10 +66,10 @@ public class Ball8AutonSWM extends SequentialCommandGroup {
                                 sequence(
                                         race(
                                                 parallel(
-                                                        new IntakeBallCommand(true, -0.85),
+                                                        new IntakeBallCommand(true, -0.7),
                                                         sequence(
                                                                 new InstantCommand(() -> ConveyorSubsystem.getInstance().overrideSetMotor(0)),
-                                                                new WaitCommand(2.5),
+                                                                new WaitCommand(2.0),
                                                                 new UnloadConveyorCommand(true)
                                                         )
                                                 ),

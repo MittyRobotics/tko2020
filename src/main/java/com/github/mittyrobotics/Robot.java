@@ -33,10 +33,13 @@ import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
+import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
 import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
+import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingShooterControlLoop;
+import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingTurretControlLoop;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.SubsystemManager;
@@ -91,6 +94,7 @@ public class Robot extends TimedRobot {
 
 //        input1 = new DigitalInput(6);
 //        input2 = new DigitalInput(9);
+        input1 = new DigitalInput(4);
 
     }
 
@@ -148,7 +152,10 @@ public class Robot extends TimedRobot {
 //
 //        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
 //        new IntakeBallCommand(true).schedule();
+        new ShootingWhileMovingTurretControlLoop().schedule();
+        new ShootingWhileMovingShooterControlLoop().schedule();
 
+        new UnloadConveyorCommand(true).schedule();
     }
 
     @Override
@@ -167,6 +174,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testInit() {
+
     }
 
     /**
@@ -174,6 +182,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+        System.out.println(input1.get());
     }
 
 }
