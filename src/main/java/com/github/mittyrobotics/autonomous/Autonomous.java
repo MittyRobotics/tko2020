@@ -46,7 +46,7 @@ public class Autonomous implements IDashboard {
     private final double VISION_P = .6;
     private final double VISION_D = .0; //0.07
     private final double LINEAR_VELOCITY_Y_GAIN = .3/100.0;
-    private final double LINEAR_VELOCITY_X_BACKWARD_GAIN = 12;
+    private final double LINEAR_VELOCITY_X_BACKWARD_GAIN = 25;
     private final double LINEAR_VELOCITY_X_FORWARD_GAIN = 1.5;
     private final double LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN = 0;
     private final double COUNTERACT_VELOCITY_FUDGE_GAIN = 1.1;
@@ -113,7 +113,7 @@ public class Autonomous implements IDashboard {
         //Calculate Y motion offset
         double yVelocityOffset = -fieldVelocity.getVector().getY()* LINEAR_VELOCITY_Y_GAIN * 0;
         //Add x motion offset to vision angle
-        double offsetVision =  -Limelight.getInstance().getYawToTarget() + yVelocityOffset - 0.75 - 3.5*0 * (Math.abs(fieldVelocity.getVector().magnitude()) > 20?1:0)*((distance > 200)?0.5:1);
+        double offsetVision =  -Limelight.getInstance().getYawToTarget() + yVelocityOffset - 15 * (Math.abs(fieldVelocity.getVector().getX()) > 10?1:0);
 //        double offsetVision = -Limelight.getInstance().getYawToTarget();
         System.out.println(" va: " + offsetVision);
         System.out.println(" fv: " + fieldVelocity.getVector());

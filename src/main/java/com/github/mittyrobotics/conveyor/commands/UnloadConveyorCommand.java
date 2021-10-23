@@ -28,6 +28,7 @@ import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
@@ -35,7 +36,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
  */
 public class UnloadConveyorCommand extends RunCommand {
     private boolean auton = false;
-
+    private double timer = 0;
+    private double startTime = 0;
     /**
      * Moves the {@link ConveyorSubsystem} at the designated speed to move balls into the {@link ShooterSubsystem}
      * <p>
@@ -46,17 +48,25 @@ public class UnloadConveyorCommand extends RunCommand {
     }
 
     public UnloadConveyorCommand(boolean auton) {
+        this(auton, 0);
+    }
+    public UnloadConveyorCommand(boolean auton, double timer) {
         super(() -> ConveyorSubsystem.getInstance().shootBall(), ConveyorSubsystem.getInstance());
         this.auton = auton;
+        this.timer = timer;
     }
 
+    @Override
+    public void initialize() {
+        this.startTime = Timer.getFPGATimestamp();
+    }
 
     /**
      * Stops the conveyor from moving when the command ends
      */
     @Override
     public boolean isFinished() {
-        return !auton && !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
+        return (timer != 0 && (Timer.getFPGATimestamp()-startTime) >= timer) || (!auton && !(OI.getInstance().getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1));
     }
 
     @Override

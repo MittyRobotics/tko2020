@@ -48,7 +48,7 @@ public class AutoConveyorCommand extends CommandBase {
      * Requires the {@link ConveyorSubsystem}
      */
     public AutoConveyorCommand() {
-        addRequirements(ConveyorSubsystem.getInstance(), IntakeSubsystem.getInstance());
+        addRequirements(ConveyorSubsystem.getInstance());
     }
 
     /**
@@ -67,7 +67,7 @@ public class AutoConveyorCommand extends CommandBase {
     public void execute() {
 //        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
 //            if(!ConveyorSubsystem.getInstance().isShooterBallDetected()) {
-            System.out.println("sensing " + ConveyorSubsystem.getInstance().isBallDetected());
+                System.out.println("sensing " + ConveyorSubsystem.getInstance().isBallDetected());
                 if (ConveyorSubsystem.getInstance().isBallDetected()) {
                     state = State.SENSING;
                 }

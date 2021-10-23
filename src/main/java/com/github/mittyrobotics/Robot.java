@@ -24,46 +24,25 @@
 
 package com.github.mittyrobotics;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.Autonomous;
 import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.autonomous.RobotPositionTracker;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.commands.*;
-import com.github.mittyrobotics.autonomous.constants.AutonConstants;
-import com.github.mittyrobotics.autonomous.test.TestCommand;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
-import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
 import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
-import com.github.mittyrobotics.core.math.geometry.Rotation;
-import com.github.mittyrobotics.core.math.geometry.Transform;
-import com.github.mittyrobotics.core.math.geometry.Vector2D;
-import com.github.mittyrobotics.core.math.spline.Path;
-import com.github.mittyrobotics.drivetrain.DriveConstants;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
-import com.github.mittyrobotics.drivetrain.commands.ManualTankDriveCommand;
-import com.github.mittyrobotics.motion.profiles.PathTrajectory;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
-import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingShooterControlLoop;
-import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingTurretControlLoop;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
-import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
-
-import javax.swing.text.Position;
 
 import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
 import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
@@ -77,7 +56,7 @@ public class Robot extends TimedRobot {
      */
 //    TestCommand testCommand = new TestCommand(true, false);
 
-//    DigitalInput input;
+    DigitalInput input1, input2;
 
     public Robot() {
         super(0.02);
@@ -110,7 +89,9 @@ public class Robot extends TimedRobot {
         Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroPosition();
 
-//        input = new DigitalInput(6);
+//        input1 = new DigitalInput(6);
+//        input2 = new DigitalInput(9);
+
     }
 
     /**
@@ -144,7 +125,7 @@ public class Robot extends TimedRobot {
         Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroPosition();
 
-        new Ball6Auton().schedule();
+        new Ball8AutonSWM().schedule();
 //        new ShootingWhileMovingTurretControlLoop().schedule();
     }
 
@@ -163,7 +144,10 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
 //        new ShootingMovingTest().schedule();
 //        new VisionTurretAim(true).schedule();
-//        new ShootingWhileMovingTurretControlLoop().schedule();
+////        new ShootingWhileMovingTurretControlLoop().schedule();
+//
+//        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
+//        new IntakeBallCommand(true).schedule();
 
     }
 
@@ -173,6 +157,9 @@ public class Robot extends TimedRobot {
 //        Autonomous.getInstance().run();
 //        Autonomous.getInstance().updateDashboard();
 //        RobotPositionTracker.getInstance().updateOdometry();
+
+//        SmartDashboard.putBoolean("ID 6", input1.get());
+//        SmartDashboard.putBoolean("ID 9", input2.get());
     }
 
     /**

@@ -42,6 +42,7 @@ public class IntakeBallCommand extends RunCommand {
     }
     public IntakeBallCommand(boolean auton, double speed) {
         super(() -> IntakeSubsystem.getInstance().overrideSetMotor(speed));
+        addRequirements(IntakeSubsystem.getInstance());
         this.auton = auton;
     }
 
