@@ -113,13 +113,13 @@ public class OI {
      */
     public void setupControls() {
         // DRIVER CONTROLS
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand()); //TODO uncomment
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
 
         // OPERATOR CONTROLS
         // --------------------------
 
         // automatically index balls (no operator control by default)
-        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand()); //TODO uncomment
+        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
 
         // automatic manual control for turret
         TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
