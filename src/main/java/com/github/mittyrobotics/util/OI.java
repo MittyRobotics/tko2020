@@ -113,20 +113,20 @@ public class OI {
      */
     public void setupControls() {
         // DRIVER CONTROLS
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand()); //TODO uncomment
 
         // OPERATOR CONTROLS
         // --------------------------
 
         // automatically index balls (no operator control by default)
-        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
+        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand()); //TODO uncomment
 
         // automatic manual control for turret
-//        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
+        TurretSubsystem.getInstance().setDefaultCommand(new ManualTurretCommand());
 
         // automatically aim turret at vision target when left trigger held
-//        Button autoTurret = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
-//        autoTurret.whenPressed(new VisionTurretAim());
+        Button autoTurret = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
+        autoTurret.whenPressed(new VisionTurretAim());
 
         // automatically shoot and advance conveyor when right trigger held
         Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
@@ -145,8 +145,8 @@ public class OI {
         conveyorOverride.whenPressed(new ConveyorOverrideOuttake());
 
         // extend/retract intake with Y button
-//        Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
-//        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
+        Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
+        changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 
 //        Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);
 //        increaseGain.whenPressed(new GainAdjustCommand(.1));

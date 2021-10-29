@@ -42,7 +42,7 @@ public class ManualTurretCommand extends RunCommand {
      */
     public ManualTurretCommand() {
         super(
-                () -> TurretSubsystem.getInstance().setMotor(OI.getInstance().getXboxController2().getX(GenericHID.Hand.kLeft) * 0.2),
+                () -> TurretSubsystem.getInstance().setMotor(-OI.getInstance().getXboxController2().getX(GenericHID.Hand.kLeft) * 0.2),
                 TurretSubsystem.getInstance());
     }
 

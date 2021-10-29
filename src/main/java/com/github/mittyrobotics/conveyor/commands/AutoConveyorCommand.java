@@ -48,6 +48,12 @@ public class AutoConveyorCommand extends CommandBase {
      * Requires the {@link ConveyorSubsystem}
      */
     public AutoConveyorCommand() {
+        this(false);
+    }
+    private boolean auton = false;
+
+    public AutoConveyorCommand(boolean auton) {
+        this.auton = true;
         addRequirements(ConveyorSubsystem.getInstance());
     }
 
@@ -65,9 +71,8 @@ public class AutoConveyorCommand extends CommandBase {
      */
     @Override
     public void execute() {
-//        if (IntakePistonSubsystem.getInstance().isPistonExtended()) {
+        if (IntakePistonSubsystem.getInstance().isPistonExtended() || auton) {
             if(!ConveyorSubsystem.getInstance().isShooterBallDetected()) {
-                System.out.println("sensing " + ConveyorSubsystem.getInstance().isBallDetected());
                 if (ConveyorSubsystem.getInstance().isBallDetected()) {
                     state = State.SENSING;
                 }
@@ -88,8 +93,12 @@ public class AutoConveyorCommand extends CommandBase {
                 } else {
                     ConveyorSubsystem.getInstance().stopMotor();
                 }
+            } else {
+                ConveyorSubsystem.getInstance().stopMotor();
             }
-//        }
+        } else {
+            ConveyorSubsystem.getInstance().stopMotor();
+        }
     }
 
     /**

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static com.github.mittyrobotics.autonomous.RobotPositionTracker.getRotatedVelocityTransform;
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
 
 public class Autonomous implements IDashboard {
     private static Autonomous instance;
@@ -46,7 +47,7 @@ public class Autonomous implements IDashboard {
     private final double VISION_P = .6;
     private final double VISION_D = .0; //0.07
     private final double LINEAR_VELOCITY_Y_GAIN = .3/100.0;
-    private final double LINEAR_VELOCITY_X_BACKWARD_GAIN = 25;
+    private final double LINEAR_VELOCITY_X_BACKWARD_GAIN = 27;
     private final double LINEAR_VELOCITY_X_FORWARD_GAIN = 1.5;
     private final double LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN = 0;
     private final double COUNTERACT_VELOCITY_FUDGE_GAIN = 1.1;
@@ -113,7 +114,7 @@ public class Autonomous implements IDashboard {
         //Calculate Y motion offset
         double yVelocityOffset = -fieldVelocity.getVector().getY()* LINEAR_VELOCITY_Y_GAIN * 0;
         //Add x motion offset to vision angle
-        double offsetVision =  -Limelight.getInstance().getYawToTarget() + yVelocityOffset - 15 * (Math.abs(fieldVelocity.getVector().getX()) > 10?1:0);
+        double offsetVision =  -Limelight.getInstance().getYawToTarget();
 //        double offsetVision = -Limelight.getInstance().getYawToTarget();
         System.out.println(" va: " + offsetVision);
         System.out.println(" fv: " + fieldVelocity.getVector());
@@ -138,7 +139,10 @@ public class Autonomous implements IDashboard {
         //Calculate final counteraction velocity with countracted field rotation and counteracted linear movement
 //        double desiredVelocity = counteractFieldRotationVelocity+counteractLinearMovementVelocity;
 
-        double desiredVelocity = counteractFieldRotationVelocity + counteractLinearMovementVelocity*0;
+        double desiredVelocity = counteractFieldRotationVelocity +
+                (((Math.abs(fieldVelocity.getX())>inches(40)?
+                        (fieldVelocity.getX()*20) * Math.sqrt(((200-(distance-120))/200)):
+                        (0))));
         double velVoltage = TurretSubsystem.getInstance().turretVelocity(desiredVelocity);
 //        //Turret PF loop
 //        double velVoltage = desiredVelocity* TURRET_VELOCITY_F +

@@ -20,7 +20,7 @@ public class VisionTurretAim extends CommandBase {
 
     public VisionTurretAim(boolean auton) {
         this.auton = auton;
-        addRequirements(TurretSubsystem.getInstance());
+        addRequirements(TurretSubsystem.getInstance(), ShooterSubsystem.getInstance());
     }
 
     /**
@@ -44,10 +44,10 @@ public class VisionTurretAim extends CommandBase {
         double percent = p*yaw;
 
         double distance = calculateDistance(pitch);
-//        double rpm = getRPMFromTable(distance);
+        double rpm = getRPMFromTable(distance);
         System.out.println("Distance: " + distance);
         TurretSubsystem.getInstance().setMotor(percent);
-//        ShooterSubsystem.getInstance().setShooterRpm(rpm);
+        ShooterSubsystem.getInstance().setShooterRpm(rpm);
     }
 
 
@@ -82,8 +82,8 @@ public class VisionTurretAim extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         TurretSubsystem.getInstance().stopMotor();
-//        ShooterSubsystem.getInstance().setShooterRpm(0);
-//        ShooterSubsystem.getInstance().stopMotor();
+        ShooterSubsystem.getInstance().setShooterRpm(0);
+        ShooterSubsystem.getInstance().stopMotor();
     }
 
 }

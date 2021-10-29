@@ -88,7 +88,7 @@ public class Ball8AutonSWM extends SequentialCommandGroup {
                                                 )
                                         ),
                                         race(
-                                                new AutoConveyorCommand(),
+                                                new AutoConveyorCommand(true),
                                                 new IntakeBallCommand(true, -0.6),
                                                 sequence(
                                                         new InstantCommand(() -> {

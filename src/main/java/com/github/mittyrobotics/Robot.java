@@ -155,8 +155,9 @@ public class Robot extends TimedRobot {
 //        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
 //        new IntakeBallCommand(true).schedule();
 //        new ShootingWhileMovingTurretControlLoop().schedule();
-//        new ShootingWhileMovingShooterControlLoop().schedule();
+//        new ShootingWhileMovingShooterControlLoop().schedule();o
 
+        OI.getInstance().setupControls();
 
     }
 
@@ -171,6 +172,9 @@ public class Robot extends TimedRobot {
 //        SmartDashboard.putBoolean("ID 9", input2.get());
 
 //        new IntakeBallCommand(true, -0.8).schedule();
+
+        System.out.println("intake detect " + ConveyorSubsystem.getInstance().isBallDetected() + " | shooter detect " + ConveyorSubsystem.getInstance().isShooterBallDetected());
+
     }
 
     /**
