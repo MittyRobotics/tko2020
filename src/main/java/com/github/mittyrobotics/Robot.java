@@ -28,29 +28,19 @@ import com.github.mittyrobotics.autonomous.Autonomous;
 import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.autonomous.RobotPositionTracker;
 import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.commands.*;
+import com.github.mittyrobotics.autonomous.commands.Ball8AutonSWM;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
-import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
-import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
-import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
-import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingShooterControlLoop;
-import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingTurretControlLoop;
 import com.github.mittyrobotics.util.Compressor;
 import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
-import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
@@ -59,15 +49,10 @@ public class Robot extends TimedRobot {
     /**
      * Sets the Robot to loop at 20 ms cycle
      */
-//    TestCommand testCommand = new TestCommand(true, false);
-
-//    DigitalInput input1, input2;
 
     public Robot() {
         super(0.02);
     }
-
-//    private final Command autonCommand = new Ball3Auton();
 
     /**
      * Initializes all the hardware
@@ -88,15 +73,10 @@ public class Robot extends TimedRobot {
         Compressor.getInstance().initHardware();
         RobotPositionTracker.getInstance().init(.02);
         RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-//
-//        SmartDashboard.putNumber("shootGain", AutonConstants.RANGE_SHOOTER_GAIN);
+
         Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
         Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroPosition();
-
-//        input1 = new DigitalInput(6);
-//        input2 = new DigitalInput(9);
-//        input1 = new DigitalInput(4);
 
     }
 
@@ -132,7 +112,6 @@ public class Robot extends TimedRobot {
         Odometry.getInstance().zeroPosition();
 
         new Ball8AutonSWM().schedule();
-//        new ShootingWhileMovingTurretControlLoop().schedule();
     }
 
     @Override
@@ -148,14 +127,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-//        new ShootingMovingTest().schedule();
-//        new VisionTurretAim(true).schedule();
-////        new ShootingWhileMovingTurretControlLoop().schedule();
-//
-//        ConveyorSubsystem.getInstance().setDefaultCommand(new AutoConveyorCommand());
-//        new IntakeBallCommand(true).schedule();
-//        new ShootingWhileMovingTurretControlLoop().schedule();
-//        new ShootingWhileMovingShooterControlLoop().schedule();o
 
         OI.getInstance().setupControls();
 
@@ -163,17 +134,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-//        Vision.getInstance().run();
-//        Autonomous.getInstance().run();
-//        Autonomous.getInstance().updateDashboard();
-//        RobotPositionTracker.getInstance().updateOdometry();
-
-//        SmartDashboard.putBoolean("ID 6", input1.get());
-//        SmartDashboard.putBoolean("ID 9", input2.get());
-
-//        new IntakeBallCommand(true, -0.8).schedule();
-
-        System.out.println("intake detect " + ConveyorSubsystem.getInstance().isBallDetected() + " | shooter detect " + ConveyorSubsystem.getInstance().isShooterBallDetected());
 
     }
 
@@ -190,7 +150,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-//        System.out.println(input1.get());
     }
 
 }
