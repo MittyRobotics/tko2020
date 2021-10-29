@@ -32,11 +32,11 @@ public class Ball8AutonSWM extends SequentialCommandGroup {
         });
         Path path3f = Path.Companion.quinticHermitePath(new Transform[]{
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(0))),
-                new Transform(new Vector2D(inches(55), inches(12)), new Rotation(degrees(0))),
+                new Transform(new Vector2D(inches(45), inches(12)), new Rotation(degrees(0))),
         });
         Path path4r = Path.Companion.quinticHermitePath(new Transform[]{
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(180))),
-                new Transform(new Vector2D(inches(-55), inches(8)), new Rotation(degrees(180))),
+                new Transform(new Vector2D(inches(-45), inches(8)), new Rotation(degrees(180))),
         });
         Path path5f = Path.Companion.quinticHermitePath(new Transform[]{
                 new Transform(new Vector2D(inches(0), inches(0)), new Rotation(degrees(0))),
