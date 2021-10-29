@@ -113,7 +113,7 @@ public class OI {
      */
     public void setupControls() {
         // DRIVER CONTROLS
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
 
         // OPERATOR CONTROLS
         // --------------------------
