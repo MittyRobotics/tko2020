@@ -141,7 +141,7 @@ public class Autonomous implements IDashboard {
 
         double desiredVelocity = counteractFieldRotationVelocity +
                 (((Math.abs(fieldVelocity.getX())>inches(40)?
-                        (fieldVelocity.getX()*20) * Math.sqrt(((200-(distance-120))/200)):
+                        (fieldVelocity.getX()*17) * Math.pow(((200-(distance-120))/200), 1.0/3.0):
                         (0))));
         double velVoltage = TurretSubsystem.getInstance().turretVelocity(desiredVelocity);
 //        //Turret PF loop
