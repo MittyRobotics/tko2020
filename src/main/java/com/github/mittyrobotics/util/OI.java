@@ -148,11 +148,11 @@ public class OI {
         Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
         changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 
-//        Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);
-//        increaseGain.whenPressed(new GainAdjustCommand(.1));
+        Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);
+        increaseGain.whenPressed(new GainAdjustCommand(.1));
 
-//        Button decreaseGain = new Button(() -> getXboxController2().getPOV() == 180);
-//        decreaseGain.whenPressed(new GainAdjustCommand(-.1));
+        Button decreaseGain = new Button(() -> getXboxController2().getPOV() == 180);
+        decreaseGain.whenPressed(new GainAdjustCommand(-.1));
 
     }
 
