@@ -41,6 +41,7 @@ import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
 import com.github.mittyrobotics.shooter.commands.GainAdjustCommand;
 import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
+import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingOICommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -126,7 +127,7 @@ public class OI {
 
         // automatically aim turret at vision target when left trigger held
         Button autoTurret = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
-        autoTurret.whenPressed(new VisionTurretAim());
+        autoTurret.whenPressed(new ShootingWhileMovingOICommand());
 
         // automatically shoot and advance conveyor when right trigger held
         Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);

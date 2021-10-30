@@ -136,7 +136,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-
+        Vision.getInstance().run();
+        Autonomous.getInstance().run();
+        Autonomous.getInstance().updateDashboard();
+        RobotPositionTracker.getInstance().updateOdometry();
     }
 
     /**
