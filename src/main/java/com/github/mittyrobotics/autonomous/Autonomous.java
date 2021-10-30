@@ -47,7 +47,7 @@ public class Autonomous implements IDashboard {
     private final double VISION_P = .6;
     private final double VISION_D = .0; //0.07
     private final double LINEAR_VELOCITY_Y_GAIN = .3/100.0;
-    private final double LINEAR_VELOCITY_X_BACKWARD_GAIN = 27;
+    private final double LINEAR_VELOCITY_X_BACKWARD_GAIN = 30;
     private final double LINEAR_VELOCITY_X_FORWARD_GAIN = 1.5;
     private final double LINEAR_MOVEMENT_ROTATION_VELOCITY_GAIN = 0;
     private final double COUNTERACT_VELOCITY_FUDGE_GAIN = 1.1;
@@ -141,7 +141,7 @@ public class Autonomous implements IDashboard {
 
         double desiredVelocity = counteractFieldRotationVelocity +
                 (((Math.abs(fieldVelocity.getX())>inches(40)?
-                        (fieldVelocity.getX()*17) * Math.pow(((200-(distance-120))/200), 1.0/3.0):
+                        (fieldVelocity.getX()*13) * Math.pow(((200-(distance-120))/200), 1.0/3.0):
                         (0))));
         double velVoltage = TurretSubsystem.getInstance().turretVelocity(desiredVelocity);
 //        //Turret PF loop
