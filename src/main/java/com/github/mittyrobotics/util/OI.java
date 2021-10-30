@@ -105,15 +105,15 @@ public class OI {
         Button lowerSetpoint = new Button(() -> getXboxController().getBumperPressed(GenericHID.Hand.kLeft));
         Button raiseSetpoint = new Button(() -> getXboxController().getBumperPressed(GenericHID.Hand.kRight));
         lowerSetpoint.whenPressed(new ChangeManualShooterSetpoint(-50));
-        raiseSetpoint.whenPressed(new ChangeManualShooterSetpoint(50));
-    }
+            raiseSetpoint.whenPressed(new ChangeManualShooterSetpoint(50));
+        }
 
-    /**
+        /**
      * Setup controls
      */
     public void setupControls() {
         // DRIVER CONTROLS
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
 
         // OPERATOR CONTROLS
         // --------------------------

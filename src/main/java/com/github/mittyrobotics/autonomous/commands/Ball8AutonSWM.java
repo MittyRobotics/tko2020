@@ -4,6 +4,7 @@ import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
 import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
+import com.github.mittyrobotics.conveyor.commands.intake.ExtendIntake;
 import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
 import com.github.mittyrobotics.core.math.geometry.Rotation;
 import com.github.mittyrobotics.core.math.geometry.Transform;
@@ -59,7 +60,7 @@ public class Ball8AutonSWM extends SequentialCommandGroup {
         PathFollowingCommand command5 = new PathFollowingCommand(trajectory5, false);
         addCommands(
                 sequence(
-//                        new ExtendIntake(),
+                        new ExtendIntake(),
                         parallel(
                                 new ShootingWhileMovingTurretControlLoop(),
                                 new ShootingWhileMovingShooterControlLoop(),

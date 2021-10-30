@@ -70,10 +70,11 @@ public class Robot extends TimedRobot {
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Gyro.getInstance().calibrate();
+        Gyro.getInstance().reset();
         Compressor.getInstance().initHardware();
         RobotPositionTracker.getInstance().init(.02);
         RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-
+        RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
         Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroPosition();
@@ -107,6 +108,8 @@ public class Robot extends TimedRobot {
 
         DrivetrainSubsystem.getInstance().resetEncoder();
         Gyro.getInstance().reset();
+        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+        RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
         Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroPosition();
@@ -127,7 +130,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-
         OI.getInstance().setupControls();
 
     }
