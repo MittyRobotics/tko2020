@@ -15,7 +15,7 @@ public class Ball3Auton extends SequentialCommandGroup {
                                 new VisionTurretAim(true),
                                 sequence(
                                         new WaitCommand(1),
-                                        new InstantCommand(()-> DrivetrainSubsystem.getInstance().overrideSetMotor(-.4, -.4)),
+                                        new InstantCommand(()-> DrivetrainSubsystem.getInstance().overrideSetMotor(-.2, -.2)),
                                         new WaitCommand(1),
                                         new InstantCommand(()-> DrivetrainSubsystem.getInstance().stopMotor()),
                                         new WaitCommand(2),

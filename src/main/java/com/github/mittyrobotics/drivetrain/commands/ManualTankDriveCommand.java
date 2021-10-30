@@ -58,10 +58,9 @@ public class ManualTankDriveCommand extends CommandBase {
             double left = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kLeft);
             double right = -OI.getInstance().getXboxController().getY(GenericHID.Hand.kRight);
 
-
             DrivetrainSubsystem.getInstance()
                     .tankDrive(left,
-                            right, DriveConstants.DRIVE_THRESHOLD, 0.7);
+                            right, DriveConstants.DRIVE_THRESHOLD, 0.6);
         }
     }
 

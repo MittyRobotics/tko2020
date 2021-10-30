@@ -53,7 +53,7 @@ public class AutonConstants {
 
     public static double LOW_RANGE_SHOOTER_GAIN = 1.0*RANGE_SHOOTER_GAIN;
     public static double MID_RANGE_SHOOTER_GAIN = 1.0*RANGE_SHOOTER_GAIN;
-    public static double HIGH_RANGE_SHOOTER_GAIN = 1.0*RANGE_SHOOTER_GAIN;
+    public static double HIGH_RANGE_SHOOTER_GAIN = 1.05*RANGE_SHOOTER_GAIN;
 
     //Shooter //TODO: Tune these
     //TODO: Convert real distances into vision distance
