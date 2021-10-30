@@ -28,6 +28,7 @@ import com.github.mittyrobotics.autonomous.Autonomous;
 import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.autonomous.RobotPositionTracker;
 import com.github.mittyrobotics.autonomous.Vision;
+import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
 import com.github.mittyrobotics.autonomous.commands.Ball8AutonSWM;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;

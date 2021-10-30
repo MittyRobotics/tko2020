@@ -114,7 +114,7 @@ public class OI {
      */
     public void setupControls() {
         // DRIVER CONTROLS
-        DrivetrainSubsystem.getInstance().setDefaultCommand(new TankDriveCommand());
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
 
         // OPERATOR CONTROLS
         // --------------------------
@@ -127,7 +127,7 @@ public class OI {
 
         // automatically aim turret at vision target when left trigger held
         Button autoTurret = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1);
-        autoTurret.whenPressed(new ShootingWhileMovingOICommand());
+        autoTurret.whenPressed(new VisionTurretAim());
 
         // automatically shoot and advance conveyor when right trigger held
         Button conveyorAndShoot = new Button(() -> getXboxController2().getTriggerAxis(GenericHID.Hand.kRight) > 0.1);
