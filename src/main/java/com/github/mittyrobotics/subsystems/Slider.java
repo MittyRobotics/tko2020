@@ -1,8 +1,11 @@
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.github.mittyrobotics.OI.OI;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -38,6 +41,8 @@ public class Slider extends SubsystemBase {
         talon2.setSelectedSensorPosition(0);
         talon1.setInverted(SliderConstants.TALON_1_INVERTED);
         talon2.setInverted(SliderConstants.TALON_2_INVERTED);
+        talon1.setNeutralMode(NeutralMode.Brake);
+        talon2.setNeutralMode(NeutralMode.Brake);
 
         limit1 = new DigitalInput(SliderConstants.LIMIT_1_INDEX);
         limit2 = new DigitalInput(SliderConstants.LIMIT_2_INDEX);
@@ -47,14 +52,33 @@ public class Slider extends SubsystemBase {
     public void setMotors(double one) {
         talon1.set(one);
         talon2.set(one);
+        System.out.println(one);
     }
 
-    public double getMotors() {
-        return talon1.get();
+    public WPI_TalonSRX[] getMotors() {
+        WPI_TalonSRX[] returnArray = {talon1, talon2};
+        return returnArray;
+    }
+
+    public double getPosition(){
+
+        return talon2.getSelectedSensorPosition();
     }
 
     public boolean getSwitch(int ind) {
         if(ind == 1) return limit1.get();
         else return limit2.get();
+    }
+
+    public void motorsWithLimitSwitch(double val) {
+        if(OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft) > 0 && Slider.getInstance().getSwitch(1)) {
+            Slider.getInstance().setMotors(val);
+        } else if (OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft) < 0 && Slider.getInstance().getSwitch(0)) {
+            Slider.getInstance().setMotors(val);
+        } else if (Slider.getInstance().getSwitch(0) || Slider.getInstance().getSwitch(1)) {
+            Slider.getInstance().setMotors(0);
+        } else {
+            Slider.getInstance().setMotors(val);
+        }
     }
 }

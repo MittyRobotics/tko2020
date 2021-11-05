@@ -1,4 +1,4 @@
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.OI;
 
 import edu.wpi.first.wpilibj.XboxController;
 

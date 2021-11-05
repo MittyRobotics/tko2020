@@ -24,25 +24,29 @@
 
 package com.github.mittyrobotics;
 
-<<<<<<< Updated upstream
+
+import com.github.mittyrobotics.OI.OI;
+import com.github.mittyrobotics.commands.LimitSwitchStopCommand;
+import com.github.mittyrobotics.commands.PidCommand;
+import com.github.mittyrobotics.subsystems.Slider;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-=======
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
  */
->>>>>>> Stashed changes
+
 public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-<<<<<<< Updated upstream
 
-=======
+
+
 //        SubsystemManager.getInstance().addSubsystems(
 //                ConveyorSubsystem.getInstance(),
 //                DrivetrainSubsystem.getInstance(),
@@ -67,40 +71,39 @@ public class Robot extends TimedRobot {
 //        input2 = new DigitalInput(9);
 //        input1 = new DigitalInput(4);
         Slider.getInstance().initHardware();
->>>>>>> Stashed changes
+
     }
 
     @Override
     public void robotPeriodic() {
-<<<<<<< Updated upstream
+
         CommandScheduler.getInstance().run();
-=======
+
 //        CommandScheduler.getInstance().run();
 //        SubsystemManager.getInstance().updateDashboard();
 //
 //        Odometry.getInstance().update(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition(), Gyro.getInstance().getAngle360());
->>>>>>> Stashed changes
+
     }
 
     @Override
     public void disabledInit() {
-<<<<<<< Updated upstream
 
-=======
+
 //        DrivetrainSubsystem.getInstance().coast();
->>>>>>> Stashed changes
+
     }
 
     @Override
     public void disabledPeriodic(){
 
-<<<<<<< Updated upstream
+
     }
 
     @Override
     public void autonomousInit() {
 
-=======
+
 //        DrivetrainSubsystem.getInstance().resetEncoder();
 //        Gyro.getInstance().reset();
 //        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
@@ -109,37 +112,38 @@ public class Robot extends TimedRobot {
 //
 //        new Ball8AutonSWM().schedule();
 //        new ShootingWhileMovingTurretControlLoop().schedule();
->>>>>>> Stashed changes
+
     }
 
     @Override
     public void autonomousPeriodic() {
-<<<<<<< Updated upstream
 
-=======
+
+
 //        Vision.getInstance().run();
 //        Autonomous.getInstance().run();
 //        Autonomous.getInstance().updateDashboard();
 //        RobotPositionTracker.getInstance().updateOdometry();
->>>>>>> Stashed changes
+
     }
 
     @Override
     public void teleopInit() {
-
+        CommandScheduler.getInstance().schedule(new PidCommand(1000, 1));
     }
 
     @Override
     public void teleopPeriodic() {
 
-<<<<<<< Updated upstream
-=======
+
 //        new IntakeBallCommand(true, -0.8).schedule();
+//        System.out.println(Slider.getInstance().getMotors()[1].getSelectedSensorPosition());
+        System.out.println(Slider.getInstance().getPosition());
 
-        double val = OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft) * 0.8;
 
-        Slider.getInstance().setMotors(val);
->>>>>>> Stashed changes
+
+//        double val = OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft) * 0.8;
+
     }
 
     @Override
