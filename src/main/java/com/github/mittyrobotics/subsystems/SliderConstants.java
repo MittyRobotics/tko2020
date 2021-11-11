@@ -11,4 +11,6 @@ public class SliderConstants {
 
     public static final int LIMIT_1_INDEX = 2;
     public static final int LIMIT_2_INDEX = 0;
+
+    public static final double TICKS_PER_INCH = 152;
 }

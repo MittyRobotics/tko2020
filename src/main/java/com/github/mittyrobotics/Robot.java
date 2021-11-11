@@ -27,6 +27,7 @@ package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.OI.OI;
 import com.github.mittyrobotics.commands.LimitSwitchStopCommand;
+import com.github.mittyrobotics.commands.LogCommand;
 import com.github.mittyrobotics.commands.PidCommand;
 import com.github.mittyrobotics.subsystems.Slider;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -36,11 +37,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 
+import java.util.ArrayList;
+
 /**
  * Robot Class to run the robot code (uses timed robot)
  */
 
 public class Robot extends TimedRobot {
+    public static ArrayList<Double> timeArray = new ArrayList<>();
+    public static ArrayList<Double> posArray = new ArrayList<>();
+    public static ArrayList<Double> voltArray = new ArrayList<>();
+
 
     @Override
     public void robotInit() {
@@ -87,6 +94,9 @@ public class Robot extends TimedRobot {
     }
 
     @Override
+
+
+
     public void disabledInit() {
 
 
@@ -129,16 +139,19 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        CommandScheduler.getInstance().schedule(new PidCommand(1000, 1));
+        CommandScheduler.getInstance().schedule(new LogCommand());
     }
 
     @Override
     public void teleopPeriodic() {
 
+        double val = OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft);
+        Slider.getInstance().motorsWithLimitSwitch(OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft));
 
 //        new IntakeBallCommand(true, -0.8).schedule();
 //        System.out.println(Slider.getInstance().getMotors()[1].getSelectedSensorPosition());
         System.out.println(Slider.getInstance().getPosition());
+        Slider.getInstance().getMotors()[0].getMotorOutputVoltage();
 
 
 

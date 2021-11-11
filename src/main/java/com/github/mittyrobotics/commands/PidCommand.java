@@ -2,6 +2,7 @@ package com.github.mittyrobotics.commands;
 
 import com.github.mittyrobotics.OI.OI;
 import com.github.mittyrobotics.subsystems.Slider;
+import com.github.mittyrobotics.subsystems.SliderConstants;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -26,9 +27,10 @@ public class PidCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double val = controller.calculate(Slider.getInstance().getPosition());
+        double val = (controller.calculate(Slider.getInstance().getPosition()))*(SliderConstants.TICKS_PER_INCH);
         Slider.getInstance().motorsWithLimitSwitch(val);
 //        System.out.println(Slider.getInstance().getMotors()[1].getSelectedSensorPosition());
+
 
 
     }

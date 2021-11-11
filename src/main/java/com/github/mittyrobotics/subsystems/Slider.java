@@ -1,5 +1,6 @@
 package com.github.mittyrobotics.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -80,5 +81,10 @@ public class Slider extends SubsystemBase {
         } else {
             Slider.getInstance().setMotors(val);
         }
+    }
+
+    public void setMotorsTicks(double val) {
+        talon1.set(ControlMode.Position, val);
+        talon2.set(ControlMode.Position, val);
     }
 }
