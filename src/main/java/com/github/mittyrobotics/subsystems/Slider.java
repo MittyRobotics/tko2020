@@ -65,7 +65,7 @@ public class Slider extends SubsystemBase {
 
         return talon2.getSelectedSensorPosition();
     }
-
+//musty code
     public boolean getSwitch(int ind) {
         if(ind == 1) return limit1.get();
         else return limit2.get();
