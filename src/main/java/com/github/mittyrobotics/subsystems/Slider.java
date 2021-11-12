@@ -72,14 +72,21 @@ public class Slider extends SubsystemBase {
     }
 
     public void motorsWithLimitSwitch(double val) {
-        if(OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft) > 0 && Slider.getInstance().getSwitch(1)) {
+        if(OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft) > 0 && Slider.getInstance().getSwitch(0)) {
             Slider.getInstance().setMotors(val);
-        } else if (OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft) < 0 && Slider.getInstance().getSwitch(0)) {
+
+        } else if (OI.getInstance().getXboxController().getX(GenericHID.Hand.kLeft) < 0 && Slider.getInstance().getSwitch(1)) {
             Slider.getInstance().setMotors(val);
         } else if (Slider.getInstance().getSwitch(0) || Slider.getInstance().getSwitch(1)) {
             Slider.getInstance().setMotors(0);
         } else {
             Slider.getInstance().setMotors(val);
+        }
+
+        if(Slider.getInstance().getSwitch(1)){
+            System.out.println("limit switch 1 was pressed omfg");
+        } else if(Slider.getInstance().getSwitch(0)) {
+            System.out.println("limit switch 2 was pressed omfg");
         }
     }
 

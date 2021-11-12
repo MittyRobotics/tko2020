@@ -9,24 +9,30 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LogCommand extends CommandBase {
     private long startTime;
-    public LogCommand() {
-        addRequirements(Slider.getInstance());
-    }
+    public LogCommand() {}
 
     @Override
     public void initialize() {
         startTime = System.currentTimeMillis();
+
     }
 
     @Override
     public void execute() {
+        /*
         if(Slider.getInstance().getSwitch(1)) {
             Slider.getInstance().setMotorsTicks(0.5);
         } else if (Slider.getInstance().getSwitch(0)) {
             Slider.getInstance().setMotorsTicks(-0.5);
         }
+        */
+        SmartDashboard.putNumber("voltage", (double) Slider.getInstance().getMotors()[0].getMotorOutputVoltage());
+        SmartDashboard.putNumber("position", (double) Slider.getInstance().getPosition());
+        SmartDashboard.updateValues();
+
 //        Robot.timeArray.add((double) System.currentTimeMillis() - startTime);
-        SmartDashboard.putNumber("position", (double) Slider.getInstance().getMotors()[0].getSelectedSensorPosition());
+        //SmartDashboard.putNumber("position", (double) Slider.getInstance().getMotors()[0].getSelectedSensorPosition());
+        //SmartDashboard.putNumber("voltage", (double) Slider.getInstance().getMotors()[0].getMotorOutputVoltage());
 //        Robot.posArray.add((double) Slider.getInstance().getMotors()[0].getSelectedSensorPosition());
 //        Robot.voltArray.add((double) Slider.getInstance().getMotors()[0].getMotorOutputVoltage());
     }
