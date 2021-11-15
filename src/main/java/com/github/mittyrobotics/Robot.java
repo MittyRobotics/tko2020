@@ -105,6 +105,11 @@ public class Robot extends TimedRobot {
      * Initializes and starts autonomous command
      */
     @Override
+    public void disabledPeriodic(){
+
+    }
+
+    @Override
     public void autonomousInit() {
 
         DrivetrainSubsystem.getInstance().resetEncoder();
