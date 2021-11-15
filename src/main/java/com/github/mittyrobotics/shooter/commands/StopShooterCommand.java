@@ -22,22 +22,24 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.shooter.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
- * Main Class to run robot code, do not touch
+ * Stops the shooter from running
  */
-public final class Main {
-    private Main() {
-
-    }
+public class StopShooterCommand extends RunCommand {
 
     /**
-     * Main function to run robot code, do not touch
+     * Stops the shooter from running
+     *
+     * Requires the {@link ShooterSubsystem}
+     *
+     * This is the default command for the shooter
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    public StopShooterCommand() {
+        super(() -> ShooterSubsystem.getInstance().setMotor(0), ShooterSubsystem.getInstance());
     }
 }

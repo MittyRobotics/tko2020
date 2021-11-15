@@ -22,22 +22,29 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.conveyor.commands.intake;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.conveyor.IntakeConstants;
+import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-/**
- * Main Class to run robot code, do not touch
- */
-public final class Main {
-    private Main() {
+public class OuttakeBallCommand extends RunCommand {
+
+    public OuttakeBallCommand() {
+        super(() -> IntakeSubsystem.getInstance().overrideSetMotor(IntakeConstants.OUTTAKE_SPEED));
+
 
     }
 
-    /**
-     * Main function to run robot code, do not touch
-     */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    @Override
+    public void end(boolean interrupted) {
+        IntakeSubsystem.getInstance().overrideSetMotor(0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !OI.getInstance().getXboxController2().getBumper(GenericHID.Hand.kLeft);
     }
 }

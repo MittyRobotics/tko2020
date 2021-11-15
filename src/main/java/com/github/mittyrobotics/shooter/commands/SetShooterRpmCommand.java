@@ -22,22 +22,26 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.shooter.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
- * Main Class to run robot code, do not touch
+ * Sets the shooter RPM
  */
-public final class Main {
-    private Main() {
-
-    }
+public class SetShooterRpmCommand extends InstantCommand {
 
     /**
-     * Main function to run robot code, do not touch
+     * Sets the shooter RPM
+     *
+     * Command ends immediately
+     *
+     * Requires the {@link ShooterSubsystem}
+     *
+     * @param rpm RPM to set the shooter to
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    public SetShooterRpmCommand(double rpm) {
+        super(() -> ShooterSubsystem.getInstance().setShooterRpm(rpm), ShooterSubsystem.getInstance());
     }
 }

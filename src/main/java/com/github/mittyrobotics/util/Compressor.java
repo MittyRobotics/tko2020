@@ -22,22 +22,46 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.util;
 
-import edu.wpi.first.wpilibj.RobotBase;
+
+import com.github.mittyrobotics.util.interfaces.IHardware;
 
 /**
- * Main Class to run robot code, do not touch
+ * Compressor Class in the form of a singleton
  */
-public final class Main {
-    private Main() {
+public class Compressor extends edu.wpi.first.wpilibj.Compressor implements IHardware {
 
+    /**
+     * {@link Compressor} instance
+     */
+    private static Compressor instance;
+
+    /**
+     * Calls {@link edu.wpi.first.wpilibj.Compressor} constructor
+     */
+    private Compressor() {
+        super();
     }
 
     /**
-     * Main function to run robot code, do not touch
+     * Returns the {@link Compressor} instance
+     * @return the {@link Compressor} instance
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    public static Compressor getInstance() {
+        if (instance == null) {
+            instance = new Compressor();
+        }
+        return instance;
+    }
+
+    /**
+     * Initializes the compressor with the correct settings
+     * Starts the compressor
+     */
+    @Override
+    public void initHardware() {
+        start();
+        setClosedLoopControl(true);
     }
 }

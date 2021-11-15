@@ -22,22 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
-
-import edu.wpi.first.wpilibj.RobotBase;
+package com.github.mittyrobotics.util;
 
 /**
- * Main Class to run robot code, do not touch
+ * Constants for the {@link OI} Class
  */
-public final class Main {
-    private Main() {
-
-    }
-
-    /**
-     * Main function to run robot code, do not touch
-     */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
-    }
+public class OIConstants {
+    public static final int XBOX_CONTROLLER_ID = 0;
+    public static final int XBOX_CONTROLLER_2_ID = 1;
 }

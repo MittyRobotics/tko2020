@@ -22,22 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
-
-import edu.wpi.first.wpilibj.RobotBase;
+package com.github.mittyrobotics.shooter;
 
 /**
- * Main Class to run robot code, do not touch
+ * Constants for the {@link TurretSubsystem}
  */
-public final class Main {
-    private Main() {
-
-    }
-
-    /**
-     * Main function to run robot code, do not touch
-     */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
-    }
+public class TurretConstants {
+    public static final int Turret_Talon_ID = 30;
+    public static final boolean TURRET_TALON_INVERSION = true;
+    public static final boolean TURRET_ENCODER_INVERSION = true;
+    public static final double TURRET_P = .003;
+    public static final double TURRET_I = 0;
+    public static final double TURRET_D = 0;
+    public static final int TURRET_SWITCH_ID = 1;
+    public static final int TURRET_SWITCH_2_ID = 0;
+    public static final double TICKS_PER_ANGLE = 1392.0/90.0;
+    public static final double REVOLUTION_TICKS = 3911;
 }

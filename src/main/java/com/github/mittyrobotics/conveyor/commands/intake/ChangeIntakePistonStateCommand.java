@@ -22,22 +22,26 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.conveyor.commands.intake;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
+import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
 /**
- * Main Class to run robot code, do not touch
+ * Either retracts or extends the {@link IntakeSubsystem}
  */
-public final class Main {
-    private Main() {
-
-    }
+public class ChangeIntakePistonStateCommand extends ConditionalCommand {
 
     /**
-     * Main function to run robot code, do not touch
+     * Extends the {@link IntakeSubsystem} if retracted and retracts it if it is extended
+     *
+     * Requires the {@link IntakePistonSubsystem}
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    public ChangeIntakePistonStateCommand() {
+        super(new RetractIntake(),
+                new ExtendIntake(),
+                IntakePistonSubsystem.getInstance()::isPistonExtended);
+        System.out.println("here");
     }
 }

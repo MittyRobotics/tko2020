@@ -22,22 +22,32 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.shooter.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.shooter.TurretSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
- * Main Class to run robot code, do not touch
+ * Moves the turret using a {@link XboxController}
  */
-public final class Main {
-    private Main() {
-
-    }
+public class ManualTurretCommand extends RunCommand {
 
     /**
-     * Main function to run robot code, do not touch
+     * Moves the turret using the x axis of the {@link XboxController}
+     *
+     * Requires the {@link TurretSubsystem}
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    public ManualTurretCommand() {
+        super(
+                () -> TurretSubsystem.getInstance().setMotor(-OI.getInstance().getXboxController2().getX(GenericHID.Hand.kLeft) * 0.2),
+                TurretSubsystem.getInstance());
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }

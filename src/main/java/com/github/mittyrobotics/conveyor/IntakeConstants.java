@@ -22,22 +22,21 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.conveyor;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
- * Main Class to run robot code, do not touch
+ * Constants for the {@link IntakeSubsystem} and {@link IntakePistonSubsystem}
  */
-public final class Main {
-    private Main() {
+public class IntakeConstants {
+    public static final int INTAKE_WHEEL_ID = 40;
+    public static final boolean INTAKE_WHEEL_INVERSION = false;
+    public static final double INTAKE_SPEED_FAST = -.4;
+    public static final double INTAKE_SPEED_SLOW = -.3;
+    public static final double OUTTAKE_SPEED = .4;
+    public static final int SOLENOID_FORWQRD_CHANNEL = 0;
+    public static final int SOLENOID_REVERSE_CHANNEL = 7;
+    public static final NeutralMode INTAKE_NEUTRAL_MODE = NeutralMode.Coast;
 
-    }
-
-    /**
-     * Main function to run robot code, do not touch
-     */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
-    }
 }

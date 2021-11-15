@@ -22,22 +22,21 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.shooter.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
- * Main Class to run robot code, do not touch
+ * Changes the manual setpoint of the {@link ShooterSubsystem}
  */
-public final class Main {
-    private Main() {
+public class ChangeManualShooterSetpoint extends InstantCommand {
 
-    }
-
-    /**
-     * Main function to run robot code, do not touch
-     */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    public ChangeManualShooterSetpoint(int change) {
+        super(() -> {
+            ShooterSubsystem.getInstance().changeManualRPMSetpoint(change);
+            System.out.println("Pressed");
+        });
     }
 }

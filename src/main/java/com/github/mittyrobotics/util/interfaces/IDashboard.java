@@ -22,22 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.util.interfaces;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Main Class to run robot code, do not touch
+ * Interface for any class that needs to upload information to smartDashboard
  */
-public final class Main {
-    private Main() {
-
-    }
-
+public interface IDashboard {
     /**
-     * Main function to run robot code, do not touch
+     * Updates the {@link SmartDashboard} values associated with the class
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
-    }
+    void updateDashboard();
 }

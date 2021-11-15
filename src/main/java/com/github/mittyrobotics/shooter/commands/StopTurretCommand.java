@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Mitty Robotics (Team 1351)
+ * Copyright (c) 2019 Mitty Robotics (Team 1351)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.shooter.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.shooter.TurretSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
- * Main Class to run robot code, do not touch
+ * Stops the turret from moving
  */
-public final class Main {
-    private Main() {
-
-    }
+public class StopTurretCommand extends InstantCommand {
 
     /**
-     * Main function to run robot code, do not touch
+     * Stops the turret from moving
+     *
+     * Requires the {@link TurretSubsystem}
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    public StopTurretCommand() {
+        super(() -> TurretSubsystem.getInstance().setMotor(0), TurretSubsystem.getInstance());
     }
 }

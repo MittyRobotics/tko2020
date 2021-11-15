@@ -22,22 +22,32 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.shooter.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
+import com.github.mittyrobotics.shooter.ShooterSubsystem;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
- * Main Class to run robot code, do not touch
+ * Sets the shooter to the manual setpoint
  */
-public final class Main {
-    private Main() {
+public class ManualSpinFlywheelCommand extends RunCommand {
 
+    /**
+     * Sets the shooter to the manual setpoint
+     *
+     * Requires the {@link ShooterSubsystem}
+     */
+    public ManualSpinFlywheelCommand() {
+        super(() -> ShooterSubsystem.getInstance().setShooterRpm(ShooterSubsystem.getInstance()
+                .getManualRPMSetpoint()), ShooterSubsystem.getInstance());
     }
 
     /**
-     * Main function to run robot code, do not touch
+     * Reset the ball count when the command ends
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    @Override
+    public void end(boolean interutped) {
+        System.out.println("END SHOOTER COMMAND");
     }
 }

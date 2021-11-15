@@ -22,22 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
-
-import edu.wpi.first.wpilibj.RobotBase;
+package com.github.mittyrobotics.shooter;
 
 /**
- * Main Class to run robot code, do not touch
+ * Constants for the {@link ShooterSubsystem}
  */
-public final class Main {
-    private Main() {
-
-    }
-
-    /**
-     * Main function to run robot code, do not touch
-     */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
-    }
+public class ShooterConstants {
+    public static final double SHOOTER_F = 1.0 / 5150;
+    public static final double SHOOTER_P = 0.001;//was 0.0004
+    public static final double SHOOTER_I = 0;
+    public static final double SHOOTER_D = 0;
+    public static final int SHOOTER_SPARK_MASTER_ID = 31;
+    public static final int SHOOTER_SPARK_FOLLOWER_ID = 32;
+    public static final boolean SHOOTER_SPARK_MASTER_INVERSION = false;
+    public static final boolean SHOOTER_SPARK_FOLLOWER_INVERSION = true;
+    public static final int DEFAULT_MANUAL_SHOOTER_SPEED = 4000;
+    public static final int SHOOTER_SETPOINT_CHECK_THREHOLD = 100;
 }

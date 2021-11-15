@@ -22,11 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.util;
+package com.github.mittyrobotics.shooter.commands;
 
-public class Constants {
-    public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int JOYSTICK_1_ID = 1;
-    public static final int JOYSTICK_2_ID = 2;
-    public static final int XBOX_WHEEL_ID = 0;
+import com.github.mittyrobotics.shooter.TurretSubsystem;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+/**
+ * Sets the maximum percent output of the {@link TurretSubsystem}
+ */
+public class SetTurretControlLoopMaxPercentCommand extends InstantCommand {
+
+    /**
+     * Sets the maximum percent output of the {@link PIDController} of the turret
+     *
+     * Requires the {@link TurretSubsystem}
+     *
+     * @param maxPercent new max percent output of the turret
+     */
+    public SetTurretControlLoopMaxPercentCommand(double maxPercent) {
+        super(() -> TurretSubsystem.getInstance().setControlLoopMaxPercent(maxPercent), TurretSubsystem.getInstance());
+    }
 }

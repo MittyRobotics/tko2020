@@ -22,22 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
+package com.github.mittyrobotics.conveyor.commands.intake;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import com.github.mittyrobotics.conveyor.IntakeConstants;
+import com.github.mittyrobotics.conveyor.IntakeSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
-/**
- * Main Class to run robot code, do not touch
- */
-public final class Main {
-    private Main() {
+public class IntakeBallCommand extends RunCommand {
+    private boolean auton = false;
+    public IntakeBallCommand() {
+        this(false, IntakeConstants.INTAKE_SPEED_FAST);
 
     }
 
-    /**
-     * Main function to run robot code, do not touch
-     */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
+    public IntakeBallCommand(boolean auton) {
+        this(auton, IntakeConstants.INTAKE_SPEED_FAST);
+    }
+    public IntakeBallCommand(boolean auton, double speed) {
+        super(() -> IntakeSubsystem.getInstance().overrideSetMotor(speed));
+        addRequirements(IntakeSubsystem.getInstance());
+        this.auton = auton;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        IntakeSubsystem.getInstance().overrideSetMotor(0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !auton && !OI.getInstance().getXboxController2().getBumper(GenericHID.Hand.kRight);
     }
 }

@@ -22,22 +22,26 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
-
-import edu.wpi.first.wpilibj.RobotBase;
+package com.github.mittyrobotics.util.interfaces;
 
 /**
- * Main Class to run robot code, do not touch
+ * Interface for all Piston based Subsystem classes
  */
-public final class Main {
-    private Main() {
-
-    }
+public interface IPistonSubsystem extends ISubsystem {
+    /**
+     * Returns if the piston is extended
+     *
+     * @return piston is extended
+     */
+    boolean isPistonExtended();
 
     /**
-     * Main function to run robot code, do not touch
+     * Extends a piston
      */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
-    }
+    void extendPiston();
+
+    /**
+     * Retracts a piston
+     */
+    void retractPiston();
 }

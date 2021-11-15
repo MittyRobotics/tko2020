@@ -22,22 +22,10 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics;
-
-import edu.wpi.first.wpilibj.RobotBase;
+package com.github.mittyrobotics.util.interfaces;
 
 /**
- * Main Class to run robot code, do not touch
+ * Interface for all subsystem classes
  */
-public final class Main {
-    private Main() {
-
-    }
-
-    /**
-     * Main function to run robot code, do not touch
-     */
-    public static void main(String... args) {
-        RobotBase.startRobot(Robot::new);
-    }
+public interface ISubsystem extends IHardware, IDashboard {
 }
