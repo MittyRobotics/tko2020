@@ -7,7 +7,6 @@ import com.github.mittyrobotics.util.interfaces.IMotorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
 
 /**
  * Conveyor subsystem to move balls from the {@link IntakeSubsystem} to the {@link ShooterSubsystem}

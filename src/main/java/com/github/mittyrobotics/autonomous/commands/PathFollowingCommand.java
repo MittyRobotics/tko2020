@@ -6,16 +6,12 @@ import com.github.mittyrobotics.core.math.geometry.Rotation;
 import com.github.mittyrobotics.core.math.geometry.Transform;
 import com.github.mittyrobotics.core.math.geometry.Vector2D;
 import com.github.mittyrobotics.core.math.kinematics.DifferentialDriveState;
-import com.github.mittyrobotics.core.math.spline.Parametric;
-import com.github.mittyrobotics.core.math.spline.Path;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.motion.State;
 import com.github.mittyrobotics.motion.profiles.PathTrajectory;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
 
 import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
 import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;

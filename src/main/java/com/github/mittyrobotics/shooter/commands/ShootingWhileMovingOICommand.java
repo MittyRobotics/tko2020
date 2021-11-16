@@ -2,14 +2,11 @@ package com.github.mittyrobotics.shooter.commands;
 
 
 import com.github.mittyrobotics.autonomous.Autonomous;
-import com.github.mittyrobotics.autonomous.Limelight;
-import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class ShootingWhileMovingOICommand extends CommandBase {
 

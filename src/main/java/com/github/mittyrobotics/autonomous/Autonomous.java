@@ -1,7 +1,6 @@
 package com.github.mittyrobotics.autonomous;
 
 
-import com.github.mittyrobotics.Robot;
 import com.github.mittyrobotics.autonomous.constants.AutonConstants;
 import com.github.mittyrobotics.autonomous.constants.AutonCoordinates;
 import com.github.mittyrobotics.core.math.geometry.Rotation;
@@ -9,9 +8,7 @@ import com.github.mittyrobotics.core.math.geometry.Transform;
 import com.github.mittyrobotics.core.math.geometry.Vector2D;
 import com.github.mittyrobotics.core.math.kinematics.DifferentialDriveState;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
-import com.github.mittyrobotics.util.Gyro;
 import com.github.mittyrobotics.util.interfaces.IDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

@@ -27,7 +27,6 @@ package com.github.mittyrobotics.util;
 import com.github.mittyrobotics.core.math.geometry.Rotation;
 import com.github.mittyrobotics.util.interfaces.IHardware;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.SPI;
 
 import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
 

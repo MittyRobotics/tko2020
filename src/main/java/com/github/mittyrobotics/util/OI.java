@@ -24,7 +24,6 @@
 
 package com.github.mittyrobotics.util;
 
-import com.github.mittyrobotics.autonomous.commands.ManualVisionTurretAim;
 import com.github.mittyrobotics.autonomous.commands.VisionTurretAim;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.commands.AutoConveyorCommand;
@@ -35,13 +34,10 @@ import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
 import com.github.mittyrobotics.conveyor.commands.intake.OuttakeBallCommand;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.ManualTankDriveCommand;
-import com.github.mittyrobotics.drivetrain.commands.TankDriveCommand;
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.shooter.commands.ChangeManualShooterSetpoint;
 import com.github.mittyrobotics.shooter.commands.GainAdjustCommand;
 import com.github.mittyrobotics.shooter.commands.ManualTurretCommand;
-import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingOICommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;

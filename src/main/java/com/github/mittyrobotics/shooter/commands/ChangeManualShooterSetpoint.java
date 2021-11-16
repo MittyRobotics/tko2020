@@ -25,7 +25,6 @@
 package com.github.mittyrobotics.shooter.commands;
 
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
-import com.github.mittyrobotics.util.OI;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**

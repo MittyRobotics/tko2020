@@ -1,7 +1,6 @@
 package com.github.mittyrobotics.autonomous.commands;
 
 import com.github.mittyrobotics.autonomous.Odometry;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.commands.UnloadConveyorCommand;
 import com.github.mittyrobotics.conveyor.commands.intake.IntakeBallCommand;
 import com.github.mittyrobotics.core.math.geometry.Rotation;
@@ -13,7 +12,6 @@ import com.github.mittyrobotics.motion.profiles.PathTrajectory;
 import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingShooterControlLoop;
 import com.github.mittyrobotics.shooter.commands.ShootingWhileMovingTurretControlLoop;
 import com.github.mittyrobotics.util.Gyro;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
