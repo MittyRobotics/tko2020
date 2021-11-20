@@ -24,24 +24,13 @@
 
 package com.github.mittyrobotics;
 
-import com.github.mittyrobotics.autonomous.Autonomous;
-import com.github.mittyrobotics.autonomous.Odometry;
-import com.github.mittyrobotics.autonomous.RobotPositionTracker;
-import com.github.mittyrobotics.autonomous.Vision;
-import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
-import com.github.mittyrobotics.autonomous.commands.Ball8AutonSWM;
-import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
-import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
-import com.github.mittyrobotics.conveyor.IntakeSubsystem;
-import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
-import com.github.mittyrobotics.shooter.ShooterSubsystem;
-import com.github.mittyrobotics.shooter.TurretSubsystem;
-import com.github.mittyrobotics.util.Compressor;
-import com.github.mittyrobotics.util.Gyro;
-import com.github.mittyrobotics.util.OI;
-import com.github.mittyrobotics.util.SubsystemManager;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
@@ -50,6 +39,12 @@ public class Robot extends TimedRobot {
     /**
      * Sets the Robot to loop at 20 ms cycle
      */
+
+    private Orchestra orchestra;
+    private TalonFX[] motors = {
+            new TalonFX(0),
+            new TalonFX(1)
+    };
 
     public Robot() {
         super(0.02);
@@ -60,25 +55,15 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        SubsystemManager.getInstance().addSubsystems(
-                ConveyorSubsystem.getInstance(),
-                DrivetrainSubsystem.getInstance(),
-                IntakePistonSubsystem.getInstance(),
-                IntakeSubsystem.getInstance(),
-                ShooterSubsystem.getInstance(),
-                TurretSubsystem.getInstance()
-        );
-        SubsystemManager.getInstance().initHardware();
-        Gyro.getInstance().initHardware();
-        Gyro.getInstance().calibrate();
-        Gyro.getInstance().reset();
-//        Compressor.getInstance().initHardware();
-        RobotPositionTracker.getInstance().init(.02);
-        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-        RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
-        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
-        Odometry.getInstance().zeroPosition();
+
+        ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
+
+        Collections.addAll(instruments, motors);
+
+        orchestra = new Orchestra(instruments);
+        orchestra.loadMusic("test.chrp");
+
+        orchestra.play();
 
     }
 
@@ -87,10 +72,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        CommandScheduler.getInstance().run();
-        SubsystemManager.getInstance().updateDashboard();
-
-        Odometry.getInstance().update(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition(), Gyro.getInstance().getAngle360());
     }
 
     /**
@@ -98,7 +79,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-        DrivetrainSubsystem.getInstance().coast();
+
     }
 
     /**
@@ -112,23 +93,12 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 
-        DrivetrainSubsystem.getInstance().resetEncoder();
-        Gyro.getInstance().reset();
-        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-        RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
-        Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-        Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
-        Odometry.getInstance().zeroPosition();
 
-        new Ball8AutonSWM().schedule();
     }
 
     @Override
     public void autonomousPeriodic() {
-        Vision.getInstance().run();
-        Autonomous.getInstance().run();
-        Autonomous.getInstance().updateDashboard();
-        RobotPositionTracker.getInstance().updateOdometry();
+
     }
 
     /**
@@ -136,16 +106,12 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-        OI.getInstance().setupControls();
 
     }
 
     @Override
     public void teleopPeriodic() {
-        Vision.getInstance().run();
-        Autonomous.getInstance().run();
-        Autonomous.getInstance().updateDashboard();
-        RobotPositionTracker.getInstance().updateOdometry();
+
     }
 
     /**
@@ -161,17 +127,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-        if(OI.getInstance().getXboxController().getAButton()) {
-            DrivetrainSubsystem.getInstance().runMotor(0);
-        } else if(OI.getInstance().getXboxController().getBButton()) {
-            DrivetrainSubsystem.getInstance().runMotor(1);
-        } else if(OI.getInstance().getXboxController().getXButton()) {
-            DrivetrainSubsystem.getInstance().runMotor(2);
-        } else if(OI.getInstance().getXboxController().getYButton()) {
-            DrivetrainSubsystem.getInstance().runMotor(3);
-        } else {
-            DrivetrainSubsystem.getInstance().setMotor(0 ,0);
-        }
+
     }
 
 }
