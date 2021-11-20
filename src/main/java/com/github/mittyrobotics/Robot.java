@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
         Gyro.getInstance().initHardware();
         Gyro.getInstance().calibrate();
         Gyro.getInstance().reset();
-        Compressor.getInstance().initHardware();
+//        Compressor.getInstance().initHardware();
         RobotPositionTracker.getInstance().init(.02);
         RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
         RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
@@ -161,6 +161,17 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+        if(OI.getInstance().getXboxController().getAButton()) {
+            DrivetrainSubsystem.getInstance().runMotor(0);
+        } else if(OI.getInstance().getXboxController().getBButton()) {
+            DrivetrainSubsystem.getInstance().runMotor(1);
+        } else if(OI.getInstance().getXboxController().getXButton()) {
+            DrivetrainSubsystem.getInstance().runMotor(2);
+        } else if(OI.getInstance().getXboxController().getYButton()) {
+            DrivetrainSubsystem.getInstance().runMotor(3);
+        } else {
+            DrivetrainSubsystem.getInstance().setMotor(0 ,0);
+        }
     }
 
 }

@@ -146,7 +146,7 @@ public class OI {
         conveyorOverride.whenPressed(new ConveyorOverrideOuttake());
 
         // extend/retract intake with Y button
-        Button changeIntakePiston = new Button(() -> getXboxController2().getYButton());
+        Button changeIntakePiston = new Button(() -> getXboxController().getYButton());
         changeIntakePiston.whenPressed(new ChangeIntakePistonStateCommand());
 
         Button increaseGain = new Button(() -> getXboxController2().getPOV() == 0);

@@ -117,6 +117,18 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         setNeutralMode(NeutralMode.Coast);
     }
 
+    public void runMotor(int i) {
+        if(i == 0) {
+            leftDrive[0].set(0.3);
+        } else if (i == 1) {
+            leftDrive[1].set(0.3);
+        } else if (i == 2) {
+            rightDrive[0].set(0.3);
+        } else {
+            rightDrive[1].set(0.3);
+        }
+    }
+
     /**
      * Update the drivetrain's dashboard values
      */
