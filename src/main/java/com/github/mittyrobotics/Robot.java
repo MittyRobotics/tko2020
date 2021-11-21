@@ -26,6 +26,7 @@ package com.github.mittyrobotics;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.music.Orchestra;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -41,9 +42,19 @@ public class Robot extends TimedRobot {
      */
 
     private Orchestra orchestra;
-    private TalonFX[] motors = {
-            new TalonFX(0),
-            new TalonFX(1)
+    private final TalonFX[] motors = {
+            new TalonFX(1),
+            new TalonFX(2),
+            new TalonFX(3)
+    };
+
+    Joystick j = new Joystick(2);
+    int index = 0;
+
+    private final String[] songs = {
+            "megalovania.chrp",
+            "partyintheusa.chrp",
+            "safeandsound2.chrp"
     };
 
     public Robot() {
@@ -61,9 +72,6 @@ public class Robot extends TimedRobot {
         Collections.addAll(instruments, motors);
 
         orchestra = new Orchestra(instruments);
-        orchestra.loadMusic("test.chrp");
-
-        orchestra.play();
 
     }
 
@@ -79,7 +87,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-
+        orchestra.stop();
     }
 
     /**
@@ -106,7 +114,16 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-
+        if(j.getTriggerPressed()) {
+            orchestra.stop();
+            orchestra.loadMusic(songs[index]);
+            orchestra.play();
+            if(index + 1 == songs.length) {
+                index = 0;
+            } else {
+                index++;
+            }
+        }
     }
 
     @Override
