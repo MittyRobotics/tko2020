@@ -25,6 +25,7 @@
 package com.github.mittyrobotics.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -52,11 +53,11 @@ public class DriveMotorSubsystem extends SubsystemBase {
 
     public void initHardware() {
 
-        motors[0] = new WPI_TalonFX(DriveConstants.MOTOR_1);
-        motors[1] = new WPI_TalonFX(DriveConstants.MOTOR_2);
+        motors[0] = new WPI_TalonSRX(DriveConstants.MOTOR_1);
+        motors[1] = new WPI_TalonSRX(DriveConstants.MOTOR_2);
 
         motors[0].configFactoryDefault();
-        motors[1].configFactoryDefault();
+        motors[2].configFactoryDefault();
 
         motors[0].setInverted(true);
         motors[1].setInverted(true);
@@ -65,7 +66,7 @@ public class DriveMotorSubsystem extends SubsystemBase {
 
 
     public void driveMotor(int index, double speed) {
-        motors[index].set(speed);
+        motors[0].set(speed);
     }
 
     public void brake(int index) {
@@ -74,7 +75,7 @@ public class DriveMotorSubsystem extends SubsystemBase {
 
     public void brake() {
         for(WPI_TalonFX m : motors) {
-            m.set(0);
+            motors[0].set(0);
         }
     }
 }

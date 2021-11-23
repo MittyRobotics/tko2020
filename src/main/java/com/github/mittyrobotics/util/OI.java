@@ -26,6 +26,7 @@ package com.github.mittyrobotics.util;
 
 import com.github.mittyrobotics.drivetrain.DriveMotorSubsystem;
 import com.github.mittyrobotics.drivetrain.commands.DriveMotorCommand;
+import com.github.mittyrobotics.drivetrain.commands.DudCommand;
 import edu.wpi.first.wpilibj.XboxController;
 
 
@@ -52,7 +53,7 @@ public class OI {
 
     public void setupControls() {
 
-        DriveMotorSubsystem.getInstance().setDefaultCommand(new DriveMotorCommand());
+        DriveMotorSubsystem.getInstance().setDefaultCommand(new DudCommand());
 
     }
 }
