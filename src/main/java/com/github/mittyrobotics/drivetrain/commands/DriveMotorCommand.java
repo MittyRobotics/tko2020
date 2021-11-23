@@ -22,25 +22,38 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.shooter.commands;
+package com.github.mittyrobotics.drivetrain.commands;
 
-import com.github.mittyrobotics.shooter.TurretSubsystem;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import com.github.mittyrobotics.drivetrain.DriveMotorSubsystem;
+import com.github.mittyrobotics.util.OI;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * Sets the maximum percent output of the {@link TurretSubsystem}
- */
-public class SetTurretControlLoopMaxPercentCommand extends InstantCommand {
+public class DriveMotorCommand extends CommandBase {
 
-    /**
-     * Sets the maximum percent output of the {@link PIDController} of the turret
-     *
-     * Requires the {@link TurretSubsystem}
-     *
-     * @param maxPercent new max percent output of the turret
-     */
-    public SetTurretControlLoopMaxPercentCommand(double maxPercent) {
-        super(() -> TurretSubsystem.getInstance().setControlLoopMaxPercent(maxPercent), TurretSubsystem.getInstance());
+
+    public DriveMotorCommand() {
+        addRequirements(DriveMotorSubsystem.getInstance());
+    }
+
+    @Override
+    public void execute() {
+        if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kLeft) > 0.1) {
+            DriveMotorSubsystem.getInstance().driveMotor(0, 0.3);
+        } else if (OI.getInstance().getXboxController().getTriggerAxis(GenericHID.Hand.kRight) > 0.1) {
+            DriveMotorSubsystem.getInstance().driveMotor(1, 0.3);
+        }
+    }
+
+
+    @Override
+    public void end(boolean interrupted) {
+        DriveMotorSubsystem.getInstance().brake();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }

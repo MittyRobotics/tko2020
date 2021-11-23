@@ -22,46 +22,59 @@
  * SOFTWARE.
  */
 
-package com.github.mittyrobotics.util;
+package com.github.mittyrobotics.drivetrain;
 
-
-import com.github.mittyrobotics.util.interfaces.IHardware;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * Compressor Class in the form of a singleton
+ * Drivetrain Subsystem to move the chassis
  */
-public class Compressor extends edu.wpi.first.wpilibj.Compressor implements IHardware {
+public class DriveMotorSubsystem extends SubsystemBase {
 
-    /**
-     * {@link Compressor} instance
-     */
-    private static Compressor instance;
 
-    /**
-     * Calls {@link edu.wpi.first.wpilibj.Compressor} constructor
-     */
-    private Compressor() {
+    private static DriveMotorSubsystem instance;
+
+
+    private final WPI_TalonFX[] motors = new WPI_TalonFX[2];
+
+    private DriveMotorSubsystem() {
         super();
+        setName("Drivetrain");
     }
 
-    /**
-     * Returns the {@link Compressor} instance
-     * @return the {@link Compressor} instance
-     */
-    public static Compressor getInstance() {
+    public static DriveMotorSubsystem getInstance() {
         if (instance == null) {
-            instance = new Compressor();
+            instance = new DriveMotorSubsystem();
         }
         return instance;
     }
 
-    /**
-     * Initializes the compressor with the correct settings
-     * Starts the compressor
-     */
-    @Override
     public void initHardware() {
-        start();
-        setClosedLoopControl(true);
+
+        motors[0] = new WPI_TalonFX(DriveConstants.MOTOR_1);
+        motors[1] = new WPI_TalonFX(DriveConstants.MOTOR_2);
+
+        motors[0].configFactoryDefault();
+        motors[1].configFactoryDefault();
+
+        motors[0].setInverted(true);
+        motors[1].setInverted(true);
+
+    }
+
+
+    public void driveMotor(int index, double speed) {
+        motors[index].set(speed);
+    }
+
+    public void brake(int index) {
+        motors[index].set(0);
+    }
+
+    public void brake() {
+        for(WPI_TalonFX m : motors) {
+            m.set(0);
+        }
     }
 }

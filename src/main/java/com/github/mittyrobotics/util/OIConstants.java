@@ -24,10 +24,6 @@
 
 package com.github.mittyrobotics.util;
 
-/**
- * Constants for the {@link OI} Class
- */
 public class OIConstants {
     public static final int XBOX_CONTROLLER_ID = 0;
-    public static final int XBOX_CONTROLLER_2_ID = 1;
 }
