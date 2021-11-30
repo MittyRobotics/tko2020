@@ -61,18 +61,18 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         SubsystemManager.getInstance().addSubsystems(
-                ConveyorSubsystem.getInstance(),
-                DrivetrainSubsystem.getInstance(),
-                IntakePistonSubsystem.getInstance(),
-                IntakeSubsystem.getInstance(),
-                ShooterSubsystem.getInstance(),
-                TurretSubsystem.getInstance()
+//                ConveyorSubsystem.getInstance(),
+                DrivetrainSubsystem.getInstance()
+//                IntakePistonSubsystem.getInstance(),
+//                IntakeSubsystem.getInstance(),
+//                ShooterSubsystem.getInstance(),
+//                TurretSubsystem.getInstance()
         );
         SubsystemManager.getInstance().initHardware();
         Gyro.getInstance().initHardware();
         Gyro.getInstance().calibrate();
         Gyro.getInstance().reset();
-        Compressor.getInstance().initHardware();
+//        Compressor.getInstance().initHardware();
         RobotPositionTracker.getInstance().init(.02);
         RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
         RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
         Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroPosition();
 
-        new Ball8AutonSWM().schedule();
+//        new Ball8AutonSWM().schedule();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopInit() {
-        OI.getInstance().setupControls();
+//        OI.getInstance().setupControls();
 
     }
 
