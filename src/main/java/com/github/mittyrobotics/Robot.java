@@ -30,6 +30,11 @@ import com.github.mittyrobotics.autonomous.RobotPositionTracker;
 import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
 import com.github.mittyrobotics.autonomous.commands.Ball8AutonSWM;
+import com.github.mittyrobotics.autonomous.commands.PathFollowingCommandV2;
+import com.github.mittyrobotics.autonomous.math.Point2D;
+import com.github.mittyrobotics.autonomous.math.Pose2D;
+import com.github.mittyrobotics.autonomous.path.Path;
+import com.github.mittyrobotics.autonomous.splines.QuinticHermiteSpline;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
@@ -42,6 +47,8 @@ import com.github.mittyrobotics.util.OI;
 import com.github.mittyrobotics.util.SubsystemManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
 
 /**
  * Robot Class to run the robot code (uses timed robot)
@@ -116,6 +123,17 @@ public class Robot extends TimedRobot {
         Odometry.getInstance().zeroPosition();
 
 //        new Ball8AutonSWM().schedule();
+
+        QuinticHermiteSpline spline = new QuinticHermiteSpline(
+            new Pose2D(0, 0, 0),
+            new Pose2D(inches(100), inches(50), 0)
+        );
+
+        Path path = new Path(spline, inches(5), inches(10));
+
+        PathFollowingCommandV2 pathCommand = new PathFollowingCommandV2(path);
+
+        pathCommand.schedule();
     }
 
     @Override
