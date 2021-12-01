@@ -17,7 +17,7 @@ public class PathFollowingCommandV2 extends CommandBase {
 
     private Path trajectory;
     private double lastTime;
-    private double lookaheadPercent = inches(10);
+    private final double LOOKAHEAD = inches(10.0);
     private final double TRACKWIDTH = inches(25.0);
 
     public PathFollowingCommandV2(Path trajectory) {
@@ -40,12 +40,12 @@ public class PathFollowingCommandV2 extends CommandBase {
         Transform robotTransform = new Transform(Odometry.getInstance().getRobotVector().div(39.37), Odometry.getInstance().getRobotRotation());
         Pose2D robotPose = new Pose2D(robotTransform.getX(), robotTransform.getY(), robotTransform.getRadians());
 
-        DifferentialDriveState dds = trajectory.update(robotPose, dt, lookaheadPercent, TRACKWIDTH);
+        DifferentialDriveState dds = trajectory.update(robotPose, dt, LOOKAHEAD, TRACKWIDTH);
 
         SmartDashboard.putNumber("left dds", dds.getLeftVelocity() * 39.37);
         SmartDashboard.putNumber("right dds", dds.getRightVelocity() * 39.37);
 
-//        System.out.println("Left: " + dds.getLeftVelocity() + " | Right: " + dds.getRightVelocity());
+        System.out.println("Left: " + dds.getLeftVelocity() + " | Right: " + dds.getRightVelocity());
 
 
         DrivetrainSubsystem.getInstance().tankVelocity(dds.getLeftVelocity() * 39.37, dds.getRightVelocity() * 39.37);
@@ -64,6 +64,6 @@ public class PathFollowingCommandV2 extends CommandBase {
         Transform robotTransform = new Transform(Odometry.getInstance().getRobotVector().div(39.37), Odometry.getInstance().getRobotRotation());
         Pose2D robotPose = new Pose2D(robotTransform.getX(), robotTransform.getY(), robotTransform.getRadians());
 
-        return trajectory.isFinished(robotPose, inches(3));
+        return trajectory.isFinished(robotPose, inches(2));
     }
 }

@@ -37,10 +37,7 @@ public class Path {
         double closestPointT = parametric.findClosestPointOnSpline(robotPose.getPosition(), 0.01, 10, 10);
         distanceTraveled = parametric.getGaussianQuadratureLength(closestPointT, 11);
 
-        Point2D lookaheadPoint = parametric.getPoint(closestPointT + parametric.getTFromLength(parametric.getGaussianQuadratureLength(closestPointT, 11) + lookahead));
-
-//        double lookaheadT = Math.min(closestPointT + lookahead, 1.0);
-//        Point2D lookaheadPoint = parametric.getPoint(lookaheadT);
+        Point2D lookaheadPoint = parametric.getPoint(parametric.getTFromLength(distanceTraveled + lookahead));
 
 
         double distanceToEnd = parametric.getLength() - distanceTraveled;
