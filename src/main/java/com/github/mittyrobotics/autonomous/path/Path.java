@@ -21,6 +21,8 @@ public class Path {
         this.endVelocity = 0;
 
         this.prevVelocity = startVelocity;
+
+        parametric.getPoint(1).print();
     }
 
     public Path(Parametric parametric, double maxAcceleration, double maxVelocity, double startVelocity, double endVelocity) {
@@ -35,9 +37,10 @@ public class Path {
         double closestPointT = parametric.findClosestPointOnSpline(robotPose.getPosition(), 0.01, 10, 10);
         distanceTraveled = parametric.getGaussianQuadratureLength(closestPointT, 11);
 
+        Point2D lookaheadPoint = parametric.getPoint(closestPointT + parametric.getTFromLength(parametric.getGaussianQuadratureLength(closestPointT, 11) + lookahead));
 
-        double lookaheadT = Math.min(closestPointT + lookahead, 1.0);
-        Point2D lookaheadPoint = parametric.getPoint(lookaheadT);
+//        double lookaheadT = Math.min(closestPointT + lookahead, 1.0);
+//        Point2D lookaheadPoint = parametric.getPoint(lookaheadT);
 
 
         double distanceToEnd = parametric.getLength() - distanceTraveled;
@@ -58,6 +61,11 @@ public class Path {
             velocity = Math.min(velocity, maxCurvatureVelocity);
         }
 
+        System.out.print("Pos: ");
+        robotPose.getPosition().print();
+
+        System.out.print("Goal: ");
+        lookaheadPoint.print();
 
         prevVelocity = velocity;
 

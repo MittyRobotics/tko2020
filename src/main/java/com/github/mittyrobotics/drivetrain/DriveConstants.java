@@ -36,10 +36,10 @@ public class DriveConstants {
     public static final double FINAL_MULTIPLIER = 0.25;
 
     public static final double TICKS_PER_INCH = 15359.0/24.0;
-    public static final int LEFT_FALCON_MASTER_ID = 11;
-    public static final int LEFT_FALCON_SLAVE_ID = 13;
-    public static final int RIGHT_FALCON_MASTER_ID = 10;
-    public static final int RIGHT_FALCON_SLAVE_ID = 12;
+    public static final int LEFT_FALCON_MASTER_ID = 10;
+    public static final int LEFT_FALCON_SLAVE_ID = 11;
+    public static final int RIGHT_FALCON_MASTER_ID = 12;
+    public static final int RIGHT_FALCON_SLAVE_ID = 13;
     public static final double DRIVE_FALCON_FF = (.4*12.0)/122.1;
     public static final double DRIVE_FALCON_P = 0.05;
     public static final boolean LEFT_FACLON_MASTER_INVERSION = false;

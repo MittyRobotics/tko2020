@@ -39,6 +39,7 @@ import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
+import com.github.mittyrobotics.drivetrain.commands.ManualTankDriveCommand;
 import com.github.mittyrobotics.shooter.ShooterSubsystem;
 import com.github.mittyrobotics.shooter.TurretSubsystem;
 import com.github.mittyrobotics.util.Compressor;
@@ -80,9 +81,9 @@ public class Robot extends TimedRobot {
         Gyro.getInstance().calibrate();
         Gyro.getInstance().reset();
 //        Compressor.getInstance().initHardware();
-        RobotPositionTracker.getInstance().init(.02);
-        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-        RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
+//        RobotPositionTracker.getInstance().init(.02);
+//        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+//        RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
         Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroPosition();
@@ -116,8 +117,8 @@ public class Robot extends TimedRobot {
 
         DrivetrainSubsystem.getInstance().resetEncoder();
         Gyro.getInstance().reset();
-        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
-        RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
+//        RobotPositionTracker.getInstance().calibrateEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
+//        RobotPositionTracker.getInstance().setHeading(0, Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroEncoders(DrivetrainSubsystem.getInstance().getLeftPosition(), DrivetrainSubsystem.getInstance().getRightPosition());
         Odometry.getInstance().zeroHeading(Gyro.getInstance().getAngle360());
         Odometry.getInstance().zeroPosition();
@@ -126,10 +127,10 @@ public class Robot extends TimedRobot {
 
         QuinticHermiteSpline spline = new QuinticHermiteSpline(
             new Pose2D(0, 0, 0),
-            new Pose2D(inches(100), inches(50), 0)
+            new Pose2D(inches(100), inches(50), Math.toRadians(180))
         );
 
-        Path path = new Path(spline, inches(5), inches(10));
+        Path path = new Path(spline, inches(50), inches(50));
 
         PathFollowingCommandV2 pathCommand = new PathFollowingCommandV2(path);
 
@@ -138,10 +139,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        Vision.getInstance().run();
-        Autonomous.getInstance().run();
-        Autonomous.getInstance().updateDashboard();
-        RobotPositionTracker.getInstance().updateOdometry();
+//        Vision.getInstance().run();
+//        Autonomous.getInstance().run();
+//        Autonomous.getInstance().updateDashboard();
+//        RobotPositionTracker.getInstance().updateOdometry();
     }
 
     /**
@@ -150,15 +151,15 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
 //        OI.getInstance().setupControls();
-
+        DrivetrainSubsystem.getInstance().setDefaultCommand(new ManualTankDriveCommand());
     }
 
     @Override
     public void teleopPeriodic() {
-        Vision.getInstance().run();
-        Autonomous.getInstance().run();
-        Autonomous.getInstance().updateDashboard();
-        RobotPositionTracker.getInstance().updateOdometry();
+//        Vision.getInstance().run();
+//        Autonomous.getInstance().run();
+//        Autonomous.getInstance().updateDashboard();
+//        RobotPositionTracker.getInstance().updateOdometry();
     }
 
     /**

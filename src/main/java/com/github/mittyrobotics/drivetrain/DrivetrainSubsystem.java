@@ -294,6 +294,8 @@ public class DrivetrainSubsystem extends SubsystemBase implements IDualMotorSubs
         left = left / 12;
         right = right / 12;
 
+//        System.out.println(left + " | " + right);
+
         overrideSetMotor(left, right);
     }
 

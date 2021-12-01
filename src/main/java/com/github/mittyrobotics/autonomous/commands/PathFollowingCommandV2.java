@@ -17,7 +17,7 @@ public class PathFollowingCommandV2 extends CommandBase {
 
     private Path trajectory;
     private double lastTime;
-    private double lookaheadPercent = 0.02;
+    private double lookaheadPercent = inches(10);
     private final double TRACKWIDTH = inches(25.0);
 
     public PathFollowingCommandV2(Path trajectory) {
@@ -44,6 +44,8 @@ public class PathFollowingCommandV2 extends CommandBase {
 
         SmartDashboard.putNumber("left dds", dds.getLeftVelocity() * 39.37);
         SmartDashboard.putNumber("right dds", dds.getRightVelocity() * 39.37);
+
+//        System.out.println("Left: " + dds.getLeftVelocity() + " | Right: " + dds.getRightVelocity());
 
 
         DrivetrainSubsystem.getInstance().tankVelocity(dds.getLeftVelocity() * 39.37, dds.getRightVelocity() * 39.37);
