@@ -127,7 +127,7 @@ public class Robot extends TimedRobot {
 
         QuinticHermiteSpline spline = new QuinticHermiteSpline(
             new Pose2D(0, 0, 0),
-            new Pose2D(inches(100), inches(50), Math.toRadians(180))
+            new Pose2D(inches(120), inches(50), 0)
         );
 
         Path path = new Path(spline, inches(50), inches(50));
