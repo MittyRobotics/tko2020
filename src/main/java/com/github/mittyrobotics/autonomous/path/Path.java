@@ -1,5 +1,6 @@
 package com.github.mittyrobotics.autonomous.path;
 
+import com.github.mittyrobotics.autonomous.math.Angle;
 import com.github.mittyrobotics.autonomous.math.Circle;
 import com.github.mittyrobotics.autonomous.math.Point2D;
 import com.github.mittyrobotics.autonomous.math.Pose2D;
@@ -22,7 +23,7 @@ public class Path {
 
         this.prevVelocity = startVelocity;
 
-        parametric.getPoint(1).print();
+//        parametric.getPoint(1).print();
     }
 
     public Path(Parametric parametric, double maxAcceleration, double maxVelocity, double startVelocity, double endVelocity) {
@@ -37,7 +38,7 @@ public class Path {
         double closestPointT = parametric.findClosestPointOnSpline(robotPose.getPosition(), 0.01, 10, 10);
         distanceTraveled = parametric.getGaussianQuadratureLength(closestPointT, 11);
 
-        Point2D lookaheadPoint = parametric.getPoint(parametric.getTFromLength(distanceTraveled + lookahead));
+        Point2D lookaheadPoint = getLookahead(distanceTraveled, lookahead);
 
 
         double distanceToEnd = parametric.getLength() - distanceTraveled;
@@ -82,6 +83,17 @@ public class Path {
 
     public boolean isFinished(Pose2D robotPosition, double threshold) {
         return robotPosition.getPosition().distance(parametric.getPoint(1.0)) <= threshold;
+    }
+
+    public Point2D getLookahead(double distanceTraveled, double lookahead) {
+        if(distanceTraveled + lookahead > parametric.getLength()) {
+            Angle angle = parametric.getAngle(1);
+            Point2D endpoint = parametric.getPoint(1);
+            double distanceLeft = distanceTraveled + lookahead - parametric.getLength();
+            return new Point2D(endpoint.getX() + distanceLeft * angle.cos(), endpoint.getY() + distanceLeft * angle.sin());
+        } else {
+            return parametric.getPoint(parametric.getTFromLength(distanceTraveled + lookahead));
+        }
     }
 
 }
