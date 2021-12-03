@@ -17,7 +17,7 @@ public class PathFollowingCommandV2 extends CommandBase {
 
     private Path trajectory;
     private double lastTime;
-    private final double LOOKAHEAD = inches(10.0);
+    private final double LOOKAHEAD = inches(15.0);
     private final double TRACKWIDTH = inches(25.0);
 
     public PathFollowingCommandV2(Path trajectory) {
@@ -64,6 +64,6 @@ public class PathFollowingCommandV2 extends CommandBase {
         Transform robotTransform = new Transform(Odometry.getInstance().getRobotVector().div(39.37), Odometry.getInstance().getRobotRotation());
         Pose2D robotPose = new Pose2D(robotTransform.getX(), robotTransform.getY(), robotTransform.getRadians());
 
-        return trajectory.isFinished(robotPose, inches(2));
+        return trajectory.isFinished(robotPose, inches(4));
     }
 }

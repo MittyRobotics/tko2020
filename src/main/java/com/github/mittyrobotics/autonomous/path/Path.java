@@ -8,7 +8,7 @@ import com.github.mittyrobotics.autonomous.splines.*;
 
 public class Path {
     private Parametric parametric;
-    private double maxAcceleration, maxVelocity, startVelocity, endVelocity, maxDeceleration, maxAngularVelocity;
+    private double maxAcceleration, maxVelocity, endVelocity, maxDeceleration, maxAngularVelocity;
 
     private double prevVelocity, distanceTraveled;
 
@@ -18,12 +18,9 @@ public class Path {
         this.maxDeceleration = maxDeceleration;
         this.maxVelocity = maxVelocity;
         this.maxAngularVelocity = maxAngularVelocity;
-        this.startVelocity = startVelocity;
         this.endVelocity = endVelocity;
 
         this.prevVelocity = startVelocity;
-
-//        parametric.getPoint(1).print();
     }
 
     public Path(Parametric parametric, double maxAcceleration, double maxVelocity, double startVelocity, double endVelocity) {
