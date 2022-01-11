@@ -1,9 +1,4 @@
-package com.github.mittyrobotics.autonomous.splines;
-
-import com.github.mittyrobotics.autonomous.math.Angle;
-import com.github.mittyrobotics.autonomous.math.Point2D;
-import com.github.mittyrobotics.autonomous.math.Pose2D;
-import com.github.mittyrobotics.autonomous.math.Vector2D;
+package com.github.mittyrobotics.autonomous;
 
 public class Parametric {
     protected double length;
@@ -419,6 +414,30 @@ public class Parametric {
         }
 
         return t;
+    }
+
+    public Vector2D getAbsoluteMaxCoordinates(double steps) {
+        Vector2D max = new Vector2D();
+
+        double stepsize = 1/steps;
+        for(double t = 0; t <= 1; t += stepsize) {
+            Point2D point = getPoint(t);
+            max.x = Math.max(max.x, Math.abs(point.getX()));
+            max.y = Math.max(max.y, Math.abs(point.getY()));
+        }
+
+        return max;
+    }
+
+    public Parametric getNewPath(Pose2D newPos, Vector2D newVel, Vector2D newAcc) {
+        if(this instanceof QuinticHermiteSpline) {
+            if(newVel.getMagnitude() == 0) {
+                return new QuinticHermiteSpline(newPos, ((QuinticHermiteSpline) this).getPose1());
+            }
+            return new QuinticHermiteSpline(newPos, ((QuinticHermiteSpline) this).getPose1(), newVel,
+                    ((QuinticHermiteSpline) this).getVelocity1(), newAcc, ((QuinticHermiteSpline) this).getAcceleration1());
+        }
+        return new Parametric();
     }
 
 }

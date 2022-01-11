@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.autonomous.math;
+package com.github.mittyrobotics.autonomous;
 
 public class Pose2D {
     private Point2D position;

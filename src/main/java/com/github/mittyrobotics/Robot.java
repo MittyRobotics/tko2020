@@ -31,10 +31,10 @@ import com.github.mittyrobotics.autonomous.Vision;
 import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
 import com.github.mittyrobotics.autonomous.commands.Ball8AutonSWM;
 import com.github.mittyrobotics.autonomous.commands.PathFollowingCommandV2;
-import com.github.mittyrobotics.autonomous.math.Point2D;
-import com.github.mittyrobotics.autonomous.math.Pose2D;
-import com.github.mittyrobotics.autonomous.path.Path;
-import com.github.mittyrobotics.autonomous.splines.QuinticHermiteSpline;
+import com.github.mittyrobotics.autonomous.Point2D;
+import com.github.mittyrobotics.autonomous.Pose2D;
+import com.github.mittyrobotics.autonomous.Path;
+import com.github.mittyrobotics.autonomous.QuinticHermiteSpline;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
@@ -130,7 +130,13 @@ public class Robot extends TimedRobot {
             new Pose2D(inches(120), inches(50), 0)
         );
 
-        Path path = new Path(spline, inches(50), inches(50));
+
+        Path path = new Path(spline,
+                50 * Path.TO_METERS, 50 * Path.TO_METERS,
+                50 * Path.TO_METERS, 30 * Path.TO_METERS,
+                0 * Path.TO_METERS, 0 * Path.TO_METERS
+        );
+
 
         PathFollowingCommandV2 pathCommand = new PathFollowingCommandV2(path);
 

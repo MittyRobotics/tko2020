@@ -1,8 +1,4 @@
-package com.github.mittyrobotics.autonomous.path;
-
-import com.github.mittyrobotics.autonomous.math.Circle;
-import com.github.mittyrobotics.autonomous.math.Point2D;
-import com.github.mittyrobotics.autonomous.math.Pose2D;
+package com.github.mittyrobotics.autonomous;
 
 public class PurePursuitController {
     public static DifferentialDriveState purePursuit(double tangentRadius, double linearVelocity, boolean turnRight, double trackwidth) {
@@ -11,4 +7,3 @@ public class PurePursuitController {
         return dds;
     }
 }
-

@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.autonomous.math;
+package com.github.mittyrobotics.autonomous;
 
 public class Circle {
     double radius;
@@ -16,7 +16,7 @@ public class Circle {
         Point2D point2 = new Point2D(point1.getX() + pose.getAngle().cos(), point1.getY() + pose.getAngle().sin());
 
         double test = (point2.getY() - point1.getY()) * (point3.getX() - point2.getX()) -
-                (point2.getX() - point1.getX()) * (point3.getY() - point2.getY());
+                   (point2.getX() - point1.getX()) * (point3.getY() - point2.getY());
 
         if(Math.abs(test) < 2e-9) return 0;
 
@@ -29,7 +29,7 @@ public class Circle {
 
         Line lineThroughPoints = new Line(pose.getPosition(), other);
 
-        if(lineThroughPoints.getSlope() == new Angle(pose.getAngleRadians()).tan()) {
+        if(Math.abs(lineThroughPoints.getSlope() - new Angle(pose.getAngleRadians()).tan()) < 2e-9) {
             this.radius = Double.POSITIVE_INFINITY;
         } else {
             Point2D midpoint = new Point2D((pose.getPosition().getX() + other.getX()) / 2, (pose.getPosition().getY() + other.getY()) / 2);

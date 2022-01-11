@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.autonomous.path;
+package com.github.mittyrobotics.autonomous;
 
 public class DifferentialDriveState {
     private double linearVelocity, angularVelocity, leftVelocity, rightVelocity, radius, trackWidth;
@@ -50,5 +50,11 @@ public class DifferentialDriveState {
         return rightVelocity;
     }
 
+    public double getLinearVelocity() {
+        return linearVelocity;
+    }
 
+    public double getAngularVelocity() {
+        return angularVelocity;
+    }
 }

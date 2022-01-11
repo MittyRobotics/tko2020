@@ -1,4 +1,4 @@
-package com.github.mittyrobotics.autonomous.math;
+package com.github.mittyrobotics.autonomous;
 
 public class Line {
     private double slope, y_int;
