@@ -44,7 +44,7 @@ public class PathFollowingCommandV2 extends CommandBase {
 
 
 //        update(Pose2D robotPose, double dt, double lookahead, double end_threshold, double adjust_threshold, int newtonsSteps, double trackwidth)
-        DifferentialDriveState dds = trajectory.update(robotPose, dt, LOOKAHEAD, inches(3), inches(2), 30, TRACKWIDTH);
+        DifferentialDriveState dds = trajectory.update(robotPose, dt, LOOKAHEAD, inches(3), inches(1000), 30, TRACKWIDTH);
 
         SmartDashboard.putNumber("left dds", dds.getLeftVelocity() * 39.37);
         SmartDashboard.putNumber("right dds", dds.getRightVelocity() * 39.37);
