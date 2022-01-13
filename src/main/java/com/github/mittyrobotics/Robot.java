@@ -25,10 +25,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.*;
-import com.github.mittyrobotics.autonomous.commands.Ball3Auton;
-import com.github.mittyrobotics.autonomous.commands.Ball8AutonSWM;
-import com.github.mittyrobotics.autonomous.commands.PathFollowingCommandV2;
-import com.github.mittyrobotics.autonomous.commands.RamsetePathFollowingCommand;
+import com.github.mittyrobotics.autonomous.commands.*;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
 import com.github.mittyrobotics.conveyor.IntakeSubsystem;
@@ -125,16 +122,24 @@ public class Robot extends TimedRobot {
         );
 
 
-        RamsetePath path = new RamsetePath(spline,
-                40 * Path.TO_METERS, 40 * Path.TO_METERS,
-                80 * Path.TO_METERS, 100 * Path.TO_METERS,
-                0 * Path.TO_METERS, 0 * Path.TO_METERS
+//        RamsetePath path = new RamsetePath(spline,
+//                40 * Path.TO_METERS, 40 * Path.TO_METERS,
+//                50 * Path.TO_METERS, 100 * Path.TO_METERS,
+//                0 * Path.TO_METERS, 0 * Path.TO_METERS
+//        );
+
+
+//        RamsetePathFollowingCommand pathCommand = new RamsetePathFollowingCommand(path, true);
+
+//        pathCommand.schedule();
+
+        RamsetePathGroup ramsetePathGroup = new RamsetePathGroup(
+                new Pose2D(0, 0, 0),
+                new Pose2D(inches(50), inches(30), 0),
+                3
         );
 
-
-        RamsetePathFollowingCommand pathCommand = new RamsetePathFollowingCommand(path);
-
-        pathCommand.schedule();
+        ramsetePathGroup.schedule();
     }
 
     @Override

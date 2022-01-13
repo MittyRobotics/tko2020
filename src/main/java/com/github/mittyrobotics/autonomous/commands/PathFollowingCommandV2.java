@@ -5,12 +5,14 @@ import com.github.mittyrobotics.autonomous.Odometry;
 import com.github.mittyrobotics.autonomous.Pose2D;
 import com.github.mittyrobotics.autonomous.DifferentialDriveState;
 import com.github.mittyrobotics.autonomous.Path;
+import com.github.mittyrobotics.core.math.geometry.Rotation;
 import com.github.mittyrobotics.core.math.geometry.Transform;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
 import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
 
 import com.github.mittyrobotics.autonomous.*;
@@ -19,12 +21,21 @@ public class PathFollowingCommandV2 extends CommandBase {
 
     private Path trajectory;
     private double lastTime;
-    private final double LOOKAHEAD = inches(15.0);
+    private double LOOKAHEAD, end_threshold, adjust_threshold;
     private final double TRACKWIDTH = inches(25.0);
+    private boolean reverse;
 
-    public PathFollowingCommandV2(Path trajectory) {
+    public PathFollowingCommandV2(Path trajectory, double LOOKAHEAD, double end_threshold, double adjust_threshold, boolean reverse) {
         addRequirements(DrivetrainSubsystem.getInstance());
         this.trajectory = trajectory;
+        this.reverse = reverse;
+        this.end_threshold = end_threshold;
+        this.adjust_threshold = adjust_threshold;
+        this.LOOKAHEAD = LOOKAHEAD;
+    }
+
+    public PathFollowingCommandV2(Path trajectory, double LOOKAHEAD, boolean reverse) {
+        this(trajectory, LOOKAHEAD, inches(1), inches(3), reverse);
     }
 
     @Override
@@ -39,21 +50,23 @@ public class PathFollowingCommandV2 extends CommandBase {
         double dt = Timer.getFPGATimestamp() - lastTime;
 
 
-        Transform robotTransform = new Transform(Odometry.getInstance().getRobotVector().div(39.37), Odometry.getInstance().getRobotRotation());
+        Transform robotTransform = new Transform(Odometry.getInstance().getRobotVector().div(39.37), Odometry.getInstance().getRobotRotation().plus(reverse?new Rotation(degrees(180)):new Rotation(0)));
         Pose2D robotPose = new Pose2D(robotTransform.getX(), robotTransform.getY(), robotTransform.getRadians());
 
 
 //        update(Pose2D robotPose, double dt, double lookahead, double end_threshold, double adjust_threshold, int newtonsSteps, double trackwidth)
-        DifferentialDriveState dds = trajectory.update(robotPose, dt, LOOKAHEAD, inches(3), inches(1000), 30, TRACKWIDTH);
+        DifferentialDriveState dds = trajectory.update(robotPose, dt, LOOKAHEAD, end_threshold, adjust_threshold, 30, TRACKWIDTH);
 
         SmartDashboard.putNumber("left dds", dds.getLeftVelocity() * 39.37);
         SmartDashboard.putNumber("right dds", dds.getRightVelocity() * 39.37);
 
         System.out.println("Left: " + dds.getLeftVelocity() + " | Right: " + dds.getRightVelocity());
 
-
-        DrivetrainSubsystem.getInstance().tankVelocity(dds.getLeftVelocity() * 39.37, dds.getRightVelocity() * 39.37);
-
+        if(reverse) {
+            DrivetrainSubsystem.getInstance().tankVelocity(-dds.getRightVelocity() * 39.37, -dds.getLeftVelocity() * 39.37);
+        } else {
+            DrivetrainSubsystem.getInstance().tankVelocity(dds.getLeftVelocity() * 39.37, dds.getRightVelocity() * 39.37);
+        }
 
         lastTime = Timer.getFPGATimestamp();
     }
