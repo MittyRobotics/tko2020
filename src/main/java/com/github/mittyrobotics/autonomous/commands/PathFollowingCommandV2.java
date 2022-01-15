@@ -60,7 +60,7 @@ public class PathFollowingCommandV2 extends CommandBase {
         SmartDashboard.putNumber("left dds", dds.getLeftVelocity() * 39.37);
         SmartDashboard.putNumber("right dds", dds.getRightVelocity() * 39.37);
 
-        System.out.println("Left: " + dds.getLeftVelocity() + " | Right: " + dds.getRightVelocity());
+        System.out.println("X: " + robotTransform.getX() * Path.TO_INCHES + " | Y: " + robotTransform.getY() * Path.TO_INCHES);
 
         if(reverse) {
             DrivetrainSubsystem.getInstance().tankVelocity(-dds.getRightVelocity() * 39.37, -dds.getLeftVelocity() * 39.37);
@@ -81,6 +81,6 @@ public class PathFollowingCommandV2 extends CommandBase {
         Transform robotTransform = new Transform(Odometry.getInstance().getRobotVector().div(39.37), Odometry.getInstance().getRobotRotation());
         Pose2D robotPose = new Pose2D(robotTransform.getX(), robotTransform.getY(), robotTransform.getRadians());
 
-        return trajectory.isFinished(robotPose, inches(4));
+        return trajectory.isFinished(robotPose, end_threshold);
     }
 }

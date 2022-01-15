@@ -1,5 +1,7 @@
 package com.github.mittyrobotics.autonomous;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class RamsetePath extends Path {
     protected Pose2D desiredPose;
 
@@ -21,6 +23,8 @@ public class RamsetePath extends Path {
 
         desiredPose = parametric.getPose(closestPointT);
 
+        System.out.println("DESIRED: " + desiredPose.getPosition().getX() * Path.TO_INCHES + ", " + desiredPose.getPosition().getY() * Path.TO_INCHES);
+
         velocity = Math.min(prevVelocity + maxAcceleration * dt, maxVelocity);
 
         double previewDistance = distanceToSlowdown(prevVelocity, 0, maxDeceleration);
@@ -40,7 +44,7 @@ public class RamsetePath extends Path {
             velocity = Math.min(velocity, maxCurvatureVelocity);
         }
 
-        distanceToEnd = parametric.getLength() - distanceTraveled - (velocity * dt) - end_threshold;
+        distanceToEnd = parametric.getLength() - distanceTraveled;
 
         maxVelocityToEnd = maxVelocityFromDistance(distanceToEnd, endVelocity, maxDeceleration);
 
@@ -61,9 +65,16 @@ public class RamsetePath extends Path {
 
         }
 
-        return RamseteController.ramsete(robotPose, desiredPose, velocity, velocity * getCurvature(closestPointT), b, Z, trackwidth);
+        double curvature = getCurvature(closestPointT);
+        SmartDashboard.putNumber("curv", curvature);
+        if(Math.abs(curvature) > 50){
+            curvature = 0;
+        }
+        return RamseteController.ramsete(robotPose, desiredPose, velocity, velocity * curvature, b, Z, trackwidth);
 
     }
+
+
 
     public double getRadius(double t) {
         return 1/getCurvature(t);

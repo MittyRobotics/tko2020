@@ -1,5 +1,7 @@
 package com.github.mittyrobotics.autonomous;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class RamseteController {
 
     public static double ex, ey, et, k, vel, angVel, rvel, rAngVel;
@@ -27,12 +29,24 @@ public class RamseteController {
         ey = t.sin() * (x - xd) + t.cos() * (yd - y);
         et = td.getAngleBetween(t);
 
+        System.out.println("ex: " + ex * Path.TO_INCHES + " | ey: " + ey * Path.TO_INCHES + " | et: " + et * 180 / Math.PI);
+
 //        System.out.println("ex: " + ex + " | ey: " + ey + " | et: " + et);
 
-//        System.out.println("des velocity: " + desiredVelocity + " | des ang: " + desiredAngularVelocity);
+        System.out.println("des velocity: " + desiredVelocity * Path.TO_INCHES + " | des ang: " + desiredAngularVelocity * Path.TO_INCHES);
 
         rvel = desiredVelocity * Math.cos(et) + k * ex;
         rAngVel = desiredAngularVelocity + k * et + b * desiredVelocity * sinc(et) * ey;
+
+                System.out.println("r velocity: " + rvel * Path.TO_INCHES + " | r ang: " + rAngVel* Path.TO_INCHES);
+
+        SmartDashboard.putNumber("rvel", rvel * Path.TO_INCHES);
+        SmartDashboard.putNumber("rang", rAngVel* Path.TO_INCHES);
+        SmartDashboard.putNumber("dvel", desiredVelocity * Path.TO_INCHES);
+        SmartDashboard.putNumber("dang", desiredAngularVelocity* Path.TO_INCHES);
+        SmartDashboard.putNumber("ex", ex * Path.TO_INCHES);
+        SmartDashboard.putNumber("ey", ey* Path.TO_INCHES);
+        SmartDashboard.putNumber("et", et * Path.TO_INCHES);
 
 
 //        if(desiredAngularVelocity == 0) {

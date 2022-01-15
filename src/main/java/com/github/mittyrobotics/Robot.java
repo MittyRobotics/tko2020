@@ -118,28 +118,39 @@ public class Robot extends TimedRobot {
 
         QuinticHermiteSpline spline = new QuinticHermiteSpline(
             new Pose2D(0, 0, 0),
-            new Pose2D(inches(150), inches(50), 0)
+            new Pose2D(inches(120), inches(50), 0)
         );
 
 
-//        RamsetePath path = new RamsetePath(spline,
-//                40 * Path.TO_METERS, 40 * Path.TO_METERS,
-//                50 * Path.TO_METERS, 100 * Path.TO_METERS,
+        RamsetePath path = new RamsetePath(spline,
+                100 * Path.TO_METERS, 100 * Path.TO_METERS,
+                100 * Path.TO_METERS, 10000 * Path.TO_METERS,
+                0 * Path.TO_METERS, 0 * Path.TO_METERS
+        );
+
+
+        RamsetePathFollowingCommand pathCommand = new RamsetePathFollowingCommand(path, 5, 0.2, inches(3), inches(1000000), false);
+
+        pathCommand.schedule();
+//
+//        Path path = new Path(spline,
+//                80 * Path.TO_METERS, 80 * Path.TO_METERS,
+//                100 * Path.TO_METERS, 160 * Path.TO_METERS,
 //                0 * Path.TO_METERS, 0 * Path.TO_METERS
 //        );
-
-
-//        RamsetePathFollowingCommand pathCommand = new RamsetePathFollowingCommand(path, true);
-
+//
+//
+//        PathFollowingCommandV2 pathCommand = new PathFollowingCommandV2(path, inches(15), inches(2), inches(5), false);
+//
 //        pathCommand.schedule();
-
-        RamsetePathGroup ramsetePathGroup = new RamsetePathGroup(
-                new Pose2D(0, 0, 0),
-                new Pose2D(inches(50), inches(30), 0),
-                3
-        );
-
-        ramsetePathGroup.schedule();
+//
+//        RamsetePathGroup ramsetePathGroup = new RamsetePathGroup(
+//                new Pose2D(0, 0, 0),
+//                new Pose2D(inches(80), inches(50), 0),
+//                1
+//        );
+//
+//        ramsetePathGroup.schedule();
     }
 
     @Override

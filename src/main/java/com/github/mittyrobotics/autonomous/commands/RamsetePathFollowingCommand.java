@@ -57,12 +57,13 @@ public class RamsetePathFollowingCommand extends CommandBase {
 
 
 //        public DifferentialDriveState update(Pose2D robotPose, double dt, double end_threshold, double adjust_threshold, int newtonsSteps, double b, double Z, double trackwidth) {
-        DifferentialDriveState dds = trajectory.update(robotPose, dt, end_threshold, adjust_threshold, 30, b, Z, TRACKWIDTH);
+//        System.out.println(end_threshold * Path.TO_INCHES);
+        DifferentialDriveState dds = trajectory.update(robotPose, dt, end_threshold, adjust_threshold, 50, b, Z, TRACKWIDTH);
 
         SmartDashboard.putNumber("left dds", dds.getLeftVelocity() * 39.37);
         SmartDashboard.putNumber("right dds", dds.getRightVelocity() * 39.37);
 
-        System.out.println("Left: " + dds.getLeftVelocity() + " | Right: " + dds.getRightVelocity());
+        System.out.println("ACTUAL: X: " + robotTransform.getX() * Path.TO_INCHES + " | Y: " + robotTransform.getY() * Path.TO_INCHES);
 
 
         if(reverse) {
@@ -77,6 +78,7 @@ public class RamsetePathFollowingCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        System.out.println("DONE BLYAT");
         DrivetrainSubsystem.getInstance().overrideSetMotor(0, 0);
     }
 
@@ -85,6 +87,6 @@ public class RamsetePathFollowingCommand extends CommandBase {
         Transform robotTransform = new Transform(Odometry.getInstance().getRobotVector().div(39.37), Odometry.getInstance().getRobotRotation());
         Pose2D robotPose = new Pose2D(robotTransform.getX(), robotTransform.getY(), robotTransform.getRadians());
 
-        return trajectory.isFinished(robotPose, inches(4));
+        return trajectory.isFinished(robotPose, end_threshold);
     }
 }

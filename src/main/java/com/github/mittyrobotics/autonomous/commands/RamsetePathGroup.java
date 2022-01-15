@@ -32,8 +32,8 @@ public class RamsetePathGroup extends SequentialCommandGroup {
         for(int i = 0; i < cycles; i++) {
             addCommands(
                     sequence(
-                            new RamsetePathFollowingCommand(pathForward, 1.5, 0.2, inches(1), 1000, false),
-                            new RamsetePathFollowingCommand(pathReverse, 1.5, 0.2, inches(1), 1000, true)
+                            new RamsetePathFollowingCommand(pathForward, 10, 0.01, inches(3), 1000, false),
+                            new RamsetePathFollowingCommand(pathReverse, 10, 0.01, inches(3), 1000, true)
                     )
             );
         }
