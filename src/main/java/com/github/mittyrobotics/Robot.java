@@ -25,6 +25,7 @@
 package com.github.mittyrobotics;
 
 import com.github.mittyrobotics.autonomous.*;
+import com.github.mittyrobotics.autonomous.pathfollowing.*;
 import com.github.mittyrobotics.autonomous.commands.*;
 import com.github.mittyrobotics.conveyor.ConveyorSubsystem;
 import com.github.mittyrobotics.conveyor.IntakePistonSubsystem;
@@ -123,9 +124,9 @@ public class Robot extends TimedRobot {
 
 
         RamsetePath path = new RamsetePath(spline,
-                100 * Path.TO_METERS, 100 * Path.TO_METERS,
-                100 * Path.TO_METERS, 10000 * Path.TO_METERS,
-                0 * Path.TO_METERS, 0 * Path.TO_METERS
+                100 * PurePursuitPath.TO_METERS, 100 * PurePursuitPath.TO_METERS,
+                100 * PurePursuitPath.TO_METERS, 10000 * PurePursuitPath.TO_METERS,
+                0 * PurePursuitPath.TO_METERS, 0 * PurePursuitPath.TO_METERS
         );
 
 

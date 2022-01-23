@@ -2,21 +2,16 @@ package com.github.mittyrobotics.autonomous.commands;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.github.mittyrobotics.autonomous.Odometry;
-import com.github.mittyrobotics.autonomous.Pose2D;
-import com.github.mittyrobotics.autonomous.DifferentialDriveState;
-import com.github.mittyrobotics.autonomous.Path;
+import com.github.mittyrobotics.autonomous.pathfollowing.*;
 import com.github.mittyrobotics.core.math.geometry.Rotation;
 import com.github.mittyrobotics.core.math.geometry.Transform;
 import com.github.mittyrobotics.drivetrain.DrivetrainSubsystem;
-import com.github.mittyrobotics.motion.controllers.Ramsete;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static com.github.mittyrobotics.core.math.units.ConversionsKt.degrees;
 import static com.github.mittyrobotics.core.math.units.ConversionsKt.inches;
-
-import com.github.mittyrobotics.autonomous.*;
 
 public class RamsetePathFollowingCommand extends CommandBase {
 
@@ -35,10 +30,7 @@ public class RamsetePathFollowingCommand extends CommandBase {
         this.trajectory = trajectory;
         this.reverse = reverse;
     }
-
-    public RamsetePathFollowingCommand(RamsetePath trajectory, double b, double Z, boolean reverse) {
-        this(trajectory, b, Z, inches(1), inches(5), reverse);
-    }
+    
 
     @Override
     public void initialize() {
@@ -58,12 +50,12 @@ public class RamsetePathFollowingCommand extends CommandBase {
 
 //        public DifferentialDriveState update(Pose2D robotPose, double dt, double end_threshold, double adjust_threshold, int newtonsSteps, double b, double Z, double trackwidth) {
 //        System.out.println(end_threshold * Path.TO_INCHES);
-        DifferentialDriveState dds = trajectory.update(robotPose, dt, end_threshold, adjust_threshold, 50, b, Z, TRACKWIDTH);
+        DifferentialDriveState dds = trajectory.update(robotPose, dt, adjust_threshold, 50, b, Z, TRACKWIDTH);
 
         SmartDashboard.putNumber("left dds", dds.getLeftVelocity() * 39.37);
         SmartDashboard.putNumber("right dds", dds.getRightVelocity() * 39.37);
 
-        System.out.println("ACTUAL: X: " + robotTransform.getX() * Path.TO_INCHES + " | Y: " + robotTransform.getY() * Path.TO_INCHES);
+        System.out.println("ACTUAL: X: " + robotTransform.getX() * PurePursuitPath.TO_INCHES + " | Y: " + robotTransform.getY() * PurePursuitPath.TO_INCHES);
 
 
         if(reverse) {
