@@ -30,7 +30,7 @@ public class RamsetePathFollowingCommand extends CommandBase {
         this.trajectory = trajectory;
         this.reverse = reverse;
     }
-    
+
 
     @Override
     public void initialize() {

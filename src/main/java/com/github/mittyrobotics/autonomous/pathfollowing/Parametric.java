@@ -440,7 +440,9 @@ public class Parametric {
             //run for certain number of iterations
             while(counter < iterations) {
 
-                //adjust based on Newton's method, get new derivatives
+                //amount to adjust according to Newton's method
+                //https://en.wikipedia.org/wiki/Newton%27s_method
+                //using first and second derivatives because we want min of distance function (zero of its derivative)
                 cur_t -= dt;
                 derivs = getDerivsAtT(cur_t, point);
                 dt = derivs.getX() / derivs.getY();
